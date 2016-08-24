@@ -1,0 +1,29 @@
+{
+  "name": "yeeyey-com-client",
+  "private": true,
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gilles Wittenberg",
+  "devDependencies": {
+    "babel-core": "^6.13.2",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-react-hmre": "^1.1.1",
+    "css-loader": "^0.23.1",
+    "eslint": "^3.3.1",
+    "eslint-plugin-react": "^6.1.2",
+    "html-webpack-plugin": "^2.22.0",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.15.0",
+    "webpack-merge": "^0.14.1",
+    "webpack-validator": "^2.2.7"
+  }
+}
