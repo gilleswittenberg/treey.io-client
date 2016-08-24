@@ -25,5 +25,11 @@
     "webpack-dev-server": "^1.15.0",
     "webpack-merge": "^0.14.1",
     "webpack-validator": "^2.2.7"
+  },
+  "dependencies": {
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2"
   }
 }
