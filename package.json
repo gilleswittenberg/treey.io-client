@@ -7,6 +7,7 @@
   "scripts": {
     "build": "webpack",
     "dev": "webpack-dev-server",
+    "dev-server": "docker-compose -f server.yml up",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Gilles Wittenberg",

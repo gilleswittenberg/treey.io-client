@@ -47,6 +47,7 @@ const common = {
     new HtmlWebpackPlugin({
       template: 'app/index.html'
     }),
+    new webpack.DefinePlugin({ PRODUCTION: process.env.NODE_ENV === 'production' }),
     new webpack.NoErrorsPlugin()
   ],
   // Important! Do not remove ''. If you do, imports without
@@ -59,7 +60,7 @@ const common = {
 let config
 
 // Detect how npm is run and branch based on that
-switch(process.env.npm_lifecycle_event) {
+switch (process.env.npm_lifecycle_event) {
 case 'build':
   config = merge(
     common,

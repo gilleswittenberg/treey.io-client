@@ -1,0 +1,16 @@
+version: '2'
+services:
+  server:
+    image: yeeyey/server:development
+    depends_on:
+      - mongo
+    environment:
+      NODE_ENV: development
+    ports:
+      - "8081:8081"
+  mongo:
+    image: mongo:2
+    volumes:
+      - ./docker-compose/mongo/data:/data
+    ports:
+      - "27017:27017"

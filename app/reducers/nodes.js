@@ -1,9 +1,12 @@
-//import * as types from '../actions/nodes'
+import * as types from '../actions/nodes'
 
-export default function nodes (state = {}, action) {
+const defaultState = { tree: null }
+
+export default function nodes (state = defaultState, action) {
   switch (action.type) {
-  //case types.CREATE_LANE:
+  case types.INDEX_NODES:
+    return Object.assign({}, state, action.data)
   default:
-    return [...state]
+    return state
   }
 }
