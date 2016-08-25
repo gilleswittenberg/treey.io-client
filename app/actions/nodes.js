@@ -1,3 +1,5 @@
+import 'whatwg-fetch'
+
 export const INDEX_NODES = 'INDEX_NODES'
 export function indexNodes () {
   return {
@@ -7,7 +9,13 @@ export function indexNodes () {
 
 export const GET_NODES = 'GET_NODES'
 export function getNodes () {
-  return {
-    type: GET_NODES
+  return function (dispatch, getState) {
+    fetch('/nodes')
+      .then(function (response) {
+        return response.json()
+      })
+      .then(function (json) {
+        console.log(json)
+      })
   }
 }
