@@ -5,6 +5,6 @@ import App from './App.jsx'
 export default ({ store }) =>
   <Provider store={ store }>
     <div>
-      <App />
+      <App dispatch={ store.dispatch }/>
     </div>
   </Provider>

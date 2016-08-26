@@ -6,6 +6,9 @@ export default function nodes (state = defaultState, action) {
   switch (action.type) {
   case types.INDEX_NODES:
     return Object.assign({}, state, action.data)
+  case types.ADD_NODE:
+    console.log(state, action)
+    return Object.assign({}, state)
   default:
     return state
   }

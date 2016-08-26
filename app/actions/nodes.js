@@ -28,3 +28,32 @@ export function getNodes () {
       .then(json => dispatch(indexNodes(json)))
   }
 }
+
+export const ADD_NODE = 'ADD_NODE'
+export function addNode (parent, node) {
+  return {
+    type: ADD_NODE,
+    data: {
+      node,
+      parent
+    }
+  }
+}
+
+export const POST_NODE = 'POST_NODE'
+export function postNode (data, parent) {
+  return function (dispatch) {
+    const url = `${ host }/node/${ parent }`
+    const options = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
+    fetch(url, options)
+      .then(response => response.json())
+      .then(json => dispatch(addNode(parent, json)))
+  }
+}
