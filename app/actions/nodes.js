@@ -57,3 +57,28 @@ export function postNode (data, parent) {
       .then(json => dispatch(addNode(parent, json)))
   }
 }
+
+export const REMOVE_NODE = 'REMOVE_NODE'
+export function removeNode (id) {
+  return {
+    type: REMOVE_NODE,
+    data: {
+      id
+    }
+  }
+}
+
+export const DELETE_NODE = 'DELETE_NODE'
+export function deleteNode (id) {
+  return function (dispatch) {
+    const url = `${ host }/node/${ id }`
+    const options = {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+      }
+    }
+    fetch(url, options)
+      .then(() => dispatch(removeNode(id)))
+  }
+}

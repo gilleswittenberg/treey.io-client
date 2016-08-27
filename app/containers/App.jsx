@@ -9,11 +9,12 @@ class App extends React.Component {
     const tree = this.props.nodes.tree
     const title = tree ? tree.title : ''
     const nodes = tree ? tree.nodes : ''
+    const id = tree ? tree._id : null
     const dispatch = this.props.dispatch
 
     return (
       <ul>
-        <Node title={ title } nodes={ nodes }></Node>
+        <Node dispatch={ dispatch } id={ id } title={ title } nodes={ nodes }></Node>
         <li><AddForm dispatch={ dispatch } parent="57bedc40e81b0620300d769a"></AddForm></li>
       </ul>
     )
