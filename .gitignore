@@ -1,1 +1,4 @@
 node_modules
+docker-compose
+!docker-compose/mongo/data/db/.gitkeep
+!docker-compose/mongo/data/configdb/.gitkeep

@@ -11,6 +11,7 @@ services:
   mongo:
     image: mongo:2
     volumes:
-      - ./docker-compose/mongo/data:/data
+      - ./docker-compose/mongo/data/db:/data/db
+      - ./docker-compose/mongo/data/configdb:/data/configdb
     ports:
       - "27017:27017"
