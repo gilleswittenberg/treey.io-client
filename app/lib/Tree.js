@@ -1,7 +1,7 @@
 import Immutable from 'immutable'
 import { List } from 'immutable'
 
-const idKey = 'id'
+const idKey = '_id'
 const nodesKey = 'nodes'
 
 const Tree = {
