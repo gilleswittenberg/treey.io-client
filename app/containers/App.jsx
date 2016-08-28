@@ -5,6 +5,7 @@ import Node from '../components/Node.jsx'
 import AddForm from '../components/AddForm.jsx'
 
 class App extends React.Component {
+  
   render () {
     const tree = this.props.nodes.tree
     const title = tree ? tree.title : ''
