@@ -29,7 +29,7 @@ export default class AddForm extends React.Component {
     return (
       <form onSubmit={ this.handleSubmit }>
         <input name="node" onChange={ this.handleChange } value={ this.state.value }></input>
-        <button type="submit">+</button>
+        <button>+</button>
       </form>
     )
   }

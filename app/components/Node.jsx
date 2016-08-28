@@ -1,17 +1,39 @@
 import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { deleteNode } from '../actions/nodes'
+import { putNode, deleteNode } from '../actions/nodes'
 
 export default class Node extends React.Component {
 
   constructor (props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
+    this.handleClickUpdate = this.handleClickUpdate.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleClickDelete = this.handleClickDelete.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.state = {
+      isEditing: false,
+      value: props.title
+    }
   }
 
-  handleClick (event) {
-    console.log(this.props)
+  handleClickUpdate () {
+    this.setState({ isEditing: true })
+  }
+
+  handleChange (event) {
+    this.setState({ value: event.target.value })
+  }
+
+  handleSubmit (event) {
+    event.preventDefault()
+    const dispatch = this.props.dispatch
+    const id = this.props.id
+    dispatch(putNode(id, { title: this.state.value }))
+    this.setState({ isEditing: false })
+  }
+
+  handleClickDelete () {
     const dispatch = this.props.dispatch
     const id = this.props.id
     dispatch(deleteNode(id))
@@ -22,11 +44,15 @@ export default class Node extends React.Component {
     const title = this.props.title || ''
     const nodes = this.props.nodes || []
     const dispatch = this.props.dispatch
+    const isEditing = this.state.isEditing
+    const value = this.state.value
 
     return (
       <li>
-        { title }
-        <button onClick={ this.handleClick }>X</button>
+        { !isEditing && <span>{ title }</span> }
+        { isEditing && <form onSubmit={ this.handleSubmit }><input value={ value } onChange={ this.handleChange }></input><button>Submit</button></form> }
+        <button onClick={ this.handleClickUpdate }>U</button>
+        <button onClick={ this.handleClickDelete }>X</button>
         <ul>
           { nodes.map((node, index) => {
             return (<Node key={ index } dispatch={ dispatch } id={ node._id } title={ node.title } nodes={ node.nodes }></Node>)

@@ -58,6 +58,35 @@ export function postNode (data, parent) {
   }
 }
 
+export const UPDATE_NODE = 'UPDATE_NODE'
+export function updateNode (id, node) {
+  return {
+    type: UPDATE_NODE,
+    data: {
+      id,
+      node
+    }
+  }
+}
+
+export const PUT_NODE = 'PUT_NODE'
+export function putNode (id, data) {
+  return function (dispatch) {
+    const url = `${ host }/node/${ id }`
+    const options = {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
+    fetch(url, options)
+      .then(response => response.json())
+      .then(json => dispatch(updateNode(id, json)))
+  }
+}
+
 export const REMOVE_NODE = 'REMOVE_NODE'
 export function removeNode (id) {
   return {
