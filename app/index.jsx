@@ -4,7 +4,7 @@ import Root from './containers/Root.jsx'
 import configureStore from './store/configureStore'
 import { getNodes } from './actions/nodes.js'
 
-import 'style!./main.css'
+import '!style!css!sass!./main.sass'
 
 const store = configureStore()
 

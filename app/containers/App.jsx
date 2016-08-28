@@ -13,9 +13,11 @@ class App extends React.Component {
     const dispatch = this.props.dispatch
 
     return (
-      <ul>
-        <Node dispatch={ dispatch } id={ id } title={ title } nodes={ nodes }></Node>
-      </ul>
+      <div className="wrap">
+        <ul>
+          <Node dispatch={ dispatch } id={ id } title={ title } nodes={ nodes }></Node>
+        </ul>
+      </div>
     )
   }
 }

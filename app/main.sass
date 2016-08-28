@@ -1,0 +1,58 @@
+$color: white
+$dim: 32px
+
+body
+  background: #DDD
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
+  font-weight: 300
+  font-size: 14px
+
+body, ul, li
+  margin: 0
+  padding: 0
+
+.wrap
+  max-width: 480px
+  margin: 100px auto 0
+
+li
+  list-style: none
+
+li li
+  margin-left: 8px
+
+.node, .add-node
+  height: $dim
+  margin-bottom: 4px
+
+  div
+    background: $color
+    height: $dim
+    margin-right: 2 * $dim + 2
+    span
+      padding-top: 7px
+      padding-left: 8px
+      display: inline-block
+
+  button
+    display: inline-block
+    float: right
+    width: $dim
+    height: $dim
+    border: none
+    background: $color
+    margin-left: 1px
+    cursor: pointer
+
+  .input-wrap
+    margin-right: $dim + 1
+
+  input
+    display: inline-block
+    box-sizing: border-box
+    height: $dim
+    margin-right: $dim + 1
+    padding-left: 12px
+    font-size: 14px
+    width: 100%
+    border: none

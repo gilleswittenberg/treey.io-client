@@ -51,15 +51,28 @@ export default class Node extends React.Component {
 
     return (
       <li>
-        { !isEditing && <span>{ title }</span> }
-        { isEditing && <form onSubmit={ this.handleSubmit }><input value={ value } onChange={ this.handleChange }></input><button>Submit</button></form> }
-        <button onClick={ this.handleClickUpdate }>U</button>
-        <button onClick={ this.handleClickDelete }>X</button>
+        <div className="node">
+          { !isEditing && <button onClick={ this.handleClickDelete }>X</button> }
+          { !isEditing && <button onClick={ this.handleClickUpdate }>E</button> }
+          { !isEditing && <div><span>{ title }</span></div> }
+          { isEditing &&
+            <form onSubmit={ this.handleSubmit }>
+              <button>S</button>
+              <div className="input-wrap">
+                <input value={ value } onChange={ this.handleChange }></input>
+              </div>
+            </form>
+          }
+        </div>
         <ul>
           { nodes.map((node, index) => {
             return (<Node key={ index } dispatch={ dispatch } id={ node._id } title={ node.title } nodes={ node.nodes }></Node>)
           } ) }
-          <li><AddForm parent={ id } dispatch={ dispatch }></AddForm></li>
+          <li>
+            <div className="add-node">
+              <AddForm parent={ id } dispatch={ dispatch }></AddForm>
+            </div>
+          </li>
         </ul>
       </li>
     )
