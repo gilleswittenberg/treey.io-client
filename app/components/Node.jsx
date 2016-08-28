@@ -11,15 +11,21 @@ export default class Node extends React.Component {
 
     super(props)
 
+    this.handleClick = this.handleClick.bind(this)
     this.handleClickEdit = this.handleClickEdit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleClickDelete = this.handleClickDelete.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
     this.state = {
+      isExpanded: false,
       isEditing: false,
       value: props.title
     }
+  }
+
+  handleClick () {
+    this.setState({ isExpanded: !this.state.isExpanded })
   }
 
   handleClickEdit () {
@@ -60,13 +66,15 @@ export default class Node extends React.Component {
     const className = classNames.join(' ')
     const inputRef = `input.${ id }`
 
+    const isExpandedClass = this.state.isExpanded ? '-is-expanded' : ''
+
     return (
-      <li>
+      <li className={ isExpandedClass }>
 
         <div className={ className }>
           <button onClick={ this.handleClickDelete }>X</button>
           <button onClick={ this.handleClickEdit }>E</button>
-          <div className="node-content"><span>{ title }</span></div>
+          <div className="node-content" onClick={ this.handleClick }><span>{ title }</span></div>
           <form onSubmit={ this.handleSubmit }>
             <button>S</button>
             <div className="input-wrap">
