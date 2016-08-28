@@ -1,7 +1,8 @@
 import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { putNode, deleteNode } from '../actions/nodes'
+import { putNode, deleteNode } from '../actions/nodes.js'
+import AddForm from '../components/AddForm.jsx'
 
 export default class Node extends React.Component {
 
@@ -41,6 +42,7 @@ export default class Node extends React.Component {
 
   render () {
 
+    const id = this.props.id
     const title = this.props.title || ''
     const nodes = this.props.nodes || []
     const dispatch = this.props.dispatch
@@ -57,6 +59,7 @@ export default class Node extends React.Component {
           { nodes.map((node, index) => {
             return (<Node key={ index } dispatch={ dispatch } id={ node._id } title={ node.title } nodes={ node.nodes }></Node>)
           } ) }
+          <li><AddForm parent={ id } dispatch={ dispatch }></AddForm></li>
         </ul>
       </li>
     )

@@ -15,7 +15,6 @@ class App extends React.Component {
     return (
       <ul>
         <Node dispatch={ dispatch } id={ id } title={ title } nodes={ nodes }></Node>
-        <li><AddForm dispatch={ dispatch } parent="57bedc40e81b0620300d769a"></AddForm></li>
       </ul>
     )
   }
