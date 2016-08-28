@@ -25,6 +25,15 @@ li li
   height: $dim
   margin-bottom: 4px
 
+  &.-is-editing
+    .node-content, > button
+      display: none
+    form
+      display: block
+
+  form
+    display: none
+
   div
     background: $color
     height: $dim

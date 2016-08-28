@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { putNode, deleteNode } from '../actions/nodes.js'
@@ -8,7 +9,7 @@ export default class Node extends React.Component {
 
   constructor (props) {
     super(props)
-    this.handleClickUpdate = this.handleClickUpdate.bind(this)
+    this.handleClickEdit = this.handleClickEdit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleClickDelete = this.handleClickDelete.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -18,8 +19,11 @@ export default class Node extends React.Component {
     }
   }
 
-  handleClickUpdate () {
+  handleClickEdit () {
     this.setState({ isEditing: true })
+    //const id = this.props.id
+    //const inputKey = `input.${ id }`
+    //ReactDOM.findDOMNode(this.refs[inputKey]).focus()
   }
 
   handleChange (event) {
@@ -48,21 +52,25 @@ export default class Node extends React.Component {
     const dispatch = this.props.dispatch
     const isEditing = this.state.isEditing
     const value = this.state.value
+    const classNames = ['node']
+    if (isEditing) {
+      classNames.push('-is-editing')
+    }
+    const className = classNames.join(' ')
+    const inputRef = `input.${ id }`
 
     return (
       <li>
-        <div className="node">
-          { !isEditing && <button onClick={ this.handleClickDelete }>X</button> }
-          { !isEditing && <button onClick={ this.handleClickUpdate }>E</button> }
-          { !isEditing && <div><span>{ title }</span></div> }
-          { isEditing &&
-            <form onSubmit={ this.handleSubmit }>
-              <button>S</button>
-              <div className="input-wrap">
-                <input value={ value } onChange={ this.handleChange }></input>
-              </div>
-            </form>
-          }
+        <div className={ className }>
+          <button onClick={ this.handleClickDelete }>X</button>
+          <button onClick={ this.handleClickEdit }>E</button>
+          <div className="node-content"><span>{ title }</span></div>
+          <form onSubmit={ this.handleSubmit }>
+            <button>S</button>
+            <div className="input-wrap">
+              <input ref={ inputRef } value={ value } onChange={ this.handleChange }></input>
+            </div>
+          </form>
         </div>
         <ul>
           { nodes.map((node, index) => {
