@@ -24,6 +24,10 @@ export default class Node extends React.Component {
     }
   }
 
+  componentWillReceiveProps (props) {
+    this.setState({ value: props.title })
+  }
+
   handleClick () {
     this.setState({ isExpanded: !this.state.isExpanded })
   }
