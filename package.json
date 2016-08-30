@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "eslint": "node_modules/.bin/eslint app",
+    "eslint": "node_modules/.bin/eslint app/**/*.js*",
     "build": "webpack",
     "dev": "webpack-dev-server",
     "dev-server": "docker-compose -f server.yml up",
@@ -22,7 +22,7 @@
     "babel-preset-react-hmre": "^1.1.1",
     "css-loader": "^0.24.0",
     "eslint": "^3.4.0",
-    "eslint-plugin-react": "^6.1.2",
+    "eslint-plugin-react": "^6.2.0",
     "html-webpack-plugin": "^2.22.0",
     "jest-cli": "^14.1.0",
     "node-sass": "^3.8.0",

@@ -1,8 +1,8 @@
 {
     "env": {
+        "es6": true,
         "node": true,
         "browser": true,
-        "es6": true,
         "jest": true
     },
     "globals": {
@@ -36,6 +36,8 @@
         "semi": [
             "error",
             "never"
-        ]
+        ],
+        "react/jsx-uses-vars": "error",
+        "react/jsx-uses-react": "error"
     }
 }
