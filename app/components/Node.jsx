@@ -75,6 +75,8 @@ export default class Node extends React.Component {
     }
     const className = classNames.join(' ')
 
+    const buttonDisabled = title === this.state.value
+
     return (
       <div>
 
@@ -91,7 +93,7 @@ export default class Node extends React.Component {
           <div className="node-editing">
             <form onSubmit={ this.handleSubmit }>
               <div className="node-buttons">
-                <button>S</button>
+                <button disabled={ buttonDisabled }>S</button>
               </div>
               <div className="input-wrap">
                 <input ref={ inputRef } value={ value } onChange={ this.handleChange }></input>

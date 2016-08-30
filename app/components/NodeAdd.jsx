@@ -61,17 +61,19 @@ export default class AddForm extends React.Component {
     }
     const className = classNames.join(' ')
 
+    const buttonDisabled = this.state.value === ''
+
     return (
       <div className={ className }>
 
         <div className="node-body">
           <button onClick={ this.handleClick }>+</button>
         </div>
-        
+
         <div className="node-editing">
           <form onSubmit={ this.handleSubmit }>
             <div className="node-buttons">
-              <button>+</button>
+              <button disabled={ buttonDisabled }>+</button>
             </div>
             <div className="input-wrap">
               <input ref={ inputRef } onChange={ this.handleChange } value={ this.state.value }></input>
