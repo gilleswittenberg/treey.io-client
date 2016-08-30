@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { postNode } from '../actions/nodes.js'
@@ -25,6 +26,12 @@ export default class AddForm extends React.Component {
   handleClick () {
     const { dispatch } = this.props
     dispatch(setIsEditing(this._editingId()))
+
+    // waiting to focus input after form CSS display is set to 'block' in render
+    window.requestAnimationFrame(() => {
+      const inputKey = `input.${ this._editingId() }`
+      ReactDOM.findDOMNode(this.refs[inputKey]).focus()
+    })
   }
 
   handleChange (event) {
@@ -44,8 +51,10 @@ export default class AddForm extends React.Component {
   render () {
 
     const { ui } = this.props
-    const isEditing = ui.isEditing === this._editingId()
+    const editingId = this._editingId()
+    const isEditing = ui.isEditing === editingId
     const className = isEditing ? '-is-editing' : ''
+    const inputRef = `input.${ editingId }`
 
     return (
       <div className={ className }>
@@ -53,7 +62,7 @@ export default class AddForm extends React.Component {
         <form onSubmit={ this.handleSubmit }>
           <button>+</button>
           <div className="input-wrap">
-            <input onChange={ this.handleChange } value={ this.state.value }></input>
+            <input ref={ inputRef } onChange={ this.handleChange } value={ this.state.value }></input>
           </div>
         </form>
       </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-//import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { putNode, deleteNode } from '../actions/nodes.js'
@@ -36,9 +36,11 @@ export default class Node extends React.Component {
     const { dispatch, id } = this.props
     dispatch(setIsEditing(id))
 
-    //const id = this.props.id
-    //const inputKey = `input.${ id }`
-    //ReactDOM.findDOMNode(this.refs[inputKey]).focus()
+    // waiting to focus input after form CSS display is set to 'block' in render
+    window.requestAnimationFrame(() => {
+      const inputKey = `input.${ id }`
+      ReactDOM.findDOMNode(this.refs[inputKey]).focus()
+    })
   }
 
   handleChange (event) {
