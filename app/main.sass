@@ -1,8 +1,12 @@
 $color: white
+$backgroundColor: #DDD
 $dim: 32px
+$margin-indent: 12px
+$margin-bottom: 4px
+$margin-ui: 1px
 
 body
-  background: #DDD
+  background: $backgroundColor
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
   font-weight: 300
   font-size: 14px
@@ -19,41 +23,40 @@ li
   list-style: none
 
 li li
-  margin-left: 8px
+  margin-left: $margin-indent
 
-li > ul
+.node + ul
   display: none
 
-li.-is-expanded > ul
+.node.-is-expanded + ul
   display: block
 
-
-.node, .node-add
+.node
   height: $dim
-  margin-bottom: 4px
+  margin-bottom: $margin-bottom
+
+  .node-editing
+    display: none
 
   &.-is-editing
-    .node-content, > button
+    .node-body
       display: none
-    form
+    .node-editing
       display: block
-    > button
-      display: none !important
-    div
-      margin-right: $dim + 1 !important
 
   &:hover
-    div
-      margin-right: 2 * $dim + 2
-    > button
+    .node-buttons-default-hidden
       display: inline-block
+    .node-content
+      margin-right: 2 * ($dim + $margin-ui)
 
-  form
+  .node-buttons
+    float: right
+  .node-buttons-default-hidden
     display: none
-    button
-      display: block
 
-  div
+  .node-content
+    display: block
     height: $dim
     cursor: pointer
     background: $color
@@ -64,21 +67,19 @@ li.-is-expanded > ul
       display: inline-block
 
   button
-    display: none
-    float: right
     width: $dim
     height: $dim
     border: none
     background: $color
     transition: background 0.3s ease-in-out
-    margin-left: 1px
+    margin-left: $margin-ui
     cursor: pointer
 
     &:hover
       background: darken($color, 4%)
 
   .input-wrap
-    margin-right: $dim + 1
+    margin-right: $dim + $margin-ui
 
   input
     display: inline-block
@@ -90,24 +91,5 @@ li.-is-expanded > ul
     border: none
     background: #ffc9c9
 
-.node-add
-
-  &:hover
-    div
-      margin-right: $dim + 1
-
-  button
-    display: inline-block
-
-  > div
-    width: 100%
-
-    > button
-      width: 100%
-      margin: 0
-
-  .-is-editing
-    > button
-      display: none
-    form
-      display: block
+.node-add .node-body > button
+  width: 100%

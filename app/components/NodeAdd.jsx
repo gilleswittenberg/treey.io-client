@@ -52,19 +52,33 @@ export default class AddForm extends React.Component {
 
     const { ui } = this.props
     const editingId = this._editingId()
-    const isEditing = ui.isEditing === editingId
-    const className = isEditing ? '-is-editing' : ''
     const inputRef = `input.${ editingId }`
+
+    const isEditing = ui.isEditing === editingId
+    const classNames = ['node', 'node-add']
+    if (isEditing) {
+      classNames.push('-is-editing')
+    }
+    const className = classNames.join(' ')
 
     return (
       <div className={ className }>
-        <button onClick={ this.handleClick }>+</button>
-        <form onSubmit={ this.handleSubmit }>
-          <button>+</button>
-          <div className="input-wrap">
-            <input ref={ inputRef } onChange={ this.handleChange } value={ this.state.value }></input>
-          </div>
-        </form>
+
+        <div className="node-body">
+          <button onClick={ this.handleClick }>+</button>
+        </div>
+        
+        <div className="node-editing">
+          <form onSubmit={ this.handleSubmit }>
+            <div className="node-buttons">
+              <button>+</button>
+            </div>
+            <div className="input-wrap">
+              <input ref={ inputRef } onChange={ this.handleChange } value={ this.state.value }></input>
+            </div>
+          </form>
+        </div>
+
       </div>
     )
   }

@@ -64,39 +64,60 @@ export default class Node extends React.Component {
     const { id, title = '', nodes = [], ui, dispatch } = this.props
     const isEditing = ui.isEditing === id
     const { value, isExpanded } = this.state
-    const className = isEditing ? ['node -is-editing'].join(' ') : 'node'
-
     const inputRef = `input.${ id }`
 
-    const isExpandedClass = isExpanded ? '-is-expanded' : ''
+    const classNames = ['node']
+    if (isEditing) {
+      classNames.push('-is-editing')
+    }
+    if (isExpanded) {
+      classNames.push('-is-expanded')
+    }
+    const className = classNames.join(' ')
 
     return (
-      <li className={ isExpandedClass }>
+      <div>
 
         <div className={ className }>
-          <button onClick={ this.handleClickDelete }>X</button>
-          <button onClick={ this.handleClickEdit }>E</button>
-          <div className="node-content" onClick={ this.handleClick }><span>{ title }</span></div>
-          <form onSubmit={ this.handleSubmit }>
-            <button>S</button>
-            <div className="input-wrap">
-              <input ref={ inputRef } value={ value } onChange={ this.handleChange }></input>
+          <div className="node-body">
+            <div className="node-buttons node-buttons-default-hidden">
+              <button onClick={ this.handleClickEdit }>E</button>
+              <button onClick={ this.handleClickDelete }>X</button>
             </div>
-          </form>
+            <div className="node-content" onClick={ this.handleClick }>
+              <span>{ title }</span>
+            </div>
+          </div>
+          <div className="node-editing">
+            <form onSubmit={ this.handleSubmit }>
+              <div className="node-buttons">
+                <button>S</button>
+              </div>
+              <div className="input-wrap">
+                <input ref={ inputRef } value={ value } onChange={ this.handleChange }></input>
+              </div>
+            </form>
+          </div>
         </div>
 
         <ul>
-          { nodes.map((node, index) => {
-            return (<Node key={ index } dispatch={ dispatch } id={ node._id } title={ node.title } nodes={ node.nodes } ui={ ui }></Node>)
-          } ) }
+          { nodes.map((node, index) =>
+            <li key={ index }>
+              <Node
+                dispatch={ dispatch }
+                id={ node._id }
+                title={ node.title }
+                nodes={ node.nodes }
+                ui={ ui }>
+              </Node>
+            </li>
+          ) }
           <li>
-            <div className="node-add">
-              <NodeAdd parent={ id } dispatch={ dispatch } ui={ ui }></NodeAdd>
-            </div>
+            <NodeAdd parent={ id } dispatch={ dispatch } ui={ ui }></NodeAdd>
           </li>
         </ul>
 
-      </li>
+      </div>
     )
   }
 }
