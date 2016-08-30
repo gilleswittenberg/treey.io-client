@@ -4,7 +4,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { putNode, deleteNode } from '../actions/nodes.js'
 import { setIsEditing, unsetIsEditing } from '../actions/ui.js'
-import AddForm from '../components/AddForm.jsx'
+import NodeAdd from '../components/NodeAdd.jsx'
 
 export default class Node extends React.Component {
 
@@ -89,7 +89,7 @@ export default class Node extends React.Component {
           } ) }
           <li>
             <div className="node-add">
-              <AddForm parent={ id } dispatch={ dispatch }></AddForm>
+              <NodeAdd parent={ id } dispatch={ dispatch } ui={ ui }></NodeAdd>
             </div>
           </li>
         </ul>
