@@ -27,6 +27,7 @@ li > ul
 li.-is-expanded > ul
   display: block
 
+
 .node, .node-add
   height: $dim
   margin-bottom: 4px
@@ -36,28 +37,45 @@ li.-is-expanded > ul
       display: none
     form
       display: block
+    > button
+      display: none !important
+    div
+      margin-right: $dim + 1 !important
+
+  &:hover
+    div
+      margin-right: 2 * $dim + 2
+    > button
+      display: inline-block
 
   form
     display: none
+    button
+      display: block
 
   div
-    background: $color
     height: $dim
-    margin-right: 2 * $dim + 2
+    cursor: pointer
+    background: $color
+
     span
       padding-top: 7px
       padding-left: 8px
       display: inline-block
 
   button
-    display: inline-block
+    display: none
     float: right
     width: $dim
     height: $dim
     border: none
     background: $color
+    transition: background 0.3s ease-in-out
     margin-left: 1px
     cursor: pointer
+
+    &:hover
+      background: darken($color, 4%)
 
   .input-wrap
     margin-right: $dim + 1
@@ -73,8 +91,17 @@ li.-is-expanded > ul
     background: #ffc9c9
 
 .node-add
+
+  &:hover
+    div
+      margin-right: $dim + 1
+
+  button
+    display: inline-block
+
   > div
     width: 100%
+
     > button
       width: 100%
       margin: 0
