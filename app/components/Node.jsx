@@ -3,6 +3,7 @@ import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { putNode, deleteNode } from '../actions/nodes.js'
+import { setIsEditing, unsetIsEditing } from '../actions/ui.js'
 import AddForm from '../components/AddForm.jsx'
 
 export default class Node extends React.Component {
@@ -19,7 +20,6 @@ export default class Node extends React.Component {
 
     this.state = {
       isExpanded: false,
-      isEditing: false,
       value: props.title
     }
   }
@@ -33,7 +33,9 @@ export default class Node extends React.Component {
   }
 
   handleClickEdit () {
-    this.setState({ isEditing: true })
+    const { dispatch, id } = this.props
+    dispatch(setIsEditing(id))
+
     //const id = this.props.id
     //const inputKey = `input.${ id }`
     //ReactDOM.findDOMNode(this.refs[inputKey]).focus()
@@ -47,7 +49,7 @@ export default class Node extends React.Component {
     event.preventDefault()
     const { dispatch, id } = this.props
     dispatch(putNode(id, { title: this.state.value }))
-    this.setState({ isEditing: false })
+    dispatch(unsetIsEditing())
   }
 
   handleClickDelete () {
@@ -60,8 +62,9 @@ export default class Node extends React.Component {
     const id = this.props.id
     const title = this.props.title || ''
     const nodes = this.props.nodes || []
+    const ui = this.props.ui
     const dispatch = this.props.dispatch
-    const isEditing = this.state.isEditing
+    const isEditing = ui.isEditing === id
     const value = this.state.value
     const classNames = ['node']
     if (isEditing) {
@@ -89,7 +92,7 @@ export default class Node extends React.Component {
 
         <ul>
           { nodes.map((node, index) => {
-            return (<Node key={ index } dispatch={ dispatch } id={ node._id } title={ node.title } nodes={ node.nodes }></Node>)
+            return (<Node key={ index } dispatch={ dispatch } id={ node._id } title={ node.title } nodes={ node.nodes } ui={ ui }></Node>)
           } ) }
           <li>
             <div className="node-add">
@@ -108,6 +111,7 @@ export default compose(
     dispatch: props.dispatch,
     id: props.id,
     title: props.title,
-    nodes: props.nodes
+    nodes: props.nodes,
+    ui: props.ui
   }))
 )(Node)
