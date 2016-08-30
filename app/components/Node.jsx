@@ -59,21 +59,14 @@ export default class Node extends React.Component {
 
   render () {
 
-    const id = this.props.id
-    const title = this.props.title || ''
-    const nodes = this.props.nodes || []
-    const ui = this.props.ui
-    const dispatch = this.props.dispatch
+    const { id, title = '', nodes = [], ui, dispatch } = this.props
     const isEditing = ui.isEditing === id
-    const value = this.state.value
-    const classNames = ['node']
-    if (isEditing) {
-      classNames.push('-is-editing')
-    }
-    const className = classNames.join(' ')
+    const { value, isExpanded } = this.state
+    const className = isEditing ? ['node -is-editing'].join(' ') : 'node'
+
     const inputRef = `input.${ id }`
 
-    const isExpandedClass = this.state.isExpanded ? '-is-expanded' : ''
+    const isExpandedClass = isExpanded ? '-is-expanded' : ''
 
     return (
       <li className={ isExpandedClass }>

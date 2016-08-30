@@ -1,7 +1,7 @@
 import * as types from '../actions/nodes'
 import Tree from '../lib/Tree'
 
-const defaultState = { tree: null }
+const defaultState = { tree: {} }
 
 export default function nodes (state = defaultState, action) {
   let tree

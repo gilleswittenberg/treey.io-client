@@ -6,9 +6,12 @@ import { postNode } from '../actions/nodes.js'
 export default class AddForm extends React.Component {
 
   constructor (props) {
+
     super(props)
+
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+
     this.state = { value: '' }
   }
 
@@ -18,8 +21,7 @@ export default class AddForm extends React.Component {
 
   handleSubmit (event) {
     event.preventDefault()
-    const dispatch = this.props.dispatch
-    const parent = this.props.parent
+    const { dispatch, parent } = this.props
     const data = { title: this.state.value }
     dispatch(postNode(data, parent))
     this.setState({ value: '' })
