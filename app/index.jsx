@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Root from './containers/Root.jsx'
 import configureStore from './store/configureStore'
-import { getNodes } from './actions/nodes.js'
+import { getNodes } from './actions/nodes'
 
 import '!style!css!sass!./main.sass'
 

@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { postNode } from '../actions/nodes.js'
-import { setIsEditing, unsetIsEditing } from '../actions/ui.js'
+import { postNode } from '../actions/nodes'
+import { setIsEditing, unsetIsEditing } from '../actions/ui'
 
 export default class AddForm extends React.Component {
 

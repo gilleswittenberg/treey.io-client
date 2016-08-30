@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import Node from '../components/Node.jsx'
+import Node from '../components/Node'
 import { unsetIsEditing } from '../actions/ui'
 
 class App extends React.Component {

@@ -2,9 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { putNode, deleteNode } from '../actions/nodes.js'
-import { setIsEditing, unsetIsEditing } from '../actions/ui.js'
-import NodeAdd from '../components/NodeAdd.jsx'
+import { putNode, deleteNode } from '../actions/nodes'
+import { setIsEditing, unsetIsEditing } from '../actions/ui'
+import NodeAdd from '../components/NodeAdd'
 
 export default class Node extends React.Component {
 
