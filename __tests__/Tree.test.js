@@ -1,7 +1,7 @@
-jest.unmock('../app/lib/Tree.js')
+jest.unmock('../app/lib/Tree')
 jest.unmock('immutable')
 
-import tree from '../app/lib/Tree.js'
+import tree from '../app/lib/Tree'
 
 describe('Tree', () => {
 
