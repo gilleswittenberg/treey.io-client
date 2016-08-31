@@ -78,7 +78,7 @@ const Tree = {
     }
     keyPath.push('nodes')
     const nodes = tree.getIn(keyPath)
-    const index = nodes.findIndex((entry) => entry.get('_id') === id)
+    const index = nodes.findIndex((entry) => entry.get(idKey) === id)
     if (index > -1) {
       keyPath.push(index)
       tree = tree.deleteIn(keyPath)
