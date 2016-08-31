@@ -17,17 +17,16 @@ const Tree = {
     return im.toJS()
   },
 
-  _getKeyPath (node, id) {
-    let keyPath = []
+  _getKeyPath (node, id, addNodesKey = false) {
     if (node.get(idKey) === id) {
-      return keyPath
+      return addNodesKey ? [nodesKey] : []
     } else {
       const nodes = node.get(nodesKey)
       if (List.isList(nodes)) {
         for (let i = 0, l = nodes.size; i < l; i++) {
-          const path = this._getKeyPath(nodes.get(i), id)
+          const path = this._getKeyPath(nodes.get(i), id, addNodesKey)
           if (path !== false) {
-            return keyPath.concat([i], path)
+            return [].concat([nodesKey, i], path)
           }
         }
       }
@@ -35,17 +34,10 @@ const Tree = {
     return false
   },
 
-  _getKeyPathNodes (keyPath) {
-    let arr = []
-    keyPath.forEach(key => arr.push(nodesKey, key))
-    arr.push(nodesKey)
-    return arr
-  },
-
   create (treeData, parent, data) {
     let tree = this._fromJS(treeData)
-    let keyPath = this._getKeyPath(tree, parent)
-    keyPath = this._getKeyPathNodes(keyPath)
+    let keyPath = this._getKeyPath(tree, parent, true)
+    // create empty list
     if (!List.isList(tree.getIn(keyPath))) {
       tree = tree.setIn(keyPath, new List())
     }
@@ -58,27 +50,18 @@ const Tree = {
   update (treeData, id, data) {
     let tree = this._fromJS(treeData)
     let keyPath = this._getKeyPath(tree, id)
-    if (keyPath.length > 0) {
-      keyPath = this._getKeyPathNodes(keyPath)
-      keyPath.pop()
-    }
     tree = tree.mergeIn(keyPath, data)
     return this._toJS(tree)
   },
 
   removeChild (treeData, parent, id) {
     let tree = this._fromJS(treeData)
-    let keyPath = this._getKeyPath(tree, parent)
+    let keyPath = this._getKeyPath(tree, parent, true)
     if (!keyPath) {
       return this._toJS(tree)
     }
-    if (keyPath.length > 0) {
-      keyPath = this._getKeyPathNodes(keyPath)
-      keyPath.pop()
-    }
-    keyPath.push('nodes')
     const nodes = tree.getIn(keyPath)
-    const index = nodes.findIndex((entry) => entry.get(idKey) === id)
+    const index = nodes.findIndex(entry => entry.get(idKey) === id)
     if (index > -1) {
       keyPath.push(index)
       tree = tree.deleteIn(keyPath)
@@ -89,10 +72,6 @@ const Tree = {
   delete (treeData, id) {
     let tree = this._fromJS(treeData)
     let keyPath = this._getKeyPath(tree, id)
-    if (keyPath.length > 0) {
-      keyPath = this._getKeyPathNodes(keyPath)
-      keyPath.pop()
-    }
     tree = tree.deleteIn(keyPath)
     return this._toJS(tree)
   }

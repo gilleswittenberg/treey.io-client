@@ -7,61 +7,119 @@ describe('Tree', () => {
 
   describe('_getKeyPath', () => {
 
-    it('root', () => {
-      const treeData = {
-        _id: '1'
-      }
-      expect(tree._getKeyPath(tree._fromJS(treeData), '1')).toEqual([])
+    describe('false', () => {
+
+      it('non existing', () => {
+        const treeData = {
+          _id: '1'
+        }
+        expect(tree._getKeyPath(tree._fromJS(treeData), '2')).toEqual(false)
+      })
+
+      it('null', () => {
+        const treeData = {
+          _id: '1'
+        }
+        expect(tree._getKeyPath(tree._fromJS(treeData), null)).toEqual(false)
+      })
     })
 
-    it('1st child', () => {
-      const treeData = {
-        _id: '1',
-        nodes: [{ _id: 'c0' }]
-      }
-      expect(tree._getKeyPath(tree._fromJS(treeData), 'c0')).toEqual([0])
+    describe('key path', () => {
+
+      it('root', () => {
+        const treeData = {
+          _id: '1'
+        }
+        expect(tree._getKeyPath(tree._fromJS(treeData), '1')).toEqual([])
+      })
+
+      it('1st child', () => {
+        const treeData = {
+          _id: '1',
+          nodes: [{ _id: 'c0' }]
+        }
+        expect(tree._getKeyPath(tree._fromJS(treeData), 'c0')).toEqual(['nodes', 0])
+      })
+
+      it('1st child 2', () => {
+        const treeData = {
+          _id: '1',
+          nodes: [{ _id: 'c0' }, { _id: 'c1' }]
+        }
+        expect(tree._getKeyPath(tree._fromJS(treeData), 'c1')).toEqual(['nodes', 1])
+      })
+
+      it('2nd child 2', () => {
+        const treeData = {
+          _id: '1',
+          nodes: [
+            { _id: 'c0' },
+            { _id: 'c1', nodes: [
+              { _id: 'cc0' },
+              { _id: 'cc1' },
+              { _id: 'cc2' }
+            ] } ]
+        }
+        expect(tree._getKeyPath(tree._fromJS(treeData), 'cc2')).toEqual(['nodes', 1, 'nodes', 2])
+      })
+
+      it('3rd child', () => {
+        const treeData = {
+          _id: '1',
+          nodes: [
+            { _id: 'c0' },
+            { _id: 'c1', nodes: [
+              { _id: 'cc0' },
+              { _id: 'cc1' },
+              { _id: 'cc2' },
+              { _id: 'cc3', nodes: [
+                { _id: 'ccc0' },
+                { _id: 'ccc1' },
+                { _id: 'ccc2' }
+              ] },
+              { _id: 'cc4' }
+            ] } ]
+        }
+        expect(tree._getKeyPath(tree._fromJS(treeData), 'ccc2')).toEqual(['nodes', 1, 'nodes', 3, 'nodes', 2])
+      })
     })
 
-    it('1st child 2', () => {
-      const treeData = {
-        _id: '1',
-        nodes: [{ _id: 'c0' }, { _id: 'c1' }]
-      }
-      expect(tree._getKeyPath(tree._fromJS(treeData), 'c1')).toEqual([1])
-    })
+    describe('add nodes key', () => {
 
-    it('2nd child 2', () => {
-      const treeData = {
-        _id: '1',
-        nodes: [
-          { _id: 'c0' },
-          { _id: 'c1', nodes: [
-            { _id: 'cc0' },
-            { _id: 'cc1' },
-            { _id: 'cc2' }
-          ] } ]
-      }
-      expect(tree._getKeyPath(tree._fromJS(treeData), 'cc2')).toEqual([1, 2])
-    })
+      it('root', () => {
+        const treeData = {
+          _id: '1'
+        }
+        expect(tree._getKeyPath(tree._fromJS(treeData), '1', true)).toEqual(['nodes'])
+      })
 
-    it('3rd child', () => {
-      const treeData = {
-        _id: '1',
-        nodes: [
-          { _id: 'c0' },
-          { _id: 'c1', nodes: [
-            { _id: 'cc0' },
-            { _id: 'cc1' },
-            { _id: 'cc2' },
-            { _id: 'cc3', nodes: [
-              { _id: 'ccc0' },
-              { _id: 'ccc1' },
-              { _id: 'ccc2' }
-            ] },
-            { _id: 'cc4' }
-          ] } ]
-      }
-      expect(tree._getKeyPath(tree._fromJS(treeData), 'ccc2')).toEqual([1, 3, 2])
+      it('1st child', () => {
+        const treeData = {
+          _id: '1',
+          nodes: [{ _id: 'c0' }]
+        }
+        expect(tree._getKeyPath(tree._fromJS(treeData), 'c0', true)).toEqual(['nodes', 0, 'nodes'])
+      })
+
+      it('3rd child', () => {
+        const treeData = {
+          _id: '1',
+          nodes: [
+            { _id: 'c0' },
+            { _id: 'c1', nodes: [
+              { _id: 'cc0' },
+              { _id: 'cc1' },
+              { _id: 'cc2' },
+              { _id: 'cc3', nodes: [
+                { _id: 'ccc0' },
+                { _id: 'ccc1' },
+                { _id: 'ccc2' }
+              ] },
+              { _id: 'cc4' }
+            ] } ]
+        }
+        expect(tree._getKeyPath(tree._fromJS(treeData), 'ccc2', true)).toEqual(['nodes', 1, 'nodes', 3, 'nodes', 2, 'nodes'])
+      })
     })
   })
 
@@ -145,20 +203,9 @@ describe('Tree', () => {
     })
   })
 
-  describe('update', () => {
+  describe('remove child', () => {
 
-    it('root', () => {
-      const treeData = {
-        _id: '1'
-      }
-      const data = {
-        title: 'Root'
-      }
-      const newTreeData = tree.update(treeData, '1', data)
-      expect(newTreeData.title).toEqual('Root')
-    })
-
-    it('first child', () => {
+    it('non existing child', () => {
       const treeData = {
         _id: '1',
         nodes: [
@@ -166,16 +213,9 @@ describe('Tree', () => {
           { _id: 'c2' }
         ]
       }
-      const data = {
-        _id: 'c1',
-        title: 'First child'
-      }
-      const newTreeData = tree.update(treeData, 'c2', data)
-      expect(newTreeData.nodes[1].title).toEqual('First child')
+      const newTreeData = tree.removeChild(treeData, '1', 'c3')
+      expect(newTreeData).toEqual(treeData)
     })
-  })
-
-  describe('remove child', () => {
 
     it('first child', () => {
       const treeData = {
@@ -190,16 +230,23 @@ describe('Tree', () => {
       expect(newTreeData.nodes[0]._id).toEqual('c2')
     })
 
-    it('non existing child', () => {
+    it('second child', () => {
       const treeData = {
         _id: '1',
         nodes: [
           { _id: 'c1' },
-          { _id: 'c2' }
+          {
+            _id: 'c2',
+            nodes: [
+              { _id: 'cc1' },
+              { _id: 'cc2' }
+            ]
+          }
         ]
       }
-      const newTreeData = tree.removeChild(treeData, '1', 'c3')
-      expect(newTreeData).toEqual(treeData)
+      const newTreeData = tree.removeChild(treeData, 'c2', 'cc1')
+      expect(newTreeData.nodes[1].nodes.length).toEqual(1)
+      expect(newTreeData.nodes[1].nodes[0]._id).toEqual('cc2')
     })
   })
 
