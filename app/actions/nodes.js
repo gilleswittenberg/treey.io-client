@@ -1,6 +1,7 @@
 import 'whatwg-fetch'
 
 const host = PRODUCTION ? 'http://api.yeeyey.com' : 'http://localhost:8081'
+const rootId = '57bedc40e81b0620300d769a'
 
 export const INDEX_NODES = 'INDEX_NODES'
 export function indexNodes (tree) {
@@ -15,8 +16,7 @@ export function indexNodes (tree) {
 export const GET_NODES = 'GET_NODES'
 export function getNodes () {
   return function (dispatch) {
-    const id = '57bedc40e81b0620300d769a'
-    const url = `${ host }/node/${ id }`
+    const url = `${ host }/node/${ rootId }`
     const options = {
       method: 'GET',
       headers: {
