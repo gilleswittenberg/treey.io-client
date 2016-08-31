@@ -35,7 +35,7 @@ class App extends React.Component {
     return (
       <div className="wrap">
         <ul>
-          <li><Node dispatch={ dispatch } id={ id } title={ title } nodes={ treeNodes } ui={ ui }></Node></li>
+          <li><Node dispatch={ dispatch } parent={ null } id={ id } title={ title } nodes={ treeNodes } ui={ ui }></Node></li>
         </ul>
       </div>
     )

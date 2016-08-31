@@ -88,19 +88,20 @@ export function putNode (id, data) {
 }
 
 export const REMOVE_NODE = 'REMOVE_NODE'
-export function removeNode (id) {
+export function removeNode (parent, id) {
   return {
     type: REMOVE_NODE,
     data: {
+      parent,
       id
     }
   }
 }
 
 export const DELETE_NODE = 'DELETE_NODE'
-export function deleteNode (id) {
+export function deleteNode (parent, id) {
   return function (dispatch) {
-    const url = `${ host }/node/${ id }`
+    const url = `${ host }/node/${ parent }/${ id }`
     const options = {
       method: 'DELETE',
       headers: {
@@ -108,6 +109,6 @@ export function deleteNode (id) {
       }
     }
     fetch(url, options)
-      .then(() => dispatch(removeNode(id)))
+      .then(() => dispatch(removeNode(parent, id)))
   }
 }

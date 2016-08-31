@@ -55,13 +55,13 @@ export default class Node extends React.Component {
   }
 
   handleClickDelete () {
-    const { dispatch, id } = this.props
-    dispatch(deleteNode(id))
+    const { dispatch, parent, id } = this.props
+    dispatch(deleteNode(parent, id))
   }
 
   render () {
 
-    const { id, title = '', nodes = [], ui, dispatch } = this.props
+    const { parent, id, title = '', nodes = [], ui, dispatch } = this.props
     const isEditing = ui.isEditing === id
     const { value, isExpanded } = this.state
     const inputRef = `input.${ id }`
@@ -75,16 +75,22 @@ export default class Node extends React.Component {
     }
     const className = classNames.join(' ')
 
+    const showDeleteButton = parent !== null
     const buttonDisabled = title === this.state.value
+    const nodeButtonsClassNames = ['node-buttons', 'node-buttons-default-hidden']
+    if (showDeleteButton) {
+      nodeButtonsClassNames.push('node-buttons-num-2')
+    }
+    const nodeButtonsClassName = nodeButtonsClassNames.join(' ')
 
     return (
       <div>
 
         <div className={ className }>
           <div className="node-body">
-            <div className="node-buttons node-buttons-default-hidden">
+            <div className={ nodeButtonsClassName }>
               <button onClick={ this.handleClickEdit }>E</button>
-              <button onClick={ this.handleClickDelete }>X</button>
+              { showDeleteButton && <button onClick={ this.handleClickDelete }>X</button> }
             </div>
             <div className="node-content" onClick={ this.handleClick }>
               <span>{ title }</span>
@@ -107,6 +113,7 @@ export default class Node extends React.Component {
             <li key={ index }>
               <Node
                 dispatch={ dispatch }
+                parent={ id }
                 id={ node._id }
                 title={ node.title }
                 nodes={ node.nodes }
@@ -127,6 +134,7 @@ export default class Node extends React.Component {
 export default compose(
   connect((state, props) => ({
     dispatch: props.dispatch,
+    parent: props.parent,
     id: props.id,
     title: props.title,
     nodes: props.nodes,

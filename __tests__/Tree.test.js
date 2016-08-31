@@ -175,6 +175,34 @@ describe('Tree', () => {
     })
   })
 
+  describe('remove child', () => {
+
+    it('first child', () => {
+      const treeData = {
+        _id: '1',
+        nodes: [
+          { _id: 'c1' },
+          { _id: 'c2' }
+        ]
+      }
+      const newTreeData = tree.removeChild(treeData, '1', 'c1')
+      expect(newTreeData.nodes.length).toEqual(1)
+      expect(newTreeData.nodes[0]._id).toEqual('c2')
+    })
+
+    it('non existing child', () => {
+      const treeData = {
+        _id: '1',
+        nodes: [
+          { _id: 'c1' },
+          { _id: 'c2' }
+        ]
+      }
+      const newTreeData = tree.removeChild(treeData, '1', 'c3')
+      expect(newTreeData).toEqual(treeData)
+    })
+  })
+
   describe('delete', () => {
 
     it('root', () => {

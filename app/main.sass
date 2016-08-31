@@ -47,7 +47,9 @@ li li
   &:hover
     .node-buttons-default-hidden
       display: inline-block
-    .node-content
+    .node-buttons + .node-content
+      margin-right: $dim + $margin-ui
+    .node-buttons-num-2 + .node-content
       margin-right: 2 * ($dim + $margin-ui)
 
   .node-buttons

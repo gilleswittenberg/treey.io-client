@@ -66,6 +66,26 @@ const Tree = {
     return this._toJS(tree)
   },
 
+  removeChild (treeData, parent, id) {
+    let tree = this._fromJS(treeData)
+    let keyPath = this._getKeyPath(tree, parent)
+    if (!keyPath) {
+      return this._toJS(tree)
+    }
+    if (keyPath.length > 0) {
+      keyPath = this._getKeyPathNodes(keyPath)
+      keyPath.pop()
+    }
+    keyPath.push('nodes')
+    const nodes = tree.getIn(keyPath)
+    const index = nodes.findIndex((entry) => entry.get('_id') === id)
+    if (index > -1) {
+      keyPath.push(index)
+      tree = tree.deleteIn(keyPath)
+    }
+    return this._toJS(tree)
+  },
+
   delete (treeData, id) {
     let tree = this._fromJS(treeData)
     let keyPath = this._getKeyPath(tree, id)
