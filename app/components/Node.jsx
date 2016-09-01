@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { putNode, deleteNode } from '../actions/nodes'
 import { setIsEditing, unsetIsEditing } from '../actions/ui'
 import NodeAdd from '../components/NodeAdd'
+import classNames from 'classnames'
 
 export default class Node extends React.Component {
 
@@ -18,14 +19,17 @@ export default class Node extends React.Component {
     this.handleClickDelete = this.handleClickDelete.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
+    const { title = '' } = props
+
     this.state = {
       isExpanded: false,
-      value: props.title
+      value: title
     }
   }
 
   componentWillReceiveProps (props) {
-    this.setState({ value: props.title })
+    const { title = '' } = props
+    this.setState({ value: title })
   }
 
   handleClick () {
@@ -66,22 +70,21 @@ export default class Node extends React.Component {
     const { value, isExpanded } = this.state
     const inputRef = `input.${ id }`
 
-    const classNames = ['node']
-    if (isEditing) {
-      classNames.push('-is-editing')
-    }
-    if (isExpanded) {
-      classNames.push('-is-expanded')
-    }
-    const className = classNames.join(' ')
+    const className = classNames(
+      'node',
+      {
+        '-is-editing': isEditing,
+        '-is-expanded': isExpanded
+      }
+    )
 
     const showDeleteButton = parent !== null
     const buttonDisabled = title === this.state.value
-    const nodeButtonsClassNames = ['node-buttons', 'node-buttons-default-hidden']
-    if (showDeleteButton) {
-      nodeButtonsClassNames.push('node-buttons-num-2')
-    }
-    const nodeButtonsClassName = nodeButtonsClassNames.join(' ')
+    const nodeButtonsClassName = classNames(
+      'node-buttons',
+      'node-buttons-default-hidden',
+      { 'node-buttons-num-2': showDeleteButton }
+    )
 
     return (
       <div>

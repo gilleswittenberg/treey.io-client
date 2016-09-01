@@ -4,6 +4,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { postNode } from '../actions/nodes'
 import { setIsEditing, unsetIsEditing } from '../actions/ui'
+import classNames from 'classnames'
 
 export default class AddForm extends React.Component {
 
@@ -55,11 +56,11 @@ export default class AddForm extends React.Component {
     const inputRef = `input.${ editingId }`
 
     const isEditing = ui.isEditing === editingId
-    const classNames = ['node', 'node-add']
-    if (isEditing) {
-      classNames.push('-is-editing')
-    }
-    const className = classNames.join(' ')
+    const className = classNames(
+      'node',
+      'node-add',
+      { '-is-editing': isEditing }
+    )
 
     const buttonDisabled = this.state.value === ''
 
