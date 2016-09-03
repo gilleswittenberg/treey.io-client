@@ -40,7 +40,7 @@ export default class Node extends React.Component {
     const { dispatch, id } = this.props
     dispatch(setIsEditing(id))
 
-    // waiting to focus input after form CSS display is set to 'block' in render
+    // waiting to focus input after form CSS display is set to `block` in render
     window.requestAnimationFrame(() => {
       const inputKey = `input.${ id }`
       ReactDOM.findDOMNode(this.refs[inputKey]).focus()
@@ -66,7 +66,7 @@ export default class Node extends React.Component {
   render () {
 
     const { parent, id, title = '', nodes = [], ui, dispatch } = this.props
-    const isEditing = ui.isEditing === id
+    const isEditing = id && ui.isEditing === id
     const { value, isExpanded } = this.state
     const inputRef = `input.${ id }`
 
