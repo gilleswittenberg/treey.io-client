@@ -89,8 +89,8 @@ export default class AddForm extends React.Component {
 
 export default compose(
   connect((state, props) => ({
-    parent: props.parent,
+    dispatch: props.dispatch,
     ui: props.ui,
-    dispatch: props.dispatch
+    parent: props.parent
   }))
 )(AddForm)

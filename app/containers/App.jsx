@@ -1,7 +1,7 @@
 import React from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import Node from '../components/Node'
+import Nodes from '../components/Nodes'
 import { unsetIsEditing } from '../actions/ui'
 
 class App extends React.Component {
@@ -30,13 +30,12 @@ class App extends React.Component {
   render () {
     const { nodes, ui, dispatch } = this.props
     const { tree } = nodes
-    const { _id: id = null, title = '', nodes: treeNodes = [] } = tree
 
     return (
       <div className="wrap">
-        <ul>
-          <li>{ id && <Node dispatch={ dispatch } parent={ null } id={ id } title={ title } nodes={ treeNodes } ui={ ui }></Node> }</li>
-        </ul>
+        { tree &&
+          <Nodes dispatch={ dispatch } parent={ null } nodes={ [tree] } ui={ ui } />
+        }
       </div>
     )
   }

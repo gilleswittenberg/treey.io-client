@@ -4,8 +4,8 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { putNode, deleteNode } from '../actions/nodes'
 import { setIsEditing, unsetIsEditing } from '../actions/ui'
-import NodeAdd from '../components/NodeAdd'
 import classNames from 'classnames'
+import Nodes from '../components/Nodes'
 
 export default class Node extends React.Component {
 
@@ -65,7 +65,7 @@ export default class Node extends React.Component {
 
   render () {
 
-    const { parent, id, title = '', nodes = [], ui, dispatch } = this.props
+    const { dispatch, parent, id, title = '', nodes, ui } = this.props
     const isEditing = id && ui.isEditing === id
     const { value, isExpanded } = this.state
     const inputRef = `input.${ id }`
@@ -111,23 +111,9 @@ export default class Node extends React.Component {
           </div>
         </div>
 
-        <ul>
-          { nodes.map((node, index) =>
-            <li key={ index }>
-              <Node
-                dispatch={ dispatch }
-                parent={ id }
-                id={ node._id }
-                title={ node.title }
-                nodes={ node.nodes }
-                ui={ ui }>
-              </Node>
-            </li>
-          ) }
-          <li>
-            <NodeAdd parent={ id } dispatch={ dispatch } ui={ ui }></NodeAdd>
-          </li>
-        </ul>
+        { nodes &&
+          <Nodes dispatch={ dispatch } parent={ id } nodes={ nodes } ui={ ui } hasNodeAdd={ true } />
+        }
 
       </div>
     )
@@ -137,10 +123,10 @@ export default class Node extends React.Component {
 export default compose(
   connect((state, props) => ({
     dispatch: props.dispatch,
+    nodes: props.nodes,
+    ui: props.ui,
     parent: props.parent,
     id: props.id,
-    title: props.title,
-    nodes: props.nodes,
-    ui: props.ui
+    title: props.title
   }))
 )(Node)
