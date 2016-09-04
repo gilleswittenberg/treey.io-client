@@ -41,7 +41,7 @@ export function addNode (parent, node) {
 }
 
 export const POST_NODE = 'POST_NODE'
-export function postNode (data, parent) {
+export function postNode (parent, data) {
   return function (dispatch) {
     const url = `${ host }/node/${ parent }`
     const options = {

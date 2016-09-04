@@ -8,7 +8,16 @@ export default class Nodes extends React.Component {
 
   render () {
 
-    const { dispatch, nodes = [], ui, parent } = this.props
+    const {
+      parent,
+      nodes = [],
+      ui,
+      setIsEditing,
+      unsetIsEditing,
+      postNode,
+      putNode,
+      deleteNode
+    } = this.props
     const hasNodeAdd = parent !== null
 
     return (
@@ -16,13 +25,31 @@ export default class Nodes extends React.Component {
 
         { nodes.map((node, index) =>
           <li key={ index }>
-            <Node dispatch={ dispatch } parent={ parent } id={ node._id } title={ node.title } nodes={ node.nodes } ui={ ui } />
+            <Node
+              postNode={ postNode }
+              putNode={ putNode }
+              deleteNode={ deleteNode }
+              setIsEditing={ setIsEditing }
+              unsetIsEditing={ unsetIsEditing }
+              isEditing={ ui.isEditing === node._id }
+              parent={ parent }
+              id={ node._id }
+              title={ node.title }
+              nodes={ node.nodes }
+              ui={ ui }
+            />
           </li>
         ) }
 
         { hasNodeAdd &&
           <li>
-            <NodeAdd parent={ parent } dispatch={ dispatch } ui={ ui } />
+            <NodeAdd
+              postNode={ postNode }
+              setIsEditing={ setIsEditing }
+              unsetIsEditing={ unsetIsEditing }
+              parent={ parent }
+              isEditing={ ui.isEditing === parent + '.add' }
+            />
           </li>
         }
 
@@ -33,9 +60,13 @@ export default class Nodes extends React.Component {
 
 export default compose(
   connect((state, props) => ({
-    dispatch: props.dispatch,
+    parent: props.parent,
     nodes: props.nodes,
     ui: props.ui,
-    parent: props.parent
+    setIsEditing: props.setIsEditing,
+    unsetIsEditing: props.unsetIsEditing,
+    postNode: props.postNode,
+    putNode: props.putNode,
+    deleteNode: props.deleteNode
   }))
 )(Nodes)

@@ -2,8 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { postNode } from '../actions/nodes'
-import { setIsEditing, unsetIsEditing } from '../actions/ui'
 import classNames from 'classnames'
 
 export default class AddForm extends React.Component {
@@ -25,8 +23,8 @@ export default class AddForm extends React.Component {
   }
 
   handleClick () {
-    const { dispatch } = this.props
-    dispatch(setIsEditing(this._editingId()))
+    const { setIsEditing } = this.props
+    setIsEditing(this._editingId())
 
     // waiting to focus input after form CSS display is set to 'block' in render
     window.requestAnimationFrame(() => {
@@ -41,21 +39,20 @@ export default class AddForm extends React.Component {
 
   handleSubmit (event) {
     event.preventDefault()
-    const { dispatch, parent } = this.props
+    const { parent, postNode, unsetIsEditing } = this.props
     const data = { title: this.state.value }
-    dispatch(postNode(data, parent))
-    dispatch(unsetIsEditing())
+    postNode(parent, data)
+    unsetIsEditing()
 
     this.setState({ value: '' })
   }
 
   render () {
 
-    const { ui } = this.props
+    const { isEditing } = this.props
     const editingId = this._editingId()
     const inputRef = `input.${ editingId }`
 
-    const isEditing = ui.isEditing === editingId
     const className = classNames(
       'node',
       'node-add',
@@ -89,8 +86,10 @@ export default class AddForm extends React.Component {
 
 export default compose(
   connect((state, props) => ({
-    dispatch: props.dispatch,
-    ui: props.ui,
+    postNode: props.postNode,
+    setIsEditing: props.setIsEditing,
+    unsetIsEditing: props.unsetIsEditing,
+    isEditing: props.isEditing,
     parent: props.parent
   }))
 )(AddForm)

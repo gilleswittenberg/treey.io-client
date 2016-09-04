@@ -2,8 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { putNode, deleteNode } from '../actions/nodes'
-import { setIsEditing, unsetIsEditing } from '../actions/ui'
 import classNames from 'classnames'
 import Nodes from '../components/Nodes'
 
@@ -37,8 +35,8 @@ export default class Node extends React.Component {
   }
 
   handleClickEdit () {
-    const { dispatch, id } = this.props
-    dispatch(setIsEditing(id))
+    const { id, setIsEditing } = this.props
+    setIsEditing(id)
 
     // waiting to focus input after form CSS display is set to `block` in render
     window.requestAnimationFrame(() => {
@@ -53,20 +51,31 @@ export default class Node extends React.Component {
 
   handleSubmit (event) {
     event.preventDefault()
-    const { dispatch, id } = this.props
-    dispatch(putNode(id, { title: this.state.value }))
-    dispatch(unsetIsEditing())
+    const { id, putNode, unsetIsEditing } = this.props
+    putNode(id, this.state.value)
+    unsetIsEditing()
   }
 
   handleClickDelete () {
-    const { dispatch, parent, id } = this.props
-    dispatch(deleteNode(parent, id))
+    const { parent, id, deleteNode } = this.props
+    deleteNode(parent, id)
   }
 
   render () {
 
-    const { dispatch, parent, id, title = '', nodes, ui } = this.props
-    const isEditing = id && ui.isEditing === id
+    const {
+      parent,
+      id,
+      title = '',
+      nodes,
+      ui,
+      isEditing,
+      deleteNode,
+      postNode,
+      putNode,
+      setIsEditing,
+      unsetIsEditing
+    } = this.props
     const { value, isExpanded } = this.state
     const inputRef = `input.${ id }`
 
@@ -112,7 +121,16 @@ export default class Node extends React.Component {
         </div>
 
         { nodes &&
-          <Nodes dispatch={ dispatch } parent={ id } nodes={ nodes } ui={ ui } hasNodeAdd={ true } />
+          <Nodes
+            deleteNode={ deleteNode }
+            postNode={ postNode }
+            putNode={ putNode }
+            setIsEditing={ setIsEditing }
+            unsetIsEditing={ unsetIsEditing }
+            parent={ id }
+            nodes={ nodes }
+            ui={ ui }
+          />
         }
 
       </div>
@@ -122,11 +140,16 @@ export default class Node extends React.Component {
 
 export default compose(
   connect((state, props) => ({
-    dispatch: props.dispatch,
-    nodes: props.nodes,
-    ui: props.ui,
     parent: props.parent,
     id: props.id,
-    title: props.title
+    title: props.title,
+    nodes: props.nodes,
+    ui: props.ui,
+    isEditing: props.isEditing,
+    postNode: props.postNode,
+    putNode: props.putNode,
+    deleteNode: props.deleteNode,
+    setIsEditing: props.setIsEditing,
+    unsetIsEditing: props.unsetIsEditing
   }))
 )(Node)
