@@ -4,16 +4,15 @@ import { connect } from 'react-redux'
 import Nodes from '../components/Nodes'
 import * as uiActions from '../actions/ui'
 import { postNode, putNode, deleteNode } from '../actions/nodes'
+
 let nodesActions = { postNode, putNode, deleteNode }
 let uiActionsBound
 let nodesActionsBound
-
 
 class App extends React.Component {
 
   constructor (props) {
     super(props)
-    this.handleKeyPress = this.handleKeyPress.bind(this)
   }
 
   componentDidMount () {
@@ -23,12 +22,8 @@ class App extends React.Component {
   handleKeyPress (event) {
     switch (event.key) {
     case 'Escape':
-      this.handleEscapePress()
+      uiActionsBound.unsetIsEditing()
     }
-  }
-
-  handleEscapePress () {
-    uiActionsBound.unsetIsEditing()
   }
 
   render () {
