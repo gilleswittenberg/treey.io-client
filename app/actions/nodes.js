@@ -3,6 +3,20 @@ import 'whatwg-fetch'
 const host = PRODUCTION ? 'http://api.yeeyey.com' : 'http://localhost:8081'
 const rootId = '57bedc40e81b0620300d769a'
 
+export const START_SYNCING = 'START_SYNCING'
+export function startSyncing () {
+  return {
+    type: START_SYNCING
+  }
+}
+
+export const STOP_SYNCING = 'STOP_SYNCING'
+export function stopSyncing () {
+  return {
+    type: STOP_SYNCING
+  }
+}
+
 export const INDEX_NODES = 'INDEX_NODES'
 export function indexNodes (tree) {
   return {
@@ -16,6 +30,7 @@ export function indexNodes (tree) {
 export const GET_NODES = 'GET_NODES'
 export function getNodes () {
   return function (dispatch) {
+    dispatch(startSyncing())
     const url = `${ host }/node/${ rootId }`
     const options = {
       method: 'GET',
@@ -25,7 +40,10 @@ export function getNodes () {
     }
     fetch(url, options)
       .then(response => response.json())
-      .then(json => dispatch(indexNodes(json)))
+      .then(json => {
+        dispatch(indexNodes(json))
+        dispatch(stopSyncing())
+      })
   }
 }
 
@@ -43,6 +61,7 @@ export function addNode (parent, node) {
 export const POST_NODE = 'POST_NODE'
 export function postNode (parent, data) {
   return function (dispatch) {
+    dispatch(startSyncing())
     const url = `${ host }/node/${ parent }`
     const options = {
       method: 'POST',
@@ -54,7 +73,10 @@ export function postNode (parent, data) {
     }
     fetch(url, options)
       .then(response => response.json())
-      .then(json => dispatch(addNode(parent, json)))
+      .then(json => {
+        dispatch(addNode(parent, json))
+        dispatch(stopSyncing())
+      })
   }
 }
 
@@ -72,6 +94,7 @@ export function updateNode (id, node) {
 export const PUT_NODE = 'PUT_NODE'
 export function putNode (id, data) {
   return function (dispatch) {
+    dispatch(startSyncing())
     const url = `${ host }/node/${ id }`
     const options = {
       method: 'PUT',
@@ -83,7 +106,10 @@ export function putNode (id, data) {
     }
     fetch(url, options)
       .then(response => response.json())
-      .then(json => dispatch(updateNode(id, json)))
+      .then(json => {
+        dispatch(updateNode(id, json))
+        dispatch(stopSyncing())
+      })
   }
 }
 
@@ -101,14 +127,18 @@ export function removeNode (parent, id) {
 export const DELETE_NODE = 'DELETE_NODE'
 export function deleteNode (parent, id) {
   return function (dispatch) {
+    dispatch(startSyncing())
     const url = `${ host }/node/${ parent }/${ id }`
     const options = {
       method: 'DELETE',
       headers: {
-        Accept: 'application/json',
+        Accept: 'application/json'
       }
     }
     fetch(url, options)
-      .then(() => dispatch(removeNode(parent, id)))
+      .then(() => {
+        dispatch(removeNode(parent, id))
+        dispatch(stopSyncing())
+      })
   }
 }

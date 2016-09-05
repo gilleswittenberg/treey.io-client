@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Nodes from '../components/Nodes'
 import * as uiActions from '../actions/ui'
 import { postNode, putNode, deleteNode } from '../actions/nodes'
+import classNames from 'classnames'
 
 let nodesActions = { postNode, putNode, deleteNode }
 let uiActionsBound
@@ -34,13 +35,17 @@ class App extends React.Component {
 
   render () {
     const { dispatch, nodes, ui } = this.props
-    const { tree } = nodes
+    const { tree, isSyncing } = nodes
 
     uiActionsBound = bindActionCreators(uiActions, dispatch)
     nodesActionsBound = bindActionCreators(nodesActions, dispatch)
 
+    const serverStatusClassName = classNames('server-status', { hidden: !isSyncing })
+    console.log(serverStatusClassName)
+
     return (
       <div className="wrap">
+        <div className={ serverStatusClassName }><p>is syncing&hellip;</p></div>
         { tree &&
           <Nodes
             parent={ null }

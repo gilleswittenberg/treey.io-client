@@ -1,11 +1,18 @@
 import * as types from '../actions/nodes'
 import Tree from '../lib/Tree'
 
-const defaultState = { tree: null }
+const defaultState = {
+  isSyncing: false,
+  tree: null
+}
 
 export default function nodes (state = defaultState, action) {
   let tree
   switch (action.type) {
+  case types.START_SYNCING:
+    return Object.assign({}, state, { isSyncing: true })
+  case types.STOP_SYNCING:
+    return Object.assign({}, state, { isSyncing: false })
   case types.INDEX_NODES:
     return Object.assign({}, state, action.data)
   case types.ADD_NODE:

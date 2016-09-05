@@ -15,9 +15,19 @@ body, ul, li
   margin: 0
   padding: 0
 
+.server-status
+  &.hidden
+    opacity: 0
+    transition: opacity 1s ease-in-out
+  p
+    text-align: center
+
 .wrap
   max-width: 480px
-  margin: 100px auto 0
+  margin: 0 auto
+
+.wrap > ul
+  margin-top: 100px
 
 li
   list-style: none
