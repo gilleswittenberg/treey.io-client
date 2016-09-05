@@ -19,6 +19,10 @@ export default class Node extends React.Component {
     deleteNode: React.PropTypes.func.isRequired
   }
 
+  state = {
+    isExpanded: false
+  }
+
   constructor (props) {
 
     super(props)
@@ -28,8 +32,6 @@ export default class Node extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleClickDelete = this.handleClickDelete.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-
-    this.state = { isExpanded: false }
   }
 
   handleClick () {

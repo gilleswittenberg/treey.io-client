@@ -12,6 +12,10 @@ export default class AddForm extends React.Component {
     postNode: React.PropTypes.func.isRequired
   }
 
+  state = {
+    title: ''
+  }
+
   constructor (props) {
 
     super(props)
@@ -20,7 +24,6 @@ export default class AddForm extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
-    this.state = { title: '' }
   }
 
   handleClick () {
