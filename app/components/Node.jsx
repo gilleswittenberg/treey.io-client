@@ -50,9 +50,11 @@ class Node extends React.Component {
 
   handleSubmit (event) {
     event.preventDefault()
-    const { id, putNode, unsetIsEditing } = this.props
-    const { title } = this.state
-    putNode(id, { title })
+    const { id, title, putNode, unsetIsEditing } = this.props
+    const { title: newTitle } = this.state
+    if (title !== newTitle) {
+      putNode(id, { title: newTitle })
+    }
     unsetIsEditing()
   }
 
@@ -87,7 +89,6 @@ class Node extends React.Component {
     )
 
     const showDeleteButton = parent !== null
-    const buttonDisabled = title === value
     const nodeButtonsClassName = classNames(
       'node-buttons',
       'node-buttons-default-hidden',
@@ -113,7 +114,7 @@ class Node extends React.Component {
             <div className="node-editing">
               <form onSubmit={ this.handleSubmit }>
                 <div className="node-buttons">
-                  <button disabled={ buttonDisabled }>S</button>
+                  <button>S</button>
                 </div>
                 <div className="input-wrap">
                   <input ref={ input => { if (input) input.focus() } } value={ value } onChange={ this.handleChange }></input>
