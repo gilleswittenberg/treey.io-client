@@ -3,6 +3,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import Node from '../components/Node'
 import NodeAdd from '../components/NodeAdd'
+import { isEditing } from '../reducers/ui'
 
 export default class Nodes extends React.Component {
 
@@ -29,9 +30,9 @@ export default class Nodes extends React.Component {
               postNode={ postNode }
               putNode={ putNode }
               deleteNode={ deleteNode }
-              setIsEditing={ setIsEditing.bind(null, node._id) }
+              setIsEditing={ setIsEditing }
               unsetIsEditing={ unsetIsEditing }
-              isEditing={ ui.isEditing === node._id }
+              isEditing={ isEditing(ui, node._id) }
               parent={ parent }
               id={ node._id }
               title={ node.title }
@@ -45,10 +46,10 @@ export default class Nodes extends React.Component {
           <li>
             <NodeAdd
               postNode={ postNode }
-              setIsEditing={ setIsEditing.bind(null, parent + '.add') }
+              setIsEditing={ setIsEditing }
               unsetIsEditing={ unsetIsEditing }
               parent={ parent }
-              isEditing={ ui.isEditing === parent + '.add' }
+              isEditing={ isEditing(ui, parent, 'add') }
             />
           </li>
         }

@@ -1,10 +1,10 @@
 export const SET_IS_EDITING = 'SET_IS_EDITING'
-export function setIsEditing () {
-  const id = arguments[arguments.length - 1]
+export function setIsEditing (id, type) {
+  const idString = type ? `${ id }.${ type }` : id
   return {
     type: SET_IS_EDITING,
     data: {
-      id
+      id: idString
     }
   }
 }

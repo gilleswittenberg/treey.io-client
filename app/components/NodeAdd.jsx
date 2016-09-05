@@ -23,8 +23,8 @@ export default class AddForm extends React.Component {
   }
 
   handleClick () {
-    const { setIsEditing } = this.props
-    setIsEditing(this._editingId())
+    const { parent, setIsEditing } = this.props
+    setIsEditing(parent, 'add')
 
     // waiting to focus input after form CSS display is set to 'block' in render
     window.requestAnimationFrame(() => {

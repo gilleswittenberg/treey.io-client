@@ -36,7 +36,7 @@ export default class Node extends React.Component {
 
   handleClickEdit () {
     const { id, setIsEditing } = this.props
-    setIsEditing()
+    setIsEditing(id)
 
     // waiting to focus input after form CSS display is set to `block` in render
     window.requestAnimationFrame(() => {
