@@ -25,7 +25,8 @@
         "linebreak-style": ["error", "unix"],
         "quotes": ["error", "single"],
         "semi": ["error", "never"],
-        
+        "comma-dangle": ["error", "never"],
+
         "react/jsx-uses-vars": "error",
         "react/jsx-uses-react": "error"
     }
