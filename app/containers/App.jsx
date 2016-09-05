@@ -1,5 +1,5 @@
 import React from 'react'
-import { bindActionCreators, compose } from 'redux'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Nodes from '../components/Nodes'
 import * as uiActions from '../actions/ui'
@@ -49,10 +49,8 @@ class App extends React.Component {
   }
 }
 
-export default compose(
-  connect((state, props) => ({
-    dispatch: props.dispatch,
-    nodes: state.nodes,
-    ui: state.ui
-  }))
-)(App)
+export default connect((state, props) => ({
+  dispatch: props.dispatch,
+  nodes: state.nodes,
+  ui: state.ui
+}))(App)

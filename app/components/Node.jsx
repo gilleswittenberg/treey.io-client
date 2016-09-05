@@ -1,5 +1,4 @@
 import React from 'react'
-import { compose } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import Nodes from '../components/Nodes'
@@ -123,18 +122,16 @@ export default class Node extends React.Component {
   }
 }
 
-export default compose(
-  connect((state, props) => ({
-    parent: props.parent,
-    id: props.id,
-    title: props.title,
-    nodes: props.nodes,
-    ui: props.ui,
-    isEditing: props.isEditing,
-    postNode: props.postNode,
-    putNode: props.putNode,
-    deleteNode: props.deleteNode,
-    setIsEditing: props.setIsEditing,
-    unsetIsEditing: props.unsetIsEditing
-  }))
-)(Node)
+export default connect((state, props) => ({
+  parent: props.parent,
+  id: props.id,
+  title: props.title,
+  nodes: props.nodes,
+  ui: props.ui,
+  isEditing: props.isEditing,
+  setIsEditing: props.setIsEditing,
+  unsetIsEditing: props.unsetIsEditing,
+  postNode: props.postNode,
+  putNode: props.putNode,
+  deleteNode: props.deleteNode
+}))(Node)

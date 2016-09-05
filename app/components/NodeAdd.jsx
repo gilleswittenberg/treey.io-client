@@ -1,5 +1,4 @@
 import React from 'react'
-import { compose } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
@@ -77,12 +76,10 @@ export default class AddForm extends React.Component {
   }
 }
 
-export default compose(
-  connect((state, props) => ({
-    parent: props.parent,
-    isEditing: props.isEditing,
-    setIsEditing: props.setIsEditing,
-    unsetIsEditing: props.unsetIsEditing,
-    postNode: props.postNode
-  }))
-)(AddForm)
+export default connect((state, props) => ({
+  parent: props.parent,
+  isEditing: props.isEditing,
+  setIsEditing: props.setIsEditing,
+  unsetIsEditing: props.unsetIsEditing,
+  postNode: props.postNode
+}))(AddForm)
