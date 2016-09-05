@@ -35,17 +35,22 @@ class App extends React.Component {
 
   render () {
     const { dispatch, nodes, ui } = this.props
-    const { tree, isSyncing } = nodes
+    const { tree, isSyncing, hasErrors } = nodes
 
     uiActionsBound = bindActionCreators(uiActions, dispatch)
     nodesActionsBound = bindActionCreators(nodesActions, dispatch)
 
-    const serverStatusClassName = classNames('server-status', { hidden: !isSyncing })
-    console.log(serverStatusClassName)
+    const serverStatusClassName = classNames('server-status', {
+      '-has-errors': hasErrors,
+      '-is-syncing': isSyncing
+    })
 
     return (
       <div className="wrap">
-        <div className={ serverStatusClassName }><p>is syncing&hellip;</p></div>
+        <div className={ serverStatusClassName }>
+          <p className="server-status-has-errors">has errors</p>
+          <p className="server-status-is-syncing">is syncing&hellip;</p>
+        </div>
         { tree &&
           <Nodes
             parent={ null }

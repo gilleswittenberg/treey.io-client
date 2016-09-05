@@ -3,6 +3,7 @@ import Tree from '../lib/Tree'
 
 const defaultState = {
   isSyncing: false,
+  hasErrors: false,
   tree: null
 }
 
@@ -13,6 +14,8 @@ export default function nodes (state = defaultState, action) {
     return Object.assign({}, state, { isSyncing: true })
   case types.STOP_SYNCING:
     return Object.assign({}, state, { isSyncing: false })
+  case types.HAS_ERRORS:
+    return Object.assign({}, state, { hasErrors: true })
   case types.INDEX_NODES:
     return Object.assign({}, state, action.data)
   case types.ADD_NODE:

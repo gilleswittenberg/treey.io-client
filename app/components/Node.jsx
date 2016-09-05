@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import Nodes from '../components/Nodes'
 
-export default class Node extends React.Component {
+class Node extends React.Component {
 
   static propTypes = {
     parent: React.PropTypes.string,

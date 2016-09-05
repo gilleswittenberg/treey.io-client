@@ -17,6 +17,13 @@ export function stopSyncing () {
   }
 }
 
+export const HAS_ERRORS = 'HAS_ERRORS'
+export function hasErrors () {
+  return {
+    type: HAS_ERRORS
+  }
+}
+
 export const INDEX_NODES = 'INDEX_NODES'
 export function indexNodes (tree) {
   return {
@@ -39,11 +46,19 @@ export function getNodes () {
       }
     }
     fetch(url, options)
+      .then(
+        response => {
+          dispatch(stopSyncing())
+          return response
+        },
+        () => {
+          dispatch(stopSyncing())
+          dispatch(hasErrors())
+          throw 'hasErrors'
+        }
+      )
       .then(response => response.json())
-      .then(json => {
-        dispatch(indexNodes(json))
-        dispatch(stopSyncing())
-      })
+      .then(json => dispatch(indexNodes(json)))
   }
 }
 
@@ -72,11 +87,19 @@ export function postNode (parent, data) {
       body: JSON.stringify(data)
     }
     fetch(url, options)
+      .then(
+        response => {
+          dispatch(stopSyncing())
+          return response
+        },
+        () => {
+          dispatch(stopSyncing())
+          dispatch(hasErrors())
+          throw 'hasErrors'
+        }
+      )
       .then(response => response.json())
-      .then(json => {
-        dispatch(addNode(parent, json))
-        dispatch(stopSyncing())
-      })
+      .then(json => dispatch(addNode(parent, json)))
   }
 }
 
@@ -105,11 +128,19 @@ export function putNode (id, data) {
       body: JSON.stringify(data)
     }
     fetch(url, options)
+      .then(
+        response => {
+          dispatch(stopSyncing())
+          return response
+        },
+        () => {
+          dispatch(stopSyncing())
+          dispatch(hasErrors())
+          throw 'hasErrors'
+        }
+      )
       .then(response => response.json())
-      .then(json => {
-        dispatch(updateNode(id, json))
-        dispatch(stopSyncing())
-      })
+      .then(json => dispatch(updateNode(id, json)))
   }
 }
 
@@ -136,9 +167,16 @@ export function deleteNode (parent, id) {
       }
     }
     fetch(url, options)
+      .then(
+        () => dispatch(stopSyncing()),
+        () => {
+          dispatch(stopSyncing())
+          dispatch(hasErrors())
+          throw 'hasErrors'
+        }
+      )
       .then(() => {
         dispatch(removeNode(parent, id))
-        dispatch(stopSyncing())
       })
   }
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
-export default class AddForm extends React.Component {
+class AddForm extends React.Component {
 
   static propTypes = {
     parent: React.PropTypes.string,

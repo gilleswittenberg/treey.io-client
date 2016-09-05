@@ -4,7 +4,7 @@ import Node from '../components/Node'
 import NodeAdd from '../components/NodeAdd'
 import { isEditing } from '../reducers/ui'
 
-export default class Nodes extends React.Component {
+class Nodes extends React.Component {
 
   static propTypes = {
     parent: React.PropTypes.string,

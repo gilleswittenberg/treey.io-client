@@ -16,11 +16,19 @@ body, ul, li
   padding: 0
 
 .server-status
-  &.hidden
-    opacity: 0
+  text-align: center
+  .server-status-has-errors
+    display: none
+    color: red
+  &.-has-errors
+    .server-status-has-errors
+      display: block
+  .server-status-is-syncing
     transition: opacity 1s ease-in-out
-  p
-    text-align: center
+    opacity: 0
+  &.-is-syncing
+    .server-status-is-syncing
+      opacity: 1
 
 .wrap
   max-width: 480px
