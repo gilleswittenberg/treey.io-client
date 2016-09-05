@@ -51,7 +51,7 @@ export default class Node extends React.Component {
       parent,
       id,
       title = '',
-      nodes,
+      nodes = [],
       ui,
       setIsEditing,
       unsetIsEditing,
@@ -120,6 +120,20 @@ export default class Node extends React.Component {
       </div>
     )
   }
+}
+
+Node.propTypes = {
+  parent: React.PropTypes.string,
+  id: React.PropTypes.string.isRequired,
+  title: React.PropTypes.string.isRequired,
+  nodes: React.PropTypes.array,
+  ui: React.PropTypes.object.isRequired,
+  isEditing: React.PropTypes.bool.isRequired,
+  setIsEditing: React.PropTypes.func.isRequired,
+  unsetIsEditing: React.PropTypes.func.isRequired,
+  postNode: React.PropTypes.func.isRequired,
+  putNode: React.PropTypes.func.isRequired,
+  deleteNode: React.PropTypes.func.isRequired
 }
 
 export default connect((state, props) => ({
