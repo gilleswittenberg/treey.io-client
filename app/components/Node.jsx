@@ -52,7 +52,7 @@ export default class Node extends React.Component {
   handleSubmit (event) {
     event.preventDefault()
     const { id, putNode, unsetIsEditing } = this.props
-    putNode(id, this.state.value)
+    putNode(id, { title: this.state.value })
     unsetIsEditing()
   }
 
