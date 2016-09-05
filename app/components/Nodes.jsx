@@ -29,7 +29,7 @@ export default class Nodes extends React.Component {
               postNode={ postNode }
               putNode={ putNode }
               deleteNode={ deleteNode }
-              setIsEditing={ setIsEditing }
+              setIsEditing={ setIsEditing.bind(null, node._id) }
               unsetIsEditing={ unsetIsEditing }
               isEditing={ ui.isEditing === node._id }
               parent={ parent }
@@ -45,7 +45,7 @@ export default class Nodes extends React.Component {
           <li>
             <NodeAdd
               postNode={ postNode }
-              setIsEditing={ setIsEditing }
+              setIsEditing={ setIsEditing.bind(null, parent + '.add') }
               unsetIsEditing={ unsetIsEditing }
               parent={ parent }
               isEditing={ ui.isEditing === parent + '.add' }

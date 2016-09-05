@@ -1,9 +1,11 @@
 import React from 'react'
-import { compose } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { connect } from 'react-redux'
 import Nodes from '../components/Nodes'
-import { setIsEditing, unsetIsEditing } from '../actions/ui'
+import * as uiActions from '../actions/ui'
 import { postNode, putNode, deleteNode } from '../actions/nodes'
+
+let uiActionsBounded
 
 class App extends React.Component {
 
@@ -24,18 +26,7 @@ class App extends React.Component {
   }
 
   handleEscapePress () {
-    const { dispatch } = this.props
-    dispatch(unsetIsEditing())
-  }
-
-  setIsEditing (key) {
-    const { dispatch } = this.props
-    dispatch(setIsEditing(key))
-  }
-
-  unsetIsEditing () {
-    const { dispatch } = this.props
-    dispatch(unsetIsEditing())
+    uiActionsBounded.unsetIsEditing()
   }
 
   postNode (parent, data) {
@@ -54,8 +45,10 @@ class App extends React.Component {
   }
 
   render () {
-    const { nodes, ui } = this.props
+    const { dispatch, nodes, ui } = this.props
     const { tree } = nodes
+
+    uiActionsBounded = bindActionCreators(uiActions, dispatch)
 
     return (
       <div className="wrap">
@@ -64,8 +57,7 @@ class App extends React.Component {
             parent={ null }
             nodes={ [tree] }
             ui={ ui }
-            setIsEditing={ this.setIsEditing.bind(this) }
-            unsetIsEditing={ this.unsetIsEditing.bind(this) }
+            { ...uiActionsBounded }
             postNode={ this.postNode.bind(this) }
             putNode={ this.putNode.bind(this) }
             deleteNode={ this.deleteNode.bind(this) }
