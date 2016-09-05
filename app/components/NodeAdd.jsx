@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
@@ -14,44 +13,34 @@ export default class AddForm extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
-    this.state = { value: '' }
-  }
-
-  _editingId () {
-    const { parent } = this.props
-    return `${ parent }.add`
+    this.state = { title: '' }
   }
 
   handleClick () {
     const { parent, setIsEditing } = this.props
+    this.setState({ title: '' })
     setIsEditing(parent, 'add')
-
-    // waiting to focus input after form CSS display is set to 'block' in render
-    window.requestAnimationFrame(() => {
-      const inputKey = `input.${ this._editingId() }`
-      ReactDOM.findDOMNode(this.refs[inputKey]).focus()
-    })
   }
 
   handleChange (event) {
-    this.setState({ value: event.target.value })
+    this.setState({ title: event.target.value })
   }
 
   handleSubmit (event) {
     event.preventDefault()
     const { parent, postNode, unsetIsEditing } = this.props
-    const data = { title: this.state.value }
+    const { title } = this.state
+    const data = { title }
     postNode(parent, data)
     unsetIsEditing()
 
-    this.setState({ value: '' })
+    this.setState({ title: '' })
   }
 
   render () {
 
     const { isEditing } = this.props
-    const editingId = this._editingId()
-    const inputRef = `input.${ editingId }`
+    const { title: value } = this.state
 
     const className = classNames(
       'node',
@@ -64,20 +53,24 @@ export default class AddForm extends React.Component {
     return (
       <div className={ className }>
 
-        <div className="node-body">
-          <button onClick={ this.handleClick }>+</button>
-        </div>
+        { !isEditing &&
+          <div className="node-body">
+            <button onClick={ this.handleClick }>+</button>
+          </div>
+        }
 
-        <div className="node-editing">
-          <form onSubmit={ this.handleSubmit }>
-            <div className="node-buttons">
-              <button disabled={ buttonDisabled }>+</button>
-            </div>
-            <div className="input-wrap">
-              <input ref={ inputRef } onChange={ this.handleChange } value={ this.state.value }></input>
-            </div>
-          </form>
-        </div>
+        { isEditing &&
+          <div className="node-editing">
+            <form onSubmit={ this.handleSubmit }>
+              <div className="node-buttons">
+                <button disabled={ buttonDisabled }>+</button>
+              </div>
+              <div className="input-wrap">
+                <input ref={ input => { if (input) input.focus() } } onChange={ this.handleChange } value={ value }></input>
+              </div>
+            </form>
+          </div>
+        }
 
       </div>
     )
@@ -86,10 +79,10 @@ export default class AddForm extends React.Component {
 
 export default compose(
   connect((state, props) => ({
-    postNode: props.postNode,
+    parent: props.parent,
+    isEditing: props.isEditing,
     setIsEditing: props.setIsEditing,
     unsetIsEditing: props.unsetIsEditing,
-    isEditing: props.isEditing,
-    parent: props.parent
+    postNode: props.postNode
   }))
 )(AddForm)

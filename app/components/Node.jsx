@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
@@ -17,17 +16,7 @@ export default class Node extends React.Component {
     this.handleClickDelete = this.handleClickDelete.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
-    const { title = '' } = props
-
-    this.state = {
-      isExpanded: false,
-      value: title
-    }
-  }
-
-  componentWillReceiveProps (props) {
-    const { title = '' } = props
-    this.setState({ value: title })
+    this.state = { isExpanded: false }
   }
 
   handleClick () {
@@ -35,24 +24,20 @@ export default class Node extends React.Component {
   }
 
   handleClickEdit () {
-    const { id, setIsEditing } = this.props
+    const { id, setIsEditing, title } = this.props
+    this.setState({ title })
     setIsEditing(id)
-
-    // waiting to focus input after form CSS display is set to `block` in render
-    window.requestAnimationFrame(() => {
-      const inputKey = `input.${ id }`
-      ReactDOM.findDOMNode(this.refs[inputKey]).focus()
-    })
   }
 
   handleChange (event) {
-    this.setState({ value: event.target.value })
+    this.setState({ title: event.target.value })
   }
 
   handleSubmit (event) {
     event.preventDefault()
     const { id, putNode, unsetIsEditing } = this.props
-    putNode(id, { title: this.state.value })
+    const { title } = this.state
+    putNode(id, { title })
     unsetIsEditing()
   }
 
@@ -69,15 +54,14 @@ export default class Node extends React.Component {
       title = '',
       nodes,
       ui,
+      setIsEditing,
+      unsetIsEditing,
       isEditing,
-      deleteNode,
       postNode,
       putNode,
-      setIsEditing,
-      unsetIsEditing
+      deleteNode
     } = this.props
-    const { value, isExpanded } = this.state
-    const inputRef = `input.${ id }`
+    const { title: value, isExpanded } = this.state
 
     const className = classNames(
       'node',
@@ -88,7 +72,7 @@ export default class Node extends React.Component {
     )
 
     const showDeleteButton = parent !== null
-    const buttonDisabled = title === this.state.value
+    const buttonDisabled = title === value
     const nodeButtonsClassName = classNames(
       'node-buttons',
       'node-buttons-default-hidden',
@@ -99,25 +83,29 @@ export default class Node extends React.Component {
       <div>
 
         <div className={ className }>
-          <div className="node-body">
-            <div className={ nodeButtonsClassName }>
-              <button onClick={ this.handleClickEdit }>E</button>
-              { showDeleteButton && <button onClick={ this.handleClickDelete }>X</button> }
-            </div>
-            <div className="node-content" onClick={ this.handleClick }>
-              <span>{ title }</span>
-            </div>
-          </div>
-          <div className="node-editing">
-            <form onSubmit={ this.handleSubmit }>
-              <div className="node-buttons">
-                <button disabled={ buttonDisabled }>S</button>
+          { !isEditing &&
+            <div className="node-body">
+              <div className={ nodeButtonsClassName }>
+                <button onClick={ this.handleClickEdit }>E</button>
+                { showDeleteButton && <button onClick={ this.handleClickDelete }>X</button> }
               </div>
-              <div className="input-wrap">
-                <input ref={ inputRef } value={ value } onChange={ this.handleChange }></input>
+              <div className="node-content" onClick={ this.handleClick }>
+                <span>{ title }</span>
               </div>
-            </form>
-          </div>
+            </div>
+          }
+          { isEditing &&
+            <div className="node-editing">
+              <form onSubmit={ this.handleSubmit }>
+                <div className="node-buttons">
+                  <button disabled={ buttonDisabled }>S</button>
+                </div>
+                <div className="input-wrap">
+                  <input ref={ input => { if (input) input.focus() } } value={ value } onChange={ this.handleChange }></input>
+                </div>
+              </form>
+            </div>
+          }
         </div>
 
         { nodes &&
