@@ -6,6 +6,17 @@ import { isEditing } from '../reducers/ui'
 
 export default class Nodes extends React.Component {
 
+  static propTypes = {
+    parent: React.PropTypes.string,
+    nodes: React.PropTypes.array.isRequired,
+    ui: React.PropTypes.object.isRequired,
+    setIsEditing: React.PropTypes.func.isRequired,
+    unsetIsEditing: React.PropTypes.func.isRequired,
+    postNode: React.PropTypes.func.isRequired,
+    putNode: React.PropTypes.func.isRequired,
+    deleteNode: React.PropTypes.func.isRequired
+  }
+
   render () {
 
     const {
@@ -56,17 +67,6 @@ export default class Nodes extends React.Component {
       </ul>
     )
   }
-}
-
-Nodes.propTypes = {
-  parent: React.PropTypes.string,
-  nodes: React.PropTypes.array.isRequired,
-  ui: React.PropTypes.object.isRequired,
-  setIsEditing: React.PropTypes.func.isRequired,
-  unsetIsEditing: React.PropTypes.func.isRequired,
-  postNode: React.PropTypes.func.isRequired,
-  putNode: React.PropTypes.func.isRequired,
-  deleteNode: React.PropTypes.func.isRequired
 }
 
 export default connect((state, props) => ({

@@ -5,6 +5,20 @@ import Nodes from '../components/Nodes'
 
 export default class Node extends React.Component {
 
+  static propTypes = {
+    parent: React.PropTypes.string,
+    id: React.PropTypes.string.isRequired,
+    title: React.PropTypes.string.isRequired,
+    nodes: React.PropTypes.array,
+    ui: React.PropTypes.object.isRequired,
+    isEditing: React.PropTypes.bool.isRequired,
+    setIsEditing: React.PropTypes.func.isRequired,
+    unsetIsEditing: React.PropTypes.func.isRequired,
+    postNode: React.PropTypes.func.isRequired,
+    putNode: React.PropTypes.func.isRequired,
+    deleteNode: React.PropTypes.func.isRequired
+  }
+
   constructor (props) {
 
     super(props)
@@ -120,20 +134,6 @@ export default class Node extends React.Component {
       </div>
     )
   }
-}
-
-Node.propTypes = {
-  parent: React.PropTypes.string,
-  id: React.PropTypes.string.isRequired,
-  title: React.PropTypes.string.isRequired,
-  nodes: React.PropTypes.array,
-  ui: React.PropTypes.object.isRequired,
-  isEditing: React.PropTypes.bool.isRequired,
-  setIsEditing: React.PropTypes.func.isRequired,
-  unsetIsEditing: React.PropTypes.func.isRequired,
-  postNode: React.PropTypes.func.isRequired,
-  putNode: React.PropTypes.func.isRequired,
-  deleteNode: React.PropTypes.func.isRequired
 }
 
 export default connect((state, props) => ({

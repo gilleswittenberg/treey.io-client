@@ -11,6 +11,12 @@ let nodesActionsBound
 
 class App extends React.Component {
 
+  static propTypes = {
+    dispatch: React.PropTypes.func.isRequired,
+    nodes: React.PropTypes.object.isRequired,
+    ui: React.PropTypes.object.isRequired
+  }
+
   constructor (props) {
     super(props)
   }
@@ -47,12 +53,6 @@ class App extends React.Component {
       </div>
     )
   }
-}
-
-App.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
-  nodes: React.PropTypes.object.isRequired,
-  ui: React.PropTypes.object.isRequired
 }
 
 export default connect((state, props) => ({

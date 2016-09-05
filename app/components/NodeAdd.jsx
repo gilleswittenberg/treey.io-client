@@ -4,6 +4,14 @@ import classNames from 'classnames'
 
 export default class AddForm extends React.Component {
 
+  static propTypes = {
+    parent: React.PropTypes.string,
+    isEditing: React.PropTypes.bool.isRequired,
+    setIsEditing: React.PropTypes.func.isRequired,
+    unsetIsEditing: React.PropTypes.func.isRequired,
+    postNode: React.PropTypes.func.isRequired
+  }
+
   constructor (props) {
 
     super(props)
@@ -77,11 +85,6 @@ export default class AddForm extends React.Component {
 }
 
 Node.propTypes = {
-  parent: React.PropTypes.string,
-  isEditing: React.PropTypes.bool.isRequired,
-  setIsEditing: React.PropTypes.func.isRequired,
-  unsetIsEditing: React.PropTypes.func.isRequired,
-  postNode: React.PropTypes.func.isRequired
 }
 
 export default connect((state, props) => ({
