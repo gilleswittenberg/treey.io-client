@@ -108,19 +108,16 @@ export default class Node extends React.Component {
           }
         </div>
 
-        { nodes &&
-          <Nodes
-            deleteNode={ deleteNode }
-            postNode={ postNode }
-            putNode={ putNode }
-            setIsEditing={ setIsEditing }
-            unsetIsEditing={ unsetIsEditing }
-            parent={ id }
-            nodes={ nodes }
-            ui={ ui }
-          />
-        }
-
+        <Nodes
+          deleteNode={ deleteNode }
+          postNode={ postNode }
+          putNode={ putNode }
+          setIsEditing={ setIsEditing }
+          unsetIsEditing={ unsetIsEditing }
+          parent={ id }
+          nodes={ nodes }
+          ui={ ui }
+        />
       </div>
     )
   }
