@@ -11,10 +11,7 @@ const Tree = {
   },
 
   _toJS (im) {
-    if (im === undefined) {
-      return {}
-    }
-    return im.toJS()
+    return im ? im.toJS() : {}
   },
 
   _getKeyPath (node, id, addNodesKey = false) {
