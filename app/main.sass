@@ -1,7 +1,9 @@
 $color: white
+$pink: #FFE8E8
 $backgroundColor: #DDD
 $dim: 32px
 $margin-indent: 12px
+$margin-vertical: 2px
 $margin-bottom: 4px
 $margin-ui: 1px
 
@@ -50,17 +52,29 @@ li li
   display: block
 
 .node
-  height: $dim
-  margin-bottom: $margin-bottom
+
+  .node-over
+    padding: $margin-vertical 0
+    div
+      height: $dim
+      background: $pink
+
+  .node-body
+    padding: $margin-vertical 0
 
   .node-editing
     display: none
+    padding: $margin-vertical 0
 
   &.-is-editing
     .node-body
       display: none
     .node-editing
       display: block
+
+  &.-is-dragging
+    .node-body
+      display: none
 
   &:hover
     .node-buttons-default-hidden
@@ -85,6 +99,9 @@ li li
       padding-top: 7px
       padding-left: 8px
       display: inline-block
+      span
+        color: #aaa
+        font-size: 10px
 
   button
     width: $dim
@@ -115,4 +132,5 @@ li li
     background: #ffc9c9
 
 .node-add .node-body > button
+  margin: 0
   width: 100%

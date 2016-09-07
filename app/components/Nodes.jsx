@@ -27,7 +27,8 @@ class Nodes extends React.Component {
       unsetIsEditing,
       postNode,
       putNode,
-      deleteNode
+      deleteNode,
+      moveNode
     } = this.props
     const hasNodeAdd = parent !== null
 
@@ -37,17 +38,18 @@ class Nodes extends React.Component {
         { nodes.map((node, index) =>
           <li key={ index }>
             <Node
-              postNode={ postNode }
-              putNode={ putNode }
-              deleteNode={ deleteNode }
-              setIsEditing={ setIsEditing }
-              unsetIsEditing={ unsetIsEditing }
-              isEditing={ isEditing(ui, node._id) }
               parent={ parent }
               id={ node._id }
               title={ node.title }
               nodes={ node.nodes }
               ui={ ui }
+              isEditing={ isEditing(ui, node._id) }
+              setIsEditing={ setIsEditing }
+              unsetIsEditing={ unsetIsEditing }
+              postNode={ postNode }
+              putNode={ putNode }
+              deleteNode={ deleteNode }
+              moveNode={ moveNode }
             />
           </li>
         ) }
@@ -77,5 +79,6 @@ export default connect((state, props) => ({
   unsetIsEditing: props.unsetIsEditing,
   postNode: props.postNode,
   putNode: props.putNode,
-  deleteNode: props.deleteNode
+  deleteNode: props.deleteNode,
+  moveNode: props.moveNode
 }))(Nodes)

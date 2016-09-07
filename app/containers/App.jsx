@@ -3,13 +3,17 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Nodes from '../components/Nodes'
 import * as uiActions from '../actions/ui'
-import { postNode, putNode, deleteNode } from '../actions/nodes'
+import { postNode, putNode, deleteNode, moveNode } from '../actions/nodes'
 import classNames from 'classnames'
 
-let nodesActions = { postNode, putNode, deleteNode }
+let nodesActions = { postNode, putNode, deleteNode, moveNode }
 let uiActionsBound
 let nodesActionsBound
 
+import { DragDropContext } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
+
+@DragDropContext(HTML5Backend)
 class App extends React.Component {
 
   static propTypes = {

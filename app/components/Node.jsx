@@ -2,7 +2,53 @@ import React from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import Nodes from '../components/Nodes'
+import { DragSource, DropTarget } from 'react-dnd'
 
+const DnDType = 'node'
+const DragSpec = {
+  beginDrag (props) {
+    return props
+  }
+}
+
+const DropSpec = {
+
+  hover (props, monitor, component) {
+
+    const height = 34 // 32 height + 2 margin
+    const yDrag = monitor.getClientOffset().y
+    const yDrop = component.element.getBoundingClientRect().top
+    const isOverPosition = yDrag - yDrop < height / 2 ? 'top' : 'bottom'
+    component.setState({ isOverPosition })
+  },
+
+  drop (props, monitor) {
+    const parent = monitor.getItem().parent
+    const id = monitor.getItem().id
+    const newParent = props.parent
+    const before = props.id
+    const moveNode = monitor.getItem().moveNode
+    //moveNode(parent, id, newParent, before)
+  }
+}
+
+@DragSource(DnDType, DragSpec, (connect, monitor) => {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  }
+})
+@DropTarget(DnDType, DropSpec, (connect, monitor) => {
+  const isOverItemId = monitor.getItem() ? monitor.getItem().id : null
+  const isOver = monitor.isOver()
+
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver(),
+    isOverItemId,
+    canDrop: monitor.canDrop()
+  }
+})
 class Node extends React.Component {
 
   static propTypes = {
@@ -16,11 +62,21 @@ class Node extends React.Component {
     unsetIsEditing: React.PropTypes.func.isRequired,
     postNode: React.PropTypes.func.isRequired,
     putNode: React.PropTypes.func.isRequired,
-    deleteNode: React.PropTypes.func.isRequired
+    deleteNode: React.PropTypes.func.isRequired,
+    moveNode: React.PropTypes.func.isRequired,
+    // Injected by React DnD DragSource
+    connectDragSource: React.PropTypes.func.isRequired,
+    isDragging: React.PropTypes.bool.isRequired,
+    // Injected by React DnD DropTarget
+    connectDropTarget: React.PropTypes.func.isRequired,
+    isOver: React.PropTypes.bool.isRequired,
+    isOverItemId: React.PropTypes.string,
+    canDrop: React.PropTypes.bool.isRequired
   }
 
   state = {
-    isExpanded: false
+    isExpanded: false,
+    isDragging: false
   }
 
   constructor (props) {
@@ -76,15 +132,23 @@ class Node extends React.Component {
       isEditing,
       postNode,
       putNode,
-      deleteNode
+      deleteNode,
+      moveNode,
+      connectDragSource,
+      isDragging,
+      connectDropTarget,
+      isOver,
+      isOverItemId
     } = this.props
-    const { title: value, isExpanded } = this.state
+    const { title: value, isExpanded, isOverPosition } = this.state
+    const isOverOther = isOver && isOverItemId !== id
 
     const className = classNames(
       'node',
       {
         '-is-editing': isEditing,
-        '-is-expanded': isExpanded
+        '-is-expanded': isExpanded,
+        '-is-dragging': isDragging
       }
     )
 
@@ -95,44 +159,60 @@ class Node extends React.Component {
       { 'node-buttons-num-2': showDeleteButton }
     )
 
-    return (
-      <div>
+    const showOverTop = isOverOther && isOverPosition === 'top'
+    const showOverBottom = isOverOther && isOverPosition === 'bottom'
 
-        <div className={ className }>
-          { !isEditing &&
-            <div className="node-body">
-              <div className={ nodeButtonsClassName }>
-                <button onClick={ this.handleClickEdit }>E</button>
-                { showDeleteButton && <button onClick={ this.handleClickDelete }>X</button> }
+    return (
+      <div ref={ c => this.element = c }>
+
+        { connectDropTarget(connectDragSource(
+          <div className={ className }>
+            { !isEditing && showOverTop &&
+              <div className="node-over node-over-top">
+                <div></div>
               </div>
-              <div className="node-content" onClick={ this.handleClick }>
-                <span>{ title }</span>
+            }
+            { !isEditing &&
+              <div className="node-body">
+                <div className={ nodeButtonsClassName }>
+                  <button onClick={ this.handleClickEdit }>E</button>
+                  { showDeleteButton && <button onClick={ this.handleClickDelete }>X</button> }
+                </div>
+                <div className="node-content" onClick={ this.handleClick }>
+                  <span>{ title } <span>{ id }</span></span>
+                </div>
               </div>
-            </div>
-          }
-          { isEditing &&
-            <div className="node-editing">
-              <form onSubmit={ this.handleSubmit }>
-                <div className="node-buttons">
-                  <button>S</button>
-                </div>
-                <div className="input-wrap">
-                  <input ref={ input => { if (input) input.focus() } } value={ value } onChange={ this.handleChange }></input>
-                </div>
-              </form>
-            </div>
-          }
-        </div>
+            }
+            { !isEditing && showOverBottom &&
+              <div className="node-over node-over-bottom">
+                <div></div>
+              </div>
+            }
+            { isEditing &&
+              <div className="node-editing">
+                <form onSubmit={ this.handleSubmit }>
+                  <div className="node-buttons">
+                    <button>S</button>
+                  </div>
+                  <div className="input-wrap">
+                    <input ref={ input => { if (input) input.focus() } } value={ value } onChange={ this.handleChange }></input>
+                  </div>
+                </form>
+              </div>
+            }
+          </div>
+        )) }
 
         <Nodes
-          deleteNode={ deleteNode }
-          postNode={ postNode }
-          putNode={ putNode }
-          setIsEditing={ setIsEditing }
-          unsetIsEditing={ unsetIsEditing }
           parent={ id }
           nodes={ nodes }
           ui={ ui }
+          setIsEditing={ setIsEditing }
+          unsetIsEditing={ unsetIsEditing }
+          deleteNode={ deleteNode }
+          postNode={ postNode }
+          putNode={ putNode }
+          moveNode={ moveNode }
         />
       </div>
     )
@@ -150,5 +230,6 @@ export default connect((state, props) => ({
   unsetIsEditing: props.unsetIsEditing,
   postNode: props.postNode,
   putNode: props.putNode,
-  deleteNode: props.deleteNode
+  deleteNode: props.deleteNode,
+  moveNode: props.moveNode
 }))(Node)

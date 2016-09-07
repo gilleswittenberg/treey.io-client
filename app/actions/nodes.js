@@ -180,3 +180,42 @@ export function deleteNode (parent, id) {
       })
   }
 }
+
+export const MOVE_NODE_2 = 'MOVE_NODE_2'
+export function moveNode2 (parent, id, newParent, before) {
+  return {
+    type: MOVE_NODE_2,
+    data: {
+      parent,
+      id,
+      newParent,
+      before
+    }
+  }
+}
+
+export const MOVE_NODE = 'MOVE_NODE'
+export function moveNode (parent, id, newParent, before) {
+  return function (dispatch) {
+    dispatch(startSyncing())
+    const url = `${ host }/node/move/${ parent }/${ id }/${ newParent }/${ before }`
+    const options = {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json'
+      }
+    }
+    fetch(url, options)
+      .then(
+        () => dispatch(stopSyncing()),
+        () => {
+          dispatch(stopSyncing())
+          dispatch(hasErrors())
+          throw 'hasErrors'
+        }
+      )
+      .then(() => {
+        dispatch(moveNode2(parent, id, newParent, before))
+      })
+  }
+}
