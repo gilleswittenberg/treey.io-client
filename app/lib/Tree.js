@@ -71,6 +71,31 @@ const Tree = {
     let keyPath = this._getKeyPath(tree, id)
     tree = tree.deleteIn(keyPath)
     return this._toJS(tree)
+  },
+
+  move (treeData, parent, id, newParent, before) {
+    let tree = this._fromJS(treeData)
+    let keyPath = this._getKeyPath(tree, parent, true)
+    let nodes = tree.getIn(keyPath)
+    const index = nodes.findIndex(value => value.get(idKey) === id)
+    const node = nodes.getIn([index])
+    nodes = nodes.deleteIn([index])
+    if (parent !== newParent) {
+      tree = tree.setIn(keyPath, nodes)
+      keyPath = this._getKeyPath(tree, newParent, true)
+      nodes = tree.getIn(keyPath)
+    }
+    let beforeIndex
+    if (before) {
+      beforeIndex = nodes.findIndex(value => value.get(idKey) === before)
+    }
+    if (beforeIndex !== undefined) {
+      nodes = nodes.splice(beforeIndex, 0, node)
+    } else {
+      nodes = nodes.push(node)
+    }
+    tree = tree.setIn(keyPath, nodes)
+    return this._toJS(tree)
   }
 }
 

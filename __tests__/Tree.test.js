@@ -273,4 +273,76 @@ describe('Tree', () => {
       expect(newTreeData.nodes[0]._id).toEqual('c1')
     })
   })
+
+  describe('move', () => {
+
+    it('same parent', () => {
+      const treeData = {
+        _id: '1',
+        nodes: [
+          { _id: 'c1'},
+          { _id: 'c2'}
+        ]
+      }
+      const newTreeData = tree.move(treeData, '1', 'c1', '1')
+      expect(newTreeData.nodes.length).toEqual(2)
+      expect(newTreeData.nodes[1]._id).toEqual('c1')
+    })
+
+    it('same parent before', () => {
+      const treeData = {
+        _id: '1',
+        nodes: [
+          { _id: 'c1'},
+          { _id: 'c2'},
+          { _id: 'c3'}
+        ]
+      }
+      const newTreeData = tree.move(treeData, '1', 'c1', '1', 'c3')
+      expect(newTreeData.nodes.length).toEqual(3)
+      expect(newTreeData.nodes[0]._id).toEqual('c2')
+      expect(newTreeData.nodes[1]._id).toEqual('c1')
+      expect(newTreeData.nodes[2]._id).toEqual('c3')
+    })
+
+    it('different parent', () => {
+      const treeData = {
+        _id: '1',
+        nodes: [
+          {
+            _id: 'c1',
+            nodes: [
+              { _id: 'cc1' },
+              { _id: 'cc2' }
+            ]
+          },
+          { _id: 'c2'}
+        ]
+      }
+      const newTreeData = tree.move(treeData, '1', 'c2', 'c1')
+      expect(newTreeData.nodes.length).toEqual(1)
+      expect(newTreeData.nodes[0].nodes.length).toEqual(3)
+      expect(newTreeData.nodes[0].nodes[2]._id).toEqual('c2')
+    })
+
+    it('different parent before', () => {
+      const treeData = {
+        _id: '1',
+        nodes: [
+          {
+            _id: 'c1',
+            nodes: [
+              { _id: 'cc1' },
+              { _id: 'cc2' }
+            ]
+          },
+          { _id: 'c2'}
+        ]
+      }
+      const newTreeData = tree.move(treeData, '1', 'c2', 'c1', 'cc1')
+      expect(newTreeData.nodes.length).toEqual(1)
+      expect(newTreeData.nodes[0].nodes.length).toEqual(3)
+      expect(newTreeData.nodes[0].nodes[0]._id).toEqual('c2')
+    })
+  })
 })
