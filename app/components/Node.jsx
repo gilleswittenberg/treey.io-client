@@ -100,6 +100,8 @@ class Node extends React.Component {
   }
 
   handleClick () {
+    const { unsetIsEditing } = this.props
+    unsetIsEditing()
     this.setState({ isExpanded: !this.state.isExpanded })
   }
 
