@@ -4,6 +4,14 @@ import classNames from 'classnames'
 import Nodes from '../components/Nodes'
 import { DragSource, DropTarget } from 'react-dnd'
 
+function getOverMousePosition (monitor, element) {
+  const height = 34 // 32 height + 2 margin
+  const yDrag = monitor.getClientOffset().y
+  const yDrop = element.getBoundingClientRect().top
+  const isOverPosition = yDrag - yDrop < height / 2 ? 'top' : 'bottom'
+  return isOverPosition
+}
+
 const DnDType = 'node'
 const DragSpec = {
   beginDrag (props) {
@@ -14,46 +22,40 @@ const DragSpec = {
 const DropSpec = {
 
   hover (props, monitor, component) {
-
-    const height = 34 // 32 height + 2 margin
-    const yDrag = monitor.getClientOffset().y
-    const yDrop = component.element.getBoundingClientRect().top
-    const isOverPosition = yDrag - yDrop < height / 2 ? 'top' : 'bottom'
-    component.setState({ isOverPosition })
+    const overPosition = getOverMousePosition (monitor, component.element)
+    component.setState({ isOverPosition: overPosition })
   },
 
-  drop (props, monitor) {
+  drop (props, monitor, component) {
+
     const parent = monitor.getItem().parent
     const id = monitor.getItem().id
     const newParent = props.parent
-    const before = props.id
+
+    const overPosition = getOverMousePosition (monitor, component.element)
+    const before = overPosition === 'top' ? props.id : props.after
     const moveNode = monitor.getItem().moveNode
-    //moveNode(parent, id, newParent, before)
+
+    moveNode(parent, id, newParent, before)
   }
 }
 
-@DragSource(DnDType, DragSpec, (connect, monitor) => {
-  return {
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
-  }
-})
-@DropTarget(DnDType, DropSpec, (connect, monitor) => {
-  const isOverItemId = monitor.getItem() ? monitor.getItem().id : null
-  const isOver = monitor.isOver()
-
-  return {
-    connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver(),
-    isOverItemId,
-    canDrop: monitor.canDrop()
-  }
-})
+@DragSource(DnDType, DragSpec, (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging()
+}))
+@DropTarget(DnDType, DropSpec, (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
+  isOver: monitor.isOver(),
+  isOverItemId: monitor.getItem() ? monitor.getItem().id : null,
+  canDrop: monitor.canDrop()
+}))
 class Node extends React.Component {
 
   static propTypes = {
     parent: React.PropTypes.string,
     id: React.PropTypes.string.isRequired,
+    after: React.PropTypes.string,
     title: React.PropTypes.string.isRequired,
     nodes: React.PropTypes.array,
     ui: React.PropTypes.object.isRequired,

@@ -40,6 +40,7 @@ class Nodes extends React.Component {
             <Node
               parent={ parent }
               id={ node._id }
+              after={ nodes[index + 1] ? nodes[index + 1]._id : null }
               title={ node.title }
               nodes={ node.nodes }
               ui={ ui }

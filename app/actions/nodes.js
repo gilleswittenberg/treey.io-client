@@ -198,6 +198,8 @@ export const MOVE_NODE = 'MOVE_NODE'
 export function moveNode (parent, id, newParent, before) {
   return function (dispatch) {
     dispatch(startSyncing())
+    dispatch(moveNode2(parent, id, newParent, before))
+    before = before || ''
     const url = `${ host }/node/move/${ parent }/${ id }/${ newParent }/${ before }`
     const options = {
       method: 'PUT',
@@ -215,7 +217,6 @@ export function moveNode (parent, id, newParent, before) {
         }
       )
       .then(() => {
-        dispatch(moveNode2(parent, id, newParent, before))
       })
   }
 }
