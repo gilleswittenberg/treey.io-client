@@ -21,7 +21,13 @@ const DragSpec = {
 
 const DropSpec = {
 
+  canDrop (props) {
+    return props.parent !== null
+  },
+
   hover (props, monitor, component) {
+    // guard
+    if (props.parent === null) return
     const overPosition = getOverMousePosition (monitor, component.element)
     component.setState({ isOverPosition: overPosition })
   },
