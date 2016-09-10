@@ -1,4 +1,6 @@
 $color: white
+$colorHover: darken($color, 4%)
+$hoverTransition: background 0.3s ease-in-out
 $backgroundColor: #DDD
 $pink: #FFE8E8
 $dim: 32px
@@ -95,6 +97,9 @@ li li
     height: $dim
     cursor: pointer
     background: $color
+    transition: $hoverTransition
+    &:hover
+      background: $colorHover
 
     span
       padding-top: 7px
@@ -109,14 +114,14 @@ li li
     height: $dim
     border: none
     background: $color
-    transition: background 0.3s ease-in-out
+    transition: $hoverTransition
     margin-left: $margin-ui
     cursor: pointer
     i
       font-size: 24px
 
     &:hover
-      background: darken($color, 4%)
+      background: $colorHover
 
     &:disabled
       background: $color
