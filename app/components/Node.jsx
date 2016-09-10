@@ -186,8 +186,14 @@ class Node extends React.Component {
             { !isEditing &&
               <div className="node-body">
                 <div className={ nodeButtonsClassName }>
-                  <button onClick={ this.handleClickEdit }>E</button>
-                  { showDeleteButton && <button onClick={ this.handleClickDelete }>X</button> }
+                  <button onClick={ this.handleClickEdit }>
+                    <i className="fa fa-pencil-square-o"></i>
+                  </button>
+                  { showDeleteButton &&
+                    <button onClick={ this.handleClickDelete }>
+                      <i className="fa fa-trash-o"></i>
+                    </button>
+                  }
                 </div>
                 <div className="node-content" onClick={ this.handleClick }>
                   <span>{ title } <span>{ id }</span></span>
@@ -203,7 +209,9 @@ class Node extends React.Component {
               <div className="node-editing">
                 <form onSubmit={ this.handleSubmit }>
                   <div className="node-buttons">
-                    <button>S</button>
+                    <button>
+                      <i className="fa fa-floppy-o"></i>
+                    </button>
                   </div>
                   <div className="input-wrap">
                     <input ref={ input => { if (input) input.focus() } } value={ value } onChange={ this.handleChange }></input>

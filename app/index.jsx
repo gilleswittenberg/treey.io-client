@@ -4,7 +4,8 @@ import Root from './containers/Root.jsx'
 import configureStore from './store/configureStore'
 import { getNodes } from './actions/nodes'
 
-import '!style!css!sass!./main.sass'
+import '!style!css!./css/font-awesome.css'
+import '!style!css!sass!./css/main.sass'
 
 const store = configureStore()
 

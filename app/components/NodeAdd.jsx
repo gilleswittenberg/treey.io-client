@@ -65,7 +65,9 @@ class AddForm extends React.Component {
 
         { !isEditing &&
           <div className="node-body">
-            <button onClick={ this.handleClick }>+</button>
+            <button onClick={ this.handleClick }>
+              <i className="fa fa-plus-square-o"></i>
+            </button>
           </div>
         }
 
@@ -73,7 +75,9 @@ class AddForm extends React.Component {
           <div className="node-editing">
             <form onSubmit={ this.handleSubmit }>
               <div className="node-buttons">
-                <button disabled={ buttonDisabled }>+</button>
+                <button disabled={ buttonDisabled }>
+                  <i className="fa fa-floppy-o"></i>
+                </button>
               </div>
               <div className="input-wrap">
                 <input ref={ input => { if (input) input.focus() } } onChange={ this.handleChange } value={ value }></input>
