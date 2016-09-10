@@ -15,6 +15,7 @@ function getOverMousePosition (monitor, element) {
 const DnDType = 'node'
 const DragSpec = {
   beginDrag (props) {
+    props.unsetIsEditing()
     return props
   }
 }
