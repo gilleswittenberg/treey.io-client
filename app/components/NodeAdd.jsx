@@ -1,15 +1,15 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
 class AddForm extends React.Component {
 
   static propTypes = {
-    parent: React.PropTypes.string,
-    isEditing: React.PropTypes.bool.isRequired,
-    setIsEditing: React.PropTypes.func.isRequired,
-    unsetIsEditing: React.PropTypes.func.isRequired,
-    postNode: React.PropTypes.func.isRequired
+    parent: PropTypes.string,
+    isEditing: PropTypes.bool.isRequired,
+    setIsEditing: PropTypes.func.isRequired,
+    unsetIsEditing: PropTypes.func.isRequired,
+    postNode: PropTypes.func.isRequired
   }
 
   state = {

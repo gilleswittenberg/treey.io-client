@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Node from '../components/Node'
 import NodeAdd from '../components/NodeAdd'
@@ -7,14 +7,14 @@ import { isEditing } from '../reducers/ui'
 class Nodes extends React.Component {
 
   static propTypes = {
-    parent: React.PropTypes.string,
-    nodes: React.PropTypes.array.isRequired,
-    ui: React.PropTypes.object.isRequired,
-    setIsEditing: React.PropTypes.func.isRequired,
-    unsetIsEditing: React.PropTypes.func.isRequired,
-    postNode: React.PropTypes.func.isRequired,
-    putNode: React.PropTypes.func.isRequired,
-    deleteNode: React.PropTypes.func.isRequired
+    parent: PropTypes.string,
+    nodes: PropTypes.array.isRequired,
+    ui: PropTypes.object.isRequired,
+    setIsEditing: PropTypes.func.isRequired,
+    unsetIsEditing: PropTypes.func.isRequired,
+    postNode: PropTypes.func.isRequired,
+    putNode: PropTypes.func.isRequired,
+    deleteNode: PropTypes.func.isRequired
   }
 
   render () {

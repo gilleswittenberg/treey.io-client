@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import Nodes from '../components/Nodes'
@@ -60,27 +60,27 @@ const DropSpec = {
 class Node extends React.Component {
 
   static propTypes = {
-    parent: React.PropTypes.string,
-    id: React.PropTypes.string.isRequired,
-    after: React.PropTypes.string,
-    title: React.PropTypes.string.isRequired,
-    nodes: React.PropTypes.array,
-    ui: React.PropTypes.object.isRequired,
-    isEditing: React.PropTypes.bool.isRequired,
-    setIsEditing: React.PropTypes.func.isRequired,
-    unsetIsEditing: React.PropTypes.func.isRequired,
-    postNode: React.PropTypes.func.isRequired,
-    putNode: React.PropTypes.func.isRequired,
-    deleteNode: React.PropTypes.func.isRequired,
-    moveNode: React.PropTypes.func.isRequired,
+    parent: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    after: PropTypes.string,
+    title: PropTypes.string.isRequired,
+    nodes: PropTypes.array,
+    ui: PropTypes.object.isRequired,
+    isEditing: PropTypes.bool.isRequired,
+    setIsEditing: PropTypes.func.isRequired,
+    unsetIsEditing: PropTypes.func.isRequired,
+    postNode: PropTypes.func.isRequired,
+    putNode: PropTypes.func.isRequired,
+    deleteNode: PropTypes.func.isRequired,
+    moveNode: PropTypes.func.isRequired,
     // Injected by React DnD DragSource
-    connectDragSource: React.PropTypes.func.isRequired,
-    isDragging: React.PropTypes.bool.isRequired,
+    connectDragSource: PropTypes.func.isRequired,
+    isDragging: PropTypes.bool.isRequired,
     // Injected by React DnD DropTarget
-    connectDropTarget: React.PropTypes.func.isRequired,
-    isOver: React.PropTypes.bool.isRequired,
-    isOverItemId: React.PropTypes.string,
-    canDrop: React.PropTypes.bool.isRequired
+    connectDropTarget: PropTypes.func.isRequired,
+    isOver: PropTypes.bool.isRequired,
+    isOverItemId: PropTypes.string,
+    canDrop: PropTypes.bool.isRequired
   }
 
   state = {
