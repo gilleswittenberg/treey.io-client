@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import Nodes from '../components/Nodes'
 import { DragSource, DropTarget } from 'react-dnd'
+import { isEditing as isEditingFunc } from '../reducers/ui'
 
 function getOverMousePosition (monitor, element) {
   const height = 34 // 32 height + 2 margin
@@ -92,20 +93,44 @@ class Node extends Component {
 
     super(props)
 
+    this.hasNodes = this.hasNodes.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.handleDoubleClick = this.handleDoubleClick.bind(this)
+    this.handleClickAdd = this.handleClickAdd.bind(this)
     this.handleClickEdit = this.handleClickEdit.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleClickDelete = this.handleClickDelete.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  hasNodes () {
+    const { nodes } = this.props
+    return !!(nodes && nodes.length > 0)
+  }
+
   handleClick () {
     const { unsetIsEditing } = this.props
     unsetIsEditing()
+    // guard
+    if (!this.hasNodes()) return
     this.setState({ isExpanded: !this.state.isExpanded })
   }
 
+  handleClickAdd () {
+    const { id, setIsEditing } = this.props
+    setIsEditing(id, 'add')
+  }
+
+  handleDoubleClick (event) {
+    event.preventDefault()
+    this.startIsEditing()
+  }
+
   handleClickEdit () {
+    this.startIsEditing()
+  }
+
+  startIsEditing () {
     const { id, setIsEditing, title } = this.props
     this.setState({ title })
     setIsEditing(id)
@@ -151,23 +176,34 @@ class Node extends Component {
       isOver,
       isOverItemId
     } = this.props
-    const { title: value, isExpanded, isOverPosition } = this.state
+    const {
+      title: value,
+      isExpanded,
+      isOverPosition
+    } = this.state
     const isOverOther = isOver && isOverItemId !== id
 
     const className = classNames(
       'node',
       {
         '-is-editing': isEditing,
-        '-is-expanded': isExpanded,
+        '-is-expanded': isExpanded || isEditingFunc(ui, id, 'add'),
         '-is-dragging': isDragging
       }
     )
 
+    const showAddButton = !this.hasNodes()
     const showDeleteButton = parent !== null
+    let numButtons = 1
+    if (showAddButton) numButtons++
+    if (showDeleteButton) numButtons++
     const nodeButtonsClassName = classNames(
       'node-buttons',
       'node-buttons-default-hidden',
-      { 'node-buttons-num-2': showDeleteButton }
+      {
+        'node-buttons-num-2': numButtons === 2,
+        'node-buttons-num-3': numButtons === 3
+      }
     )
 
     const showOverTop = isOverOther && isOverPosition === 'top'
@@ -186,6 +222,11 @@ class Node extends Component {
             { !isEditing &&
               <div className="node-body">
                 <div className={ nodeButtonsClassName }>
+                  { showAddButton &&
+                    <button onClick={ this.handleClickAdd }>
+                      <i className="fa fa-plus-square-o"></i>
+                    </button>
+                  }
                   <button onClick={ this.handleClickEdit }>
                     <i className="fa fa-pencil-square-o"></i>
                   </button>
@@ -195,7 +236,7 @@ class Node extends Component {
                     </button>
                   }
                 </div>
-                <div className="node-content" onClick={ this.handleClick }>
+                <div className="node-content" onClick={ this.handleClick } onDoubleClick={ this.handleDoubleClick }>
                   <span>{ title } <span>{ id }</span></span>
                 </div>
               </div>
