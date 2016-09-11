@@ -1,25 +1,40 @@
 $color: white
-$colorHover: darken($color, 4%)
+$colorHover: darken($color, 1%)
+$black: #333
+$grayColor: #444
+$pink: rgba(#F197FF, 0.7%)
 $hoverTransition: background 0.3s ease-in-out
-$backgroundColor: #DDD
-$pink: #FFE8E8
-$dim: 32px
+$colorTransition: color 0.3s ease-in-out
+$backgroundGradient: radial-gradient(ellipse at center, white 0%, #a8e7ff 98%)
+$dim: 38px
+$borderRadius: 3px
+$boxShadow: 0px 1px 2px 0px rgba(124, 124, 124, 0.2)
+$boxShadowHover: 0px 1px 2px 0px rgba(124, 124, 124, 0.4)
+$boxShadowTransition: box-shadow 0.3s ease-in-out
 $indent: 12px
 $margin-vertical: 2px
-$margin-ui: 1px
+$margin-ui: 3px
+$fontSize: 14px
+
+html, body
+  height: 100%
 
 body
-  background: $backgroundColor
+  background: $backgroundGradient
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
   font-weight: 300
-  font-size: 14px
+  font-size: $fontSize
+  color: $black
 
 body, ul, li
   margin: 0
   padding: 0
 
 .server-status
-  text-align: center
+  p
+    text-align: center
+    margin: 0
+    padding: 14px
   .server-status-has-errors
     display: none
     color: red
@@ -38,7 +53,7 @@ body, ul, li
   margin: 0 auto
 
 .wrap > ul
-  margin-top: 100px
+  margin-top: 60px
 
 li
   list-style: none
@@ -59,6 +74,8 @@ li li
     div
       height: $dim
       background: $pink
+      border-radius: $borderRadius
+      box-shadow: $boxShadow
 
   .node-body
     padding: $margin-vertical 0
@@ -97,15 +114,18 @@ li li
   .node-content
     display: block
     height: $dim
-    cursor: pointer
     background: $color
-    transition: $hoverTransition
+    border-radius: $borderRadius
+    box-shadow: $boxShadow
+    transition: $hoverTransition, $boxShadowTransition
+    cursor: pointer
     &:hover
       background: $colorHover
+      box-shadow: $boxShadowHover
 
     span
-      padding-top: 7px
-      padding-left: 8px
+      padding-top: 10px
+      padding-left: 14px
       display: inline-block
       span
         color: #aaa
@@ -114,16 +134,24 @@ li li
   button
     width: $dim
     height: $dim
+    border-radius: $borderRadius
     border: none
     background: $color
-    transition: $hoverTransition
+    transition: $hoverTransition, $boxShadowTransition
+    box-shadow: $boxShadow
     margin-left: $margin-ui
     cursor: pointer
     i
-      font-size: 24px
+      font-size: 20px
+      padding-top: 2px
+      color: $grayColor
+      transition: $colorTransition
 
     &:hover
       background: $colorHover
+      box-shadow: $boxShadowHover
+      i
+        color: $black
 
     &:disabled
       background: $color
@@ -139,7 +167,9 @@ li li
     font-size: 14px
     width: 100%
     border: none
-    background: #ffc9c9
+    background: $pink
+    border-radius: $borderRadius
+    box-shadow: $boxShadow
 
 .node-add .node-body > button
   margin: 0

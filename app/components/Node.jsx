@@ -237,7 +237,7 @@ class Node extends Component {
                   }
                 </div>
                 <div className="node-content" onClick={ this.handleClick } onDoubleClick={ this.handleDoubleClick }>
-                  <span>{ title } <span>{ id }</span></span>
+                  <span>{ title }</span>
                 </div>
               </div>
             }
