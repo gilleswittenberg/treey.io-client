@@ -36,7 +36,7 @@ class Nodes extends Component {
       <ul>
 
         { nodes.map((node, index) =>
-          <li key={ index }>
+          <li key={ node._id }>
             <Node
               parent={ parent }
               id={ node._id }
