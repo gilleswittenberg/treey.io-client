@@ -12,6 +12,6 @@ export function setIsEditing (id, type) {
 export const UNSET_IS_EDITING = 'UNSET_IS_EDITING'
 export function unsetIsEditing () {
   return {
-    type: UNSET_IS_EDITING,
+    type: UNSET_IS_EDITING
   }
 }
