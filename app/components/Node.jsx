@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import Nodes from '../components/Nodes'
@@ -57,7 +57,7 @@ const DropSpec = {
   isOverItemId: monitor.getItem() ? monitor.getItem().id : null,
   canDrop: monitor.canDrop()
 }))
-class Node extends React.Component {
+class Node extends Component {
 
   static propTypes = {
     parent: PropTypes.string,

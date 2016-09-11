@@ -1,10 +1,10 @@
-import React, { PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import Node from '../components/Node'
 import NodeAdd from '../components/NodeAdd'
 import { isEditing } from '../reducers/ui'
 
-class Nodes extends React.Component {
+class Nodes extends Component {
 
   static propTypes = {
     parent: PropTypes.string,
