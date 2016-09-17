@@ -1,0 +1,17 @@
+.server-status
+  p
+    text-align: center
+    margin: 0
+    padding: 14px
+  .server-status-has-errors
+    display: none
+    color: $red
+  &.-has-errors
+    .server-status-has-errors
+      display: block
+  .server-status-is-syncing
+    transition: opacity 1s ease-in-out
+    opacity: 0
+  &.-is-syncing
+    .server-status-is-syncing
+      opacity: 1

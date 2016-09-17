@@ -55,6 +55,7 @@ class App extends React.Component {
           <p className="server-status-has-errors">has errors</p>
           <p className="server-status-is-syncing">is syncing&hellip;</p>
         </div>
+        <div className="tree">
         { tree &&
           <Nodes
             parent={ null }
@@ -64,6 +65,7 @@ class App extends React.Component {
             { ...nodesActionsBound }
           />
         }
+        </div>
       </div>
     )
   }

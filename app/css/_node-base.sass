@@ -1,0 +1,14 @@
+.node-base
+  width: 100%
+  height: $dim
+  border-radius: $borderRadius
+  background: $color
+  box-shadow: $boxShadow
+
+.node-base-hover
+  @extend .node-base
+  transition: $hoverTransition, $boxShadowTransition
+  cursor: pointer
+  &:hover
+    background: $colorHover
+    box-shadow: $boxShadowHover

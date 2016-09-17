@@ -1,0 +1,57 @@
+.tree li li
+  transform: translateX($indent)
+
+.node + ul
+  display: none
+
+.node.-is-expanded + ul
+  display: block
+
+.node
+
+  .node-body
+    padding: $margin-vertical 0
+
+  .node-editing
+    display: none
+    padding: $margin-vertical 0
+
+  &.-is-editing
+    .node-body
+      display: none
+    .node-editing
+      display: block
+
+  &.-is-dragging
+    .node-body
+      display: none
+    + ul
+      display: none
+
+  &:hover
+    .node-buttons-default-hidden
+      display: inline-block
+    .node-buttons + .node-content
+      margin-right: $dim + $margin-ui
+    .node-buttons-num-2 + .node-content
+      margin-right: 2 * ($dim + $margin-ui)
+    .node-buttons-num-3 + .node-content
+      margin-right: 3 * ($dim + $margin-ui)
+
+  .node-buttons
+    float: right
+    button
+      width: $dim
+      margin-left: $margin-ui
+  .node-buttons-default-hidden
+    display: none
+
+  .node-content
+    @extend .node-base-hover
+    width: auto
+    display: block
+
+    span
+      padding-top: 10px
+      padding-left: 14px
+      display: inline-block

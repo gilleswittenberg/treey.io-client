@@ -1,176 +1,21 @@
-$color: white
-$colorHover: darken($color, 1%)
-$black: #333
-$grayColor: #444
-$pink: rgba(#F197FF, 0.7%)
+@import colors
 $hoverTransition: background 0.3s ease-in-out
 $colorTransition: color 0.3s ease-in-out
-$backgroundGradient: radial-gradient(ellipse at center, white 0%, #a8e7ff 98%)
+$shadowColor: rgb(124, 124, 124)
+$boxShadow: 0px 1px 2px 0px rgba($shadowColor, 0.2)
+$boxShadowHover: 0px 1px 2px 0px rgba($shadowColor, 0.4)
+$boxShadowTransition: box-shadow 0.3s ease-in-out
 $dim: 38px
 $borderRadius: 3px
-$boxShadow: 0px 1px 2px 0px rgba(124, 124, 124, 0.2)
-$boxShadowHover: 0px 1px 2px 0px rgba(124, 124, 124, 0.4)
-$boxShadowTransition: box-shadow 0.3s ease-in-out
 $indent: 12px
-$margin-vertical: 2px
-$margin-ui: 3px
-$fontSize: 14px
+$margin-vertical: 4px
+$margin-ui: 4px
 
-html, body
-  height: 100%
-
-body
-  background: $backgroundGradient
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif
-  font-weight: 300
-  font-size: $fontSize
-  color: $black
-
-body, ul, li
-  margin: 0
-  padding: 0
-
-.server-status
-  p
-    text-align: center
-    margin: 0
-    padding: 14px
-  .server-status-has-errors
-    display: none
-    color: red
-  &.-has-errors
-    .server-status-has-errors
-      display: block
-  .server-status-is-syncing
-    transition: opacity 1s ease-in-out
-    opacity: 0
-  &.-is-syncing
-    .server-status-is-syncing
-      opacity: 1
-
-.wrap
-  max-width: 480px
-  margin: 0 auto
-
-.wrap > ul
-  margin-top: 60px
-
-li
-  list-style: none
-
-li li
-  transform: translateX($indent)
-
-.node + ul
-  display: none
-
-.node.-is-expanded + ul
-  display: block
-
-.node
-
-  .node-over
-    padding: $margin-vertical 0
-    div
-      height: $dim
-      background: $pink
-      border-radius: $borderRadius
-      box-shadow: $boxShadow
-
-  .node-body
-    padding: $margin-vertical 0
-
-  .node-editing
-    display: none
-    padding: $margin-vertical 0
-
-  &.-is-editing
-    .node-body
-      display: none
-    .node-editing
-      display: block
-
-  &.-is-dragging
-    .node-body
-      display: none
-    + ul
-      display: none
-
-  &:hover
-    .node-buttons-default-hidden
-      display: inline-block
-    .node-buttons + .node-content
-      margin-right: $dim + $margin-ui
-    .node-buttons-num-2 + .node-content
-      margin-right: 2 * ($dim + $margin-ui)
-    .node-buttons-num-3 + .node-content
-      margin-right: 3 * ($dim + $margin-ui)
-
-  .node-buttons
-    float: right
-  .node-buttons-default-hidden
-    display: none
-
-  .node-content
-    display: block
-    height: $dim
-    background: $color
-    border-radius: $borderRadius
-    box-shadow: $boxShadow
-    transition: $hoverTransition, $boxShadowTransition
-    cursor: pointer
-    &:hover
-      background: $colorHover
-      box-shadow: $boxShadowHover
-
-    span
-      padding-top: 10px
-      padding-left: 14px
-      display: inline-block
-      span
-        color: #aaa
-        font-size: 10px
-
-  button
-    width: $dim
-    height: $dim
-    border-radius: $borderRadius
-    border: none
-    background: $color
-    transition: $hoverTransition, $boxShadowTransition
-    box-shadow: $boxShadow
-    margin-left: $margin-ui
-    cursor: pointer
-    i
-      font-size: 20px
-      padding-top: 2px
-      color: $grayColor
-      transition: $colorTransition
-
-    &:hover
-      background: $colorHover
-      box-shadow: $boxShadowHover
-      i
-        color: $black
-
-    &:disabled
-      background: $color
-
-  .input-wrap
-    margin-right: $dim + $margin-ui
-
-  input
-    display: inline-block
-    box-sizing: border-box
-    height: $dim
-    padding-left: 12px
-    font-size: 14px
-    width: 100%
-    border: none
-    background: $pink
-    border-radius: $borderRadius
-    box-shadow: $boxShadow
-
-.node-add .node-body > button
-  margin: 0
-  width: 100%
+@import reset
+@import layout
+@import server-status
+@import node-base
+@import node
+@import node-over
+@import node-button
+@import node-input
