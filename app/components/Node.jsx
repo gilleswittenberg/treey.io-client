@@ -94,7 +94,6 @@ class Node extends Component {
 
     this.hasNodes = this.hasNodes.bind(this)
     this.handleClick = this.handleClick.bind(this)
-    this.handleDoubleClick = this.handleDoubleClick.bind(this)
     this.handleClickAdd = this.handleClickAdd.bind(this)
     this.handleClickEdit = this.handleClickEdit.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -107,23 +106,26 @@ class Node extends Component {
     return !!(nodes && nodes.length > 0)
   }
 
-  handleClick () {
-    const { unsetIsEditing } = this.props
-    unsetIsEditing()
-    // guard
-    if (!this.hasNodes()) return
-    const { toggleExpanded, id } = this.props
-    toggleExpanded(id)
+  handleClick (event) {
+
+    // alt key to edit
+    if (event.altKey) {
+      this.startIsEditing()
+    }
+    // regular click to collapse or expand
+    else {
+      const { unsetIsEditing } = this.props
+      unsetIsEditing()
+      // guard
+      if (!this.hasNodes()) return
+      const { toggleExpanded, id } = this.props
+      toggleExpanded(id)
+    }
   }
 
   handleClickAdd () {
     const { id, setIsEditing } = this.props
     setIsEditing(id, 'add')
-  }
-
-  handleDoubleClick (event) {
-    event.preventDefault()
-    this.startIsEditing()
   }
 
   handleClickEdit () {
