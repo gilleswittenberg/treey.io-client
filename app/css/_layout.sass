@@ -1,7 +1,8 @@
-$backgroundGradient: radial-gradient(ellipse at 50% 20%, $white 0%, #a8e7ff 98%)
+$blue: #a8e7ff
+$backgroundGradient: radial-gradient(ellipse at 50% 20%, lighten($blue, 16%) 0%, $blue 98%)
 
 html, body
-  height: 100%
+  min-height: 100%
 
 body
   background: $backgroundGradient
@@ -9,3 +10,6 @@ body
 .wrap
   max-width: 480px
   margin: 0 auto
+
+.tree
+  margin-bottom: 120px
