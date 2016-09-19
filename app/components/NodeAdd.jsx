@@ -23,7 +23,6 @@ class AddForm extends Component {
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-
   }
 
   handleClick () {
@@ -38,11 +37,12 @@ class AddForm extends Component {
 
   handleSubmit (event) {
     event.preventDefault()
-    const { parent, postNode, unsetIsEditing } = this.props
+    const { parent, postNode, unsetIsEditing, expand } = this.props
     const { title } = this.state
     const data = { title }
     postNode(parent, data)
     unsetIsEditing()
+    expand(parent)
 
     this.setState({ title: '' })
   }
