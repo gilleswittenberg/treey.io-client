@@ -12,6 +12,7 @@ class Nodes extends Component {
     ui: PropTypes.object.isRequired,
     setIsEditing: PropTypes.func.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
+    toggleExpanded: PropTypes.func.isRequired,
     postNode: PropTypes.func.isRequired,
     putNode: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired
@@ -25,6 +26,7 @@ class Nodes extends Component {
       ui,
       setIsEditing,
       unsetIsEditing,
+      toggleExpanded,
       postNode,
       putNode,
       deleteNode,
@@ -47,6 +49,7 @@ class Nodes extends Component {
               isEditing={ isEditing(ui, node._id) }
               setIsEditing={ setIsEditing }
               unsetIsEditing={ unsetIsEditing }
+              toggleExpanded={ toggleExpanded }
               postNode={ postNode }
               putNode={ putNode }
               deleteNode={ deleteNode }

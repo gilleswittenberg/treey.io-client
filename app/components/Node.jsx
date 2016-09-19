@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import Nodes from '../components/Nodes'
 import { DragSource, DropTarget } from 'react-dnd'
-import { isEditing as isEditingFunc } from '../reducers/ui'
+import { isEditing as isEditingFunc, isExpanded as isExpandedFunc } from '../reducers/ui'
 
 function getOverMousePosition (monitor, element) {
   const height = 34 // 32 height + 2 margin
@@ -85,7 +85,6 @@ class Node extends Component {
   }
 
   state = {
-    isExpanded: false,
     isDragging: false
   }
 
@@ -113,7 +112,8 @@ class Node extends Component {
     unsetIsEditing()
     // guard
     if (!this.hasNodes()) return
-    this.setState({ isExpanded: !this.state.isExpanded })
+    const { toggleExpanded, id } = this.props
+    toggleExpanded(id)
   }
 
   handleClickAdd () {
@@ -165,6 +165,7 @@ class Node extends Component {
       ui,
       setIsEditing,
       unsetIsEditing,
+      toggleExpanded,
       isEditing,
       postNode,
       putNode,
@@ -178,9 +179,9 @@ class Node extends Component {
     } = this.props
     const {
       title: value,
-      isExpanded,
       isOverPosition
     } = this.state
+    const isExpanded = isExpandedFunc(ui, id)
     const isOverOther = isOver && isOverItemId !== id
 
     const className = classNames(
@@ -269,6 +270,7 @@ class Node extends Component {
           ui={ ui }
           setIsEditing={ setIsEditing }
           unsetIsEditing={ unsetIsEditing }
+          toggleExpanded={ toggleExpanded }
           deleteNode={ deleteNode }
           postNode={ postNode }
           putNode={ putNode }
@@ -288,6 +290,7 @@ export default connect((state, props) => ({
   isEditing: props.isEditing,
   setIsEditing: props.setIsEditing,
   unsetIsEditing: props.unsetIsEditing,
+  toggleExpanded: props.toggleExpanded,
   postNode: props.postNode,
   putNode: props.putNode,
   deleteNode: props.deleteNode,
