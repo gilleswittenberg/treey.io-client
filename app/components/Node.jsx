@@ -183,13 +183,15 @@ class Node extends Component {
       isOverPosition
     } = this.state
     const isExpanded = isExpandedFunc(ui, id)
+    const hasChildren = nodes.length > 0
+    const isAdding = isEditingFunc(ui, id, 'add')
     const isOverOther = isOver && isOverItemId !== id
 
     const className = classNames(
       'node',
       {
         '-is-editing': isEditing,
-        '-is-expanded': isExpanded || isEditingFunc(ui, id, 'add'),
+        '-is-expanded': (isExpanded && hasChildren) || isAdding,
         '-is-dragging': isDragging
       }
     )

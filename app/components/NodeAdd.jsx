@@ -25,6 +25,12 @@ class AddForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  componentWillUpdate (nextProps) {
+    if (nextProps.isEditing === true && this.props.isEditing === false) {
+      this.setState({ title: '' })
+    }
+  }
+
   handleClick () {
     const { parent, setIsEditing } = this.props
     this.setState({ title: '' })
