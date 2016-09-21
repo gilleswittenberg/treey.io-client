@@ -32,8 +32,7 @@ class App extends React.Component {
   }
 
   handleKeyPress (event) {
-    switch (event.key) {
-    case 'Escape':
+    if (event.keyCode === 27) { // esc 
       uiActionsBound.unsetIsEditing()
     }
   }
