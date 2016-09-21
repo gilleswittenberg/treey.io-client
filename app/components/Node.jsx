@@ -215,6 +215,8 @@ class Node extends Component {
     const showOverTop = isOverOther && isOverPosition === 'top'
     const showOverBottom = isOverOther && isOverPosition === 'bottom'
 
+    const contentIsURL = title.match(/^https?:\/\//)
+
     return (
       <div ref={ c => this.element = c }>
 
@@ -243,7 +245,8 @@ class Node extends Component {
                   }
                 </div>
                 <div className="node-content" onClick={ this.handleClick } onDoubleClick={ this.handleDoubleClick }>
-                  <span>{ title }</span>
+                  { contentIsURL && <span><a href={ title }>{ title }</a></span> }
+                  { !contentIsURL && <span>{ title }</span> }
                 </div>
               </div>
             }
