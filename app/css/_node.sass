@@ -52,6 +52,15 @@
     display: block
 
     span
-      padding-top: 10px
-      padding-left: 14px
+      padding: 10px 14px 0
       display: inline-block
+      box-sizing: border-box
+      width: 100%
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+
+      a
+        text-decoration: none
+        &:hover
+          text-decoration: underline
