@@ -1,5 +1,8 @@
 .tree li li
-  transform: translateX($indent)
+  @include small
+    margin-left: $indent
+  @include large
+    transform: translateX($indent)
 
 .node + ul
   display: none

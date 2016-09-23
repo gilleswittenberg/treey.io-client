@@ -12,6 +12,10 @@ body
   background-image: $backgroundGradient
 
 .wrap
-  max-width: 480px
-  margin: 0 auto
+  max-width: $width - 6 * $indent
   padding-bottom: 120px
+  @include small
+    padding-left: $indent
+    padding-right: $indent
+  @include large
+    margin: 0 auto
