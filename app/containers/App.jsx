@@ -12,9 +12,9 @@ let uiActionsBound
 let nodesActionsBound
 
 import { DragDropContext } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
+import { default as TouchBackend } from 'react-dnd-touch-backend'
 
-@DragDropContext(HTML5Backend)
+@DragDropContext(TouchBackend)
 class App extends React.Component {
 
   static propTypes = {
@@ -32,7 +32,7 @@ class App extends React.Component {
   }
 
   handleKeyPress (event) {
-    if (event.keyCode === 27) { // esc 
+    if (event.keyCode === 27) { // esc
       uiActionsBound.unsetIsEditing()
     }
   }
