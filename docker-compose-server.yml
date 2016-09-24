@@ -7,11 +7,11 @@ services:
     environment:
       NODE_ENV: development
     ports:
-      - "8081:8081"
+      - '8081:8081'
   mongo:
     image: mongo:2
     volumes:
       - ./docker-compose/mongo/data/db:/data/db
       - ./docker-compose/mongo/data/configdb:/data/configdb
     ports:
-      - "27017:27017"
+      - '27017:27017'

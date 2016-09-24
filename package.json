@@ -8,8 +8,9 @@
     "eslint": "node_modules/.bin/eslint app/**/*.js*",
     "build": "webpack",
     "dev": "webpack-dev-server",
-    "dev-server": "docker-compose -f server.yml up",
-    "test": "jest"
+    "dev-server": "docker-compose -f docker-compose-server.yml up",
+    "test": "jest",
+    "start": "NODE_ENV=production node_modules/http-server/bin/http-server -p 80 build"
   },
   "author": "Gilles Wittenberg",
   "devDependencies": {
@@ -40,6 +41,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
+    "http-server": "^0.9.0",
     "immutable": "^3.8.1",
     "react": "^15.3.1",
     "react-dnd": "^2.1.4",
