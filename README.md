@@ -1,4 +1,4 @@
-# yeeyey.com client
+# kee.plus client
 
 ## Links
 - http://survivejs.com/webpack/

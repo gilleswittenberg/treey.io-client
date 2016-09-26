@@ -1,4 +1,4 @@
-# yeeyey.com server
+# kee.plus client
 
 # Node base image
 FROM node:6
