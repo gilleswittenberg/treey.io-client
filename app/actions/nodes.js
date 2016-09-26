@@ -1,6 +1,6 @@
 import 'whatwg-fetch'
 
-const host = PRODUCTION ? 'http://52.28.178.235:8081' : 'http://localhost:8081'
+const host = PRODUCTION ? 'http://52.57.26.244:8081' : 'http://localhost:8081'
 const rootId = '57bedc40e81b0620300d769a'
 
 export const START_SYNCING = 'START_SYNCING'
