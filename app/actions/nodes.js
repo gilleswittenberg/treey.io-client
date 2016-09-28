@@ -47,18 +47,17 @@ export function getNodes () {
     }
     fetch(url, options)
       .then(
-        response => {
-          dispatch(stopSyncing())
-          return response
-        },
-        () => {
-          dispatch(stopSyncing())
-          dispatch(hasErrors())
-          throw 'hasErrors'
-        }
+        response => response.json(),
+        () => { throw 'hasErrors' }
       )
-      .then(response => response.json())
-      .then(json => dispatch(indexNodes(json)))
+      .then(json => {
+        dispatch(stopSyncing())
+        dispatch(indexNodes(json))
+      })
+      .catch(() => {
+        dispatch(stopSyncing())
+        dispatch(hasErrors())
+      })
   }
 }
 
@@ -88,18 +87,17 @@ export function postNode (parent, data) {
     }
     fetch(url, options)
       .then(
-        response => {
-          dispatch(stopSyncing())
-          return response
-        },
-        () => {
-          dispatch(stopSyncing())
-          dispatch(hasErrors())
-          throw 'hasErrors'
-        }
+        response => response.json(),
+        () => { throw 'hasErrors'}
       )
-      .then(response => response.json())
-      .then(json => dispatch(addNode(parent, json)))
+      .then(json => {
+        dispatch(stopSyncing())
+        dispatch(addNode(parent, json))
+      })
+      .catch(() => {
+        dispatch(stopSyncing())
+        dispatch(hasErrors())
+      })
   }
 }
 
@@ -129,18 +127,17 @@ export function putNode (id, data) {
     }
     fetch(url, options)
       .then(
-        response => {
-          dispatch(stopSyncing())
-          return response
-        },
-        () => {
-          dispatch(stopSyncing())
-          dispatch(hasErrors())
-          throw 'hasErrors'
-        }
+        response => response.json(),
+        () => { throw 'hasErrors' }
       )
-      .then(response => response.json())
-      .then(json => dispatch(updateNode(id, json)))
+      .then(json => {
+        dispatch(stopSyncing())
+        dispatch(updateNode(id, json))
+      })
+      .catch(() => {
+        dispatch(stopSyncing())
+        dispatch(hasErrors())
+      })
   }
 }
 
@@ -168,16 +165,15 @@ export function deleteNode (parent, id) {
     }
     fetch(url, options)
       .then(
-        () => dispatch(stopSyncing()),
+        () => {
+          dispatch(stopSyncing())
+          dispatch(removeNode(parent, id))
+        },
         () => {
           dispatch(stopSyncing())
           dispatch(hasErrors())
-          throw 'hasErrors'
         }
       )
-      .then(() => {
-        dispatch(removeNode(parent, id))
-      })
   }
 }
 
@@ -213,10 +209,7 @@ export function moveNode (parent, id, newParent, before) {
         () => {
           dispatch(stopSyncing())
           dispatch(hasErrors())
-          throw 'hasErrors'
         }
       )
-      .then(() => {
-      })
   }
 }
