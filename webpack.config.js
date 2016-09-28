@@ -67,7 +67,11 @@ const common = {
     new HtmlWebpackPlugin({
       template: 'app/index.html'
     }),
-    new webpack.DefinePlugin({ PRODUCTION: process.env.NODE_ENV === 'production' }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+      }
+    }),
     new webpack.NoErrorsPlugin()
   ],
   // Important! Do not remove ''. If you do, imports without
