@@ -50,6 +50,7 @@ const DropSpec = {
 
 @DragSource(DnDType, DragSpec, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
+  connectDragPreview: connect.dragPreview(),
   isDragging: monitor.isDragging()
 }))
 @DropTarget(DnDType, DropSpec, (connect, monitor) => ({
@@ -77,6 +78,7 @@ class Node extends Component {
     // Injected by React DnD DragSource
     connectDragSource: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
+    connectDragPreview: React.PropTypes.func.isRequired,
     // Injected by React DnD DropTarget
     connectDropTarget: PropTypes.func.isRequired,
     isOver: PropTypes.bool.isRequired,
