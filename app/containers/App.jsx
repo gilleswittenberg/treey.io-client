@@ -17,7 +17,7 @@ import { default as TouchBackend } from 'react-dnd-touch-backend'
 import CustomDragLayer from '../components/CustomDragLayer'
 
 const touch = 'ontouchstart' in window || 'onmsgesturechange' in window
-const touchBackendOptions = { delayTouchStart: 0.2 }
+const touchBackendOptions = { delayTouchStart: 0.5 }
 const backend = touch ? TouchBackend(touchBackendOptions) : HTML5Backend
 @DragDropContext(backend)
 class App extends React.Component {
