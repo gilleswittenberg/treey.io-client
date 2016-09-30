@@ -6,6 +6,14 @@
     <title>kee.plus</title>
   </head>
   <body>
+    <script>
+      (function () {
+        var touch = 'ontouchstart' in window || 'onmsgesturechange' in window
+        var className = touch ? 'touch' : 'no-touch'
+        var htmlElem = document.querySelector('html')
+        htmlElem.classList.add(className)
+      }())
+    </script>
     <div id="root"></div>
   </body>
 </html>
