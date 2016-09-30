@@ -266,7 +266,11 @@ class Node extends Component {
                     </button>
                   </div>
                   <div className="input-wrap">
-                    <input ref={ input => { if (input) input.focus() } } value={ value } onChange={ this.handleChange }></input>
+                    <input
+                      ref={ input => { if (input) input.focus() } }
+                      value={ value }
+                      onChange={ this.handleChange }
+                      />
                   </div>
                 </form>
               </div>

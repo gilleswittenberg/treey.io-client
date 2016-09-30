@@ -86,7 +86,12 @@ class AddForm extends Component {
                 </button>
               </div>
               <div className="input-wrap">
-                <input ref={ input => { if (input) input.focus() } } onChange={ this.handleChange } value={ value }></input>
+                <input
+                  ref={ input => { if (input) input.focus() } }
+                  onChange={ this.handleChange }
+                  value={ value }
+                  autoCapitalize="off"
+                  />
               </div>
             </form>
           </div>
