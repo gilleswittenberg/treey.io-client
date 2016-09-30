@@ -270,7 +270,7 @@ class Node extends Component {
                       ref={ input => { if (input) input.focus() } }
                       value={ value }
                       onChange={ this.handleChange }
-                      />
+                    />
                   </div>
                 </form>
               </div>

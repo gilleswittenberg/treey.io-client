@@ -91,7 +91,7 @@ class AddForm extends Component {
                   onChange={ this.handleChange }
                   value={ value }
                   autoCapitalize="off"
-                  />
+                />
               </div>
             </form>
           </div>
