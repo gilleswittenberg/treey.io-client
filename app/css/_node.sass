@@ -33,6 +33,7 @@
     + ul
       display: none
 
+  &.-has-buttons-shown,
   html.no-touch &
     &:hover
       .node-buttons-default-hidden
@@ -52,6 +53,22 @@
   .node-buttons-default-hidden
     display: none
 
+  .node-button-show-buttons
+    display: none
+    html.touch &
+      display: block
+    width: 20px
+    float: right
+    background: none
+    margin-top: 9px
+    margin-right: 4px
+    i
+      font-size: 16px
+
+  &.-has-buttons-shown
+    .node-button-show-buttons
+      display: none !important
+
   .node-content
     @extend .node-base-hover
     width: auto
@@ -62,6 +79,8 @@
       display: inline-block
       box-sizing: border-box
       width: 100%
+      html.touch &
+        width: calc(100% - 28px) // compensate show-buttons-button
       white-space: nowrap
       overflow: hidden
       text-overflow: ellipsis

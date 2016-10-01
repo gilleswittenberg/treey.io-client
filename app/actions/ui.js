@@ -23,6 +23,23 @@ export function unsetIsEditing () {
   }
 }
 
+export const SET_SHOW_BUTTONS = 'SET_SHOW_BUTTONS'
+export function setShowButtons (id) {
+  return {
+    type: SET_SHOW_BUTTONS,
+    data: {
+      id
+    }
+  }
+}
+
+export const UNSET_SHOW_BUTTONS = 'UNSET_SHOW_BUTTONS'
+export function unsetShowButtons () {
+  return {
+    type: UNSET_SHOW_BUTTONS
+  }
+}
+
 export function toggleExpanded (id) {
   return (dispatch, getState) => {
     const action = getState().ui.expanded.includes(id) ? collapse : expand

@@ -3,7 +3,11 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import Nodes from '../components/Nodes'
 import { DragSource, DropTarget } from 'react-dnd'
-import { isEditing as isEditingFunc, isExpanded as isExpandedFunc } from '../reducers/ui'
+import {
+  isEditing as isEditingFunc,
+  hasButtonsShown as hasButtonsShownFunc,
+  isExpanded as isExpandedFunc
+} from '../reducers/ui'
 
 function getOverMousePosition (monitor, element) {
   const height = 34 // 32 height + 2 margin
@@ -71,6 +75,7 @@ class Node extends Component {
     isEditing: PropTypes.bool.isRequired,
     setIsEditing: PropTypes.func.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
+    setShowButtons: PropTypes.func.isRequired,
     postNode: PropTypes.func.isRequired,
     putNode: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired,
@@ -101,6 +106,7 @@ class Node extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleClickDelete = this.handleClickDelete.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleClickShowButtons = this.handleClickShowButtons.bind(this)
   }
 
   hasNodes () {
@@ -159,6 +165,12 @@ class Node extends Component {
     deleteNode(parent, id)
   }
 
+  handleClickShowButtons (event) {
+    event.stopPropagation()
+    const { id, setShowButtons } = this.props
+    setShowButtons(id)
+  }
+
   render () {
 
     const {
@@ -169,6 +181,7 @@ class Node extends Component {
       ui,
       setIsEditing,
       unsetIsEditing,
+      setShowButtons,
       toggleExpanded,
       expand,
       isEditing,
@@ -187,6 +200,7 @@ class Node extends Component {
       isOverPosition
     } = this.state
     const isExpanded = isExpandedFunc(ui, id)
+    const hasButtonsShown = hasButtonsShownFunc(ui, id)
     const hasChildren = nodes.length > 0
     const isAdding = isEditingFunc(ui, id, 'add')
     const isOverOther = isOver && isOverItemId !== id
@@ -196,7 +210,8 @@ class Node extends Component {
       {
         '-is-editing': isEditing,
         '-is-expanded': (isExpanded && hasChildren) || isAdding,
-        '-is-dragging': isDragging
+        '-is-dragging': isDragging,
+        '-has-buttons-shown': hasButtonsShown
       }
     )
 
@@ -247,6 +262,9 @@ class Node extends Component {
                   }
                 </div>
                 <div className="node-content" onClick={ this.handleClick } onDoubleClick={ this.handleDoubleClick }>
+                  <button className="node-button-show-buttons" onClick={ this.handleClickShowButtons }>
+                    <i className="fa fa-ellipsis-v"></i>
+                  </button>
                   { contentIsURL && <span><a href={ title }>{ title }</a></span> }
                   { !contentIsURL && <span>{ title }</span> }
                 </div>
@@ -284,6 +302,7 @@ class Node extends Component {
           ui={ ui }
           setIsEditing={ setIsEditing }
           unsetIsEditing={ unsetIsEditing }
+          setShowButtons={ setShowButtons }
           toggleExpanded={ toggleExpanded }
           expand={ expand }
           deleteNode={ deleteNode }

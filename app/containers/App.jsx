@@ -2,12 +2,12 @@ import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import Nodes from '../components/Nodes'
-import { setIsEditing, unsetIsEditing, toggleExpanded, expand } from '../actions/ui'
+import { setIsEditing, unsetIsEditing, setShowButtons, toggleExpanded, expand } from '../actions/ui'
 import { postNode, putNode, deleteNode, moveNode } from '../actions/nodes'
 import classNames from 'classnames'
 
 let nodesActions = { postNode, putNode, deleteNode, moveNode }
-let uiActions = { setIsEditing, unsetIsEditing, toggleExpanded, expand }
+let uiActions = { setIsEditing, unsetIsEditing, setShowButtons, toggleExpanded, expand }
 let uiActionsBound
 let nodesActionsBound
 

@@ -6,6 +6,7 @@ const expandedKey = 'ui.expanded'
 
 const defaultState = {
   editing: null,
+  showButtons: null,
   expanded: []
 }
 
@@ -20,6 +21,10 @@ export default function nodes (state = defaultState, action) {
     return Object.assign({}, state, { editing: action.data.id })
   case types.UNSET_IS_EDITING:
     return Object.assign({}, state, { editing: null })
+  case types.SET_SHOW_BUTTONS:
+    return Object.assign({}, state, { showButtons: action.data.id })
+  case types.UNSET_SHOW_BUTTONS:
+    return Object.assign({}, state, { showButtons: null })
   case types.EXPAND:
     expanded = ImmutableArray.add(state.expanded, action.data.id)
     storage.set(expandedKey, expanded)
@@ -37,6 +42,11 @@ export default function nodes (state = defaultState, action) {
 export function isEditing (state, id, type) {
   const idString = type ? `${ id }.${ type }` : id
   return state.editing === idString
+}
+
+// @TODO: Move to seperate file
+export function hasButtonsShown (state, id) {
+  return state.showButtons === id
 }
 
 // @TODO: Move to seperate file
