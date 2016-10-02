@@ -73,8 +73,6 @@ class AddForm extends Component {
       { '-is-editing': isEditing }
     )
 
-    const buttonDisabled = this.state.value === ''
-
     return (
       <div className={ className }>
 
@@ -90,7 +88,7 @@ class AddForm extends Component {
           <div className="node-editing">
             <form onSubmit={ this.handleSubmit }>
               <div className="node-buttons">
-                <button disabled={ buttonDisabled }>
+                <button>
                   <i className="fa fa-floppy-o"></i>
                 </button>
               </div>
