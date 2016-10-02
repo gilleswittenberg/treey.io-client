@@ -78,7 +78,7 @@ class AddForm extends Component {
 
         { !isEditing &&
           <div className="node-body">
-            <button onClick={ this.handleClick }>
+            <button onClick={ this.handleClick } title="add">
               <i className="fa fa-plus-square-o"></i>
             </button>
           </div>
@@ -88,7 +88,7 @@ class AddForm extends Component {
           <div className="node-editing">
             <form onSubmit={ this.handleSubmit }>
               <div className="node-buttons">
-                <button>
+                <button title="save">
                   <i className="fa fa-floppy-o"></i>
                 </button>
               </div>

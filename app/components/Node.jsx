@@ -251,21 +251,21 @@ class Node extends Component {
               <div className="node-body">
                 <div className={ nodeButtonsClassName }>
                   { showAddButton &&
-                    <button onClick={ this.handleClickAdd }>
+                    <button onClick={ this.handleClickAdd } title="add">
                       <i className="fa fa-plus-square-o"></i>
                     </button>
                   }
-                  <button onClick={ this.handleClickEdit }>
+                  <button onClick={ this.handleClickEdit } title="edit">
                     <i className="fa fa-pencil-square-o"></i>
                   </button>
                   { showDeleteButton &&
-                    <button onClick={ this.handleClickDelete }>
+                    <button onClick={ this.handleClickDelete } title="delete">
                       <i className="fa fa-trash-o"></i>
                     </button>
                   }
                 </div>
                 <div className="node-content" onClick={ this.handleClick } onDoubleClick={ this.handleDoubleClick }>
-                  <button className="node-button-show-buttons" onClick={ this.handleClickShowButtons }>
+                  <button className="node-button-show-buttons" onClick={ this.handleClickShowButtons } title="more">
                     <i className="fa fa-ellipsis-v"></i>
                   </button>
                   { contentIsURL && <span><a href={ title }>{ title }</a></span> }
@@ -282,7 +282,7 @@ class Node extends Component {
               <div className="node-editing">
                 <form onSubmit={ this.handleSubmit }>
                   <div className="node-buttons">
-                    <button>
+                    <button title="save">
                       <i className="fa fa-floppy-o"></i>
                     </button>
                   </div>
