@@ -28,12 +28,12 @@ const DragSpec = {
 const DropSpec = {
 
   canDrop (props) {
-    return props.parent !== null
+    return !props.isRoot
   },
 
   hover (props, monitor, component) {
     // guard
-    if (props.parent === null) return
+    if (props.isRoot) return
     const overPosition = getOverMousePosition (monitor, component.element)
     component.setState({ isOverPosition: overPosition })
   },
@@ -67,6 +67,7 @@ class Node extends Component {
 
   static propTypes = {
     parent: PropTypes.string,
+    isRoot: PropTypes.bool.isRequired,
     id: PropTypes.string.isRequired,
     after: PropTypes.string,
     title: PropTypes.string.isRequired,
@@ -177,7 +178,7 @@ class Node extends Component {
   render () {
 
     const {
-      parent,
+      isRoot,
       id,
       title = '',
       nodes = [],
@@ -219,7 +220,7 @@ class Node extends Component {
     )
 
     const showAddButton = !this.hasNodes()
-    const showDeleteButton = parent !== null
+    const showDeleteButton = !isRoot
     let numButtons = 1
     if (showAddButton) numButtons++
     if (showDeleteButton) numButtons++
@@ -320,6 +321,7 @@ class Node extends Component {
 
 export default connect((state, props) => ({
   parent: props.parent,
+  isRoot: props.parent === null,
   id: props.id,
   title: props.title,
   nodes: props.nodes,

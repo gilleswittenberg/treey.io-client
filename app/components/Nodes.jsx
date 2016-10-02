@@ -8,6 +8,7 @@ class Nodes extends Component {
 
   static propTypes = {
     parent: PropTypes.string,
+    isRoot: PropTypes.bool.isRequired,
     nodes: PropTypes.array.isRequired,
     ui: PropTypes.object.isRequired,
     setIsEditing: PropTypes.func.isRequired,
@@ -24,6 +25,7 @@ class Nodes extends Component {
 
     const {
       parent,
+      isRoot,
       nodes = [],
       ui,
       setIsEditing,
@@ -36,7 +38,7 @@ class Nodes extends Component {
       deleteNode,
       moveNode
     } = this.props
-    const hasNodeAdd = parent !== null
+    const hasNodeAdd = !isRoot
 
     return (
       <ul>
@@ -84,6 +86,7 @@ class Nodes extends Component {
 
 export default connect((state, props) => ({
   parent: props.parent,
+  isRoot: props.parent === null,
   nodes: props.nodes,
   ui: props.ui,
   setIsEditing: props.setIsEditing,
