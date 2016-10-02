@@ -152,10 +152,12 @@ class Node extends Component {
 
   handleSubmit (event) {
     event.preventDefault()
-    const { id, title, putNode, unsetIsEditing } = this.props
+    const { parent, id, title, deleteNode, putNode, unsetIsEditing } = this.props
     const { title: newTitle } = this.state
     const newTitleTrimmed = newTitle.trim()
-    if (title !== newTitleTrimmed) {
+    if (newTitleTrimmed === '') {
+      deleteNode(parent, id)
+    } else if (title !== newTitleTrimmed) {
       putNode(id, { title: newTitleTrimmed })
     }
     unsetIsEditing()
