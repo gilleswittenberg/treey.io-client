@@ -54,8 +54,8 @@ const DropSpec = {
 
 @DragSource(DnDType, DragSpec, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
-  connectDragPreview: connect.dragPreview(),
-  isDragging: monitor.isDragging()
+  isDragging: monitor.isDragging(),
+  connectDragPreview: connect.dragPreview()
 }))
 @DropTarget(DnDType, DropSpec, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
