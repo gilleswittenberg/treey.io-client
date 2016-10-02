@@ -42,15 +42,24 @@ class AddForm extends Component {
   }
 
   handleSubmit (event) {
+
     event.preventDefault()
+
     const { parent, postNode, unsetIsEditing, expand } = this.props
     const { title } = this.state
-    const data = { title }
+    const titleTrimmed = title.trim()
+    this.setState({ title: '' })
+
+    // guard
+    if (titleTrimmed === '') {
+      unsetIsEditing()
+      return
+    }
+
+    const data = { title: titleTrimmed }
     postNode(parent, data)
     unsetIsEditing()
     expand(parent)
-
-    this.setState({ title: '' })
   }
 
   render () {

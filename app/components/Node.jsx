@@ -154,8 +154,9 @@ class Node extends Component {
     event.preventDefault()
     const { id, title, putNode, unsetIsEditing } = this.props
     const { title: newTitle } = this.state
-    if (title !== newTitle) {
-      putNode(id, { title: newTitle })
+    const newTitleTrimmed = newTitle.trim()
+    if (title !== newTitleTrimmed) {
+      putNode(id, { title: newTitleTrimmed })
     }
     unsetIsEditing()
   }
