@@ -13,7 +13,9 @@ body
 
 .wrap
   max-width: $width - 6 * $indent
-  padding-bottom: 120px
+  padding-bottom: $spacing-layout-vertical-small
+  @include large
+    padding-bottom: $spacing-layout-vertical-large
   @include small
     padding-left: $indent
     padding-right: $indent
