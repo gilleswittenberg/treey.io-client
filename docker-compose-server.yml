@@ -1,7 +1,7 @@
 version: '2'
 services:
   server:
-    image: yeeyey/server:development
+    image: gilleswittenberg/kee.plus-server:development
     depends_on:
       - mongo
     environment:
