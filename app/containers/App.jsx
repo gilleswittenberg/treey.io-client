@@ -12,13 +12,12 @@ let uiActionsBound
 let nodesActionsBound
 
 import { DragDropContext } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
 import { default as TouchBackend } from 'react-dnd-touch-backend'
 import CustomDragLayer from '../components/CustomDragLayer'
 
-const touch = 'ontouchstart' in window || 'onmsgesturechange' in window
-const touchBackendOptions = { delay: 0.3 }
-const backend = touch ? TouchBackend(touchBackendOptions) : HTML5Backend
+const touchBackendOptions = { enableMouseEvents: true, delayTouchStart: 400 }
+const backend = TouchBackend(touchBackendOptions)
+
 @DragDropContext(backend)
 class App extends React.Component {
 
@@ -70,9 +69,7 @@ class App extends React.Component {
             { ...nodesActionsBound }
           />
         }
-        { touch &&
           <CustomDragLayer></CustomDragLayer>
-        }
         </div>
       </div>
     )

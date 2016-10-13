@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
 import { DragLayer } from 'react-dnd'
 
 const layerStyles = {
@@ -33,7 +32,7 @@ function getItemStyles (props) {
   currentOffset: monitor.getSourceClientOffset(),
   isDragging: monitor.isDragging()
 }))
-class CustomDragLayer extends Component {
+export default class CustomDragLayer extends Component {
 
   static propTypes = {
     item: PropTypes.object,
@@ -68,5 +67,3 @@ class CustomDragLayer extends Component {
     )
   }
 }
-
-export default connect()(CustomDragLayer)
