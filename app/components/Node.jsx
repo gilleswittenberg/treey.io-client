@@ -22,6 +22,9 @@ const DragSpec = {
   beginDrag (props) {
     props.unsetIsEditing()
     return props
+  },
+  canDrag (props) {
+    return !props.isRoot
   }
 }
 
