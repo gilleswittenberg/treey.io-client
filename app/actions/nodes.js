@@ -48,15 +48,20 @@ export function getNodes () {
     }
     fetch(url, options)
       .then(
-        response => response.json(),
-        () => { throw 'hasErrors' }
+        response => {
+          dispatch(stopSyncing())
+          if (response.ok === false) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        },
+        response => {
+          dispatch(stopSyncing())
+          throw new Error(response)
+        }
       )
-      .then(json => {
-        dispatch(stopSyncing())
-        dispatch(indexNodes(json))
-      })
+      .then(json => dispatch(indexNodes(json)))
       .catch(() => {
-        dispatch(stopSyncing())
         dispatch(hasErrors())
       })
   }
@@ -88,17 +93,20 @@ export function postNode (parent, data) {
     }
     fetch(url, options)
       .then(
-        response => response.json(),
-        () => { throw 'hasErrors'}
+        response => {
+          dispatch(stopSyncing())
+          if (response.ok === false) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        },
+        response => {
+          dispatch(stopSyncing())
+          throw new Error(response)
+        }
       )
-      .then(json => {
-        dispatch(stopSyncing())
-        dispatch(addNode(parent, json))
-      })
-      .catch(() => {
-        dispatch(stopSyncing())
-        dispatch(hasErrors())
-      })
+      .then(json => dispatch(addNode(parent, json)))
+      .catch(() => dispatch(hasErrors()))
   }
 }
 
@@ -128,17 +136,20 @@ export function putNode (id, data) {
     }
     fetch(url, options)
       .then(
-        response => response.json(),
-        () => { throw 'hasErrors' }
+        response => {
+          dispatch(stopSyncing())
+          if (response.ok === false) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        },
+        response => {
+          dispatch(stopSyncing())
+          throw new Error(response)
+        }
       )
-      .then(json => {
-        dispatch(stopSyncing())
-        dispatch(updateNode(id, json))
-      })
-      .catch(() => {
-        dispatch(stopSyncing())
-        dispatch(hasErrors())
-      })
+      .then(json => dispatch(updateNode(id, json)))
+      .catch(() => dispatch(hasErrors()))
   }
 }
 
@@ -166,15 +177,20 @@ export function deleteNode (parent, id) {
     }
     fetch(url, options)
       .then(
-        () => {
+        response => {
           dispatch(stopSyncing())
-          dispatch(removeNode(parent, id))
+          if (response.ok === false) {
+            throw new Error(response.statusText)
+          } else {
+            dispatch(removeNode(parent, id))
+          }
         },
-        () => {
+        response => {
           dispatch(stopSyncing())
-          dispatch(hasErrors())
+          throw new Error(response)
         }
       )
+      .catch(() => dispatch(hasErrors()))
   }
 }
 
@@ -206,11 +222,17 @@ export function moveNode (parent, id, newParent, before) {
     }
     fetch(url, options)
       .then(
-        () => dispatch(stopSyncing()),
-        () => {
+        response => {
           dispatch(stopSyncing())
-          dispatch(hasErrors())
+          if (response.ok === false) {
+            throw new Error(response.statusText)
+          }
+        },
+        response => {
+          dispatch(stopSyncing())
+          throw new Error(response)
         }
       )
+      .catch(() => dispatch(hasErrors()))
   }
 }
