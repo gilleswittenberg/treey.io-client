@@ -194,10 +194,10 @@ export function deleteNode (parent, id) {
   }
 }
 
-export const MOVE_NODE_2 = 'MOVE_NODE_2'
-export function moveNode2 (parent, id, newParent, before) {
+export const MOVE_NODE = 'MOVE_NODE'
+export function moveNode (parent, id, newParent, before) {
   return {
-    type: MOVE_NODE_2,
+    type: MOVE_NODE,
     data: {
       parent,
       id,
@@ -207,11 +207,11 @@ export function moveNode2 (parent, id, newParent, before) {
   }
 }
 
-export const MOVE_NODE = 'MOVE_NODE'
-export function moveNode (parent, id, newParent, before) {
+export const PUT_MOVE_NODE = 'PUT_MOVE_NODE'
+export function putMoveNode (parent, id, newParent, before) {
   return function (dispatch) {
     dispatch(startSyncing())
-    dispatch(moveNode2(parent, id, newParent, before))
+    dispatch(moveNode(parent, id, newParent, before))
     before = before || ''
     const url = `${ host }/node/move/${ parent }/${ id }/${ newParent }/${ before }`
     const options = {

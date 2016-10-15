@@ -27,7 +27,7 @@ export default function nodes (state = defaultState, action) {
   case types.REMOVE_NODE:
     tree = Tree.removeChild(state.tree, action.data.parent, action.data.id)
     return Object.assign({}, state, { tree })
-  case types.MOVE_NODE_2:
+  case types.MOVE_NODE:
     tree = Tree.move(state.tree, action.data.parent, action.data.id, action.data.newParent, action.data.before)
     return Object.assign({}, state, { tree })
   default:

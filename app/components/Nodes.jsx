@@ -36,7 +36,7 @@ class Nodes extends Component {
       postNode,
       putNode,
       deleteNode,
-      moveNode
+      putMoveNode
     } = this.props
     const hasNodeAdd = !isRoot
 
@@ -61,7 +61,7 @@ class Nodes extends Component {
               postNode={ postNode }
               putNode={ putNode }
               deleteNode={ deleteNode }
-              moveNode={ moveNode }
+              putMoveNode={ putMoveNode }
             />
           </li>
         ) }
@@ -96,5 +96,5 @@ export default connect((state, props) => ({
   postNode: props.postNode,
   putNode: props.putNode,
   deleteNode: props.deleteNode,
-  moveNode: props.moveNode
+  putMoveNode: props.putMoveNode
 }))(Nodes)

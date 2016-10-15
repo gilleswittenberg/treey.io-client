@@ -42,16 +42,13 @@ const DropSpec = {
   },
 
   drop (props, monitor, component) {
-
-    const parent = monitor.getItem().parent
-    const id = monitor.getItem().id
-    const newParent = props.parent
-
-    const overPosition = getOverMousePosition (monitor, component.element)
+    const item = monitor.getItem()
+    const { parent, id } = item
+    const { newParent } = props
+    const overPosition = getOverMousePosition(monitor, component.element)
     const before = overPosition === 'top' ? props.id : props.after
-    const moveNode = monitor.getItem().moveNode
-
-    moveNode(parent, id, newParent, before)
+    const { putMoveNode } = item
+    putMoveNode(parent, id, newParent, before)
   }
 }
 
@@ -83,7 +80,7 @@ class Node extends Component {
     postNode: PropTypes.func.isRequired,
     putNode: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired,
-    moveNode: PropTypes.func.isRequired,
+    putMoveNode: PropTypes.func.isRequired,
     // Injected by React DnD DragSource
     connectDragSource: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
@@ -195,7 +192,7 @@ class Node extends Component {
       postNode,
       putNode,
       deleteNode,
-      moveNode,
+      putMoveNode,
       connectDragSource,
       isDragging,
       connectDropTarget,
@@ -239,6 +236,7 @@ class Node extends Component {
     const showOverTop = isOverOther && isOverPosition === 'top'
     const showOverBottom = isOverOther && isOverPosition === 'bottom'
 
+    // @TODO: extract to isURL method
     const contentIsURL = title.match(/^https?:\/\//)
 
     return (
@@ -315,7 +313,7 @@ class Node extends Component {
           deleteNode={ deleteNode }
           postNode={ postNode }
           putNode={ putNode }
-          moveNode={ moveNode }
+          putMoveNode={ putMoveNode }
         />
       </div>
     )
@@ -336,5 +334,5 @@ export default connect((state, props) => ({
   postNode: props.postNode,
   putNode: props.putNode,
   deleteNode: props.deleteNode,
-  moveNode: props.moveNode
+  putMoveNode: props.putMoveNode
 }))(Node)
