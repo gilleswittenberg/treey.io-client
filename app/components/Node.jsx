@@ -35,18 +35,26 @@ const DropSpec = {
   },
 
   hover (props, monitor, component) {
-    // guard
+
+    // guard: do not allow dropping as sibling of root
     if (props.isRoot) return
+
     const overPosition = getOverMousePosition (monitor, component.element)
     component.setState({ isOverPosition: overPosition })
   },
 
   drop (props, monitor, component) {
+
     const item = monitor.getItem()
     const { parent, id } = item
-    const { newParent } = props
+    const { parent: newParent } = props
     const overPosition = getOverMousePosition(monitor, component.element)
     const before = overPosition === 'top' ? props.id : props.after
+
+    // guard: do not save when node is dropped on original location
+    if (before === item.after) return
+
+    // save
     const { putMoveNode } = item
     putMoveNode(parent, id, newParent, before)
   }
