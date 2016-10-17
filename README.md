@@ -1,5 +1,13 @@
-# kee.plus client
+# documentation
 
-## Links
-- http://survivejs.com/webpack/
-- http://survivejs.com/react/
+## links
+- [survivejs.com/webpack/](http://survivejs.com/webpack/)
+- [survivejs.com/react/](http://survivejs.com/react/)
+
+## installation
+- `git clone https://github.com/gilleswittenberg/kee.plus-client.git`
+- `npm install`
+- `npm test`
+- `npm run dev-server`
+- `npm run dev`
+- open [localhost:8080](http://localhost:8080) in your browser
