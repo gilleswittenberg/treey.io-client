@@ -1,6 +1,3 @@
-jest.unmock('../app/lib/ImmutableArray')
-jest.unmock('immutable')
-
 import ImmutableArray from '../app/lib/ImmutableArray'
 
 describe('ImmutableArray', () => {

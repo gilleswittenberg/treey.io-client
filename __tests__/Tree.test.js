@@ -1,6 +1,3 @@
-jest.unmock('../app/lib/Tree')
-jest.unmock('immutable')
-
 import tree from '../app/lib/Tree'
 
 describe('Tree', () => {
