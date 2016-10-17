@@ -3,6 +3,10 @@
   "private": true,
   "version": "0.0.1",
   "description": "",
+  "engine": {
+    "node": "^6.8.1",
+    "npm": "^3.10.8"
+  },
   "main": "index.js",
   "scripts": {
     "eslint": "node_modules/.bin/eslint app/**/*.js*",
