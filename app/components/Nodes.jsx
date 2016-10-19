@@ -44,15 +44,15 @@ class Nodes extends Component {
       <ul>
 
         { nodes.map((node, index) =>
-          <li key={ node._id }>
+          <li key={ node.uid }>
             <Node
               parent={ parent }
-              id={ node._id }
-              after={ nodes[index + 1] ? nodes[index + 1]._id : null }
+              uid={ node.uid }
+              after={ nodes[index + 1] ? nodes[index + 1].uid : null }
               title={ node.title }
               nodes={ node.nodes }
               ui={ ui }
-              isEditing={ isEditing(ui, node._id) }
+              isEditing={ isEditing(ui, node.uid) }
               setIsEditing={ setIsEditing }
               unsetIsEditing={ unsetIsEditing }
               setShowButtons={ setShowButtons }

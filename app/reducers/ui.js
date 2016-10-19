@@ -18,19 +18,19 @@ export default function nodes (state = defaultState, action) {
     expanded = Array.isArray(expanded) ? expanded : []
     return Object.assign({}, state, { expanded })
   case types.SET_IS_EDITING:
-    return Object.assign({}, state, { editing: action.data.id })
+    return Object.assign({}, state, { editing: action.data.uid })
   case types.UNSET_IS_EDITING:
     return Object.assign({}, state, { editing: null })
   case types.SET_SHOW_BUTTONS:
-    return Object.assign({}, state, { showButtons: action.data.id })
+    return Object.assign({}, state, { showButtons: action.data.uid })
   case types.UNSET_SHOW_BUTTONS:
     return Object.assign({}, state, { showButtons: null })
   case types.EXPAND:
-    expanded = ImmutableArray.add(state.expanded, action.data.id)
+    expanded = ImmutableArray.add(state.expanded, action.data.uid)
     storage.set(expandedKey, expanded)
     return Object.assign({}, state, { expanded })
   case types.COLLAPSE:
-    expanded = ImmutableArray.remove(state.expanded, action.data.id)
+    expanded = ImmutableArray.remove(state.expanded, action.data.uid)
     storage.set(expandedKey, expanded)
     return Object.assign({}, state, { expanded })
   default:
@@ -39,17 +39,17 @@ export default function nodes (state = defaultState, action) {
 }
 
 // @TODO: Move to seperate file
-export function isEditing (state, id, type) {
-  const idString = type ? `${ id }.${ type }` : id
-  return state.editing === idString
+export function isEditing (state, uid, type) {
+  const uidString = type ? `${ uid }.${ type }` : uid
+  return state.editing === uidString
 }
 
 // @TODO: Move to seperate file
-export function hasButtonsShown (state, id) {
-  return state.showButtons === id
+export function hasButtonsShown (state, uid) {
+  return state.showButtons === uid
 }
 
 // @TODO: Move to seperate file
-export function isExpanded (state, id) {
-  return state.expanded.includes(id)
+export function isExpanded (state, uid) {
+  return state.expanded.includes(uid)
 }

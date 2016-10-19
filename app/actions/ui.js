@@ -6,12 +6,12 @@ export function init () {
 }
 
 export const SET_IS_EDITING = 'SET_IS_EDITING'
-export function setIsEditing (id, type) {
-  const idString = type ? `${ id }.${ type }` : id
+export function setIsEditing (uid, type) {
+  const uidString = type ? `${ uid }.${ type }` : uid
   return {
     type: SET_IS_EDITING,
     data: {
-      id: idString
+      uid: uidString
     }
   }
 }
@@ -24,11 +24,11 @@ export function unsetIsEditing () {
 }
 
 export const SET_SHOW_BUTTONS = 'SET_SHOW_BUTTONS'
-export function setShowButtons (id) {
+export function setShowButtons (uid) {
   return {
     type: SET_SHOW_BUTTONS,
     data: {
-      id
+      uid
     }
   }
 }
@@ -40,29 +40,29 @@ export function unsetShowButtons () {
   }
 }
 
-export function toggleExpanded (id) {
+export function toggleExpanded (uid) {
   return (dispatch, getState) => {
-    const action = getState().ui.expanded.includes(id) ? collapse : expand
-    dispatch(action(id))
+    const action = getState().ui.expanded.includes(uid) ? collapse : expand
+    dispatch(action(uid))
   }
 }
 
 export const EXPAND = 'EXPAND'
-export function expand (id) {
+export function expand (uid) {
   return {
     type: EXPAND,
     data: {
-      id
+      uid
     }
   }
 }
 
 export const COLLAPSE = 'COLLAPSE'
-export function collapse (id) {
+export function collapse (uid) {
   return {
     type: COLLAPSE,
     data: {
-      id
+      uid
     }
   }
 }

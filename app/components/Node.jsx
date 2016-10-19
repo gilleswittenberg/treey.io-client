@@ -46,17 +46,17 @@ const DropSpec = {
   drop (props, monitor, component) {
 
     const item = monitor.getItem()
-    const { parent, id } = item
+    const { parent, uid } = item
     const { parent: newParent } = props
     const overPosition = getOverMousePosition(monitor, component.element)
-    const before = overPosition === 'top' ? props.id : props.after
+    const before = overPosition === 'top' ? props.uid : props.after
 
     // guard: do not save when node is dropped on original location
     if (before === item.after) return
 
     // save
     const { putMoveNode } = item
-    putMoveNode(parent, id, newParent, before)
+    putMoveNode(parent, uid, newParent, before)
   }
 }
 
@@ -68,7 +68,7 @@ const DropSpec = {
 @DropTarget(DnDType, DropSpec, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver(),
-  isOverItemId: monitor.getItem() ? monitor.getItem().id : null,
+  isOverItemUid: monitor.getItem() ? monitor.getItem().uid : null,
   canDrop: monitor.canDrop()
 }))
 class Node extends Component {
@@ -76,7 +76,7 @@ class Node extends Component {
   static propTypes = {
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
-    id: PropTypes.string.isRequired,
+    uid: PropTypes.string.isRequired,
     after: PropTypes.string,
     title: PropTypes.string.isRequired,
     nodes: PropTypes.array,
@@ -96,7 +96,7 @@ class Node extends Component {
     // Injected by React DnD DropTarget
     connectDropTarget: PropTypes.func.isRequired,
     isOver: PropTypes.bool.isRequired,
-    isOverItemId: PropTypes.string,
+    isOverItemUid: PropTypes.string,
     canDrop: PropTypes.bool.isRequired
   }
 
@@ -135,14 +135,14 @@ class Node extends Component {
       unsetIsEditing()
       // guard
       if (!this.hasNodes()) return
-      const { toggleExpanded, id } = this.props
-      toggleExpanded(id)
+      const { toggleExpanded, uid } = this.props
+      toggleExpanded(uid)
     }
   }
 
   handleClickAdd () {
-    const { id, setIsEditing } = this.props
-    setIsEditing(id, 'add')
+    const { uid, setIsEditing } = this.props
+    setIsEditing(uid, 'add')
   }
 
   handleClickEdit () {
@@ -150,9 +150,9 @@ class Node extends Component {
   }
 
   startIsEditing () {
-    const { id, setIsEditing, title } = this.props
+    const { uid, setIsEditing, title } = this.props
     this.setState({ title })
-    setIsEditing(id)
+    setIsEditing(uid)
   }
 
   handleChange (event) {
@@ -161,33 +161,33 @@ class Node extends Component {
 
   handleSubmit (event) {
     event.preventDefault()
-    const { parent, id, title, deleteNode, putNode, unsetIsEditing } = this.props
+    const { parent, uid, title, deleteNode, putNode, unsetIsEditing } = this.props
     const { title: newTitle } = this.state
     const newTitleTrimmed = newTitle.trim()
     if (newTitleTrimmed === '') {
-      deleteNode(parent, id)
+      deleteNode(parent, uid)
     } else if (title !== newTitleTrimmed) {
-      putNode(id, { title: newTitleTrimmed })
+      putNode(uid, { title: newTitleTrimmed })
     }
     unsetIsEditing()
   }
 
   handleClickDelete () {
-    const { parent, id, deleteNode } = this.props
-    deleteNode(parent, id)
+    const { parent, uid, deleteNode } = this.props
+    deleteNode(parent, uid)
   }
 
   handleClickShowButtons (event) {
     event.stopPropagation()
-    const { id, setShowButtons } = this.props
-    setShowButtons(id)
+    const { uid, setShowButtons } = this.props
+    setShowButtons(uid)
   }
 
   render () {
 
     const {
       isRoot,
-      id,
+      uid,
       title = '',
       nodes = [],
       ui,
@@ -205,17 +205,17 @@ class Node extends Component {
       isDragging,
       connectDropTarget,
       isOver,
-      isOverItemId
+      isOverItemUid
     } = this.props
     const {
       title: value,
       isOverPosition
     } = this.state
-    const isExpanded = isExpandedFunc(ui, id)
-    const hasButtonsShown = hasButtonsShownFunc(ui, id)
+    const isExpanded = isExpandedFunc(ui, uid)
+    const hasButtonsShown = hasButtonsShownFunc(ui, uid)
     const hasChildren = nodes.length > 0
-    const isAdding = isEditingFunc(ui, id, 'add')
-    const isOverOther = isOver && isOverItemId !== id
+    const isAdding = isEditingFunc(ui, uid, 'add')
+    const isOverOther = isOver && isOverItemUid !== uid
 
     const className = classNames(
       'node',
@@ -310,7 +310,7 @@ class Node extends Component {
         )) }
 
         <Nodes
-          parent={ id }
+          parent={ uid }
           nodes={ nodes }
           ui={ ui }
           setIsEditing={ setIsEditing }
@@ -331,7 +331,7 @@ class Node extends Component {
 export default connect((state, props) => ({
   parent: props.parent,
   isRoot: props.parent === null,
-  id: props.id,
+  uid: props.uid,
   title: props.title,
   nodes: props.nodes,
   ui: props.ui,
