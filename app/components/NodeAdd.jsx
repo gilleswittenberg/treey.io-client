@@ -1,3 +1,5 @@
+/* @flow */
+
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
@@ -20,9 +22,11 @@ class AddForm extends Component {
 
     super(props)
 
-    this.handleClick = this.handleClick.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    // @LINK: https://github.com/facebook/flow/issues/1517
+    const self = (this: any)
+    self.handleClick = this.handleClick.bind(this)
+    self.handleChange = this.handleChange.bind(this)
+    self.handleSubmit = this.handleSubmit.bind(this)
   }
 
   componentWillUpdate (nextProps) {
@@ -107,9 +111,6 @@ class AddForm extends Component {
       </div>
     )
   }
-}
-
-Node.propTypes = {
 }
 
 export default connect((state, props) => ({

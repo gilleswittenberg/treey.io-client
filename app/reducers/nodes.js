@@ -1,13 +1,17 @@
+/* @flow */
+
 import * as types from '../actions/nodes'
 import Tree from '../lib/Tree'
 
-const defaultState = {
+import type { NodesState, NodesAction } from '../../flow/types'
+
+const defaultState: NodesState = {
   isSyncing: false,
   hasErrors: false,
   tree: null
 }
 
-export default function nodes (state = defaultState, action) {
+export default function nodes (state: NodesState = defaultState, action: NodesAction) {
   let tree
   switch (action.type) {
   case types.START_SYNCING:
@@ -19,16 +23,32 @@ export default function nodes (state = defaultState, action) {
   case types.INDEX_NODES:
     return Object.assign({}, state, action.data)
   case types.ADD_NODE:
-    tree = Tree.create(state.tree, action.data.parent, action.data.node)
+    if (state.tree) {
+      tree = Tree.create(state.tree, action.data.parent, action.data.node)
+    } else {
+      tree = state.tree
+    }
     return Object.assign({}, state, { tree })
   case types.UPDATE_NODE:
-    tree = Tree.update(state.tree, action.data.uid, action.data.node)
+    if (state.tree) {
+      tree = Tree.update(state.tree, action.data.uid, action.data.node)
+    } else {
+      tree = state.tree
+    }
     return Object.assign({}, state, { tree })
   case types.REMOVE_NODE:
-    tree = Tree.removeChild(state.tree, action.data.parent, action.data.uid)
+    if (state.tree) {
+      tree = Tree.removeChild(state.tree, action.data.parent, action.data.uid)
+    } else {
+      tree = state.tree
+    }
     return Object.assign({}, state, { tree })
   case types.MOVE_NODE:
-    tree = Tree.move(state.tree, action.data.parent, action.data.uid, action.data.newParent, action.data.before)
+    if (state.tree) {
+      tree = Tree.move(state.tree, action.data.parent, action.data.uid, action.data.newParent, action.data.before)
+    } else {
+      tree = state.tree
+    }
     return Object.assign({}, state, { tree })
   default:
     return state

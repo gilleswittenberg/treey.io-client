@@ -1,16 +1,20 @@
+/* @flow */
+
 import * as types from '../actions/ui'
 import ImmutableArray from '../lib/ImmutableArray'
 import Storage, { keys } from '../lib/Storage'
 
+import type { UIState, UIAction } from '../../flow/types'
+
 const expandedKey = keys[0]
 
-const defaultState = {
+const defaultState: UIState = {
   editing: null,
   showButtons: null,
   expanded: []
 }
 
-export default function nodes (state = defaultState, action) {
+export default function nodes (state: UIState = defaultState, action: UIAction) {
   let expanded
   switch (action.type) {
   case types.INIT:
@@ -39,17 +43,17 @@ export default function nodes (state = defaultState, action) {
 }
 
 // @TODO: Move to seperate file
-export function isEditing (state, uid, type) {
+export function isEditing (state: UIState, uid: string, type?: string) {
   const uidString = type ? `${ uid }.${ type }` : uid
   return state.editing === uidString
 }
 
 // @TODO: Move to seperate file
-export function hasButtonsShown (state, uid) {
+export function hasButtonsShown (state: UIState, uid: string) {
   return state.showButtons === uid
 }
 
 // @TODO: Move to seperate file
-export function isExpanded (state, uid) {
+export function isExpanded (state: UIState, uid: string) {
   return state.expanded.includes(uid)
 }

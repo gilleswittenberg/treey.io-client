@@ -1,3 +1,5 @@
+/* @flow */
+
 export const INIT = 'INIT'
 export function init () {
   return {
@@ -6,7 +8,7 @@ export function init () {
 }
 
 export const SET_IS_EDITING = 'SET_IS_EDITING'
-export function setIsEditing (uid, type) {
+export function setIsEditing (uid: string, type: string) {
   const uidString = type ? `${ uid }.${ type }` : uid
   return {
     type: SET_IS_EDITING,
@@ -24,7 +26,7 @@ export function unsetIsEditing () {
 }
 
 export const SET_SHOW_BUTTONS = 'SET_SHOW_BUTTONS'
-export function setShowButtons (uid) {
+export function setShowButtons (uid: string) {
   return {
     type: SET_SHOW_BUTTONS,
     data: {
@@ -40,15 +42,15 @@ export function unsetShowButtons () {
   }
 }
 
-export function toggleExpanded (uid) {
-  return (dispatch, getState) => {
+export function toggleExpanded (uid: string) {
+  return (dispatch: () => void, getState: () => any) => {
     const action = getState().ui.expanded.includes(uid) ? collapse : expand
     dispatch(action(uid))
   }
 }
 
 export const EXPAND = 'EXPAND'
-export function expand (uid) {
+export function expand (uid: string) {
   return {
     type: EXPAND,
     data: {
@@ -58,7 +60,7 @@ export function expand (uid) {
 }
 
 export const COLLAPSE = 'COLLAPSE'
-export function collapse (uid) {
+export function collapse (uid: string) {
   return {
     type: COLLAPSE,
     data: {

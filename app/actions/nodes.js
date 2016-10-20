@@ -1,4 +1,7 @@
+/* @flow */
+
 import 'whatwg-fetch'
+import type { Node, NodeData } from '../../flow/types'
 
 const hostname = window.location.hostname
 const host = process.env.NODE_ENV === 'production' ? 'http://api.kee.plus:8081' : `http://${ hostname }:8081`
@@ -26,7 +29,7 @@ export function hasErrors () {
 }
 
 export const INDEX_NODES = 'INDEX_NODES'
-export function indexNodes (tree) {
+export function indexNodes (tree: Node) {
   return {
     type: INDEX_NODES,
     data: {
@@ -37,7 +40,7 @@ export function indexNodes (tree) {
 
 export const GET_NODES = 'GET_NODES'
 export function getNodes () {
-  return function (dispatch) {
+  return function (dispatch: () => void) {
     dispatch(startSyncing())
     const url = `${ host }/node/${ rootUid }`
     const options = {
@@ -68,7 +71,7 @@ export function getNodes () {
 }
 
 export const ADD_NODE = 'ADD_NODE'
-export function addNode (parent, node) {
+export function addNode (parent: string, node: Node) {
   return {
     type: ADD_NODE,
     data: {
@@ -79,8 +82,8 @@ export function addNode (parent, node) {
 }
 
 export const POST_NODE = 'POST_NODE'
-export function postNode (parent, data) {
-  return function (dispatch) {
+export function postNode (parent: string, data: NodeData) {
+  return function (dispatch: () => void) {
     dispatch(startSyncing())
     const url = `${ host }/node/${ parent }`
     const options = {
@@ -111,7 +114,7 @@ export function postNode (parent, data) {
 }
 
 export const UPDATE_NODE = 'UPDATE_NODE'
-export function updateNode (uid, node) {
+export function updateNode (uid: string, node: Node) {
   return {
     type: UPDATE_NODE,
     data: {
@@ -122,8 +125,8 @@ export function updateNode (uid, node) {
 }
 
 export const PUT_NODE = 'PUT_NODE'
-export function putNode (uid, data) {
-  return function (dispatch) {
+export function putNode (uid: string, data: NodeData) {
+  return function (dispatch: () => void) {
     dispatch(startSyncing())
     const url = `${ host }/node/${ uid }`
     const options = {
@@ -154,7 +157,7 @@ export function putNode (uid, data) {
 }
 
 export const REMOVE_NODE = 'REMOVE_NODE'
-export function removeNode (parent, uid) {
+export function removeNode (parent: string, uid: string) {
   return {
     type: REMOVE_NODE,
     data: {
@@ -165,8 +168,8 @@ export function removeNode (parent, uid) {
 }
 
 export const DELETE_NODE = 'DELETE_NODE'
-export function deleteNode (parent, uid) {
-  return function (dispatch) {
+export function deleteNode (parent: string, uid: string) {
+  return function (dispatch: () => void) {
     dispatch(startSyncing())
     const url = `${ host }/node/${ parent }/${ uid }`
     const options = {
@@ -195,7 +198,7 @@ export function deleteNode (parent, uid) {
 }
 
 export const MOVE_NODE = 'MOVE_NODE'
-export function moveNode (parent, uid, newParent, before) {
+export function moveNode (parent: string, uid: string, newParent: string, before: string) {
   return {
     type: MOVE_NODE,
     data: {
@@ -208,8 +211,8 @@ export function moveNode (parent, uid, newParent, before) {
 }
 
 export const PUT_MOVE_NODE = 'PUT_MOVE_NODE'
-export function putMoveNode (parent, uid, newParent, before) {
-  return function (dispatch) {
+export function putMoveNode (parent: string, uid: string, newParent: string, before: string) {
+  return function (dispatch: () => void) {
     dispatch(startSyncing())
     dispatch(moveNode(parent, uid, newParent, before))
     before = before || ''

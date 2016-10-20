@@ -1,3 +1,5 @@
+/* @flow */
+
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
@@ -101,21 +103,27 @@ class Node extends Component {
   }
 
   state = {
-    isDragging: false
+    isDragging: false,
+    title: '',
+    isOverPosition: -1
   }
+
+  element = undefined
 
   constructor (props) {
 
     super(props)
 
-    this.hasNodes = this.hasNodes.bind(this)
-    this.handleClick = this.handleClick.bind(this)
-    this.handleClickAdd = this.handleClickAdd.bind(this)
-    this.handleClickEdit = this.handleClickEdit.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleClickDelete = this.handleClickDelete.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleClickShowButtons = this.handleClickShowButtons.bind(this)
+    // @LINK: https://github.com/facebook/flow/issues/1517
+    const self = (this: any)
+    self.hasNodes = this.hasNodes.bind(this)
+    self.handleClick = this.handleClick.bind(this)
+    self.handleClickAdd = this.handleClickAdd.bind(this)
+    self.handleClickEdit = this.handleClickEdit.bind(this)
+    self.handleChange = this.handleChange.bind(this)
+    self.handleClickDelete = this.handleClickDelete.bind(this)
+    self.handleSubmit = this.handleSubmit.bind(this)
+    self.handleClickShowButtons = this.handleClickShowButtons.bind(this)
   }
 
   hasNodes () {
@@ -274,7 +282,7 @@ class Node extends Component {
                     </button>
                   }
                 </div>
-                <div className="node-content" onClick={ this.handleClick } onDoubleClick={ this.handleDoubleClick }>
+                <div className="node-content" onClick={ this.handleClick }>
                   <button className="node-button-show-buttons" onClick={ this.handleClickShowButtons } title="more">
                     <i className="fa fa-ellipsis-v"></i>
                   </button>
