@@ -22,9 +22,11 @@
         "comma-dangle": ["error", "never"],
         "indent": ["error", 2],
         "linebreak-style": ["error", "unix"],
+        "no-var": "error",
         "object-shorthand": ["error", "always"],
         "quotes": ["error", "single"],
         "semi": ["error", "never"],
+        "spaced-comment": ["error", "always"],
         "template-curly-spacing": ["error", "always"],
 
         "react/jsx-uses-vars": "error",
