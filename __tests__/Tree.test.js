@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable'
-import tree from '../app/lib/Tree'
+import Tree from '../app/lib/Tree'
 
 describe('Tree', () => {
 
@@ -11,14 +11,14 @@ describe('Tree', () => {
         const treeData = {
           uid: '1'
         }
-        expect(tree._getKeyPath(fromJS(treeData), '2')).toEqual(false)
+        expect(Tree._getKeyPath(fromJS(treeData), '2')).toEqual(false)
       })
 
       it('null', () => {
         const treeData = {
           uid: '1'
         }
-        expect(tree._getKeyPath(fromJS(treeData), null)).toEqual(false)
+        expect(Tree._getKeyPath(fromJS(treeData), null)).toEqual(false)
       })
     })
 
@@ -28,7 +28,7 @@ describe('Tree', () => {
         const treeData = {
           uid: '1'
         }
-        expect(tree._getKeyPath(fromJS(treeData), '1')).toEqual([])
+        expect(Tree._getKeyPath(fromJS(treeData), '1')).toEqual([])
       })
 
       it('1st child', () => {
@@ -36,7 +36,7 @@ describe('Tree', () => {
           uid: '1',
           nodes: [{ uid: 'c0' }]
         }
-        expect(tree._getKeyPath(fromJS(treeData), 'c0')).toEqual(['nodes', 0])
+        expect(Tree._getKeyPath(fromJS(treeData), 'c0')).toEqual(['nodes', 0])
       })
 
       it('1st child 2', () => {
@@ -44,7 +44,7 @@ describe('Tree', () => {
           uid: '1',
           nodes: [{ uid: 'c0' }, { uid: 'c1' }]
         }
-        expect(tree._getKeyPath(fromJS(treeData), 'c1')).toEqual(['nodes', 1])
+        expect(Tree._getKeyPath(fromJS(treeData), 'c1')).toEqual(['nodes', 1])
       })
 
       it('2nd child 2', () => {
@@ -58,7 +58,7 @@ describe('Tree', () => {
               { uid: 'cc2' }
             ] } ]
         }
-        expect(tree._getKeyPath(fromJS(treeData), 'cc2')).toEqual(['nodes', 1, 'nodes', 2])
+        expect(Tree._getKeyPath(fromJS(treeData), 'cc2')).toEqual(['nodes', 1, 'nodes', 2])
       })
 
       it('3rd child', () => {
@@ -78,7 +78,7 @@ describe('Tree', () => {
               { uid: 'cc4' }
             ] } ]
         }
-        expect(tree._getKeyPath(fromJS(treeData), 'ccc2')).toEqual(['nodes', 1, 'nodes', 3, 'nodes', 2])
+        expect(Tree._getKeyPath(fromJS(treeData), 'ccc2')).toEqual(['nodes', 1, 'nodes', 3, 'nodes', 2])
       })
     })
 
@@ -88,7 +88,7 @@ describe('Tree', () => {
         const treeData = {
           uid: '1'
         }
-        expect(tree._getKeyPath(fromJS(treeData), '1', true)).toEqual(['nodes'])
+        expect(Tree._getKeyPath(fromJS(treeData), '1', true)).toEqual(['nodes'])
       })
 
       it('1st child', () => {
@@ -96,7 +96,7 @@ describe('Tree', () => {
           uid: '1',
           nodes: [{ uid: 'c0' }]
         }
-        expect(tree._getKeyPath(fromJS(treeData), 'c0', true)).toEqual(['nodes', 0, 'nodes'])
+        expect(Tree._getKeyPath(fromJS(treeData), 'c0', true)).toEqual(['nodes', 0, 'nodes'])
       })
 
       it('3rd child', () => {
@@ -116,7 +116,7 @@ describe('Tree', () => {
               { uid: 'cc4' }
             ] } ]
         }
-        expect(tree._getKeyPath(fromJS(treeData), 'ccc2', true)).toEqual(['nodes', 1, 'nodes', 3, 'nodes', 2, 'nodes'])
+        expect(Tree._getKeyPath(fromJS(treeData), 'ccc2', true)).toEqual(['nodes', 1, 'nodes', 3, 'nodes', 2, 'nodes'])
       })
     })
   })
@@ -131,7 +131,7 @@ describe('Tree', () => {
         uid: 'c1',
         title: 'Name with spaces'
       }
-      const newTreeData = tree.create(treeData, '1', data)
+      const newTreeData = Tree.create(treeData, '1', data)
       expect(newTreeData.nodes.length).toEqual(1)
       expect(newTreeData.nodes[0]).toEqual(data)
     })
@@ -148,7 +148,7 @@ describe('Tree', () => {
         uid: 'c3',
         title: 'Name with spaces'
       }
-      const newTreeData = tree.create(treeData, '1', data)
+      const newTreeData = Tree.create(treeData, '1', data)
       expect(newTreeData.nodes.length).toEqual(3)
       expect(newTreeData.nodes[2]).toEqual(data)
     })
@@ -165,7 +165,7 @@ describe('Tree', () => {
         uid: 'cc1',
         title: 'Grand child'
       }
-      const newTreeData = tree.create(treeData, 'c2', data)
+      const newTreeData = Tree.create(treeData, 'c2', data)
       expect(newTreeData.nodes[1].nodes.length).toEqual(1)
       expect(newTreeData.nodes[1].nodes[0]).toEqual(data)
     })
@@ -180,7 +180,7 @@ describe('Tree', () => {
       const data = {
         title: 'Root'
       }
-      const newTreeData = tree.update(treeData, '1', data)
+      const newTreeData = Tree.update(treeData, '1', data)
       expect(newTreeData.title).toEqual('Root')
     })
 
@@ -196,7 +196,7 @@ describe('Tree', () => {
         uid: 'c1',
         title: 'First child'
       }
-      const newTreeData = tree.update(treeData, 'c2', data)
+      const newTreeData = Tree.update(treeData, 'c2', data)
       expect(newTreeData.nodes[1].title).toEqual('First child')
     })
   })
@@ -211,7 +211,7 @@ describe('Tree', () => {
           { uid: 'c2' }
         ]
       }
-      const newTreeData = tree.removeChild(treeData, '1', 'c3')
+      const newTreeData = Tree.removeChild(treeData, '1', 'c3')
       expect(newTreeData).toEqual(treeData)
     })
 
@@ -223,7 +223,7 @@ describe('Tree', () => {
           { uid: 'c2' }
         ]
       }
-      const newTreeData = tree.removeChild(treeData, '1', 'c1')
+      const newTreeData = Tree.removeChild(treeData, '1', 'c1')
       expect(newTreeData.nodes.length).toEqual(1)
       expect(newTreeData.nodes[0].uid).toEqual('c2')
     })
@@ -242,7 +242,7 @@ describe('Tree', () => {
           }
         ]
       }
-      const newTreeData = tree.removeChild(treeData, 'c2', 'cc1')
+      const newTreeData = Tree.removeChild(treeData, 'c2', 'cc1')
       expect(newTreeData.nodes[1].nodes.length).toEqual(1)
       expect(newTreeData.nodes[1].nodes[0].uid).toEqual('cc2')
     })
@@ -254,7 +254,7 @@ describe('Tree', () => {
       const treeData = {
         uid: '1'
       }
-      const newTreeData = tree.delete(treeData, '1')
+      const newTreeData = Tree.delete(treeData, '1')
       expect(newTreeData).toEqual({})
     })
 
@@ -266,7 +266,7 @@ describe('Tree', () => {
           { uid: 'c2' }
         ]
       }
-      const newTreeData = tree.delete(treeData, 'c2')
+      const newTreeData = Tree.delete(treeData, 'c2')
       expect(newTreeData.nodes.length).toEqual(1)
       expect(newTreeData.nodes[0].uid).toEqual('c1')
     })
@@ -282,7 +282,7 @@ describe('Tree', () => {
           { uid: 'c2'}
         ]
       }
-      const newTreeData = tree.move(treeData, '1', 'c1', '1')
+      const newTreeData = Tree.move(treeData, '1', 'c1', '1')
       expect(newTreeData.nodes.length).toEqual(2)
       expect(newTreeData.nodes[1].uid).toEqual('c1')
     })
@@ -296,7 +296,7 @@ describe('Tree', () => {
           { uid: 'c3'}
         ]
       }
-      const newTreeData = tree.move(treeData, '1', 'c1', '1', 'c3')
+      const newTreeData = Tree.move(treeData, '1', 'c1', '1', 'c3')
       expect(newTreeData.nodes.length).toEqual(3)
       expect(newTreeData.nodes[0].uid).toEqual('c2')
       expect(newTreeData.nodes[1].uid).toEqual('c1')
@@ -317,7 +317,7 @@ describe('Tree', () => {
           { uid: 'c2'}
         ]
       }
-      const newTreeData = tree.move(treeData, '1', 'c2', 'c1')
+      const newTreeData = Tree.move(treeData, '1', 'c2', 'c1')
       expect(newTreeData.nodes.length).toEqual(1)
       expect(newTreeData.nodes[0].nodes.length).toEqual(3)
       expect(newTreeData.nodes[0].nodes[2].uid).toEqual('c2')
@@ -337,7 +337,7 @@ describe('Tree', () => {
           { uid: 'c2'}
         ]
       }
-      const newTreeData = tree.move(treeData, '1', 'c2', 'c1', 'cc1')
+      const newTreeData = Tree.move(treeData, '1', 'c2', 'c1', 'cc1')
       expect(newTreeData.nodes.length).toEqual(1)
       expect(newTreeData.nodes[0].nodes.length).toEqual(3)
       expect(newTreeData.nodes[0].nodes[0].uid).toEqual('c2')
