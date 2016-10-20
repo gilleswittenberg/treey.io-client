@@ -1,6 +1,6 @@
 import * as types from '../actions/ui'
 import ImmutableArray from '../lib/ImmutableArray'
-import storage from '../lib/storage'
+import Storage from '../lib/Storage'
 
 const expandedKey = 'ui.expanded'
 
@@ -14,7 +14,7 @@ export default function nodes (state = defaultState, action) {
   let expanded
   switch (action.type) {
   case types.INIT:
-    expanded = storage.get(expandedKey)
+    expanded = Storage.get(expandedKey)
     expanded = Array.isArray(expanded) ? expanded : []
     return Object.assign({}, state, { expanded })
   case types.SET_IS_EDITING:
@@ -27,11 +27,11 @@ export default function nodes (state = defaultState, action) {
     return Object.assign({}, state, { showButtons: null })
   case types.EXPAND:
     expanded = ImmutableArray.add(state.expanded, action.data.uid)
-    storage.set(expandedKey, expanded)
+    Storage.set(expandedKey, expanded)
     return Object.assign({}, state, { expanded })
   case types.COLLAPSE:
     expanded = ImmutableArray.remove(state.expanded, action.data.uid)
-    storage.set(expandedKey, expanded)
+    Storage.set(expandedKey, expanded)
     return Object.assign({}, state, { expanded })
   default:
     return state
