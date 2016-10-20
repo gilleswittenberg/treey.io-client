@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable'
 import tree from '../app/lib/Tree'
 
 describe('Tree', () => {
@@ -10,14 +11,14 @@ describe('Tree', () => {
         const treeData = {
           uid: '1'
         }
-        expect(tree._getKeyPath(tree._fromJS(treeData), '2')).toEqual(false)
+        expect(tree._getKeyPath(fromJS(treeData), '2')).toEqual(false)
       })
 
       it('null', () => {
         const treeData = {
           uid: '1'
         }
-        expect(tree._getKeyPath(tree._fromJS(treeData), null)).toEqual(false)
+        expect(tree._getKeyPath(fromJS(treeData), null)).toEqual(false)
       })
     })
 
@@ -27,7 +28,7 @@ describe('Tree', () => {
         const treeData = {
           uid: '1'
         }
-        expect(tree._getKeyPath(tree._fromJS(treeData), '1')).toEqual([])
+        expect(tree._getKeyPath(fromJS(treeData), '1')).toEqual([])
       })
 
       it('1st child', () => {
@@ -35,7 +36,7 @@ describe('Tree', () => {
           uid: '1',
           nodes: [{ uid: 'c0' }]
         }
-        expect(tree._getKeyPath(tree._fromJS(treeData), 'c0')).toEqual(['nodes', 0])
+        expect(tree._getKeyPath(fromJS(treeData), 'c0')).toEqual(['nodes', 0])
       })
 
       it('1st child 2', () => {
@@ -43,7 +44,7 @@ describe('Tree', () => {
           uid: '1',
           nodes: [{ uid: 'c0' }, { uid: 'c1' }]
         }
-        expect(tree._getKeyPath(tree._fromJS(treeData), 'c1')).toEqual(['nodes', 1])
+        expect(tree._getKeyPath(fromJS(treeData), 'c1')).toEqual(['nodes', 1])
       })
 
       it('2nd child 2', () => {
@@ -57,7 +58,7 @@ describe('Tree', () => {
               { uid: 'cc2' }
             ] } ]
         }
-        expect(tree._getKeyPath(tree._fromJS(treeData), 'cc2')).toEqual(['nodes', 1, 'nodes', 2])
+        expect(tree._getKeyPath(fromJS(treeData), 'cc2')).toEqual(['nodes', 1, 'nodes', 2])
       })
 
       it('3rd child', () => {
@@ -77,7 +78,7 @@ describe('Tree', () => {
               { uid: 'cc4' }
             ] } ]
         }
-        expect(tree._getKeyPath(tree._fromJS(treeData), 'ccc2')).toEqual(['nodes', 1, 'nodes', 3, 'nodes', 2])
+        expect(tree._getKeyPath(fromJS(treeData), 'ccc2')).toEqual(['nodes', 1, 'nodes', 3, 'nodes', 2])
       })
     })
 
@@ -87,7 +88,7 @@ describe('Tree', () => {
         const treeData = {
           uid: '1'
         }
-        expect(tree._getKeyPath(tree._fromJS(treeData), '1', true)).toEqual(['nodes'])
+        expect(tree._getKeyPath(fromJS(treeData), '1', true)).toEqual(['nodes'])
       })
 
       it('1st child', () => {
@@ -95,7 +96,7 @@ describe('Tree', () => {
           uid: '1',
           nodes: [{ uid: 'c0' }]
         }
-        expect(tree._getKeyPath(tree._fromJS(treeData), 'c0', true)).toEqual(['nodes', 0, 'nodes'])
+        expect(tree._getKeyPath(fromJS(treeData), 'c0', true)).toEqual(['nodes', 0, 'nodes'])
       })
 
       it('3rd child', () => {
@@ -115,7 +116,7 @@ describe('Tree', () => {
               { uid: 'cc4' }
             ] } ]
         }
-        expect(tree._getKeyPath(tree._fromJS(treeData), 'ccc2', true)).toEqual(['nodes', 1, 'nodes', 3, 'nodes', 2, 'nodes'])
+        expect(tree._getKeyPath(fromJS(treeData), 'ccc2', true)).toEqual(['nodes', 1, 'nodes', 3, 'nodes', 2, 'nodes'])
       })
     })
   })

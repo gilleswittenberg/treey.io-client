@@ -1,24 +1,22 @@
-import Immutable from 'immutable'
-import { List } from 'immutable'
+/* @flow */
+
+import { fromJS, List } from 'immutable'
+import type { Node, NodeMap, NodesList } from '../../flow/types'
 
 const idKey = 'uid'
 const nodesKey = 'nodes'
 
+function toJS (im: ?NodeMap) {
+  return im ? im.toJS() : {}
+}
+
 const Tree = {
 
-  _fromJS (tree) {
-    return Immutable.fromJS(tree)
-  },
-
-  _toJS (im) {
-    return im ? im.toJS() : {}
-  },
-
-  _getKeyPath (node, id, addNodesKey = false) {
+  _getKeyPath (node: NodeMap, id: string, addNodesKey: bool = false) {
     if (node.get(idKey) === id) {
       return addNodesKey ? [nodesKey] : []
     } else {
-      const nodes = node.get(nodesKey)
+      const nodes: NodesList = node.get(nodesKey)
       if (List.isList(nodes)) {
         for (let i = 0, l = nodes.size; i < l; i++) {
           const path = this._getKeyPath(nodes.get(i), id, addNodesKey)
@@ -31,8 +29,8 @@ const Tree = {
     return false
   },
 
-  create (treeData, parent, data) {
-    let tree = this._fromJS(treeData)
+  create (treeData: Node, parent: string, data: {}) {
+    let tree = fromJS(treeData)
     let keyPath = this._getKeyPath(tree, parent, true)
     // create empty list
     if (!List.isList(tree.getIn(keyPath))) {
@@ -41,21 +39,21 @@ const Tree = {
     let nodes = tree.getIn(keyPath)
     nodes = nodes.push(data)
     tree = tree.setIn(keyPath, nodes)
-    return this._toJS(tree)
+    return toJS(tree)
   },
 
-  update (treeData, id, data) {
-    let tree = this._fromJS(treeData)
+  update (treeData: Node, id: string, data: {}) {
+    let tree = fromJS(treeData)
     let keyPath = this._getKeyPath(tree, id)
     tree = tree.mergeIn(keyPath, data)
-    return this._toJS(tree)
+    return toJS(tree)
   },
 
-  removeChild (treeData, parent, id) {
-    let tree = this._fromJS(treeData)
+  removeChild (treeData: Node, parent: string, id: string) {
+    let tree = fromJS(treeData)
     let keyPath = this._getKeyPath(tree, parent, true)
     if (!keyPath) {
-      return this._toJS(tree)
+      return toJS(tree)
     }
     const nodes = tree.getIn(keyPath)
     const index = nodes.findIndex(entry => entry.get(idKey) === id)
@@ -63,18 +61,18 @@ const Tree = {
       keyPath.push(index)
       tree = tree.deleteIn(keyPath)
     }
-    return this._toJS(tree)
+    return toJS(tree)
   },
 
-  delete (treeData, id) {
-    let tree = this._fromJS(treeData)
+  delete (treeData: Node, id: string) {
+    let tree = fromJS(treeData)
     let keyPath = this._getKeyPath(tree, id)
     tree = tree.deleteIn(keyPath)
-    return this._toJS(tree)
+    return toJS(tree)
   },
 
-  move (treeData, parent, id, newParent, before) {
-    let tree = this._fromJS(treeData)
+  move (treeData: Node, parent: string, id: string, newParent: string, before: string) {
+    let tree = fromJS(treeData)
     let keyPath = this._getKeyPath(tree, parent, true)
     let nodes = tree.getIn(keyPath)
     const index = nodes.findIndex(value => value.get(idKey) === id)
@@ -95,7 +93,7 @@ const Tree = {
       nodes = nodes.push(node)
     }
     tree = tree.setIn(keyPath, nodes)
-    return this._toJS(tree)
+    return toJS(tree)
   }
 }
 
