@@ -1,8 +1,8 @@
 import * as types from '../actions/ui'
 import ImmutableArray from '../lib/ImmutableArray'
-import Storage from '../lib/Storage'
+import Storage, { keys } from '../lib/Storage'
 
-const expandedKey = 'ui.expanded'
+const expandedKey = keys[0]
 
 const defaultState = {
   editing: null,
