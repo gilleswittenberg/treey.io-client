@@ -1,11 +1,22 @@
 /* @flow */
 
-import 'whatwg-fetch'
+import fetch from 'isomorphic-fetch'
 import type { Node, NodeData } from '../../flow/types'
 
-const hostname = window.location.hostname
-const host = process.env.NODE_ENV === 'production' ? 'http://api.kee.plus:8081' : `http://${ hostname }:8081`
-const rootUid = '57bedc40e81b0620300d769a'
+let host
+switch (process.env.NODE_ENV) {
+case 'production':
+  host = 'http://api.kee.plus:8081'
+  break
+case 'test':
+  host = 'http://test.api.treey.io'
+  break
+case 'development':
+default:
+  host = `http://${ window.location.hostname }:8081`
+}
+
+export const rootUid = '57bedc40e81b0620300d769a'
 
 export const START_SYNCING = 'START_SYNCING'
 export function startSyncing () {
@@ -49,24 +60,25 @@ export function getNodes () {
         Accept: 'application/json'
       }
     }
-    fetch(url, options)
+    return fetch(url, options)
       .then(
         response => {
-          dispatch(stopSyncing())
           if (response.ok === false) {
-            throw new Error(response.statusText)
+            return Promise.reject(response.statusText)
           }
           return response.json()
-        },
-        response => {
-          dispatch(stopSyncing())
-          throw new Error(response)
         }
       )
-      .then(json => dispatch(indexNodes(json)))
-      .catch(() => {
-        dispatch(hasErrors())
-      })
+      .then(
+        json => {
+          dispatch(stopSyncing())
+          dispatch(indexNodes(json))
+        },
+        () => { // (error)
+          dispatch(stopSyncing())
+          dispatch(hasErrors())
+        }
+      )
   }
 }
 
