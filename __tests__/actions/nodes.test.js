@@ -8,7 +8,7 @@ const mockStore = configureMockStore(middlewares)
 
 const hostname = /treey\.io/
 
-describe('action nodes', () => {
+describe('nodes actions', () => {
 
   afterEach(() => {
     nock.cleanAll()
