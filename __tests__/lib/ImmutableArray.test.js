@@ -1,4 +1,4 @@
-import ImmutableArray from '../app/lib/ImmutableArray'
+import ImmutableArray from '../../app/lib/ImmutableArray'
 
 describe('ImmutableArray', () => {
 

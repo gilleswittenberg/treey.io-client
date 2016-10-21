@@ -1,8 +1,8 @@
-import Storage, { keys } from '../app/lib/Storage'
+import Storage, { keys } from '../../app/lib/Storage'
 
 const key = keys[0]
 
-jest.genMockFromModule('../__mocks__/localStorage')
+jest.genMockFromModule('../../__mocks__/localStorage')
 
 describe('Storage', () => {
 

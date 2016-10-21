@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable'
-import Tree from '../app/lib/Tree'
+import Tree from '../../app/lib/Tree'
 
 describe('Tree', () => {
 
