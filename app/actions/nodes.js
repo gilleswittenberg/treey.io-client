@@ -152,22 +152,25 @@ export function putNode (uid: string, data: NodeData) {
       },
       body: JSON.stringify(data)
     }
-    fetch(url, options)
+    return fetch(url, options)
       .then(
         response => {
-          dispatch(stopSyncing())
           if (response.ok === false) {
-            throw new Error(response.statusText)
+            return Promise.reject(response.statusText)
           }
           return response.json()
-        },
-        response => {
-          dispatch(stopSyncing())
-          throw new Error(response)
         }
       )
-      .then(json => dispatch(updateNode(uid, json)))
-      .catch(() => dispatch(hasErrors()))
+      .then(
+        json => {
+          dispatch(stopSyncing())
+          dispatch(updateNode(uid, json))
+        },
+        () => {
+          dispatch(stopSyncing())
+          dispatch(hasErrors())
+        }
+      )
   }
 }
 

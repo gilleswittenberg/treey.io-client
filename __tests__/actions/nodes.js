@@ -146,7 +146,7 @@ describe('action nodes', () => {
 
       nock(hostname)
         .post(`/node/${ parent }`, data)
-        .reply(201, body)
+        .reply(200, body)
 
       const store = mockStore({ nodes: null })
 
@@ -158,4 +158,65 @@ describe('action nodes', () => {
         })
     })
   })
+
+  describe('putNodes', () => {
+
+    it('INTERNAL_SERVER_ERROR', () => {
+      nock(hostname)
+        .put('/node/57bedc40e81b0620300d769a')
+        .reply(500)
+
+      const store = mockStore({ nodes: null })
+
+      return store.dispatch(actions.putNode('57bedc40e81b0620300d769a'))
+        .then(
+          () => {
+            const lastAction = store.getActions().pop()
+            expect(lastAction.type).toEqual('HAS_ERRORS')
+          }
+        )
+    })
+
+    it('BAD_REQUEST', () => {
+      nock(hostname)
+        .put('/node/57bedc40e81b0620300d769a')
+        .reply(400)
+
+      const store = mockStore({ nodes: null })
+
+      return store.dispatch(actions.putNode('57bedc40e81b0620300d769a'))
+        .then(() => {
+          const lastAction = store.getActions().pop()
+          expect(lastAction.type).toEqual('HAS_ERRORS')
+        })
+    })
+
+    it('OK', () => {
+
+      const uid = '57bedc40e81b0620300d769a'
+
+      const data = {
+        title: 'New User'
+      }
+
+      const body = {
+        uid,
+        title: 'New User'
+      }
+
+      nock(hostname)
+        .put(`/node/${ uid }`, data)
+        .reply(200, body)
+
+      const store = mockStore({ nodes: null })
+
+      return store.dispatch(actions.putNode(uid, data))
+        .then(() => {
+          const lastAction = store.getActions().pop()
+          expect(lastAction.type).toEqual('UPDATE_NODE')
+          expect(lastAction.data).toEqual({ uid, node: body })
+        })
+    })
+  })
+
 })
