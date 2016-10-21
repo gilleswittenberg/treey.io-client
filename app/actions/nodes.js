@@ -196,22 +196,24 @@ export function deleteNode (parent: string, uid: string) {
         Accept: 'application/json'
       }
     }
-    fetch(url, options)
+    return fetch(url, options)
       .then(
         response => {
-          dispatch(stopSyncing())
           if (response.ok === false) {
-            throw new Error(response.statusText)
-          } else {
-            dispatch(removeNode(parent, uid))
+            return Promise.reject(response.statusText)
           }
-        },
-        response => {
-          dispatch(stopSyncing())
-          throw new Error(response)
         }
       )
-      .catch(() => dispatch(hasErrors()))
+      .then(
+        () => {
+          dispatch(stopSyncing())
+          dispatch(removeNode(parent, uid))
+        },
+        () => {
+          dispatch(stopSyncing())
+          dispatch(hasErrors())
+        }
+      )
   }
 }
 

@@ -99,7 +99,7 @@ describe('action nodes', () => {
     })
   })
 
-  describe('postNodes', () => {
+  describe('postNode', () => {
 
     it('INTERNAL_SERVER_ERROR', () => {
       nock(hostname)
@@ -159,7 +159,7 @@ describe('action nodes', () => {
     })
   })
 
-  describe('putNodes', () => {
+  describe('putNode', () => {
 
     it('INTERNAL_SERVER_ERROR', () => {
       nock(hostname)
@@ -219,4 +219,57 @@ describe('action nodes', () => {
     })
   })
 
+  describe('deleteNode', () => {
+
+    const parent = '57bedc40e81b0620300d769a'
+    const uid = '57bedc40e81b0620300d769b'
+
+    it('INTERNAL_SERVER_ERROR', () => {
+
+      nock(hostname)
+        .delete(`/node/${ parent }/${ uid }`)
+        .reply(500)
+
+      const store = mockStore({ nodes: null })
+
+      return store.dispatch(actions.deleteNode(parent, uid))
+        .then(
+          () => {
+            const lastAction = store.getActions().pop()
+            expect(lastAction.type).toEqual('HAS_ERRORS')
+          }
+        )
+    })
+
+    it('BAD_REQUEST', () => {
+
+      nock(hostname)
+        .delete(`/node/${ parent }/${ uid }`)
+        .reply(400)
+
+      const store = mockStore({ nodes: null })
+
+      return store.dispatch(actions.deleteNode(parent, uid))
+        .then(() => {
+          const lastAction = store.getActions().pop()
+          expect(lastAction.type).toEqual('HAS_ERRORS')
+        })
+    })
+
+    it('OK', () => {
+
+      nock(hostname)
+        .delete(`/node/${ parent }/${ uid }`)
+        .reply(200)
+
+      const store = mockStore({ nodes: null })
+
+      return store.dispatch(actions.deleteNode(parent, uid))
+        .then(() => {
+          const lastAction = store.getActions().pop()
+          expect(lastAction.type).toEqual('REMOVE_NODE')
+          expect(lastAction.data).toEqual({ parent, uid })
+        })
+    })
+  })
 })
