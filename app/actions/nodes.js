@@ -243,19 +243,22 @@ export function putMoveNode (parent: string, uid: string, newParent: string, bef
         Accept: 'application/json'
       }
     }
-    fetch(url, options)
+    return fetch(url, options)
       .then(
         response => {
-          dispatch(stopSyncing())
           if (response.ok === false) {
-            throw new Error(response.statusText)
+            return Promise.reject(response.statusText)
           }
-        },
-        response => {
-          dispatch(stopSyncing())
-          throw new Error(response)
         }
       )
-      .catch(() => dispatch(hasErrors()))
+      .then(
+        () => {
+          dispatch(stopSyncing())
+        },
+        () => {
+          dispatch(stopSyncing())
+          dispatch(hasErrors())
+        }
+      )
   }
 }

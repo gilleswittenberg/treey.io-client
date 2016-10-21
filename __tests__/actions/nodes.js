@@ -272,4 +272,62 @@ describe('action nodes', () => {
         })
     })
   })
+
+  describe('putMoveNode', () => {
+
+    const parent = '57bedc40e81b0620300d769a'
+    const uid = '57bedc40e81b0620300d769b'
+    const newParent = '57bedc40e81b0620300d769c'
+
+    it('INTERNAL_SERVER_ERROR', () => {
+
+      nock(hostname)
+        .put(`/node/move/${ parent }/${ uid }/${ newParent }/`)
+        .reply(500)
+
+      const store = mockStore({ nodes: null })
+
+      return store.dispatch(actions.putMoveNode(parent, uid, newParent))
+        .then(
+          () => {
+            const lastAction = store.getActions().pop()
+            expect(lastAction.type).toEqual('HAS_ERRORS')
+          }
+        )
+    })
+
+    it('BAD_REQUEST', () => {
+
+      nock(hostname)
+        .put(`/node/move/${ parent }/${ uid }/${ newParent }/`)
+        .reply(400)
+
+      const store = mockStore({ nodes: null })
+
+      return store.dispatch(actions.putMoveNode(parent, uid, newParent))
+        .then(() => {
+          const lastAction = store.getActions().pop()
+          expect(lastAction.type).toEqual('HAS_ERRORS')
+        })
+    })
+
+    it('OK', () => {
+
+      nock(hostname)
+        .put(`/node/move/${ parent }/${ uid }/${ newParent }/`)
+        .reply(200)
+
+      const store = mockStore({ nodes: null })
+
+      return store.dispatch(actions.putMoveNode(parent, uid, newParent))
+        .then(() => {
+          const lastAction = store.getActions().pop()
+          const secondLastAction = store.getActions().pop()
+          expect(lastAction.type).toEqual('STOP_SYNCING')
+          expect(secondLastAction.type).toEqual('MOVE_NODE')
+          expect(secondLastAction.data).toEqual({ parent, uid, newParent })
+        })
+    })
+  })
+
 })
