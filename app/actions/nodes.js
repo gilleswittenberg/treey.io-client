@@ -16,7 +16,7 @@ default:
   host = `http://${ window.location.hostname }:8081`
 }
 
-export const rootUid = '57bedc40e81b0620300d769a'
+const rootUid = '57bedc40e81b0620300d769a'
 
 export const START_SYNCING = 'START_SYNCING'
 export function startSyncing () {
@@ -106,22 +106,25 @@ export function postNode (parent: string, data: NodeData) {
       },
       body: JSON.stringify(data)
     }
-    fetch(url, options)
+    return fetch(url, options)
       .then(
         response => {
-          dispatch(stopSyncing())
           if (response.ok === false) {
-            throw new Error(response.statusText)
+            return Promise.reject(response.statusText)
           }
           return response.json()
-        },
-        response => {
-          dispatch(stopSyncing())
-          throw new Error(response)
         }
       )
-      .then(json => dispatch(addNode(parent, json)))
-      .catch(() => dispatch(hasErrors()))
+      .then(
+        json => {
+          dispatch(stopSyncing())
+          dispatch(addNode(parent, json))
+        },
+        () => {
+          dispatch(stopSyncing())
+          dispatch(hasErrors())
+        }
+      )
   }
 }
 
