@@ -50,8 +50,7 @@ type UIActionType =
   'UNSET_IS_EDITING' |
   'SET_SHOW_BUTTONS' |
   'UNSET_SHOW_BUTTONS' |
-  'EXPAND' |
-  'COLLAPSE'
+  'TOGGLE_EXPANDED'
 
 export type UIAction = {
   type: UIActionType,

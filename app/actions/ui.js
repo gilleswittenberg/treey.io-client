@@ -1,7 +1,5 @@
 /* @flow */
 
-import type { State } from '../../flow/types'
-
 export const INIT = 'INIT'
 export function init () {
   return {
@@ -44,27 +42,10 @@ export function unsetShowButtons () {
   }
 }
 
+export const TOGGLE_EXPANDED = 'TOGGLE_EXPANDED'
 export function toggleExpanded (uid: string) {
-  return (dispatch: () => void, getState: () => State) => {
-    const action = getState().ui.expanded.includes(uid) ? collapse : expand
-    dispatch(action(uid))
-  }
-}
-
-export const EXPAND = 'EXPAND'
-export function expand (uid: string) {
   return {
-    type: EXPAND,
-    data: {
-      uid
-    }
-  }
-}
-
-export const COLLAPSE = 'COLLAPSE'
-export function collapse (uid: string) {
-  return {
-    type: COLLAPSE,
+    type: TOGGLE_EXPANDED,
     data: {
       uid
     }

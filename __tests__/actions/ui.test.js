@@ -56,48 +56,15 @@ describe('ui actions', () => {
   describe('expanded', () => {
 
     const uid = '57bedc40e81b0620300d769a'
+    
+    it('toggleExpanded', () => {
 
-    it('expand', () => {
+      const store = mockStore({ ui: { expanded: [] } })
 
-      const store = mockStore({ ui: null })
-
-      store.dispatch(actions.expand(uid))
+      store.dispatch(actions.toggleExpanded(uid))
       const lastAction = store.getActions().pop()
-      expect(lastAction.type).toEqual(actions.EXPAND)
+      expect(lastAction.type).toEqual(actions.TOGGLE_EXPANDED)
       expect(lastAction.data.uid).toEqual(uid)
-    })
-
-    it('collapse', () => {
-
-      const store = mockStore({ ui: null })
-
-      store.dispatch(actions.collapse(uid))
-      const lastAction = store.getActions().pop()
-      expect(lastAction.type).toEqual(actions.COLLAPSE)
-      expect(lastAction.data.uid).toEqual(uid)
-    })
-
-    describe('toggleExpanded', () => {
-
-      it('expand', () => {
-
-        const store = mockStore({ ui: { expanded: [] } })
-
-        store.dispatch(actions.toggleExpanded(uid))
-        const lastAction = store.getActions().pop()
-        expect(lastAction.type).toEqual(actions.EXPAND)
-        expect(lastAction.data.uid).toEqual(uid)
-      })
-
-      it('collapse', () => {
-
-        const store = mockStore({ ui: { expanded: [uid] } })
-
-        store.dispatch(actions.toggleExpanded(uid))
-        const lastAction2 = store.getActions().pop()
-        expect(lastAction2.type).toEqual(actions.COLLAPSE)
-        expect(lastAction2.data.uid).toEqual(uid)
-      })
     })
   })
 })

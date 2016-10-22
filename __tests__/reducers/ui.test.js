@@ -3,7 +3,7 @@ import {
   INIT,
   SET_IS_EDITING, UNSET_IS_EDITING,
   SET_SHOW_BUTTONS, UNSET_SHOW_BUTTONS,
-  EXPAND, COLLAPSE
+  EXPAND, COLLAPSE, TOGGLE_EXPANDED
 } from '../../app/actions/ui'
 import Storage, { keys } from '../../app/lib/Storage'
 
@@ -98,37 +98,27 @@ describe('nodes reducer', () => {
       expect(state2.expanded).toContain(uid)
     })
 
-    it('EXPAND', () => {
+    describe('TOGGLE_EXPANDED', () => {
 
-      const uid = '57bedc40e81b0620300d769b'
+      it('expand', () => {
 
-      const state = reducer(undefined, {})
-      const state2 = reducer(state, { type: EXPAND, data: { uid } })
+        const uid = '57bedc40e81b0620300d769b'
 
-      expect(state2.expanded).toContain(uid)
-    })
+        const state = reducer({ expanded: [] }, {})
+        expect(state.expanded).not.toContain(uid)
+        const state2 = reducer(state, { type: TOGGLE_EXPANDED, data: { uid } })
+        expect(state2.expanded).toContain(uid)
+      })
 
-    it('COLLAPSE', () => {
+      it('collapse', () => {
 
-      const uid = '57bedc40e81b0620300d769b'
+        const uid = '57bedc40e81b0620300d769b'
 
-      const state = reducer(undefined, {})
-      const state2 = reducer(state, { type: EXPAND, data: { uid } })
-      const state3 = reducer(state2, { type: COLLAPSE, data: { uid } })
-
-      expect(state3.expanded).not.toContain(uid)
-    })
-
-    it('no duplicates', () => {
-
-      const uid = '57bedc40e81b0620300d769b'
-
-      const state = reducer(undefined, {})
-      const state2 = reducer(state, { type: EXPAND, data: { uid } })
-      const state3 = reducer(state2, { type: EXPAND, data: { uid } })
-
-      expect(state3.expanded).toContain(uid)
-      expect(state3.expanded.length).toBe(1)
+        const state = reducer({ expanded: [uid] }, {})
+        expect(state.expanded).toContain(uid)
+        const state2 = reducer(state, { type: TOGGLE_EXPANDED, data: { uid } })
+        expect(state2.expanded).not.toContain(uid)
+      })
     })
   })
 })

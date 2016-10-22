@@ -203,7 +203,6 @@ class Node extends Component {
       unsetIsEditing,
       setShowButtons,
       toggleExpanded,
-      expand,
       isEditing,
       postNode,
       putNode,
@@ -325,7 +324,6 @@ class Node extends Component {
           unsetIsEditing={ unsetIsEditing }
           setShowButtons={ setShowButtons }
           toggleExpanded={ toggleExpanded }
-          expand={ expand }
           deleteNode={ deleteNode }
           postNode={ postNode }
           putNode={ putNode }

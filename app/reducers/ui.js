@@ -1,7 +1,6 @@
 /* @flow */
 
 import * as types from '../actions/ui'
-//import ImmutableArray from '../lib/ImmutableArray'
 import { Set } from 'immutable'
 import Storage, { keys } from '../lib/Storage'
 
@@ -16,7 +15,7 @@ const defaultState: UIState = {
 }
 
 export default function nodes (state: UIState = defaultState, action: UIAction) {
-  let expanded
+  let expanded, set
   switch (action.type) {
   case types.INIT:
     expanded = Storage.get(expandedKey)
@@ -30,12 +29,13 @@ export default function nodes (state: UIState = defaultState, action: UIAction) 
     return Object.assign({}, state, { showButtons: action.data.uid })
   case types.UNSET_SHOW_BUTTONS:
     return Object.assign({}, state, { showButtons: null })
-  case types.EXPAND:
-    expanded = Set(state.expanded).add(action.data.uid).toJS()
-    Storage.set(expandedKey, expanded)
-    return Object.assign({}, state, { expanded })
-  case types.COLLAPSE:
-    expanded = Set(state.expanded).remove(action.data.uid).toJS()
+  case types.TOGGLE_EXPANDED:
+    set = Set(state.expanded)
+    if (!set.has(action.data.uid)) {
+      expanded = set.add(action.data.uid).toJS()
+    } else {
+      expanded = set.remove(action.data.uid).toJS()
+    }
     Storage.set(expandedKey, expanded)
     return Object.assign({}, state, { expanded })
   default:
