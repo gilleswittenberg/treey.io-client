@@ -16,14 +16,16 @@ describe('nodes actions', () => {
 
   describe('getNodes', () => {
 
+    const uid = '57bedc40e81b0620300d769a'
+
     it('INTERNAL_SERVER_ERROR', () => {
       nock(hostname)
-        .get('/node/57bedc40e81b0620300d769a')
+        .get(`/node/${ uid }`)
         .reply(500)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.getNodes())
+      return store.dispatch(actions.getNodes(uid))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -34,12 +36,12 @@ describe('nodes actions', () => {
 
     it('NOT_FOUND', () => {
       nock(hostname)
-        .get('/node/57bedc40e81b0620300d769a')
+        .get(`/node/${ uid }`)
         .reply(404)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.getNodes())
+      return store.dispatch(actions.getNodes(uid))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -48,12 +50,12 @@ describe('nodes actions', () => {
 
     it('BAD_REQUEST', () => {
       nock(hostname)
-        .get('/node/57bedc40e81b0620300d769a')
+        .get(`/node/${ uid }`)
         .reply(400)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.getNodes())
+      return store.dispatch(actions.getNodes(uid))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -63,7 +65,7 @@ describe('nodes actions', () => {
     it('OK', () => {
 
       const body = {
-        uid: '57bedc40e81b0620300d769a',
+        uid,
         title: 'John Doe',
         nodes: [
           {
@@ -85,12 +87,12 @@ describe('nodes actions', () => {
       }
 
       nock(hostname)
-        .get('/node/57bedc40e81b0620300d769a')
+        .get(`/node/${ uid }`)
         .reply(200, body)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.getNodes())
+      return store.dispatch(actions.getNodes(uid))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('INDEX_NODES')

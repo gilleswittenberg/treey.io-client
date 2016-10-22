@@ -16,8 +16,6 @@ default:
   host = `http://${ window.location.hostname }:8081`
 }
 
-const rootUid = '57bedc40e81b0620300d769a'
-
 export const START_SYNCING = 'START_SYNCING'
 export function startSyncing () {
   return {
@@ -50,10 +48,10 @@ export function indexNodes (tree: Node) {
 }
 
 export const GET_NODES = 'GET_NODES'
-export function getNodes () {
+export function getNodes (uid: string) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
-    const url = `${ host }/node/${ rootUid }`
+    const url = `${ host }/node/${ uid }`
     const options = {
       method: 'GET',
       headers: {

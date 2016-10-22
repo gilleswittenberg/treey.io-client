@@ -11,7 +11,9 @@ import '!style!css!sass!./css/screen.sass'
 const store = configureStore()
 
 store.dispatch(initUI())
-store.dispatch(getNodes())
+
+const uid = '57bedc40e81b0620300d769a'
+store.dispatch(getNodes(uid))
 
 ReactDOM.render(
   <Root store={ store } />,
