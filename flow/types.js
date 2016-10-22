@@ -2,6 +2,8 @@
 
 import { Map, List } from 'immutable'
 
+export type Type = 'boolean' | 'number' | 'string' | '[]' | 'boolean[]' | 'string[]' | 'number[]'
+
 export type Node = { uid: string, title: string, nodes: ?Node[] }
 export type NodeData = { title: string }
 export type NodeMap = Map<string, any>
@@ -45,16 +47,17 @@ export type NodesAction = {
 }
 
 type UIActionType =
-  'INIT' |
+  'INIT_EXPANDED' |
+  'TOGGLE_EXPANDED' |
   'SET_IS_EDITING' |
   'UNSET_IS_EDITING' |
   'SET_SHOW_BUTTONS' |
-  'UNSET_SHOW_BUTTONS' |
-  'TOGGLE_EXPANDED'
+  'UNSET_SHOW_BUTTONS'
 
 export type UIAction = {
   type: UIActionType,
   data: {
+    expanded: string[],
     uid: string
   }
 }

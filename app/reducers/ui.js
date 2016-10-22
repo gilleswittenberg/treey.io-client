@@ -2,11 +2,11 @@
 
 import * as types from '../actions/ui'
 import { Set } from 'immutable'
-import Storage, { keys } from '../lib/Storage'
+import Storage from '../lib/Storage'
 
 import type { UIState, UIAction } from '../../flow/types'
 
-const expandedKey = keys[0]
+import EXPANDED_KEY from '../settings/EXPANDED_KEY'
 
 const defaultState: UIState = {
   editing: null,
@@ -17,9 +17,16 @@ const defaultState: UIState = {
 export default function nodes (state: UIState = defaultState, action: UIAction) {
   let expanded, set
   switch (action.type) {
-  case types.INIT:
-    expanded = Storage.get(expandedKey)
-    expanded = Array.isArray(expanded) ? expanded : []
+  case types.INIT_EXPANDED:
+    return Object.assign({}, state, { expanded: action.data.expanded })
+  case types.TOGGLE_EXPANDED:
+    set = Set(state.expanded)
+    if (!set.has(action.data.uid)) {
+      expanded = set.add(action.data.uid).toJS()
+    } else {
+      expanded = set.remove(action.data.uid).toJS()
+    }
+    Storage.set(EXPANDED_KEY, expanded)
     return Object.assign({}, state, { expanded })
   case types.SET_IS_EDITING:
     return Object.assign({}, state, { editing: action.data.uid })
@@ -29,15 +36,6 @@ export default function nodes (state: UIState = defaultState, action: UIAction) 
     return Object.assign({}, state, { showButtons: action.data.uid })
   case types.UNSET_SHOW_BUTTONS:
     return Object.assign({}, state, { showButtons: null })
-  case types.TOGGLE_EXPANDED:
-    set = Set(state.expanded)
-    if (!set.has(action.data.uid)) {
-      expanded = set.add(action.data.uid).toJS()
-    } else {
-      expanded = set.remove(action.data.uid).toJS()
-    }
-    Storage.set(expandedKey, expanded)
-    return Object.assign({}, state, { expanded })
   default:
     return state
   }

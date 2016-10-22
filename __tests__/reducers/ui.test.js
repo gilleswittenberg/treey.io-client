@@ -1,15 +1,9 @@
 import reducer from '../../app/reducers/ui'
 import {
-  INIT,
+  INIT_EXPANDED, TOGGLE_EXPANDED,
   SET_IS_EDITING, UNSET_IS_EDITING,
-  SET_SHOW_BUTTONS, UNSET_SHOW_BUTTONS,
-  EXPAND, COLLAPSE, TOGGLE_EXPANDED
+  SET_SHOW_BUTTONS, UNSET_SHOW_BUTTONS
 } from '../../app/actions/ui'
-import Storage, { keys } from '../../app/lib/Storage'
-
-const expandedKey = keys[0]
-
-jest.genMockFromModule('../../__mocks__/localStorage')
 
 describe('nodes reducer', () => {
 
@@ -86,16 +80,11 @@ describe('nodes reducer', () => {
 
   describe('expanded', () => {
 
-    it('INIT', () => {
+    it('INIT_EXPANDED', () => {
 
       const uid = '57bedc40e81b0620300d769b'
-
-      Storage.set(expandedKey, [uid])
-
-      const state = reducer(undefined, {})
-      const state2 = reducer(state, { type: INIT })
-
-      expect(state2.expanded).toContain(uid)
+      const state = reducer(undefined, { type: INIT_EXPANDED, data: { expanded : [uid] }})
+      expect(state.expanded).toContain(uid)
     })
 
     describe('TOGGLE_EXPANDED', () => {

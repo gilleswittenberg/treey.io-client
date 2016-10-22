@@ -1,36 +1,11 @@
 /* @flow */
 
-const allowedKeys = {
-  'ui.expanded' : {
-    validation (value) {
-      if (!Array.isArray(value)) {
-        return false
-      }
-      return (value.filter(v => typeof v !== 'string')).length === 0
-    }
-  }
-}
-
-const keys = Object.keys(allowedKeys)
-
-function isAllowedKey (key) {
-  return keys.includes(key)
-}
-
-function isValid (key, value) {
-  if (allowedKeys[key] && allowedKeys[key].validation) {
-    return allowedKeys[key].validation(value)
-  }
-  return true
-}
+import isType from '../../app/lib/isType'
+import type { Type } from '../../flow/types'
 
 const Storage = {
 
   set (key: string, item: any) : bool {
-
-    if (!isAllowedKey(key)) {
-      return false
-    }
 
     try {
       const value = JSON.stringify(item)
@@ -41,26 +16,22 @@ const Storage = {
     }
   },
 
-  get (key: string) : bool | any {
-
-    if (!isAllowedKey(key)) {
-      return false
-    }
+  get (key: string, type?: Type) : bool | any {
 
     let parsedValue
 
     try {
       const value = window.localStorage.getItem(key)
       parsedValue = value ? JSON.parse(value) : null
+      if (type !== undefined) {
+        if (!isType(type, parsedValue)) {
+          return false
+        }
+      }
+      return parsedValue
     } catch (err) {
       return false
     }
-
-    if (parsedValue === null) {
-      return false
-    }
-
-    return isValid(key, parsedValue) ? parsedValue : false
   },
 
   clear () : bool {
@@ -74,4 +45,3 @@ const Storage = {
 }
 
 export default Storage
-export { keys }

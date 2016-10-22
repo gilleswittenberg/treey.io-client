@@ -1,12 +1,5 @@
 /* @flow */
 
-export const INIT = 'INIT'
-export function init () {
-  return {
-    type: INIT
-  }
-}
-
 export const SET_IS_EDITING = 'SET_IS_EDITING'
 export function setIsEditing (uid: string, type: string) {
   const uidString = type ? `${ uid }.${ type }` : uid
@@ -39,6 +32,14 @@ export const UNSET_SHOW_BUTTONS = 'UNSET_SHOW_BUTTONS'
 export function unsetShowButtons () {
   return {
     type: UNSET_SHOW_BUTTONS
+  }
+}
+
+export const INIT_EXPANDED = 'INIT_EXPANDED'
+export function initExpanded (expanded: string[]) {
+  return {
+    type: INIT_EXPANDED,
+    data: { expanded }
   }
 }
 

@@ -56,7 +56,17 @@ describe('ui actions', () => {
   describe('expanded', () => {
 
     const uid = '57bedc40e81b0620300d769a'
-    
+
+    it('initExpanded', () => {
+
+      const store = mockStore({ ui: { expanded: [] } })
+
+      store.dispatch(actions.initExpanded([uid]))
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual(actions.INIT_EXPANDED)
+      expect(lastAction.data.expanded).toEqual([uid])
+    })
+
     it('toggleExpanded', () => {
 
       const store = mockStore({ ui: { expanded: [] } })

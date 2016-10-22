@@ -3,17 +3,22 @@ import ReactDOM from 'react-dom'
 import Root from './containers/Root.jsx'
 import configureStore from './store/configureStore'
 import { getNodes } from './actions/nodes'
-import { init as initUI } from './actions/ui'
+import { initExpanded } from './actions/ui'
+import Storage from './lib/Storage'
+import EXPANDED_KEY from './settings/EXPANDED_KEY'
+import ROOT_UID from './settings/ROOT_UID'
 
 import '!style!css!./css/font-awesome.css'
 import '!style!css!sass!./css/screen.sass'
 
 const store = configureStore()
 
-store.dispatch(initUI())
+const expanded = Storage.get(EXPANDED_KEY, 'string[]')
+if (expanded !== false) {
+  store.dispatch(initExpanded(expanded))
+}
 
-const uid = '57bedc40e81b0620300d769a'
-store.dispatch(getNodes(uid))
+store.dispatch(getNodes(ROOT_UID))
 
 ReactDOM.render(
   <Root store={ store } />,
