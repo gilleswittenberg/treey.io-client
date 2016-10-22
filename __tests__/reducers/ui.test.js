@@ -118,5 +118,17 @@ describe('nodes reducer', () => {
 
       expect(state3.expanded).not.toContain(uid)
     })
+
+    it('no duplicates', () => {
+
+      const uid = '57bedc40e81b0620300d769b'
+
+      const state = reducer(undefined, {})
+      const state2 = reducer(state, { type: EXPAND, data: { uid } })
+      const state3 = reducer(state2, { type: EXPAND, data: { uid } })
+
+      expect(state3.expanded).toContain(uid)
+      expect(state3.expanded.length).toBe(1)
+    })
   })
 })

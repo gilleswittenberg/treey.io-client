@@ -1,7 +1,8 @@
 /* @flow */
 
 import * as types from '../actions/ui'
-import ImmutableArray from '../lib/ImmutableArray'
+//import ImmutableArray from '../lib/ImmutableArray'
+import { Set } from 'immutable'
 import Storage, { keys } from '../lib/Storage'
 
 import type { UIState, UIAction } from '../../flow/types'
@@ -30,11 +31,11 @@ export default function nodes (state: UIState = defaultState, action: UIAction) 
   case types.UNSET_SHOW_BUTTONS:
     return Object.assign({}, state, { showButtons: null })
   case types.EXPAND:
-    expanded = ImmutableArray.add(state.expanded, action.data.uid)
+    expanded = Set(state.expanded).add(action.data.uid).toJS()
     Storage.set(expandedKey, expanded)
     return Object.assign({}, state, { expanded })
   case types.COLLAPSE:
-    expanded = ImmutableArray.remove(state.expanded, action.data.uid)
+    expanded = Set(state.expanded).remove(action.data.uid).toJS()
     Storage.set(expandedKey, expanded)
     return Object.assign({}, state, { expanded })
   default:
