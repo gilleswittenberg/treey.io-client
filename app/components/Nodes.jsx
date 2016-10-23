@@ -16,6 +16,7 @@ class Nodes extends Component {
     setIsEditing: PropTypes.func.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
     setShowButtons: PropTypes.func.isRequired,
+    expand: PropTypes.func.isRequired,
     toggleExpanded: PropTypes.func.isRequired,
     postNode: PropTypes.func.isRequired,
     putNode: PropTypes.func.isRequired,
@@ -70,12 +71,12 @@ class Nodes extends Component {
         { hasNodeAdd &&
           <li>
             <NodeAdd
-              postNode={ postNode }
+              parent={ parent }
+              isEditing={ isEditing(ui, parent, 'add') }
               setIsEditing={ setIsEditing }
               unsetIsEditing={ unsetIsEditing }
               expand={ expand }
-              parent={ parent }
-              isEditing={ isEditing(ui, parent, 'add') }
+              postNode={ postNode }
             />
           </li>
         }
@@ -92,6 +93,7 @@ export default connect((state, props) => ({
   ui: props.ui,
   setIsEditing: props.setIsEditing,
   unsetIsEditing: props.unsetIsEditing,
+  expand: props.expand,
   toggleExpanded: props.toggleExpanded,
   postNode: props.postNode,
   putNode: props.putNode,

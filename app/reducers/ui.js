@@ -19,6 +19,11 @@ export default function nodes (state: UIState = defaultState, action: UIAction) 
   switch (action.type) {
   case types.INIT_EXPANDED:
     return Object.assign({}, state, { expanded: action.data.expanded })
+  case types.EXPAND:
+    set = Set(state.expanded)
+    expanded = set.add(action.data.uid).toJS()
+    Storage.set(EXPANDED_KEY, expanded)
+    return Object.assign({}, state, { expanded })
   case types.TOGGLE_EXPANDED:
     set = Set(state.expanded)
     if (!set.has(action.data.uid)) {

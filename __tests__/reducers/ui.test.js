@@ -1,6 +1,6 @@
 import reducer from '../../app/reducers/ui'
 import {
-  INIT_EXPANDED, TOGGLE_EXPANDED,
+  INIT_EXPANDED, EXPAND, TOGGLE_EXPANDED,
   SET_IS_EDITING, UNSET_IS_EDITING,
   SET_SHOW_BUTTONS, UNSET_SHOW_BUTTONS
 } from '../../app/actions/ui'
@@ -85,6 +85,14 @@ describe('nodes reducer', () => {
       const uid = '57bedc40e81b0620300d769b'
       const state = reducer(undefined, { type: INIT_EXPANDED, data: { expanded : [uid] }})
       expect(state.expanded).toContain(uid)
+    })
+
+    it('EXPANDED', () => {
+
+      const uid = '57bedc40e81b0620300d769b'
+      const state = reducer(undefined, { type: EXPAND, data: { uid } })
+      expect(state.expanded).toContain(uid)
+      expect(state.expanded.length).toBe(1)
     })
 
     describe('TOGGLE_EXPANDED', () => {

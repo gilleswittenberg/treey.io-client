@@ -87,6 +87,8 @@ class Node extends Component {
     setIsEditing: PropTypes.func.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
     setShowButtons: PropTypes.func.isRequired,
+    expand: PropTypes.func.isRequired,
+    toggleExpanded: PropTypes.func.isRequired,
     postNode: PropTypes.func.isRequired,
     putNode: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired,
@@ -202,6 +204,7 @@ class Node extends Component {
       setIsEditing,
       unsetIsEditing,
       setShowButtons,
+      expand,
       toggleExpanded,
       isEditing,
       postNode,
@@ -323,6 +326,7 @@ class Node extends Component {
           setIsEditing={ setIsEditing }
           unsetIsEditing={ unsetIsEditing }
           setShowButtons={ setShowButtons }
+          expand={ expand }
           toggleExpanded={ toggleExpanded }
           deleteNode={ deleteNode }
           postNode={ postNode }
@@ -344,6 +348,7 @@ export default connect((state, props) => ({
   isEditing: props.isEditing,
   setIsEditing: props.setIsEditing,
   unsetIsEditing: props.unsetIsEditing,
+  expand: props.expand,
   toggleExpanded: props.toggleExpanded,
   postNode: props.postNode,
   putNode: props.putNode,

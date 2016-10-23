@@ -43,6 +43,16 @@ export function initExpanded (expanded: string[]) {
   }
 }
 
+export const EXPAND = 'EXPAND'
+export function expand (uid: string) {
+  return {
+    type: EXPAND,
+    data: {
+      uid
+    }
+  }
+}
+
 export const TOGGLE_EXPANDED = 'TOGGLE_EXPANDED'
 export function toggleExpanded (uid: string) {
   return {

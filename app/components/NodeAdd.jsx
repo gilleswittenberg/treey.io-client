@@ -11,6 +11,7 @@ class AddForm extends Component {
     isEditing: PropTypes.bool.isRequired,
     setIsEditing: PropTypes.func.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
+    expand: PropTypes.func.isRequired,
     postNode: PropTypes.func.isRequired
   }
 
@@ -118,5 +119,6 @@ export default connect((state, props) => ({
   isEditing: props.isEditing,
   setIsEditing: props.setIsEditing,
   unsetIsEditing: props.unsetIsEditing,
+  expand: props.expand,
   postNode: props.postNode
 }))(AddForm)
