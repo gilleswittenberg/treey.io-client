@@ -67,3 +67,12 @@ export type UIState = {
   showButtons: ?string,
   expanded: string[]
 }
+
+export type NodeAddProps = {
+  parent: string,
+  isEditing: boolean,
+  setIsEditing: () => void,
+  unsetIsEditing: () => void,
+  expand: () => void,
+  postNode: () => void
+}

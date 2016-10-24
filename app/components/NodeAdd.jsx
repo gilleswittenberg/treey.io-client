@@ -4,10 +4,12 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 
-class AddForm extends Component {
+import type { NodeAddProps as Props } from '../../flow/types'
+
+export class NodeAdd extends Component {
 
   static propTypes = {
-    parent: PropTypes.string,
+    parent: PropTypes.string.isRequired,
     isEditing: PropTypes.bool.isRequired,
     setIsEditing: PropTypes.func.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
@@ -19,7 +21,7 @@ class AddForm extends Component {
     title: ''
   }
 
-  constructor (props) {
+  constructor (props: Props) {
 
     super(props)
 
@@ -30,7 +32,8 @@ class AddForm extends Component {
     self.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  componentWillUpdate (nextProps) {
+  // clear input when user starts adding
+  componentWillUpdate (nextProps: Props) {
     if (nextProps.isEditing === true && this.props.isEditing === false) {
       this.setState({ title: '' })
     }
@@ -42,11 +45,14 @@ class AddForm extends Component {
     setIsEditing(parent, 'add')
   }
 
-  handleChange (event) {
-    this.setState({ title: event.target.value })
+  handleChange (event: Event) {
+    const target = event.target
+    if (target instanceof HTMLInputElement) {
+      this.setState({ title: target.value })
+    }
   }
 
-  handleSubmit (event) {
+  handleSubmit (event: Event) {
 
     event.preventDefault()
 
@@ -121,4 +127,4 @@ export default connect((state, props) => ({
   unsetIsEditing: props.unsetIsEditing,
   expand: props.expand,
   postNode: props.postNode
-}))(AddForm)
+}))(NodeAdd)
