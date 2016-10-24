@@ -73,7 +73,7 @@ const DropSpec = {
   isOverItemUid: monitor.getItem() ? monitor.getItem().uid : null,
   canDrop: monitor.canDrop()
 }))
-class Node extends Component {
+export class Node extends Component {
 
   static propTypes = {
     parent: PropTypes.string,
@@ -133,7 +133,7 @@ class Node extends Component {
     return !!(nodes && nodes.length > 0)
   }
 
-  handleClick (event) {
+  handleClick (event: Event) {
 
     // alt key to edit
     if (event.altKey) {
@@ -165,11 +165,14 @@ class Node extends Component {
     setIsEditing(uid)
   }
 
-  handleChange (event) {
-    this.setState({ title: event.target.value })
+  handleChange (event: Event) {
+    const target = event.target
+    if (target instanceof HTMLInputElement) {
+      this.setState({ title: target.value })
+    }
   }
 
-  handleSubmit (event) {
+  handleSubmit (event: Event) {
     event.preventDefault()
     const { parent, uid, title, deleteNode, putNode, unsetIsEditing } = this.props
     const { title: newTitle } = this.state
@@ -187,7 +190,7 @@ class Node extends Component {
     deleteNode(parent, uid)
   }
 
-  handleClickShowButtons (event) {
+  handleClickShowButtons (event: Event) {
     event.stopPropagation()
     const { uid, setShowButtons } = this.props
     setShowButtons(uid)
@@ -223,7 +226,7 @@ class Node extends Component {
     } = this.state
     const isExpanded = isExpandedFunc(ui, uid)
     const hasButtonsShown = hasButtonsShownFunc(ui, uid)
-    const hasChildren = nodes.length > 0
+    const hasChildren = nodes && nodes.length > 0
     const isAdding = isEditingFunc(ui, uid, 'add')
     const isOverOther = isOver && isOverItemUid !== uid
 

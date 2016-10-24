@@ -6,7 +6,7 @@ import Node from '../components/Node'
 import NodeAdd from '../components/NodeAdd'
 import { isEditing } from '../reducers/ui'
 
-class Nodes extends Component {
+export class Nodes extends Component {
 
   static propTypes = {
     parent: PropTypes.string,
