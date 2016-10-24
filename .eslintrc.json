@@ -24,8 +24,10 @@
         "linebreak-style": ["error", "unix"],
         "no-var": "error",
         "object-shorthand": ["error", "always"],
+        "object-curly-spacing": ["error", "always"],
         "quotes": ["error", "single"],
         "semi": ["error", "never"],
+        "space-before-function-paren": ["error", "always"],
         "spaced-comment": ["error", "always"],
         "template-curly-spacing": ["error", "always"],
 
