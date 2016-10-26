@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import NodeBody from '../components/NodeBody'
 import NodeEdit from '../components/NodeEdit'
+import NodeOver from '../components/NodeOver'
 import Nodes from '../components/Nodes'
 import { DragSource, DropTarget } from 'react-dnd'
 import {
@@ -158,20 +159,20 @@ export class NodeWrap extends Component {
       }
     )
 
-    const showOverTop = isOverOther && isOverPosition === 'top'
-    const showOverBottom = isOverOther && isOverPosition === 'bottom'
+    const showNodeOverTop = !isEditing && isOverOther && isOverPosition === 'top'
+    const showNodeBody = !isEditing
+    const showNodeOverBottom = !isEditing && isOverOther && isOverPosition === 'bottom'
+    const showNodeEdit = isEditing
 
     return (
       <div ref={ c => this.element = c }>
 
         { connectDropTarget(connectDragSource(
           <div className={ className }>
-            { !isEditing && showOverTop &&
-              <div className="node-over node-over-top">
-                <div></div>
-              </div>
+            { showNodeOverTop &&
+              <NodeOver position="top" />
             }
-            { !isEditing &&
+            { showNodeBody &&
               <NodeBody
                 parent={ parent }
                 uid={ uid }
@@ -186,12 +187,10 @@ export class NodeWrap extends Component {
                 setShowButtons={ setShowButtons }
               />
             }
-            { !isEditing && showOverBottom &&
-              <div className="node-over node-over-bottom">
-                <div></div>
-              </div>
+            { showNodeOverBottom &&
+              <NodeOver position="bottom" />
             }
-            { isEditing &&
+            { showNodeEdit &&
               <NodeEdit
                 parent={ parent }
                 uid={ uid }
