@@ -3,6 +3,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
+import NodeBody from '../components/NodeBody'
+import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
 import { DragSource, DropTarget } from 'react-dnd'
 import {
@@ -82,6 +84,7 @@ export class NodeWrap extends Component {
     after: PropTypes.string,
     title: PropTypes.string.isRequired,
     nodes: PropTypes.array,
+    hasNodes: PropTypes.bool.isRequired,
     ui: PropTypes.object.isRequired,
     isEditing: PropTypes.bool.isRequired,
     setIsEditing: PropTypes.func.isRequired,
@@ -106,103 +109,20 @@ export class NodeWrap extends Component {
 
   state = {
     isDragging: false,
-    title: '',
     isOverPosition: -1
   }
 
   element = undefined
 
-  constructor (props) {
-
-    super(props)
-
-    // @LINK: https://github.com/facebook/flow/issues/1517
-    const self = (this: any)
-    self.hasNodes = this.hasNodes.bind(this)
-    self.handleClick = this.handleClick.bind(this)
-    self.handleClickAdd = this.handleClickAdd.bind(this)
-    self.handleClickEdit = this.handleClickEdit.bind(this)
-    self.handleChange = this.handleChange.bind(this)
-    self.handleClickDelete = this.handleClickDelete.bind(this)
-    self.handleSubmit = this.handleSubmit.bind(this)
-    self.handleClickShowButtons = this.handleClickShowButtons.bind(this)
-  }
-
-  hasNodes () {
-    const { nodes } = this.props
-    return !!(nodes && nodes.length > 0)
-  }
-
-  handleClick (event: Event) {
-
-    // alt key to edit
-    if (event.altKey) {
-      this.startIsEditing()
-    }
-    // regular click to collapse or expand
-    else {
-      const { unsetIsEditing } = this.props
-      unsetIsEditing()
-      // guard
-      if (!this.hasNodes()) return
-      const { toggleExpanded, uid } = this.props
-      toggleExpanded(uid)
-    }
-  }
-
-  handleClickAdd () {
-    const { uid, setIsEditing } = this.props
-    setIsEditing(uid, 'add')
-  }
-
-  handleClickEdit () {
-    this.startIsEditing()
-  }
-
-  startIsEditing () {
-    const { uid, setIsEditing, title } = this.props
-    this.setState({ title })
-    setIsEditing(uid)
-  }
-
-  handleChange (event: Event) {
-    const target = event.target
-    if (target instanceof HTMLInputElement) {
-      this.setState({ title: target.value })
-    }
-  }
-
-  handleSubmit (event: Event) {
-    event.preventDefault()
-    const { parent, uid, title, deleteNode, putNode, unsetIsEditing } = this.props
-    const { title: newTitle } = this.state
-    const newTitleTrimmed = newTitle.trim()
-    if (newTitleTrimmed === '') {
-      deleteNode(parent, uid)
-    } else if (title !== newTitleTrimmed) {
-      putNode(uid, { title: newTitleTrimmed })
-    }
-    unsetIsEditing()
-  }
-
-  handleClickDelete () {
-    const { parent, uid, deleteNode } = this.props
-    deleteNode(parent, uid)
-  }
-
-  handleClickShowButtons (event: Event) {
-    event.stopPropagation()
-    const { uid, setShowButtons } = this.props
-    setShowButtons(uid)
-  }
-
   render () {
 
     const {
+      parent,
       isRoot,
       uid,
-      title = '',
-      nodes = [],
+      title,
+      nodes,
+      hasNodes,
       ui,
       setIsEditing,
       unsetIsEditing,
@@ -221,44 +141,25 @@ export class NodeWrap extends Component {
       isOverItemUid
     } = this.props
     const {
-      title: value,
       isOverPosition
     } = this.state
     const isExpanded = isExpandedFunc(ui, uid)
-    const hasButtonsShown = hasButtonsShownFunc(ui, uid)
-    const hasChildren = nodes && nodes.length > 0
     const isAdding = isEditingFunc(ui, uid, 'add')
+    const hasButtonsShown = hasButtonsShownFunc(ui, uid)
     const isOverOther = isOver && isOverItemUid !== uid
 
     const className = classNames(
       'node',
       {
         '-is-editing': isEditing,
-        '-is-expanded': (isExpanded && hasChildren) || isAdding,
+        '-is-expanded': (isExpanded && hasNodes) || isAdding,
         '-is-dragging': isDragging,
         '-has-buttons-shown': hasButtonsShown
       }
     )
 
-    const showAddButton = !this.hasNodes()
-    const showDeleteButton = !isRoot
-    let numButtons = 1
-    if (showAddButton) numButtons++
-    if (showDeleteButton) numButtons++
-    const nodeButtonsClassName = classNames(
-      'node-buttons',
-      'node-buttons-default-hidden',
-      {
-        'node-buttons-num-2': numButtons === 2,
-        'node-buttons-num-3': numButtons === 3
-      }
-    )
-
     const showOverTop = isOverOther && isOverPosition === 'top'
     const showOverBottom = isOverOther && isOverPosition === 'bottom'
-
-    // @TODO: extract to isURL method
-    const contentIsURL = title.match(/^https?:\/\//)
 
     return (
       <div ref={ c => this.element = c }>
@@ -271,30 +172,19 @@ export class NodeWrap extends Component {
               </div>
             }
             { !isEditing &&
-              <div className="node-body">
-                <div className={ nodeButtonsClassName }>
-                  { showAddButton &&
-                    <button onClick={ this.handleClickAdd } title="add">
-                      <i className="fa fa-plus-square-o"></i>
-                    </button>
-                  }
-                  <button onClick={ this.handleClickEdit } title="edit">
-                    <i className="fa fa-pencil-square-o"></i>
-                  </button>
-                  { showDeleteButton &&
-                    <button onClick={ this.handleClickDelete } title="delete">
-                      <i className="fa fa-trash-o"></i>
-                    </button>
-                  }
-                </div>
-                <div className="node-content" onClick={ this.handleClick }>
-                  <button className="node-button-show-buttons" onClick={ this.handleClickShowButtons } title="more">
-                    <i className="fa fa-ellipsis-v"></i>
-                  </button>
-                  { contentIsURL && <span><a href={ title }>{ title }</a></span> }
-                  { !contentIsURL && <span>{ title }</span> }
-                </div>
-              </div>
+              <NodeBody
+                parent={ parent }
+                uid={ uid }
+                title={ title }
+                showAddButton={ hasNodes }
+                showDeleteButton={ !isRoot }
+                unsetIsEditing={ unsetIsEditing }
+                setIsEditing={ setIsEditing }
+                toggleExpanded={ toggleExpanded }
+                deleteNode={ deleteNode }
+                allowExpanding={ hasNodes }
+                setShowButtons={ setShowButtons }
+              />
             }
             { !isEditing && showOverBottom &&
               <div className="node-over node-over-bottom">
@@ -302,22 +192,14 @@ export class NodeWrap extends Component {
               </div>
             }
             { isEditing &&
-              <div className="node-editing">
-                <form onSubmit={ this.handleSubmit }>
-                  <div className="node-buttons">
-                    <button title="save">
-                      <i className="fa fa-floppy-o"></i>
-                    </button>
-                  </div>
-                  <div className="input-wrap">
-                    <input
-                      ref={ input => { if (input) input.focus() } }
-                      value={ value }
-                      onChange={ this.handleChange }
-                    />
-                  </div>
-                </form>
-              </div>
+              <NodeEdit
+                parent={ parent }
+                uid={ uid }
+                title={ title }
+                unsetIsEditing={ unsetIsEditing }
+                putNode={ putNode }
+                deleteNode={ deleteNode }
+              />
             }
           </div>
         )) }
@@ -345,8 +227,9 @@ export default connect((state, props) => ({
   parent: props.parent,
   isRoot: props.parent === null,
   uid: props.uid,
-  title: props.title,
-  nodes: props.nodes,
+  title: props.title || '',
+  nodes: props.nodes || [],
+  hasNodes: !!(props.nodes && props.nodes.length),
   ui: props.ui,
   isEditing: props.isEditing,
   setIsEditing: props.setIsEditing,

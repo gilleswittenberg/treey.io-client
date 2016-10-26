@@ -17,8 +17,6 @@ function wrapInTestContext (DecoratedComponent) {
   return TestContextContainer
 }
 
-
-
 describe('NodeWrap', () => {
 
   const noop = () => {}
@@ -49,6 +47,7 @@ describe('NodeWrap', () => {
           uid={ uid }
           title={ 'title' }
           nodes={ props.nodes }
+          hasNodes={ props.nodes.length > 0 }
           ui={ ui }
           isEditing={ props.isEditing }
           setIsEditing={ noop }

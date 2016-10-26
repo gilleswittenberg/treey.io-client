@@ -68,6 +68,15 @@ export type UIState = {
   expanded: string[]
 }
 
+export type NodeEditProps = {
+  parent: string,
+  uid: string,
+  title: string,
+  unsetIsEditing: () => void,
+  putNode: () => void,
+  deleteNode: () => void
+}
+
 export type NodeAddProps = {
   parent: string,
   isEditing: boolean,
@@ -75,4 +84,16 @@ export type NodeAddProps = {
   unsetIsEditing: () => void,
   expand: () => void,
   postNode: () => void
+}
+
+export type NodeBodyProps = {
+  uid: string,
+  title: string,
+  showAddButton: boolean,
+  showDeleteButton: boolean,
+  unsetIsEditing: () => void,
+  setIsEditing: () => void,
+  allowExpanding: boolean,
+  toggleExpanded: () => void,
+  deleteNode: () => void
 }

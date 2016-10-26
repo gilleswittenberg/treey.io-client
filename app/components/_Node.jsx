@@ -112,7 +112,7 @@ export class Node extends Component {
 
   element = undefined
 
-  constructor (props) {
+  constructor (props: any) {
 
     super(props)
 
