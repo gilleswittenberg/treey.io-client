@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Node } from '../../app/components/Node'
+import { NodeWrap } from '../../app/components/NodeWrap'
 import { mount } from 'enzyme'
 import { DragDropContext } from 'react-dnd'
 import TestBackend from 'react-dnd-test-backend'
@@ -19,7 +19,7 @@ function wrapInTestContext (DecoratedComponent) {
 
 
 
-describe('Node', () => {
+describe('NodeWrap', () => {
 
   const noop = () => {}
   const parent = '57bedc40e81b0620300d769a'
@@ -39,11 +39,11 @@ describe('Node', () => {
 
     const mockStore = configureStore([])
     const store = mockStore({})
-    const NodeContext = wrapInTestContext(Node)
+    const NodeWrapContext = wrapInTestContext(NodeWrap)
 
     return (
       <Provider store={ store }>
-        <NodeContext
+        <NodeWrapContext
           parent={ parent }
           isRoot={ false }
           uid={ uid }

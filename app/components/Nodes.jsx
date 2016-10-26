@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import Node from '../components/Node'
+import NodeWrap from '../components/NodeWrap'
 import NodeAdd from '../components/NodeAdd'
 import { isEditing } from '../reducers/ui'
 
@@ -47,7 +47,7 @@ export class Nodes extends Component {
 
         { nodes.map((node, index) =>
           <li key={ node.uid }>
-            <Node
+            <NodeWrap
               parent={ parent }
               uid={ node.uid }
               after={ nodes[index + 1] ? nodes[index + 1].uid : null }
