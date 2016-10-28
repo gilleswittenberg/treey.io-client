@@ -15,41 +15,41 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
   let tree
   switch (action.type) {
   case types.START_SYNCING:
-    return Object.assign({}, state, { isSyncing: true })
+    return { ...state, isSyncing: true }
   case types.STOP_SYNCING:
-    return Object.assign({}, state, { isSyncing: false })
+    return { ...state, isSyncing: false }
   case types.HAS_ERRORS:
-    return Object.assign({}, state, { hasErrors: true })
+    return { ...state, hasErrors: true }
   case types.INDEX_NODES:
-    return Object.assign({}, state, action.data)
+    return { ...state, ...action.data }
   case types.ADD_NODE:
     if (state.tree) {
       tree = Tree.create(state.tree, action.data.parent, action.data.node)
     } else {
       tree = state.tree
     }
-    return Object.assign({}, state, { tree })
+    return { ...state, tree }
   case types.UPDATE_NODE:
     if (state.tree) {
       tree = Tree.update(state.tree, action.data.uid, action.data.node)
     } else {
       tree = state.tree
     }
-    return Object.assign({}, state, { tree })
+    return { ...state, tree }
   case types.REMOVE_NODE:
     if (state.tree) {
       tree = Tree.removeChild(state.tree, action.data.parent, action.data.uid)
     } else {
       tree = state.tree
     }
-    return Object.assign({}, state, { tree })
+    return { ...state, tree }
   case types.MOVE_NODE:
     if (state.tree) {
       tree = Tree.move(state.tree, action.data.parent, action.data.uid, action.data.newParent, action.data.before)
     } else {
       tree = state.tree
     }
-    return Object.assign({}, state, { tree })
+    return { ...state, tree }
   default:
     return state
   }

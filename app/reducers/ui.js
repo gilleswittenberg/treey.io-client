@@ -19,12 +19,13 @@ export default function nodes (state: UIState = defaultState, action: UIAction) 
   let expanded, set
   switch (action.type) {
   case types.INIT_EXPANDED:
-    return Object.assign({}, state, { expanded: action.data.expanded })
+    expanded = action.data.expanded
+    return { ...state, expanded }
   case types.EXPAND:
     set = Set(state.expanded)
     expanded = set.add(action.data.uid).toJS()
     Storage.set(EXPANDED_KEY, expanded)
-    return Object.assign({}, state, { expanded })
+    return { ...state, expanded }
   case types.TOGGLE_EXPANDED:
     set = Set(state.expanded)
     if (!set.has(action.data.uid)) {
@@ -33,15 +34,15 @@ export default function nodes (state: UIState = defaultState, action: UIAction) 
       expanded = set.remove(action.data.uid).toJS()
     }
     Storage.set(EXPANDED_KEY, expanded)
-    return Object.assign({}, state, { expanded })
+    return { ...state, expanded }
   case types.SET_IS_EDITING:
-    return Object.assign({}, state, { editing: action.data.uid })
+    return { ...state, editing: action.data.uid }
   case types.UNSET_IS_EDITING:
-    return Object.assign({}, state, { editing: null })
+    return { ...state, editing: null }
   case types.SET_SHOW_BUTTONS:
-    return Object.assign({}, state, { showButtons: action.data.uid })
+    return { ...state, showButtons: action.data.uid }
   case types.UNSET_SHOW_BUTTONS:
-    return Object.assign({}, state, { showButtons: null })
+    return { ...state, showButtons: null }
   default:
     return state
   }
