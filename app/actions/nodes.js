@@ -62,7 +62,7 @@ export function getNodes (uid: string) {
       .then(
         response => {
           if (response.ok === false) {
-            return Promise.reject(response.statusText)
+            return Promise.reject(new Error(response.statusText))
           }
           return response.json()
         }
@@ -108,7 +108,7 @@ export function postNode (parent: string, data: NodeData) {
       .then(
         response => {
           if (response.ok === false) {
-            return Promise.reject(response.statusText)
+            return Promise.reject(new Error(response.statusText))
           }
           return response.json()
         }
@@ -154,7 +154,7 @@ export function putNode (uid: string, data: NodeData) {
       .then(
         response => {
           if (response.ok === false) {
-            return Promise.reject(response.statusText)
+            return Promise.reject(new Error(response.statusText))
           }
           return response.json()
         }
@@ -198,7 +198,7 @@ export function deleteNode (parent: string, uid: string) {
       .then(
         response => {
           if (response.ok === false) {
-            return Promise.reject(response.statusText)
+            return Promise.reject(new Error(response.statusText))
           }
         }
       )
@@ -245,7 +245,7 @@ export function putMoveNode (parent: string, uid: string, newParent: string, bef
       .then(
         response => {
           if (response.ok === false) {
-            return Promise.reject(response.statusText)
+            return Promise.reject(new Error(response.statusText))
           }
         }
       )
