@@ -9,7 +9,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "eslint": "node_modules/.bin/eslint app/**/*.js*",
+    "eslint": "node_modules/.bin/eslint app/**/*.js* __mocks__/**/*.js __tests__/**/*.js flow/**/*.js",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "build": "NODE_ENV=production webpack -p",
     "dev": "webpack-dev-server --host 0.0.0.0",

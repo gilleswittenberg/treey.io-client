@@ -82,7 +82,7 @@ describe('nodes reducer', () => {
 
     const state3 = reducer(state2, { type: ADD_NODE, data: {
       parent: '57bedc40e81b0620300d769a',
-      node: { uid: '57bedc40e81b0620300d7690', title: 'new'} }
+      node: { uid: '57bedc40e81b0620300d7690', title: 'new' } }
     })
     expect(state3.tree.nodes.length).toBe(3)
     expect(state3.tree.nodes[2].title).toBe('new')

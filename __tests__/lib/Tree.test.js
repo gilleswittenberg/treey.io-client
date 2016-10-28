@@ -278,8 +278,8 @@ describe('Tree', () => {
       const treeData = {
         uid: '1',
         nodes: [
-          { uid: 'c1'},
-          { uid: 'c2'}
+          { uid: 'c1' },
+          { uid: 'c2' }
         ]
       }
       const newTreeData = Tree.move(treeData, '1', 'c1', '1')
@@ -291,9 +291,9 @@ describe('Tree', () => {
       const treeData = {
         uid: '1',
         nodes: [
-          { uid: 'c1'},
-          { uid: 'c2'},
-          { uid: 'c3'}
+          { uid: 'c1' },
+          { uid: 'c2' },
+          { uid: 'c3' }
         ]
       }
       const newTreeData = Tree.move(treeData, '1', 'c1', '1', 'c3')
@@ -314,7 +314,7 @@ describe('Tree', () => {
               { uid: 'cc2' }
             ]
           },
-          { uid: 'c2'}
+          { uid: 'c2' }
         ]
       }
       const newTreeData = Tree.move(treeData, '1', 'c2', 'c1')
@@ -334,7 +334,7 @@ describe('Tree', () => {
               { uid: 'cc2' }
             ]
           },
-          { uid: 'c2'}
+          { uid: 'c2' }
         ]
       }
       const newTreeData = Tree.move(treeData, '1', 'c2', 'c1', 'cc1')
