@@ -121,11 +121,4 @@ export class NodeAdd extends Component {
   }
 }
 
-export default connect((state, props) => ({
-  parent: props.parent,
-  isEditing: props.isEditing,
-  setIsEditing: props.setIsEditing,
-  unsetIsEditing: props.unsetIsEditing,
-  expand: props.expand,
-  postNode: props.postNode
-}))(NodeAdd)
+export default connect()(NodeAdd)

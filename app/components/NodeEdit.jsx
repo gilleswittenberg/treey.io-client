@@ -80,10 +80,4 @@ export class NodeEdit extends Component {
   }
 }
 
-export default connect((state, props) => ({
-  parent: props.parent,
-  uid: props.uid,
-  unsetIsEditing: props.unsetIsEditing,
-  putNode: props.putNode,
-  deleteNode: props.deleteNode
-}))(NodeEdit)
+export default connect()(NodeEdit)

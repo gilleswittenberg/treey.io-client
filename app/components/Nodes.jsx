@@ -90,18 +90,8 @@ export class Nodes extends Component {
   }
 }
 
-export default connect((state, props) => ({
-  lang: props.lang,
-  parent: props.parent,
-  isRoot: props.parent === null,
-  nodes: props.nodes,
-  ui: props.ui,
-  setIsEditing: props.setIsEditing,
-  unsetIsEditing: props.unsetIsEditing,
-  expand: props.expand,
-  toggleExpanded: props.toggleExpanded,
-  postNode: props.postNode,
-  putNode: props.putNode,
-  deleteNode: props.deleteNode,
-  putMoveNode: props.putMoveNode
-}))(Nodes)
+const mapStateToProps = (state, props) => ({
+  ...props,
+  isRoot: props.parent === null
+})
+export default connect(mapStateToProps)(Nodes)

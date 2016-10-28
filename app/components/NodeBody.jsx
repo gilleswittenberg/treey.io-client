@@ -138,17 +138,4 @@ export class NodeBody extends Component {
   }
 }
 
-export default connect((state, props) => ({
-  lang: props.lang,
-  parent: props.parent,
-  uid: props.uid,
-  title: props.title,
-  showAddButton: props.showAddButton,
-  showDeleteButton: props.showDeleteButton,
-  allowExpanding: props.allowExpanding,
-  unsetIsEditing: props.unsetIsEditing,
-  setIsEditing: props.setIsEditing,
-  toggleExpanded: props.toggleExpanded,
-  deleteNode: props.deleteNode,
-  setShowButtons: props.setShowButtons
-}))(NodeBody)
+export default connect()(NodeBody)
