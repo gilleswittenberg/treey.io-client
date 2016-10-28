@@ -120,4 +120,17 @@ describe('NodeBody', () => {
       expect(setShowButtons.mock.calls.length).toBe(1)
     })
   })
+
+  describe('content', () => {
+
+    it('text', () => {
+      const wrapper = getWrapper({ title: 'text' })
+      expect(wrapper.find('a').length).toBe(0)
+    })
+
+    it('URL', () => {
+      const wrapper = getWrapper({ title: 'http://treey.io' })
+      expect(wrapper.find('a').length).toBe(1)
+    })
+  })
 })

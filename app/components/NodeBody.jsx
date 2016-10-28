@@ -3,6 +3,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
+import isURL from '../lib/isURL'
 
 import type { NodeBodyProps as Props } from '../../flow/types'
 
@@ -103,7 +104,7 @@ export class NodeBody extends Component {
     )
 
     // @TODO: extract to isURL method
-    const contentIsURL = title.match(/^https?:\/\//)
+    const contentIsURL = isURL(title)
 
     return (
       <div className="node-body">
