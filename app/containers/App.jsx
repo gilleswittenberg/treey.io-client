@@ -29,10 +29,6 @@ class App extends React.Component {
     ui: React.PropTypes.object.isRequired
   }
 
-  constructor (props) {
-    super(props)
-  }
-
   componentDidMount () {
     window.addEventListener('keyup', this.handleKeyPress)
   }
