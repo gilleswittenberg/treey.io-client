@@ -3,11 +3,12 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import NodeBody from '../components/NodeBody'
+import NodeDraggable from '../components/NodeDraggable'
 import NodeEdit from '../components/NodeEdit'
 import NodeOver from '../components/NodeOver'
 import Nodes from '../components/Nodes'
-import { DragSource, DropTarget } from 'react-dnd'
+import { DropTarget } from 'react-dnd'
+import DnDType from '../settings/DND_TYPE'
 import {
   isEditing as isEditingFunc,
   hasButtonsShown as hasButtonsShownFunc,
@@ -20,17 +21,6 @@ function getOverMousePosition (monitor, element) {
   const yDrop = element.getBoundingClientRect().top
   const isOverPosition = yDrag - yDrop < height / 2 ? 'top' : 'bottom'
   return isOverPosition
-}
-
-const DnDType = 'node'
-const DragSpec = {
-  beginDrag (props) {
-    props.unsetIsEditing()
-    return props
-  },
-  canDrag (props) {
-    return !props.isRoot
-  }
 }
 
 const DropSpec = {
@@ -65,11 +55,6 @@ const DropSpec = {
   }
 }
 
-@DragSource(DnDType, DragSpec, (connect, monitor) => ({
-  connectDragSource: connect.dragSource(),
-  isDragging: monitor.isDragging(),
-  connectDragPreview: connect.dragPreview()
-}))
 @DropTarget(DnDType, DropSpec, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver(),
@@ -98,10 +83,6 @@ export class NodeWrap extends Component {
     putNode: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired,
     putMoveNode: PropTypes.func.isRequired,
-    // Injected by React DnD DragSource
-    connectDragSource: PropTypes.func.isRequired,
-    isDragging: PropTypes.bool.isRequired,
-    connectDragPreview: React.PropTypes.func.isRequired,
     // Injected by React DnD DropTarget
     connectDropTarget: PropTypes.func.isRequired,
     isOver: PropTypes.bool.isRequired,
@@ -115,7 +96,6 @@ export class NodeWrap extends Component {
   }
 
   state = {
-    isDragging: false,
     isOverPosition: -1
   }
 
@@ -142,8 +122,6 @@ export class NodeWrap extends Component {
       putNode,
       deleteNode,
       putMoveNode,
-      connectDragSource,
-      isDragging,
       connectDropTarget,
       isOver,
       isOverItemUid
@@ -161,7 +139,6 @@ export class NodeWrap extends Component {
       {
         '-is-editing': isEditing,
         '-is-expanded': (isExpanded && hasNodes) || isAdding,
-        '-is-dragging': isDragging,
         '-has-buttons-shown': hasButtonsShown
       }
     )
@@ -174,13 +151,13 @@ export class NodeWrap extends Component {
     return (
       <div ref={ c => this.element = c }>
 
-        { connectDropTarget(connectDragSource(
+        { connectDropTarget(
           <div className={ className }>
             { showNodeOverTop &&
               <NodeOver position="top" />
             }
             { showNodeBody &&
-              <NodeBody
+              <NodeDraggable
                 lang={ lang }
                 parent={ parent }
                 uid={ uid }
@@ -193,6 +170,7 @@ export class NodeWrap extends Component {
                 deleteNode={ deleteNode }
                 allowExpanding={ hasNodes }
                 setShowButtons={ setShowButtons }
+                putMoveNode={ putMoveNode }
               />
             }
             { showNodeOverBottom &&
@@ -210,7 +188,7 @@ export class NodeWrap extends Component {
               />
             }
           </div>
-        )) }
+        ) }
 
         <Nodes
           lang={ lang }
