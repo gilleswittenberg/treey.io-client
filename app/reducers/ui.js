@@ -11,6 +11,7 @@ import EXPANDED_KEY from '../settings/EXPANDED_KEY'
 const defaultState: UIState = {
   lang: 'en',
   editing: null,
+  dragging: null,
   showButtons: null,
   expanded: []
 }
@@ -18,6 +19,8 @@ const defaultState: UIState = {
 export default function nodes (state: UIState = defaultState, action: UIAction) {
   let expanded, set
   switch (action.type) {
+
+  // expanded
   case types.INIT_EXPANDED:
     expanded = action.data.expanded
     return { ...state, expanded }
@@ -35,14 +38,25 @@ export default function nodes (state: UIState = defaultState, action: UIAction) 
     }
     Storage.set(EXPANDED_KEY, expanded)
     return { ...state, expanded }
+
+  // editing
   case types.SET_IS_EDITING:
     return { ...state, editing: action.data.uid }
   case types.UNSET_IS_EDITING:
     return { ...state, editing: null }
+
+  // dragging
+  case types.SET_IS_DRAGGING:
+    return { ...state, dragging: action.data.uid }
+  case types.UNSET_IS_DRAGGING:
+    return { ...state, dragging: null }
+
+  // showButtons
   case types.SET_SHOW_BUTTONS:
     return { ...state, showButtons: action.data.uid }
   case types.UNSET_SHOW_BUTTONS:
     return { ...state, showButtons: null }
+
   default:
     return state
   }
@@ -52,6 +66,11 @@ export default function nodes (state: UIState = defaultState, action: UIAction) 
 export function isEditing (state: UIState, uid: string, type?: string) {
   const uidString = type ? `${ uid }.${ type }` : uid
   return state.editing === uidString
+}
+
+// @TODO: Move to seperate file
+export function isDragging (state: UIState, uid: string) {
+  return state.dragging === uid
 }
 
 // @TODO: Move to seperate file

@@ -18,6 +18,23 @@ export function unsetIsEditing () {
   }
 }
 
+export const SET_IS_DRAGGING = 'SET_IS_DRAGGING'
+export function setIsDragging (uid: string) {
+  return {
+    type: SET_IS_DRAGGING,
+    data: {
+      uid
+    }
+  }
+}
+
+export const UNSET_IS_DRAGGING = 'UNSET_IS_DRAGGING'
+export function unsetIsDragging () {
+  return {
+    type: UNSET_IS_DRAGGING
+  }
+}
+
 export const SET_SHOW_BUTTONS = 'SET_SHOW_BUTTONS'
 export function setShowButtons (uid: string) {
   return {

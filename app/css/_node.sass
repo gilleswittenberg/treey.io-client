@@ -15,18 +15,8 @@
   @include user-select-none
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
 
-  .node-body
+  .node-body, .node-editing
     padding: $margin-vertical 0
-
-  .node-editing
-    display: none
-    padding: $margin-vertical 0
-
-  &.-is-editing
-    .node-body
-      display: none
-    .node-editing
-      display: block
 
   &.-is-dragging
     .node-body

@@ -63,9 +63,10 @@ export class NodeDroppable extends Component {
     title: PropTypes.string.isRequired,
     hasNodes: PropTypes.bool.isRequired,
     after: PropTypes.string,
-    isEditing: PropTypes.bool.isRequired,
     setIsEditing: PropTypes.func.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
+    setIsDragging: PropTypes.func.isRequired,
+    unsetIsDragging: PropTypes.func.isRequired,
     setShowButtons: PropTypes.func.isRequired,
     toggleExpanded: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired,
@@ -95,9 +96,10 @@ export class NodeDroppable extends Component {
       after,
       setIsEditing,
       unsetIsEditing,
+      setIsDragging,
+      unsetIsDragging,
       setShowButtons,
       toggleExpanded,
-      isEditing,
       deleteNode,
       putMoveNode,
       connectDropTarget,
@@ -107,9 +109,8 @@ export class NodeDroppable extends Component {
     const { isOverPosition } = this.state
 
     const isOverOther = isOver && isOverItemUid !== uid
-    const showNodeOverTop = !isEditing && isOverOther && isOverPosition === 'top'
-    const showNodeBody = !isEditing
-    const showNodeOverBottom = !isEditing && isOverOther && isOverPosition === 'bottom'
+    const showNodeOverTop = isOverOther && isOverPosition === 'top'
+    const showNodeOverBottom = isOverOther && isOverPosition === 'bottom'
 
     return (
       connectDropTarget(
@@ -117,24 +118,24 @@ export class NodeDroppable extends Component {
           { showNodeOverTop &&
             <NodeOver position="top" />
           }
-          { showNodeBody &&
-            <NodeDraggable
-              lang={ lang }
-              parent={ parent }
-              uid={ uid }
-              title={ title }
-              after={ after }
-              showAddButton={ hasNodes }
-              showDeleteButton={ !isRoot }
-              unsetIsEditing={ unsetIsEditing }
-              setIsEditing={ setIsEditing }
-              toggleExpanded={ toggleExpanded }
-              deleteNode={ deleteNode }
-              allowExpanding={ hasNodes }
-              setShowButtons={ setShowButtons }
-              putMoveNode={ putMoveNode }
-            />
-          }
+          <NodeDraggable
+            lang={ lang }
+            parent={ parent }
+            uid={ uid }
+            title={ title }
+            after={ after }
+            showAddButton={ !hasNodes }
+            showDeleteButton={ !isRoot }
+            setIsEditing={ setIsEditing }
+            unsetIsEditing={ unsetIsEditing }
+            setIsDragging={ setIsDragging }
+            unsetIsDragging={ unsetIsDragging }
+            toggleExpanded={ toggleExpanded }
+            deleteNode={ deleteNode }
+            allowExpanding={ hasNodes }
+            setShowButtons={ setShowButtons }
+            putMoveNode={ putMoveNode }
+          />
           { showNodeOverBottom &&
             <NodeOver position="bottom" />
           }

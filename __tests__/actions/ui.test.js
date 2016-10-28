@@ -30,6 +30,29 @@ describe('ui actions', () => {
     })
   })
 
+  describe('isDragging', () => {
+
+    it('setIsDragging', () => {
+
+      const store = mockStore({ ui: null })
+      const uid = '57bedc40e81b0620300d769a'
+
+      store.dispatch(actions.setIsDragging(uid))
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual(actions.SET_IS_DRAGGING)
+      expect(lastAction.data.uid).toEqual(uid)
+    })
+
+    it('unsetIsDragging', () => {
+
+      const store = mockStore({ ui: null })
+
+      store.dispatch(actions.unsetIsDragging())
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual(actions.UNSET_IS_DRAGGING)
+    })
+  })
+
   describe('showButtons', () => {
 
     it('setShowButtons', () => {

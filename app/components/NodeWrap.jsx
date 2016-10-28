@@ -8,6 +8,7 @@ import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
 import {
   isEditing as isEditingFunc,
+  isDragging as isDraggingFunc,
   hasButtonsShown as hasButtonsShownFunc,
   isExpanded as isExpandedFunc
 } from '../reducers/ui'
@@ -61,6 +62,8 @@ export class NodeWrap extends Component {
       ui,
       setIsEditing,
       unsetIsEditing,
+      setIsDragging,
+      unsetIsDragging,
       setShowButtons,
       expand,
       toggleExpanded,
@@ -71,40 +74,46 @@ export class NodeWrap extends Component {
       putMoveNode
     } = this.props
     const isExpanded = isExpandedFunc(ui, uid)
+    const isDragging = isDraggingFunc(ui, uid)
     const isAdding = isEditingFunc(ui, uid, 'add')
     const hasButtonsShown = hasButtonsShownFunc(ui, uid)
 
     const className = classNames(
       'node',
       {
-        '-is-editing': isEditing,
+        '-is-dragging': isDragging,
         '-is-expanded': (isExpanded && hasNodes) || isAdding,
         '-has-buttons-shown': hasButtonsShown
       }
     )
 
+    const showNodeDroppable = !isEditing
     const showNodeEdit = isEditing
 
     return (
       <div>
         <div className={ className }>
-          <NodeDroppable
-            lang={ lang }
-            parent={ parent }
-            isRoot={ isRoot }
-            uid={ uid }
-            title={ title }
-            hasNodes={ hasNodes }
-            after={ after }
-            showDeleteButton={ !isRoot }
-            isEditing={ isEditing }
-            unsetIsEditing={ unsetIsEditing }
-            setIsEditing={ setIsEditing }
-            toggleExpanded={ toggleExpanded }
-            deleteNode={ deleteNode }
-            setShowButtons={ setShowButtons }
-            putMoveNode={ putMoveNode }
-          />
+          { showNodeDroppable &&
+            <NodeDroppable
+              lang={ lang }
+              ui={ ui }
+              parent={ parent }
+              isRoot={ isRoot }
+              uid={ uid }
+              title={ title }
+              hasNodes={ hasNodes }
+              after={ after }
+              showDeleteButton={ !isRoot }
+              setIsEditing={ setIsEditing }
+              unsetIsEditing={ unsetIsEditing }
+              setIsDragging={ setIsDragging }
+              unsetIsDragging={ unsetIsDragging }
+              toggleExpanded={ toggleExpanded }
+              deleteNode={ deleteNode }
+              setShowButtons={ setShowButtons }
+              putMoveNode={ putMoveNode }
+            />
+          }
           { showNodeEdit &&
             <NodeEdit
               lang={ lang }
@@ -125,6 +134,8 @@ export class NodeWrap extends Component {
           ui={ ui }
           setIsEditing={ setIsEditing }
           unsetIsEditing={ unsetIsEditing }
+          setIsDragging={ setIsDragging }
+          unsetIsDragging={ unsetIsDragging }
           setShowButtons={ setShowButtons }
           expand={ expand }
           toggleExpanded={ toggleExpanded }

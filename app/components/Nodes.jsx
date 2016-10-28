@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import NodeWrap from '../components/NodeWrap'
 import NodeAdd from '../components/NodeAdd'
-import { isEditing } from '../reducers/ui'
+import { isEditing, isDragging } from '../reducers/ui'
 
 export class Nodes extends Component {
 
@@ -16,6 +16,8 @@ export class Nodes extends Component {
     ui: PropTypes.object.isRequired,
     setIsEditing: PropTypes.func.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
+    setIsDragging: PropTypes.func.isRequired,
+    unsetIsDragging: PropTypes.func.isRequired,
     setShowButtons: PropTypes.func.isRequired,
     expand: PropTypes.func.isRequired,
     toggleExpanded: PropTypes.func.isRequired,
@@ -34,6 +36,8 @@ export class Nodes extends Component {
       ui,
       setIsEditing,
       unsetIsEditing,
+      setIsDragging,
+      unsetIsDragging,
       setShowButtons,
       toggleExpanded,
       expand,
@@ -60,6 +64,9 @@ export class Nodes extends Component {
               isEditing={ isEditing(ui, node.uid) }
               setIsEditing={ setIsEditing }
               unsetIsEditing={ unsetIsEditing }
+              isDragging={ isDragging(ui, node.uid) }
+              setIsDragging={ setIsDragging }
+              unsetIsDragging={ unsetIsDragging }
               setShowButtons={ setShowButtons }
               toggleExpanded={ toggleExpanded }
               expand={ expand }

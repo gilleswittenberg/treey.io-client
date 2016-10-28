@@ -8,12 +8,19 @@ import { DragSource } from 'react-dnd'
 import classNames from 'classnames'
 
 const DragSpec = {
-  beginDrag (props) {
-    props.unsetIsEditing()
-    return props
-  },
   canDrag (props) {
     return !props.isRoot
+  },
+  beginDrag (props) {
+    const { uid, unsetIsEditing, setIsDragging } = props
+    unsetIsEditing()
+    setIsDragging(uid)
+    return props
+  },
+  endDrag (props) {
+    const { uid, unsetIsDragging } = props
+    unsetIsDragging(uid)
+    return props
   }
 }
 

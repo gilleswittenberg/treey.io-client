@@ -2,6 +2,7 @@ import reducer from '../../app/reducers/ui'
 import {
   INIT_EXPANDED, EXPAND, TOGGLE_EXPANDED,
   SET_IS_EDITING, UNSET_IS_EDITING,
+  SET_IS_DRAGGING, UNSET_IS_DRAGGING,
   SET_SHOW_BUTTONS, UNSET_SHOW_BUTTONS
 } from '../../app/actions/ui'
 
@@ -13,6 +14,7 @@ describe('nodes reducer', () => {
       reducer(undefined, {})
     ).toEqual({
       lang: 'en',
+      dragging: null,
       editing: null,
       showButtons: null,
       expanded: []
@@ -33,6 +35,7 @@ describe('nodes reducer', () => {
         state2
       ).toEqual({
         lang: 'en',
+        dragging: null,
         editing: uid,
         showButtons: null,
         expanded: []
@@ -44,6 +47,41 @@ describe('nodes reducer', () => {
         state3
       ).toEqual({
         lang: 'en',
+        dragging: null,
+        editing: null,
+        showButtons: null,
+        expanded: []
+      })
+    })
+  })
+
+  describe('dragging', () => {
+
+    it('SET_IS_DRAGGING, UNSET_IS_DRAGGING', () => {
+
+      const uid = '57bedc40e81b0620300d769a'
+
+      const state = reducer(undefined, {})
+
+      const state2 = reducer(state, { type: SET_IS_DRAGGING, data: { uid } })
+
+      expect(
+        state2
+      ).toEqual({
+        lang: 'en',
+        dragging: uid,
+        editing: null,
+        showButtons: null,
+        expanded: []
+      })
+
+      const state3 = reducer(state, { type: UNSET_IS_DRAGGING })
+
+      expect(
+        state3
+      ).toEqual({
+        lang: 'en',
+        dragging: null,
         editing: null,
         showButtons: null,
         expanded: []
@@ -65,6 +103,7 @@ describe('nodes reducer', () => {
         state2
       ).toEqual({
         lang: 'en',
+        dragging: null,
         editing: null,
         showButtons: uid,
         expanded: []
@@ -76,6 +115,7 @@ describe('nodes reducer', () => {
         state3
       ).toEqual({
         lang: 'en',
+        dragging: null,
         editing: null,
         showButtons: null,
         expanded: []
