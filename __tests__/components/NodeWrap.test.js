@@ -42,6 +42,7 @@ describe('NodeWrap', () => {
     return (
       <Provider store={ store }>
         <NodeWrapContext
+          lang= { 'en' }
           parent={ parent }
           isRoot={ false }
           uid={ uid }
@@ -104,20 +105,4 @@ describe('NodeWrap', () => {
       expect(wrapper.render().find('form').length).toBe(1)
     })
   })
-
-  /*
-  describe('form submit', () => {
-
-    it('sumbit', () => {
-      const putNode = jest.fn()
-      const wrapper = mount(getProvider({ isEditing: true, putNode }))
-      wrapper.find(Node).setState({ title: 'user input' })
-      const mockEvent = { preventDefault: () => {} }
-      console.log(wrapper.find('form').length)
-      wrapper.find('form').simulate('submit', mockEvent)
-      expect(putNode.mock.calls.length).toBe(1)
-      expect(putNode.mock.calls[0][1]).toEqual({ title: 'user input' })
-    })
-  })
-  */
 })

@@ -3,6 +3,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
+import __ from '../lib/i18n'
 
 import type { NodeAddProps as Props } from '../../flow/types'
 
@@ -75,7 +76,7 @@ export class NodeAdd extends Component {
 
   render () {
 
-    const { isEditing } = this.props
+    const { lang, isEditing } = this.props
     const { title: value } = this.state
 
     const className = classNames(
@@ -89,7 +90,7 @@ export class NodeAdd extends Component {
 
         { !isEditing &&
           <div className="node-body">
-            <button onClick={ this.handleClick } title="add">
+            <button onClick={ this.handleClick } title={ __(lang, 'ADD') }>
               <i className="fa fa-plus-square-o"></i>
             </button>
           </div>
@@ -99,7 +100,7 @@ export class NodeAdd extends Component {
           <div className="node-editing">
             <form onSubmit={ this.handleSubmit }>
               <div className="node-buttons">
-                <button title="save">
+                <button title={ __(lang, 'SAVE') }>
                   <i className="fa fa-floppy-o"></i>
                 </button>
               </div>

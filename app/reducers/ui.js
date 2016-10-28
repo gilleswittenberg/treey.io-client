@@ -9,6 +9,7 @@ import type { UIState, UIAction } from '../../flow/types'
 import EXPANDED_KEY from '../settings/EXPANDED_KEY'
 
 const defaultState: UIState = {
+  lang: 'en',
   editing: null,
   showButtons: null,
   expanded: []

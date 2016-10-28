@@ -2,6 +2,7 @@
 
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
+import __ from '../lib/i18n'
 
 import type { NodeEditProps as Props } from '../../flow/types'
 
@@ -55,13 +56,14 @@ export class NodeEdit extends Component {
 
   render () {
 
+    const { lang } = this.props
     const { title: value } = this.state
 
     return (
       <div className="node-editing">
         <form onSubmit={ this.handleSubmit }>
           <div className="node-buttons">
-            <button title="save">
+            <button title={ __(lang, 'SAVE') }>
               <i className="fa fa-floppy-o"></i>
             </button>
           </div>

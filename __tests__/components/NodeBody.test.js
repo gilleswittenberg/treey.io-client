@@ -11,6 +11,7 @@ describe('NodeBody', () => {
   function getWrapper (args) {
 
     const defaultProps = {
+      lang: 'en',
       parent,
       uid,
       title: '',
@@ -28,6 +29,7 @@ describe('NodeBody', () => {
 
     return shallow(
       <NodeBody
+        lang={ props.lang }
         parent={ props.parent }
         uid={ props.uid }
         title={ props.title }

@@ -12,6 +12,7 @@ describe('nodes reducer', () => {
     expect(
       reducer(undefined, {})
     ).toEqual({
+      lang: 'en',
       editing: null,
       showButtons: null,
       expanded: []
@@ -31,6 +32,7 @@ describe('nodes reducer', () => {
       expect(
         state2
       ).toEqual({
+        lang: 'en',
         editing: uid,
         showButtons: null,
         expanded: []
@@ -41,6 +43,7 @@ describe('nodes reducer', () => {
       expect(
         state3
       ).toEqual({
+        lang: 'en',
         editing: null,
         showButtons: null,
         expanded: []
@@ -61,6 +64,7 @@ describe('nodes reducer', () => {
       expect(
         state2
       ).toEqual({
+        lang: 'en',
         editing: null,
         showButtons: uid,
         expanded: []
@@ -71,6 +75,7 @@ describe('nodes reducer', () => {
       expect(
         state3
       ).toEqual({
+        lang: 'en',
         editing: null,
         showButtons: null,
         expanded: []
@@ -83,7 +88,7 @@ describe('nodes reducer', () => {
     it('INIT_EXPANDED', () => {
 
       const uid = '57bedc40e81b0620300d769b'
-      const state = reducer(undefined, { type: INIT_EXPANDED, data: { expanded : [uid] }})
+      const state = reducer(undefined, { type: INIT_EXPANDED, data: { expanded : [uid] } })
       expect(state.expanded).toContain(uid)
     })
 

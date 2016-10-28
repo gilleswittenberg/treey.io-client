@@ -79,6 +79,7 @@ const DropSpec = {
 export class NodeWrap extends Component {
 
   static propTypes = {
+    lang: PropTypes.string,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
@@ -118,6 +119,7 @@ export class NodeWrap extends Component {
   render () {
 
     const {
+      lang,
       parent,
       isRoot,
       uid,
@@ -174,6 +176,7 @@ export class NodeWrap extends Component {
             }
             { showNodeBody &&
               <NodeBody
+                lang={ lang }
                 parent={ parent }
                 uid={ uid }
                 title={ title }
@@ -192,6 +195,7 @@ export class NodeWrap extends Component {
             }
             { showNodeEdit &&
               <NodeEdit
+                lang={ lang }
                 parent={ parent }
                 uid={ uid }
                 title={ title }
@@ -204,6 +208,7 @@ export class NodeWrap extends Component {
         )) }
 
         <Nodes
+          lang={ lang }
           parent={ uid }
           nodes={ nodes }
           ui={ ui }
@@ -223,6 +228,7 @@ export class NodeWrap extends Component {
 }
 
 export default connect((state, props) => ({
+  lang: props.lang,
   parent: props.parent,
   isRoot: props.parent === null,
   uid: props.uid,

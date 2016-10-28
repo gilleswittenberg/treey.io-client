@@ -9,6 +9,7 @@ import { isEditing } from '../reducers/ui'
 export class Nodes extends Component {
 
   static propTypes = {
+    lang: PropTypes.string.isRequired,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     nodes: PropTypes.array.isRequired,
@@ -26,6 +27,7 @@ export class Nodes extends Component {
   render () {
 
     const {
+      lang,
       parent,
       isRoot,
       nodes = [],
@@ -48,6 +50,7 @@ export class Nodes extends Component {
         { nodes.map((node, index) =>
           <li key={ node.uid }>
             <NodeWrap
+              lang={ lang }
               parent={ parent }
               uid={ node.uid }
               after={ nodes[index + 1] ? nodes[index + 1].uid : null }
@@ -71,6 +74,7 @@ export class Nodes extends Component {
         { hasNodeAdd &&
           <li>
             <NodeAdd
+              lang={ lang }
               parent={ parent }
               isEditing={ isEditing(ui, parent, 'add') }
               setIsEditing={ setIsEditing }
@@ -87,6 +91,7 @@ export class Nodes extends Component {
 }
 
 export default connect((state, props) => ({
+  lang: props.lang,
   parent: props.parent,
   isRoot: props.parent === null,
   nodes: props.nodes,

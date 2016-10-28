@@ -11,6 +11,7 @@ describe('NodeEdit', () => {
   function getWrapper (args) {
 
     const defaultProps = {
+      lang: 'en',
       parent,
       uid,
       title: '',
@@ -22,6 +23,7 @@ describe('NodeEdit', () => {
 
     return shallow(
       <NodeEdit
+        lang={ props.lang }
         parent={ props.parent }
         uid={ props.uid }
         title={ props.title }

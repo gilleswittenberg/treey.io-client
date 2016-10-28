@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import isURL from '../lib/isURL'
+import __ from '../lib/i18n'
 
 import type { NodeBodyProps as Props } from '../../flow/types'
 
@@ -86,6 +87,7 @@ export class NodeBody extends Component {
   render () {
 
     const {
+      lang,
       title,
       showAddButton,
       showDeleteButton
@@ -110,22 +112,22 @@ export class NodeBody extends Component {
       <div className="node-body">
         <div className={ nodeButtonsClassName }>
           { showAddButton &&
-            <button onClick={ this.handleClickAdd } title="add">
+            <button onClick={ this.handleClickAdd } title={ __(lang, 'ADD') }>
               <i className="fa fa-plus-square-o"></i>
             </button>
           }
-          <button onClick={ this.handleClickEdit } title="edit">
+          <button onClick={ this.handleClickEdit } title={ __(lang, 'EDIT') }>
             <i className="fa fa-pencil-square-o"></i>
           </button>
           { showDeleteButton &&
-            <button onClick={ this.handleClickDelete } title="delete">
+            <button onClick={ this.handleClickDelete } title={ __(lang, 'DELETE') }>
               <i className="fa fa-trash-o"></i>
             </button>
           }
         </div>
         { /* this should be Draggable */ }
         <div className="node-content" onClick={ this.handleClick }>
-          <button className="node-button-show-buttons" onClick={ this.handleClickShowButtons } title="more">
+          <button className="node-button-show-buttons" onClick={ this.handleClickShowButtons } title={ __(lang, 'MORE') }>
             <i className="fa fa-ellipsis-v"></i>
           </button>
           { contentIsURL && <span><a href={ title }>{ title }</a></span> }
@@ -137,6 +139,7 @@ export class NodeBody extends Component {
 }
 
 export default connect((state, props) => ({
+  lang: props.lang,
   parent: props.parent,
   uid: props.uid,
   title: props.title,

@@ -14,6 +14,7 @@ describe('NodeAdd', () => {
 
       const wrapper = shallow(
         <NodeAdd
+          lang={ 'en' }
           parent={ parent }
           isEditing={ false }
           setIsEditing={ noop }
@@ -32,6 +33,7 @@ describe('NodeAdd', () => {
 
       const wrapper = shallow(
         <NodeAdd
+          lang={ 'en' }
           parent={ parent }
           isEditing={ true }
           setIsEditing={ noop }
@@ -53,6 +55,7 @@ describe('NodeAdd', () => {
 
       const wrapper = shallow(
         <NodeAdd
+          lang={ 'en' }
           parent={ parent }
           isEditing={ false }
           setIsEditing={ noop }
@@ -77,6 +80,7 @@ describe('NodeAdd', () => {
 
       const wrapper = shallow(
         <NodeAdd
+          lang={ 'en' }
           parent={ parent }
           isEditing={ false }
           setIsEditing={ noop }
@@ -102,6 +106,7 @@ describe('NodeAdd', () => {
 
       const wrapper = shallow(
         <NodeAdd
+          lang={ 'en' }
           parent={ parent }
           isEditing={ true }
           setIsEditing={ noop }

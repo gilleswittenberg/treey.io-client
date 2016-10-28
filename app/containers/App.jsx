@@ -60,6 +60,7 @@ class App extends React.Component {
         <div className="tree">
         { tree &&
           <Nodes
+            lang={ ui.lang }
             parent={ null }
             nodes={ [tree] }
             ui={ ui }
