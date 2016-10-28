@@ -5,44 +5,44 @@ import { shallow } from 'enzyme'
 describe('NodeAdd', () => {
 
   const parent = '57bedc40e81b0620300d769a'
+  const noop = () => {}
+
+  function getWrapper (args) {
+
+    const defaultProps = {
+      lang: 'en',
+      parent,
+      isEditing: false,
+      setIsEditing: noop,
+      unsetIsEditing: noop,
+      expand: noop,
+      postNode: noop
+    }
+
+    const props = Object.assign(defaultProps, args)
+
+    return shallow(
+      <NodeAdd
+        lang={ props.lang }
+        parent={ props.parent }
+        isEditing={ props.isEditing }
+        setIsEditing={ props.setIsEditing }
+        unsetIsEditing={ props.unsetIsEditing }
+        expand={ props.expand }
+        postNode={ props.postNode }
+      />
+    )
+  }
 
   describe('editing', () => {
 
-    const noop = () => {}
-
     it('false', () => {
-
-      const wrapper = shallow(
-        <NodeAdd
-          lang={ 'en' }
-          parent={ parent }
-          isEditing={ false }
-          setIsEditing={ noop }
-          unsetIsEditing={ noop }
-          expand={ noop }
-          postNode={ noop }
-        />
-      )
-
+      const wrapper = getWrapper()
       expect(wrapper.render().find('input').length).toBe(0)
     })
 
     it('true', () => {
-
-      const noop = () => {}
-
-      const wrapper = shallow(
-        <NodeAdd
-          lang={ 'en' }
-          parent={ parent }
-          isEditing={ true }
-          setIsEditing={ noop }
-          unsetIsEditing={ noop }
-          expand={ noop }
-          postNode={ noop }
-        />
-      )
-
+      const wrapper = getWrapper({ isEditing: true })
       expect(wrapper.render().find('input').length).toBe(1)
     })
   })
@@ -51,20 +51,7 @@ describe('NodeAdd', () => {
 
     it('clear on isEditing change', () => {
 
-      const noop = () => {}
-
-      const wrapper = shallow(
-        <NodeAdd
-          lang={ 'en' }
-          parent={ parent }
-          isEditing={ false }
-          setIsEditing={ noop }
-          unsetIsEditing={ noop }
-          expand={ noop }
-          postNode={ noop }
-        />
-      )
-
+      const wrapper = getWrapper()
       wrapper.setState({ title: 'user input' })
       expect(wrapper.state().title).toBe('user input')
       wrapper.setProps({ isEditing: true })
@@ -76,21 +63,7 @@ describe('NodeAdd', () => {
 
     it('change', () => {
 
-      const noop = () => {}
-
-      const wrapper = shallow(
-        <NodeAdd
-          lang={ 'en' }
-          parent={ parent }
-          isEditing={ false }
-          setIsEditing={ noop }
-          unsetIsEditing={ noop }
-          expand={ noop }
-          postNode={ noop }
-        />
-      )
-
-      wrapper.setProps({ isEditing: true })
+      const wrapper = getWrapper({ isEditing: true })
       const input = document.createElement('input')
       input.value = 'user input'
       const mockEvent = { target: input }
@@ -100,29 +73,17 @@ describe('NodeAdd', () => {
 
     it('sumbit', () => {
 
-      const noop = () => {}
       const unsetIsEditing = jest.fn()
-      const putNode = jest.fn()
-
-      const wrapper = shallow(
-        <NodeAdd
-          lang={ 'en' }
-          parent={ parent }
-          isEditing={ true }
-          setIsEditing={ noop }
-          unsetIsEditing={ unsetIsEditing }
-          expand={ noop }
-          postNode={ putNode }
-        />
-      )
+      const postNode = jest.fn()
+      const wrapper = getWrapper({ isEditing: true, unsetIsEditing, postNode })
 
       wrapper.setState({ title: 'user input' })
       const mockEvent = { preventDefault: () => {} }
       wrapper.find('form').simulate('submit', mockEvent)
       expect(wrapper.state().title).toEqual('')
       expect(unsetIsEditing.mock.calls.length).toBe(1)
-      expect(putNode.mock.calls.length).toBe(1)
-      expect(putNode.mock.calls[0][1]).toEqual({ title: 'user input' })
+      expect(postNode.mock.calls.length).toBe(1)
+      expect(postNode.mock.calls[0][1]).toEqual({ title: 'user input' })
     })
   })
 })
