@@ -4,8 +4,6 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import __ from '../lib/i18n'
 
-import type { NodeEditProps as Props } from '../../flow/types'
-
 export class NodeEdit extends Component {
 
   static propTypes = {
@@ -21,7 +19,7 @@ export class NodeEdit extends Component {
     title: ''
   }
 
-  constructor (props: Props) {
+  constructor (props: any) {
 
     super(props)
 

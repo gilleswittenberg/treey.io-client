@@ -70,33 +70,3 @@ export type UIState = {
   showButtons: ?string,
   expanded: string[]
 }
-
-export type NodeEditProps = {
-  parent: string,
-  uid: string,
-  title: string,
-  unsetIsEditing: () => void,
-  putNode: () => void,
-  deleteNode: () => void
-}
-
-export type NodeAddProps = {
-  parent: string,
-  isEditing: boolean,
-  setIsEditing: () => void,
-  unsetIsEditing: () => void,
-  expand: () => void,
-  postNode: () => void
-}
-
-export type NodeBodyProps = {
-  uid: string,
-  title: string,
-  showAddButton: boolean,
-  showDeleteButton: boolean,
-  unsetIsEditing: () => void,
-  setIsEditing: () => void,
-  allowExpanding: boolean,
-  toggleExpanded: () => void,
-  deleteNode: () => void
-}

@@ -5,8 +5,6 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import __ from '../lib/i18n'
 
-import type { NodeAddProps as Props } from '../../flow/types'
-
 export class NodeAdd extends Component {
 
   static propTypes = {
@@ -22,7 +20,7 @@ export class NodeAdd extends Component {
     title: ''
   }
 
-  constructor (props: Props) {
+  constructor (props: any) {
 
     super(props)
 
@@ -34,7 +32,7 @@ export class NodeAdd extends Component {
   }
 
   // clear input when user starts adding
-  componentWillUpdate (nextProps: Props) {
+  componentWillUpdate (nextProps: any) {
     if (nextProps.isEditing === true && this.props.isEditing === false) {
       this.setState({ title: '' })
     }

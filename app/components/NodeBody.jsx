@@ -6,8 +6,6 @@ import classNames from 'classnames'
 import isURL from '../lib/isURL'
 import __ from '../lib/i18n'
 
-import type { NodeBodyProps as Props } from '../../flow/types'
-
 export class NodeBody extends Component {
 
   static propTypes = {
@@ -24,7 +22,7 @@ export class NodeBody extends Component {
     setShowButtons: PropTypes.func.isRequired
   }
 
-  constructor (props: Props) {
+  constructor (props: any) {
 
     super(props)
 
