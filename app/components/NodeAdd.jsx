@@ -1,5 +1,6 @@
 /* @flow */
 
+import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
@@ -20,17 +21,6 @@ export class NodeAdd extends Component {
     title: ''
   }
 
-  constructor (props: any) {
-
-    super(props)
-
-    // @LINK: https://github.com/facebook/flow/issues/1517
-    const self = (this: any)
-    self.handleClick = this.handleClick.bind(this)
-    self.handleChange = this.handleChange.bind(this)
-    self.handleSubmit = this.handleSubmit.bind(this)
-  }
-
   // clear input when user starts adding
   componentWillUpdate (nextProps: any) {
     if (nextProps.isEditing === true && this.props.isEditing === false) {
@@ -38,12 +28,14 @@ export class NodeAdd extends Component {
     }
   }
 
+  @autobind
   handleClick () {
     const { parent, setIsEditing } = this.props
     this.setState({ title: '' })
     setIsEditing(parent, 'add')
   }
 
+  @autobind
   handleChange (event: Event) {
     const target = event.target
     if (target instanceof HTMLInputElement) {
@@ -51,6 +43,7 @@ export class NodeAdd extends Component {
     }
   }
 
+  @autobind
   handleSubmit (event: Event) {
 
     event.preventDefault()

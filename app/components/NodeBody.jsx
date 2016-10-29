@@ -1,5 +1,6 @@
 /* @flow */
 
+import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
@@ -22,20 +23,7 @@ export class NodeBody extends Component {
     setShowButtons: PropTypes.func.isRequired
   }
 
-  constructor (props: any) {
-
-    super(props)
-
-    // @LINK: https://github.com/facebook/flow/issues/1517
-    const self = (this: any)
-    self.handleClick = this.handleClick.bind(this)
-    self.handleClickAdd = this.handleClickAdd.bind(this)
-    self.handleClickEdit = this.handleClickEdit.bind(this)
-    self.handleClickDelete = this.handleClickDelete.bind(this)
-    self.handleClickShowButtons = this.handleClickShowButtons.bind(this)
-    self.startEditing = this.startEditing.bind(this)
-  }
-
+  @autobind
   handleClick (event: Event) {
 
     // alt key to edit
@@ -54,19 +42,23 @@ export class NodeBody extends Component {
     }
   }
 
+  @autobind
   handleClickAdd () {
     this.startEditing('add')
   }
 
+  @autobind
   handleClickEdit () {
     this.startEditing()
   }
 
+  @autobind
   startEditing (type?: string) {
     const { uid, setIsEditing } = this.props
     setIsEditing(uid, type)
   }
 
+  @autobind
   handleClickDelete () {
     const { parent, uid, deleteNode } = this.props
     // guard
@@ -76,6 +68,7 @@ export class NodeBody extends Component {
     deleteNode(parent, uid)
   }
 
+  @autobind
   handleClickShowButtons (event: Event) {
     event.stopPropagation()
     const { uid, setShowButtons } = this.props

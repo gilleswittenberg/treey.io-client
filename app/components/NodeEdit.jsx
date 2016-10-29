@@ -1,5 +1,6 @@
 /* @flow */
 
+import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import __ from '../lib/i18n'
@@ -25,13 +26,9 @@ export class NodeEdit extends Component {
 
     const { title } = props
     this.state.title = title
-
-    // @LINK: https://github.com/facebook/flow/issues/1517
-    const self = (this: any)
-    self.handleChange = this.handleChange.bind(this)
-    self.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  @autobind
   handleChange (event: Event) {
     const target = event.target
     if (target instanceof HTMLInputElement) {
@@ -39,6 +36,7 @@ export class NodeEdit extends Component {
     }
   }
 
+  @autobind
   handleSubmit (event: Event) {
     event.preventDefault()
     const { parent, uid, title, deleteNode, putNode, unsetIsEditing } = this.props
