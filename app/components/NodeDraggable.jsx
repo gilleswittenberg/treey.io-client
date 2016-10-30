@@ -37,15 +37,10 @@ export class NodeDraggable extends Component {
     parent: PropTypes.string,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    showAddButton: PropTypes.bool.isRequired,
-    showDeleteButton: PropTypes.bool.isRequired,
-    allowExpanding: PropTypes.bool.isRequired,
+    actions: PropTypes.object.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
-    setIsEditing: PropTypes.func.isRequired,
-    toggleExpanded: PropTypes.func.isRequired,
-    deleteNode: PropTypes.func.isRequired,
-    putMoveNode: PropTypes.func.isRequired,
-    setShowButtons: PropTypes.func.isRequired,
+    setIsDragging: PropTypes.func.isRequired,
+    unsetIsDragging: PropTypes.func.isRequired,
     // Injected by React DnD DragSource
     connectDragSource: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
@@ -65,14 +60,10 @@ export class NodeDraggable extends Component {
       uid,
       title,
       showAddButton,
-      setIsEditing,
-      unsetIsEditing,
-      setShowButtons,
-      toggleExpanded,
-      deleteNode,
       allowExpanding,
-      connectDragSource,
-      isDragging
+      isDragging,
+      actions: { setIsEditing, unsetIsEditing, setShowButtons, toggleExpanded, deleteNode },
+      connectDragSource
     } = this.props
 
     const className = classNames({ '-is-dragging': isDragging })
@@ -101,7 +92,7 @@ export class NodeDraggable extends Component {
 }
 
 const mapStateToProps = (state, props) => ({
-  ...props,
-  lang: state.ui && state.ui.lang
+  lang: state.ui ? state.ui.lang : undefined,
+  ...props
 })
 export default connect(mapStateToProps)(NodeDraggable)

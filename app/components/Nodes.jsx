@@ -4,30 +4,22 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import NodeWrap from '../components/NodeWrap'
 import NodeAdd from '../components/NodeAdd'
-import { isEditing, isDragging } from '../reducers/ui'
+import { isEditing } from '../reducers/ui'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 
 export class Nodes extends Component {
 
   static propTypes = {
     parent: PropTypes.string,
-    isRoot: PropTypes.bool.isRequired,
     nodes: PropTypes.array.isRequired,
+    actions: PropTypes.object.isRequired,
     ui: PropTypes.object.isRequired,
-    setIsEditing: PropTypes.func.isRequired,
-    unsetIsEditing: PropTypes.func.isRequired,
-    setIsDragging: PropTypes.func.isRequired,
-    unsetIsDragging: PropTypes.func.isRequired,
-    setShowButtons: PropTypes.func.isRequired,
-    expand: PropTypes.func.isRequired,
-    toggleExpanded: PropTypes.func.isRequired,
-    postNode: PropTypes.func.isRequired,
-    putNode: PropTypes.func.isRequired,
-    deleteNode: PropTypes.func.isRequired
+    isRoot: PropTypes.bool.isRequired
   }
 
   static defaultProps = {
     lang: DEFAULT_LANG,
+    nodes: [],
     ui: {}
   }
 
@@ -37,21 +29,13 @@ export class Nodes extends Component {
       lang,
       parent,
       isRoot,
-      nodes = [],
+      nodes,
       ui,
-      setIsEditing,
-      unsetIsEditing,
-      setIsDragging,
-      unsetIsDragging,
-      setShowButtons,
-      toggleExpanded,
-      expand,
-      postNode,
-      putNode,
-      deleteNode,
-      putMoveNode
+      actions,
+      actions: { setIsEditing, unsetIsEditing, expand, postNode }
     } = this.props
     const hasNodeAdd = !isRoot
+    const isAdding = isEditing(ui, parent, 'add')
 
     return (
       <ul>
@@ -64,19 +48,7 @@ export class Nodes extends Component {
               after={ nodes[index + 1] ? nodes[index + 1].uid : null }
               title={ node.title }
               nodes={ node.nodes }
-              isEditing={ isEditing(ui, node.uid) }
-              setIsEditing={ setIsEditing }
-              unsetIsEditing={ unsetIsEditing }
-              isDragging={ isDragging(ui, node.uid) }
-              setIsDragging={ setIsDragging }
-              unsetIsDragging={ unsetIsDragging }
-              setShowButtons={ setShowButtons }
-              toggleExpanded={ toggleExpanded }
-              expand={ expand }
-              postNode={ postNode }
-              putNode={ putNode }
-              deleteNode={ deleteNode }
-              putMoveNode={ putMoveNode }
+              actions={ actions }
             />
           </li>
         ) }
@@ -86,7 +58,7 @@ export class Nodes extends Component {
             <NodeAdd
               lang={ lang }
               parent={ parent }
-              isEditing={ isEditing(ui, parent, 'add') }
+              isEditing={ isAdding }
               setIsEditing={ setIsEditing }
               unsetIsEditing={ unsetIsEditing }
               expand={ expand }
@@ -100,15 +72,10 @@ export class Nodes extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
-  const ret = {
-    ...props,
-    isRoot: props.parent === null
-  }
-  if (state && state.ui) {
-    ret.ui = state.ui
-    ret.lang = state.ui.lang
-  }
-  return ret
-}
+const mapStateToProps = (state, props) => ({
+  ...state,
+  lang: state.ui ? state.ui.lang : undefined,
+  ...props,
+  isRoot: props.parent === null
+})
 export default connect(mapStateToProps)(Nodes)

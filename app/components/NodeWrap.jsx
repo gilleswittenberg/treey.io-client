@@ -26,16 +26,7 @@ export class NodeWrap extends Component {
     nodes: PropTypes.array,
     hasNodes: PropTypes.bool.isRequired,
     ui: PropTypes.object.isRequired,
-    isEditing: PropTypes.bool.isRequired,
-    setIsEditing: PropTypes.func.isRequired,
-    unsetIsEditing: PropTypes.func.isRequired,
-    setShowButtons: PropTypes.func.isRequired,
-    expand: PropTypes.func.isRequired,
-    toggleExpanded: PropTypes.func.isRequired,
-    postNode: PropTypes.func.isRequired,
-    putNode: PropTypes.func.isRequired,
-    deleteNode: PropTypes.func.isRequired,
-    putMoveNode: PropTypes.func.isRequired
+    actions: PropTypes.object.isRequired
   }
 
   static defaultProps = {
@@ -63,22 +54,13 @@ export class NodeWrap extends Component {
       hasNodes,
       after,
       ui,
-      setIsEditing,
-      unsetIsEditing,
-      setIsDragging,
-      unsetIsDragging,
-      setShowButtons,
-      expand,
-      toggleExpanded,
-      isEditing,
-      postNode,
-      putNode,
-      deleteNode,
-      putMoveNode
+      actions,
+      actions: { unsetIsEditing, putNode, deleteNode }
     } = this.props
-    const isExpanded = isExpandedFunc(ui, uid)
-    const isDragging = isDraggingFunc(ui, uid)
+    const isEditing = isEditingFunc(ui, uid)
     const isAdding = isEditingFunc(ui, uid, 'add')
+    const isDragging = isDraggingFunc(ui, uid)
+    const isExpanded = isExpandedFunc(ui, uid)
     const hasButtonsShown = hasButtonsShownFunc(ui, uid)
 
     const className = classNames(
@@ -105,14 +87,7 @@ export class NodeWrap extends Component {
               hasNodes={ hasNodes }
               after={ after }
               showDeleteButton={ !isRoot }
-              setIsEditing={ setIsEditing }
-              unsetIsEditing={ unsetIsEditing }
-              setIsDragging={ setIsDragging }
-              unsetIsDragging={ unsetIsDragging }
-              toggleExpanded={ toggleExpanded }
-              deleteNode={ deleteNode }
-              setShowButtons={ setShowButtons }
-              putMoveNode={ putMoveNode }
+              actions={ actions }
             />
           }
           { showNodeEdit &&
@@ -131,33 +106,18 @@ export class NodeWrap extends Component {
         <Nodes
           parent={ uid }
           nodes={ nodes }
-          setIsEditing={ setIsEditing }
-          unsetIsEditing={ unsetIsEditing }
-          setIsDragging={ setIsDragging }
-          unsetIsDragging={ unsetIsDragging }
-          setShowButtons={ setShowButtons }
-          expand={ expand }
-          toggleExpanded={ toggleExpanded }
-          deleteNode={ deleteNode }
-          postNode={ postNode }
-          putNode={ putNode }
-          putMoveNode={ putMoveNode }
+          actions={ actions }
         />
       </div>
     )
   }
 }
 
-const mapStateToProps = (state, props) => {
-  const ret = {
-    ...props,
-    isRoot: props.parent === null,
-    hasNodes: Array.isArray(props.nodes) && props.nodes.length > 0
-  }
-  if (state && state.ui) {
-    ret.ui = state.ui
-    ret.lang = state.ui.lang
-  }
-  return ret
-}
+const mapStateToProps = (state, props) => ({
+  ...state,
+  lang: state.ui ? state.ui.lang : undefined,
+  ...props,
+  isRoot: props.parent === null,
+  hasNodes: Array.isArray(props.nodes) && props.nodes.length > 0
+})
 export default connect(mapStateToProps)(NodeWrap)

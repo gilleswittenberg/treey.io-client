@@ -48,6 +48,7 @@ class App extends React.Component {
 
     uiActionsBound = bindActionCreators(uiActions, dispatch)
     nodesActionsBound = bindActionCreators(nodesActions, dispatch)
+    const actions = { ...uiActionsBound, ...nodesActionsBound }
 
     return (
       <div className="wrap">
@@ -57,8 +58,7 @@ class App extends React.Component {
             <Nodes
               parent={ null }
               nodes={ [tree] }
-              { ...uiActionsBound }
-              { ...nodesActionsBound }
+              actions={ actions }
             />
           }
         </div>

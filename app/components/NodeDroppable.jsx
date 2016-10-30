@@ -63,14 +63,7 @@ export class NodeDroppable extends Component {
     title: PropTypes.string.isRequired,
     hasNodes: PropTypes.bool.isRequired,
     after: PropTypes.string,
-    setIsEditing: PropTypes.func.isRequired,
-    unsetIsEditing: PropTypes.func.isRequired,
-    setIsDragging: PropTypes.func.isRequired,
-    unsetIsDragging: PropTypes.func.isRequired,
-    setShowButtons: PropTypes.func.isRequired,
-    toggleExpanded: PropTypes.func.isRequired,
-    deleteNode: PropTypes.func.isRequired,
-    putMoveNode: PropTypes.func.isRequired,
+    actions: PropTypes.object.isRequired,
     // Injected by React DnD DropTarget
     connectDropTarget: PropTypes.func.isRequired,
     isOver: PropTypes.bool.isRequired,
@@ -93,14 +86,8 @@ export class NodeDroppable extends Component {
       title,
       hasNodes,
       after,
-      setIsEditing,
-      unsetIsEditing,
-      setIsDragging,
-      unsetIsDragging,
-      setShowButtons,
-      toggleExpanded,
-      deleteNode,
-      putMoveNode,
+      actions,
+      actions: { unsetIsEditing, setIsDragging, unsetIsDragging },
       connectDropTarget,
       isOver,
       isOverItemUid
@@ -124,15 +111,11 @@ export class NodeDroppable extends Component {
             after={ after }
             showAddButton={ !hasNodes }
             showDeleteButton={ !isRoot }
-            setIsEditing={ setIsEditing }
             unsetIsEditing={ unsetIsEditing }
             setIsDragging={ setIsDragging }
             unsetIsDragging={ unsetIsDragging }
-            toggleExpanded={ toggleExpanded }
-            deleteNode={ deleteNode }
+            actions={ actions }
             allowExpanding={ hasNodes }
-            setShowButtons={ setShowButtons }
-            putMoveNode={ putMoveNode }
           />
           { showNodeOverBottom &&
             <NodeOver position="bottom" />

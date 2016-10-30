@@ -24,17 +24,28 @@ describe('NodeWrap', () => {
   const uid = '57bedc40e81b0620300d769b'
   const uid2 = '57bedc40e81b0620300d769c'
   const uid3 = '57bedc40e81b0620300d769d'
-  const ui = { expanded: [] }
 
   function getProvider (args) {
 
     const defaultProps = {
+      ui: {},
       nodes: [],
       isEditing: false,
-      putNode: noop
+      actions: {
+        setIsEditing: noop,
+        unsetIsEditing: noop,
+        setIsDragging: noop,
+        unsetIsDragging: noop,
+        setShowButtons: noop,
+        expand: noop,
+        toggleExpanded: noop,
+        putNode: noop,
+        postNode: noop,
+        deleteNode: noop,
+        putMoveNode: noop
+      }
     }
-    const props = Object.assign(defaultProps, args)
-
+    const props = { ...defaultProps, ...args }
     const mockStore = configureStore([])
     const store = mockStore({})
     const NodeWrapContext = wrapInTestContext(NodeWrap)
@@ -49,19 +60,9 @@ describe('NodeWrap', () => {
           title={ 'title' }
           nodes={ props.nodes }
           hasNodes={ props.nodes.length > 0 }
-          ui={ ui }
+          ui={ props.ui }
           isEditing={ props.isEditing }
-          setIsEditing={ noop }
-          unsetIsEditing={ noop }
-          setIsDragging={ noop }
-          unsetIsDragging={ noop }
-          setShowButtons={ noop }
-          expand={ noop }
-          toggleExpanded={ noop }
-          postNode={ noop }
-          putNode={ props.putNode }
-          deleteNode={ noop }
-          putMoveNode={ noop }
+          actions={ props.actions }
         />
       </Provider>
     )
@@ -99,12 +100,12 @@ describe('NodeWrap', () => {
 
     it('false', () => {
       const wrapper = mount(getProvider())
-      expect(wrapper.render().find('form').length).toBe(0)
+      expect(wrapper.find('NodeEdit').length).toBe(0)
     })
 
     it('true', () => {
-      const wrapper = mount(getProvider({ isEditing: true }))
-      expect(wrapper.render().find('form').length).toBe(1)
+      const wrapper = mount(getProvider({ ui: { editing: uid } }))
+      expect(wrapper.find('NodeEdit').length).toBe(1)
     })
   })
 })
