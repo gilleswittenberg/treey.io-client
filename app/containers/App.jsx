@@ -40,9 +40,11 @@ class App extends React.Component {
   }
 
   render () {
-    const { dispatch, nodes, ui } = this.props
-    const { lang } = ui
-    const { tree, isSyncing, hasErrors } = nodes
+    const {
+      dispatch,
+      nodes: { tree, isSyncing, hasErrors },
+      ui: { lang }
+    } = this.props
 
     uiActionsBound = bindActionCreators(uiActions, dispatch)
     nodesActionsBound = bindActionCreators(nodesActions, dispatch)
@@ -66,8 +68,5 @@ class App extends React.Component {
   }
 }
 
-export default connect((state, props) => ({
-  dispatch: props.dispatch,
-  nodes: state.nodes,
-  ui: state.ui
-}))(App)
+const mapStateToProps = (state, props) => ({ ...props, ...state })
+export default connect(mapStateToProps)(App)
