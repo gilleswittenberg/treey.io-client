@@ -3,10 +3,10 @@
 import React from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import ServerStatus from '../components/ServerStatus'
 import Nodes from '../components/Nodes'
 import { setIsEditing, unsetIsEditing, setIsDragging, unsetIsDragging, setShowButtons, expand, toggleExpanded } from '../actions/ui'
 import { postNode, putNode, deleteNode, putMoveNode } from '../actions/nodes'
-import classNames from 'classnames'
 
 let nodesActions = { postNode, putNode, deleteNode, putMoveNode }
 let uiActions = { setIsEditing, unsetIsEditing, setIsDragging, unsetIsDragging, setShowButtons, expand, toggleExpanded }
@@ -41,35 +41,28 @@ class App extends React.Component {
 
   render () {
     const { dispatch, nodes, ui } = this.props
+    const { lang } = ui
     const { tree, isSyncing, hasErrors } = nodes
 
     uiActionsBound = bindActionCreators(uiActions, dispatch)
     nodesActionsBound = bindActionCreators(nodesActions, dispatch)
 
-    const serverStatusClassName = classNames('server-status', {
-      '-has-errors': hasErrors,
-      '-is-syncing': isSyncing
-    })
-
     return (
       <div className="wrap">
-        <div className={ serverStatusClassName }>
-          <p className="server-status-has-errors">has errors</p>
-          <p className="server-status-is-syncing">is syncing&hellip;</p>
-        </div>
+        <ServerStatus lang={ lang } hasErrors={ hasErrors } isSyncing={ isSyncing } />
         <div className="tree">
-        { tree &&
-          <Nodes
-            lang={ ui.lang }
-            parent={ null }
-            nodes={ [tree] }
-            ui={ ui }
-            { ...uiActionsBound }
-            { ...nodesActionsBound }
-          />
-        }
-          <CustomDragLayer></CustomDragLayer>
+          { tree &&
+            <Nodes
+              lang={ ui.lang }
+              parent={ null }
+              nodes={ [tree] }
+              ui={ ui }
+              { ...uiActionsBound }
+              { ...nodesActionsBound }
+            />
+          }
         </div>
+        <CustomDragLayer></CustomDragLayer>
       </div>
     )
   }
