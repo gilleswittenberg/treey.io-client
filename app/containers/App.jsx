@@ -55,7 +55,6 @@ class App extends React.Component {
             <Nodes
               parent={ null }
               nodes={ [tree] }
-              ui={ ui }
               { ...uiActionsBound }
               { ...nodesActionsBound }
             />

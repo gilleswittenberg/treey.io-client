@@ -63,22 +63,22 @@ export default function nodes (state: UIState = defaultState, action: UIAction) 
 }
 
 // @TODO: Move to seperate file
-export function isEditing (state: UIState, uid: string, type?: string) {
+export function isEditing (state: UIState, uid: string, type?: string) : boolean {
   const uidString = type ? `${ uid }.${ type }` : uid
   return state.editing === uidString
 }
 
 // @TODO: Move to seperate file
-export function isDragging (state: UIState, uid: string) {
+export function isDragging (state: UIState, uid: string) : boolean {
   return state.dragging === uid
 }
 
 // @TODO: Move to seperate file
-export function hasButtonsShown (state: UIState, uid: string) {
+export function hasButtonsShown (state: UIState, uid: string) : boolean {
   return state.showButtons === uid
 }
 
 // @TODO: Move to seperate file
-export function isExpanded (state: UIState, uid: string) {
-  return state.expanded.includes(uid)
+export function isExpanded (state: UIState, uid: string) : boolean {
+  return Array.isArray(state.expanded) && state.expanded.includes(uid)
 }

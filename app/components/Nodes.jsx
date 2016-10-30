@@ -27,7 +27,8 @@ export class Nodes extends Component {
   }
 
   static defaultProps = {
-    lang: DEFAULT_LANG
+    lang: DEFAULT_LANG,
+    ui: {}
   }
 
   render () {
@@ -63,7 +64,6 @@ export class Nodes extends Component {
               after={ nodes[index + 1] ? nodes[index + 1].uid : null }
               title={ node.title }
               nodes={ node.nodes }
-              ui={ ui }
               isEditing={ isEditing(ui, node.uid) }
               setIsEditing={ setIsEditing }
               unsetIsEditing={ unsetIsEditing }
@@ -100,9 +100,15 @@ export class Nodes extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  ...props,
-  isRoot: props.parent === null,
-  lang: state.ui && state.ui.lang
-})
+const mapStateToProps = (state, props) => {
+  const ret = {
+    ...props,
+    isRoot: props.parent === null
+  }
+  if (state && state.ui) {
+    ret.ui = state.ui
+    ret.lang = state.ui.lang
+  }
+  return ret
+}
 export default connect(mapStateToProps)(Nodes)

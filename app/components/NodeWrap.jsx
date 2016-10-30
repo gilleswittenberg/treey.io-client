@@ -40,6 +40,7 @@ export class NodeWrap extends Component {
 
   static defaultProps = {
     lang: DEFAULT_LANG,
+    ui: {},
     nodes: [],
     title: ''
   }
@@ -97,7 +98,6 @@ export class NodeWrap extends Component {
         <div className={ className }>
           { showNodeDroppable &&
             <NodeDroppable
-              ui={ ui }
               parent={ parent }
               isRoot={ isRoot }
               uid={ uid }
@@ -131,7 +131,6 @@ export class NodeWrap extends Component {
         <Nodes
           parent={ uid }
           nodes={ nodes }
-          ui={ ui }
           setIsEditing={ setIsEditing }
           unsetIsEditing={ unsetIsEditing }
           setIsDragging={ setIsDragging }
@@ -149,10 +148,16 @@ export class NodeWrap extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  ...props,
-  lang: state.ui && state.ui.lang,
-  isRoot: props.parent === null,
-  hasNodes: Array.isArray(props.nodes) && props.nodes.length > 0
-})
+const mapStateToProps = (state, props) => {
+  const ret = {
+    ...props,
+    isRoot: props.parent === null,
+    hasNodes: Array.isArray(props.nodes) && props.nodes.length > 0
+  }
+  if (state && state.ui) {
+    ret.ui = state.ui
+    ret.lang = state.ui.lang
+  }
+  return ret
+}
 export default connect(mapStateToProps)(NodeWrap)
