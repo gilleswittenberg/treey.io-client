@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "description": "",
+  "author": "Gilles Wittenberg",
   "engine": {
     "node": "^6.8.1",
     "npm": "^3.10.8"
@@ -17,7 +18,9 @@
     "test": "jest",
     "start": "NODE_ENV=production node_modules/http-server/bin/http-server -p 80 build"
   },
-  "author": "Gilles Wittenberg",
+  "jest": {
+    "testRegex": "/__tests__/.*\\.test\\.(js|jsx)$"
+  },
   "devDependencies": {
     "babel-core": "^6.17.0",
     "babel-eslint": "^7.0.0",

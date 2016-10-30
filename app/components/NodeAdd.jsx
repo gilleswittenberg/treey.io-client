@@ -4,7 +4,7 @@ import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import __ from '../lib/i18n'
+import ButtonIcon from './ButtonIcon'
 
 export class NodeAdd extends Component {
 
@@ -81,9 +81,7 @@ export class NodeAdd extends Component {
 
         { !isEditing &&
           <div className="node-body">
-            <button onClick={ this.handleClick } title={ __(lang, 'ADD') }>
-              <i className="fa fa-plus-square-o"></i>
-            </button>
+            <ButtonIcon type="ADD" lang={ lang } handleClick={ this.handleClick } />
           </div>
         }
 
@@ -91,9 +89,7 @@ export class NodeAdd extends Component {
           <div className="node-editing">
             <form onSubmit={ this.handleSubmit }>
               <div className="node-buttons">
-                <button title={ __(lang, 'SAVE') }>
-                  <i className="fa fa-floppy-o"></i>
-                </button>
+                <ButtonIcon type="SAVE" lang={ lang } />
               </div>
               <div className="input-wrap">
                 <input

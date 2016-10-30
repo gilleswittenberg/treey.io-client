@@ -1,41 +1,26 @@
-import React from 'react'
 import { NodeEdit } from '../../app/components/NodeEdit'
 import { shallow } from 'enzyme'
+import getComponentHOF from '../getComponent'
 
 describe('NodeEdit', () => {
 
+  const lang = 'en'
   const parent = '57bedc40e81b0620300d769a'
   const uid = '57bedc40e81b0620300d769b'
   const noop = () => {}
-
-  function getWrapper (args) {
-
-    const defaultProps = {
-      lang: 'en',
-      parent,
-      uid,
-      title: '',
-      unsetIsEditing: noop,
-      putNode: noop,
-      deleteNode: noop
-    }
-    const props = Object.assign(defaultProps, args)
-
-    return shallow(
-      <NodeEdit
-        lang={ props.lang }
-        parent={ props.parent }
-        uid={ props.uid }
-        title={ props.title }
-        unsetIsEditing={ props.unsetIsEditing }
-        putNode={ props.putNode }
-        deleteNode={ props.deleteNode }
-      />
-    )
+  const defaultProps = {
+    lang,
+    parent,
+    uid,
+    title: '',
+    unsetIsEditing: noop,
+    putNode: noop,
+    deleteNode: noop
   }
+  const getComponent = getComponentHOF(NodeEdit, defaultProps)
 
   it('change', () => {
-    const wrapper = getWrapper()
+    const wrapper = shallow(getComponent())
     const input = document.createElement('input')
     input.value = 'user input'
     const mockEvent = { target: input }
@@ -48,7 +33,7 @@ describe('NodeEdit', () => {
     it('deleteNode', () => {
       const unsetIsEditing = jest.fn()
       const deleteNode = jest.fn()
-      const wrapper = getWrapper({ unsetIsEditing, deleteNode })
+      const wrapper = shallow(getComponent({ unsetIsEditing, deleteNode }))
       const mockEvent = { preventDefault: () => {} }
       wrapper.find('form').simulate('submit', mockEvent)
       expect(unsetIsEditing.mock.calls.length).toBe(1)
@@ -58,7 +43,7 @@ describe('NodeEdit', () => {
     it('putNode', () => {
       const unsetIsEditing = jest.fn()
       const putNode = jest.fn()
-      const wrapper = getWrapper({ unsetIsEditing, putNode })
+      const wrapper = shallow(getComponent({ unsetIsEditing, putNode }))
       wrapper.setState({ title: 'user input' })
       const mockEvent = { preventDefault: () => {} }
       wrapper.find('form').simulate('submit', mockEvent)

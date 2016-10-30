@@ -5,7 +5,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import isURL from '../lib/isURL'
-import __ from '../lib/i18n'
+import ButtonIcon from './ButtonIcon'
 
 export class NodeBody extends Component {
 
@@ -103,24 +103,16 @@ export class NodeBody extends Component {
       <div className="node-body">
         <div className={ nodeButtonsClassName }>
           { showAddButton &&
-            <button onClick={ this.handleClickAdd } title={ __(lang, 'ADD') }>
-              <i className="fa fa-plus-square-o"></i>
-            </button>
+            <ButtonIcon type="ADD" lang={ lang } handleClick={ this.handleClickAdd } />
           }
-          <button onClick={ this.handleClickEdit } title={ __(lang, 'EDIT') }>
-            <i className="fa fa-pencil-square-o"></i>
-          </button>
+          <ButtonIcon type="EDIT" lang={ lang } handleClick={ this.handleClickEdit } />
           { showDeleteButton &&
-            <button onClick={ this.handleClickDelete } title={ __(lang, 'DELETE') }>
-              <i className="fa fa-trash-o"></i>
-            </button>
+            <ButtonIcon type="DELETE" lang={ lang } handleClick={ this.handleClickDelete } />
           }
         </div>
         { /* this should be Draggable */ }
         <div className="node-content" onClick={ this.handleClick }>
-          <button className="node-button-show-buttons" onClick={ this.handleClickShowButtons } title={ __(lang, 'MORE') }>
-            <i className="fa fa-ellipsis-v"></i>
-          </button>
+          <ButtonIcon type="MORE" lang={ lang } handleClick={ this.handleClickShowButtons } />
           { contentIsURL && <span><a href={ title }>{ title }</a></span> }
           { !contentIsURL && <span>{ title }</span> }
         </div>

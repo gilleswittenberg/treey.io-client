@@ -3,7 +3,7 @@
 import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import __ from '../lib/i18n'
+import ButtonIcon from '../components/ButtonIcon'
 
 export class NodeEdit extends Component {
 
@@ -59,9 +59,7 @@ export class NodeEdit extends Component {
       <div className="node-editing">
         <form onSubmit={ this.handleSubmit }>
           <div className="node-buttons">
-            <button title={ __(lang, 'SAVE') }>
-              <i className="fa fa-floppy-o"></i>
-            </button>
+            <ButtonIcon type="SAVE" lang={ lang} />
           </div>
           <div className="input-wrap">
             <input

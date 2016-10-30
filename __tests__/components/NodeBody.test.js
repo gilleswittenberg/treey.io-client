@@ -1,56 +1,36 @@
-import React from 'react'
 import { NodeBody } from '../../app/components/NodeBody'
-import { shallow } from 'enzyme'
+import { shallow, mount } from 'enzyme'
+import getComponentHOF from '../getComponent'
 
 describe('NodeBody', () => {
 
+  const lang = 'en'
   const parent = '57bedc40e81b0620300d769a'
   const uid = '57bedc40e81b0620300d769b'
   const noop = () => {}
 
-  function getWrapper (args) {
-
-    const defaultProps = {
-      lang: 'en',
-      parent,
-      uid,
-      title: '',
-      showAddButton: false,
-      showDeleteButton: false,
-      isEditing: false,
-      allowExpanding: false,
-      unsetIsEditing: noop,
-      setIsEditing: noop,
-      toggleExpanded: noop,
-      deleteNode: noop,
-      setShowButtons: noop
-    }
-    const props = Object.assign(defaultProps, args)
-
-    return shallow(
-      <NodeBody
-        lang={ props.lang }
-        parent={ props.parent }
-        uid={ props.uid }
-        title={ props.title }
-        showAddButton={ props.showAddButton }
-        showDeleteButton={ props.showDeleteButton }
-        isEditing={ props.isEditing }
-        allowExpanding={ props.allowExpanding }
-        unsetIsEditing={ props.unsetIsEditing }
-        setIsEditing={ props.setIsEditing }
-        toggleExpanded={ props.toggleExpanded }
-        deleteNode={ props.deleteNode }
-        setShowButtons={ props.setShowButtons }
-      />
-    )
+  const defaultProps = {
+    lang,
+    parent,
+    uid,
+    title: '',
+    showAddButton: false,
+    showDeleteButton: false,
+    isEditing: false,
+    allowExpanding: false,
+    unsetIsEditing: noop,
+    setIsEditing: noop,
+    toggleExpanded: noop,
+    deleteNode: noop,
+    setShowButtons: noop
   }
+  const getComponent = getComponentHOF(NodeBody, defaultProps)
 
   describe('handleClick', () => {
 
     it('altKey', () => {
       const setIsEditing = jest.fn()
-      const wrapper = getWrapper({ setIsEditing })
+      const wrapper = shallow(getComponent({ setIsEditing }))
       const mockEvent = { altKey: true }
       wrapper.find('div.node-content').simulate('click', mockEvent)
       expect(setIsEditing.mock.calls.length).toBe(1)
@@ -58,14 +38,14 @@ describe('NodeBody', () => {
 
     it('allowExpanding', () => {
       const toggleExpanded = jest.fn()
-      const wrapper = getWrapper({ toggleExpanded })
+      const wrapper = shallow(getComponent({ toggleExpanded }))
       wrapper.find('div.node-content').simulate('click', {})
       expect(toggleExpanded.mock.calls.length).toBe(0)
     })
 
     it('toggleExpanded', () => {
       const toggleExpanded = jest.fn()
-      const wrapper = getWrapper({ allowExpanding: true, toggleExpanded })
+      const wrapper = shallow(getComponent({ allowExpanding: true, toggleExpanded }))
       wrapper.find('div.node-content').simulate('click', {})
       expect(toggleExpanded.mock.calls.length).toBe(1)
     })
@@ -75,15 +55,15 @@ describe('NodeBody', () => {
 
     it('handleClickEdit', () => {
       const setIsEditing = jest.fn()
-      const wrapper = getWrapper({ setIsEditing })
-      wrapper.find('button[title="edit"]').simulate('click')
+      const wrapper = mount(getComponent({ setIsEditing }))
+      wrapper.find('.button-icon-edit').simulate('click')
       expect(setIsEditing.mock.calls.length).toBe(1)
     })
 
     it('handleClickAdd', () => {
       const setIsEditing = jest.fn()
-      const wrapper = getWrapper({ setIsEditing, showAddButton: true })
-      wrapper.find('button[title="add"]').simulate('click')
+      const wrapper = mount(getComponent({ setIsEditing, showAddButton: true }))
+      wrapper.find('.button-icon-add').simulate('click')
       expect(setIsEditing.mock.calls.length).toBe(1)
       expect(setIsEditing.mock.calls[0][1]).toEqual('add')
     })
@@ -93,21 +73,21 @@ describe('NodeBody', () => {
 
     it('non root', () => {
       const deleteNode = jest.fn()
-      const wrapper = getWrapper({
+      const wrapper = mount(getComponent({
         showDeleteButton: true,
         deleteNode
-      })
-      wrapper.find('button[title="delete"]').simulate('click')
+      }))
+      wrapper.find('.button-icon-delete').simulate('click')
       expect(deleteNode.mock.calls.length).toBe(1)
     })
 
     it('root', () => {
       const deleteNode = jest.fn()
-      const wrapper = getWrapper({
+      const wrapper = mount(getComponent({
         parent: null,
         showDeleteButton: true
-      })
-      wrapper.find('button[title="delete"]').simulate('click')
+      }))
+      wrapper.find('.button-icon-delete').simulate('click')
       expect(deleteNode.mock.calls.length).toBe(0)
     })
   })
@@ -116,9 +96,9 @@ describe('NodeBody', () => {
 
     it('click', () => {
       const setShowButtons = jest.fn()
-      const wrapper = getWrapper({ setShowButtons })
+      const wrapper = mount(getComponent({ setShowButtons }))
       const eventMock = { stopPropagation: noop }
-      wrapper.find('button.node-button-show-buttons').simulate('click', eventMock)
+      wrapper.find('.button-icon-more').simulate('click', eventMock)
       expect(setShowButtons.mock.calls.length).toBe(1)
     })
   })
@@ -126,12 +106,12 @@ describe('NodeBody', () => {
   describe('content', () => {
 
     it('text', () => {
-      const wrapper = getWrapper({ title: 'text' })
+      const wrapper = shallow(getComponent({ title: 'text' }))
       expect(wrapper.find('a').length).toBe(0)
     })
 
     it('URL', () => {
-      const wrapper = getWrapper({ title: 'http://treey.io' })
+      const wrapper = shallow(getComponent({ title: 'http://treey.io' }))
       expect(wrapper.find('a').length).toBe(1)
     })
   })
