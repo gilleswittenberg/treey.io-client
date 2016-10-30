@@ -1,4 +1,4 @@
-import { NodeAdd } from '../../app/components/NodeAdd'
+import NodeAdd from '../../app/components/NodeAdd'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 

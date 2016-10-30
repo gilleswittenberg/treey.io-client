@@ -2,14 +2,15 @@
 
 import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
 import classNames from 'classnames'
 import isURL from '../lib/isURL'
 import ButtonIcon from './ButtonIcon'
+import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 
-export class NodeBody extends Component {
+export default class NodeBody extends Component {
 
   static propTypes = {
+    lang: PropTypes.string,
     parent: PropTypes.string,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -21,6 +22,10 @@ export class NodeBody extends Component {
     toggleExpanded: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired,
     setShowButtons: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    lang: DEFAULT_LANG
   }
 
   @autobind
@@ -120,5 +125,3 @@ export class NodeBody extends Component {
     )
   }
 }
-
-export default connect()(NodeBody)

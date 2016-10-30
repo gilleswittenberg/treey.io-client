@@ -5,11 +5,11 @@ import { connect } from 'react-redux'
 import NodeWrap from '../components/NodeWrap'
 import NodeAdd from '../components/NodeAdd'
 import { isEditing, isDragging } from '../reducers/ui'
+import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 
 export class Nodes extends Component {
 
   static propTypes = {
-    lang: PropTypes.string.isRequired,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     nodes: PropTypes.array.isRequired,
@@ -24,6 +24,10 @@ export class Nodes extends Component {
     postNode: PropTypes.func.isRequired,
     putNode: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    lang: DEFAULT_LANG
   }
 
   render () {
@@ -54,7 +58,6 @@ export class Nodes extends Component {
         { nodes.map((node, index) =>
           <li key={ node.uid }>
             <NodeWrap
-              lang={ lang }
               parent={ parent }
               uid={ node.uid }
               after={ nodes[index + 1] ? nodes[index + 1].uid : null }
@@ -99,6 +102,7 @@ export class Nodes extends Component {
 
 const mapStateToProps = (state, props) => ({
   ...props,
-  isRoot: props.parent === null
+  isRoot: props.parent === null,
+  lang: state.ui && state.ui.lang
 })
 export default connect(mapStateToProps)(Nodes)

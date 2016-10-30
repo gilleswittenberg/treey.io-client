@@ -87,7 +87,6 @@ export class NodeDroppable extends Component {
   render () {
 
     const {
-      lang,
       parent,
       isRoot,
       uid,
@@ -119,7 +118,6 @@ export class NodeDroppable extends Component {
             <NodeOver position="top" />
           }
           <NodeDraggable
-            lang={ lang }
             parent={ parent }
             uid={ uid }
             title={ title }

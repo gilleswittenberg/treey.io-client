@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import NodeDroppable from '../components/NodeDroppable'
 import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
+import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 import {
   isEditing as isEditingFunc,
   isDragging as isDraggingFunc,
@@ -38,6 +39,7 @@ export class NodeWrap extends Component {
   }
 
   static defaultProps = {
+    lang: DEFAULT_LANG,
     nodes: [],
     title: ''
   }
@@ -95,7 +97,6 @@ export class NodeWrap extends Component {
         <div className={ className }>
           { showNodeDroppable &&
             <NodeDroppable
-              lang={ lang }
               ui={ ui }
               parent={ parent }
               isRoot={ isRoot }
@@ -128,7 +129,6 @@ export class NodeWrap extends Component {
         </div>
 
         <Nodes
-          lang={ lang }
           parent={ uid }
           nodes={ nodes }
           ui={ ui }
@@ -151,6 +151,7 @@ export class NodeWrap extends Component {
 
 const mapStateToProps = (state, props) => ({
   ...props,
+  lang: state.ui && state.ui.lang,
   isRoot: props.parent === null,
   hasNodes: Array.isArray(props.nodes) && props.nodes.length > 0
 })

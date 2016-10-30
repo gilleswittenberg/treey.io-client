@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import NodeBody from '../components/NodeBody'
 import DnDType from '../settings/DND_TYPE'
+import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 import { DragSource } from 'react-dnd'
 import classNames from 'classnames'
 
@@ -32,6 +33,7 @@ const DragSpec = {
 export class NodeDraggable extends Component {
 
   static propTypes = {
+    lang: PropTypes.string,
     parent: PropTypes.string,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -48,6 +50,10 @@ export class NodeDraggable extends Component {
     connectDragSource: PropTypes.func.isRequired,
     isDragging: PropTypes.bool.isRequired,
     connectDragPreview: React.PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    lang: DEFAULT_LANG
   }
 
   render () {
@@ -94,4 +100,8 @@ export class NodeDraggable extends Component {
   }
 }
 
-export default connect()(NodeDraggable)
+const mapStateToProps = (state, props) => ({
+  ...props,
+  lang: state.ui && state.ui.lang
+})
+export default connect(mapStateToProps)(NodeDraggable)

@@ -1,4 +1,4 @@
-import { NodeBody } from '../../app/components/NodeBody'
+import NodeBody from '../../app/components/NodeBody'
 import { shallow, mount } from 'enzyme'
 import getComponentHOF from '../getComponent'
 

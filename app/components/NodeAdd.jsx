@@ -2,19 +2,24 @@
 
 import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
 import classNames from 'classnames'
 import ButtonIcon from './ButtonIcon'
+import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 
-export class NodeAdd extends Component {
+export default class NodeAdd extends Component {
 
   static propTypes = {
+    lang: PropTypes.string,
     parent: PropTypes.string.isRequired,
     isEditing: PropTypes.bool.isRequired,
     setIsEditing: PropTypes.func.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
     expand: PropTypes.func.isRequired,
     postNode: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    lang: DEFAULT_LANG
   }
 
   state = {
@@ -107,5 +112,3 @@ export class NodeAdd extends Component {
     )
   }
 }
-
-export default connect()(NodeAdd)

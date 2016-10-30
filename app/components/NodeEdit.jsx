@@ -2,18 +2,23 @@
 
 import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
 import ButtonIcon from '../components/ButtonIcon'
+import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 
-export class NodeEdit extends Component {
+export default class NodeEdit extends Component {
 
   static propTypes = {
+    lang: PropTypes.string,
     parent: PropTypes.string.isRequired,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
     putNode: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    lang: DEFAULT_LANG
   }
 
   state = {
@@ -59,7 +64,7 @@ export class NodeEdit extends Component {
       <div className="node-editing">
         <form onSubmit={ this.handleSubmit }>
           <div className="node-buttons">
-            <ButtonIcon type="SAVE" lang={ lang} />
+            <ButtonIcon type="SAVE" lang={ lang } />
           </div>
           <div className="input-wrap">
             <input
@@ -73,5 +78,3 @@ export class NodeEdit extends Component {
     )
   }
 }
-
-export default connect()(NodeEdit)

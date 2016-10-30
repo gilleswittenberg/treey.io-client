@@ -1,4 +1,4 @@
-import { NodeEdit } from '../../app/components/NodeEdit'
+import NodeEdit from '../../app/components/NodeEdit'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 
