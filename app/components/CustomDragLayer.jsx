@@ -37,6 +37,7 @@ function getItemStyles (props) {
 export default class CustomDragLayer extends Component {
 
   static propTypes = {
+    // Injected by React DnD DragLayer
     item: PropTypes.object,
     itemType: PropTypes.string,
     currentOffset: PropTypes.shape({
