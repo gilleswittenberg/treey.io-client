@@ -2,18 +2,10 @@
 
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import getActions from '../lib/actions'
 import ServerStatus from '../components/ServerStatus'
 import Tree from '../components/Tree'
-import getActions from '../lib/actions'
 
-import { DragDropContext } from 'react-dnd'
-import { default as TouchBackend } from 'react-dnd-touch-backend'
-import CustomDragLayer from '../components/CustomDragLayer'
-
-const touchBackendOptions = { enableMouseEvents: true, delayTouchStart: 400 }
-const backend = TouchBackend(touchBackendOptions)
-
-@DragDropContext(backend)
 class App extends React.Component {
 
   static propTypes = {
@@ -40,7 +32,6 @@ class App extends React.Component {
           isSyncing={ isSyncing }
         />
         <Tree ui={ ui } actions={ actions } tree={ tree } />
-        <CustomDragLayer />
       </div>
     )
   }
