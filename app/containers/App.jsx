@@ -1,6 +1,6 @@
 /* @flow */
 
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import ServerStatus from '../components/ServerStatus'
@@ -24,9 +24,9 @@ const backend = TouchBackend(touchBackendOptions)
 class App extends React.Component {
 
   static propTypes = {
-    dispatch: React.PropTypes.func.isRequired,
-    nodes: React.PropTypes.object.isRequired,
-    ui: React.PropTypes.object.isRequired
+    dispatch: PropTypes.func.isRequired,
+    nodes: PropTypes.object.isRequired,
+    ui: PropTypes.object.isRequired
   }
 
   // @TODO: Move to Tree component
