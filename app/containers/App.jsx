@@ -23,6 +23,7 @@ class App extends React.Component {
     } = this.props
 
     const actions = getActions(dispatch)
+    const { unsetIsEditing } = actions
 
     return (
       <div className="wrap">
@@ -31,7 +32,12 @@ class App extends React.Component {
           hasErrors={ hasErrors }
           isSyncing={ isSyncing }
         />
-        <Tree ui={ ui } actions={ actions } tree={ tree } />
+        <Tree
+          ui={ ui }
+          actions={ actions }
+          tree={ tree }
+          unsetIsEditing={ unsetIsEditing }
+        />
       </div>
     )
   }

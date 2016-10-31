@@ -16,7 +16,8 @@ export default class Tree extends React.Component {
   static propTypes = {
     ui: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    tree: PropTypes.object
+    tree: PropTypes.object,
+    unsetIsEditing: PropTypes.func.isRequired
   }
 
   componentDidMount () {
@@ -26,7 +27,7 @@ export default class Tree extends React.Component {
   @autobind
   handleKeyPress (event) {
     if (event.keyCode === 27) { // esc
-      const { actions: { unsetIsEditing } } = this.props
+      const { unsetIsEditing } = this.props
       unsetIsEditing()
     }
   }
