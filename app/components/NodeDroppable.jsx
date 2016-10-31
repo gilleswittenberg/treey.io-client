@@ -61,7 +61,7 @@ export default class NodeDroppable extends Component {
     parent: PropTypes.string,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    nodes: PropTypes.array.isRequired,
+    hasNodes: PropTypes.bool.isRequired,
     siblings: PropTypes.array.isRequired,
     index: PropTypes.number.isRequired,
     putMoveNode: PropTypes.func.isRequired,
@@ -112,7 +112,7 @@ export default class NodeDroppable extends Component {
       isRoot,
       uid,
       title,
-      nodes,
+      hasNodes,
       siblings,
       index,
       connectDropTarget
@@ -134,7 +134,7 @@ export default class NodeDroppable extends Component {
             isRoot={ isRoot }
             uid={ uid }
             title={ title }
-            nodes={ nodes }
+            hasNodes={ hasNodes }
             siblings={ siblings }
             index={ index }
             unsetIsEditing={ unsetIsEditing }

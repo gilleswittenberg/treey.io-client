@@ -37,7 +37,7 @@ export default class NodeDraggable extends Component {
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    nodes: PropTypes.array.isRequired,
+    hasNodes: PropTypes.bool.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
     setIsDragging: PropTypes.func.isRequired,
     unsetIsDragging: PropTypes.func.isRequired,
@@ -56,7 +56,7 @@ export default class NodeDraggable extends Component {
       isRoot,
       uid,
       title,
-      nodes,
+      hasNodes,
       isDragging,
       actions: { setIsEditing, unsetIsEditing, setShowButtons, toggleExpanded, deleteNode },
       connectDragSource
@@ -74,7 +74,7 @@ export default class NodeDraggable extends Component {
             isRoot={ isRoot }
             uid={ uid }
             title={ title }
-            nodes={ nodes }
+            hasNodes={ hasNodes }
             unsetIsEditing={ unsetIsEditing }
             setIsEditing={ setIsEditing }
             toggleExpanded={ toggleExpanded }

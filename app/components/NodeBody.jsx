@@ -17,7 +17,7 @@ export default class NodeBody extends Component {
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    nodes: PropTypes.array,
+    hasNodes: PropTypes.bool.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
     setIsEditing: PropTypes.func.isRequired,
     toggleExpanded: PropTypes.func.isRequired,
@@ -77,13 +77,8 @@ export default class NodeBody extends Component {
     setShowButtons(uid)
   }
 
-  hasNodes () : bool {
-    const { nodes } = this.props
-    return Array.isArray(nodes) && nodes.length > 0
-  }
-
   canExpand () : bool {
-    return this.hasNodes()
+    return this.props.hasNodes
   }
 
   hasButtonsShown () : bool {
@@ -96,10 +91,11 @@ export default class NodeBody extends Component {
     const {
       lang,
       isRoot,
-      title
+      title,
+      hasNodes
     } = this.props
 
-    const showAddButton = !this.hasNodes()
+    const showAddButton = !hasNodes
     const showDeleteButton = !isRoot
     const hasButtonsShown = this.hasButtonsShown()
 

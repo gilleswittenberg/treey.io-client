@@ -17,7 +17,7 @@ describe('NodeBody', () => {
     isRoot: false,
     uid,
     title: '',
-    nodes: [],
+    hasNodes: false,
     unsetIsEditing: noop,
     setIsEditing: noop,
     toggleExpanded: noop,
@@ -45,7 +45,7 @@ describe('NodeBody', () => {
 
     it('toggleExpanded', () => {
       const toggleExpanded = jest.fn()
-      const wrapper = shallow(getComponent({ nodes: [1], toggleExpanded }))
+      const wrapper = shallow(getComponent({ hasNodes: true, toggleExpanded }))
       wrapper.find('div.node-content').simulate('click', {})
       expect(toggleExpanded.mock.calls.length).toBe(1)
     })

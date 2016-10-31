@@ -5,7 +5,6 @@ import classNames from 'classnames'
 import NodeDroppable from '../components/NodeDroppable'
 import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
-import noop from '../lib/noop'
 import {
   defaultState,
   isEditing as isEditingFunc,
@@ -109,7 +108,7 @@ export default class NodeWrap extends Component {
               isRoot={ isRoot }
               uid={ uid }
               title={ title }
-              nodes={ nodes }
+              hasNodes={ hasNodes }
               siblings={ siblings }
               index={ index }
               putMoveNode={ putMoveNode }
