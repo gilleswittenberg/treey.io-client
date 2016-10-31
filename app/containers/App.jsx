@@ -1,15 +1,10 @@
 /* @flow */
 
 import React, { PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import ServerStatus from '../components/ServerStatus'
 import Tree from '../components/Tree'
-import { setIsEditing, unsetIsEditing, setIsDragging, unsetIsDragging, setShowButtons, expand, toggleExpanded } from '../actions/ui'
-import { postNode, putNode, deleteNode, putMoveNode } from '../actions/nodes'
-
-let nodesActions = { postNode, putNode, deleteNode, putMoveNode }
-let uiActions = { setIsEditing, unsetIsEditing, setIsDragging, unsetIsDragging, setShowButtons, expand, toggleExpanded }
+import getActions from '../lib/actions'
 
 import { DragDropContext } from 'react-dnd'
 import { default as TouchBackend } from 'react-dnd-touch-backend'
@@ -35,9 +30,7 @@ class App extends React.Component {
       nodes: { tree, isSyncing, hasErrors }
     } = this.props
 
-    const uiActionsBound = bindActionCreators(uiActions, dispatch)
-    const nodesActionsBound = bindActionCreators(nodesActions, dispatch)
-    const actions = { ...uiActionsBound, ...nodesActionsBound }
+    const actions = getActions(dispatch)
 
     return (
       <div className="wrap">
