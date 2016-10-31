@@ -1,7 +1,6 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
 import NodeDraggable from '../components/NodeDraggable'
 import NodeOver from '../components/NodeOver'
 import DnDType from '../settings/DND_TYPE'
@@ -36,13 +35,14 @@ const DropSpec = {
     const { parent, uid } = item
     const { parent: newParent } = props
     const overPosition = getOverMousePosition(monitor, component.element)
-    const before = overPosition === 'top' ? props.uid : props.after
+    const before = overPosition === 'top' ? props.uid : component.getSiblingAfter()
 
     // guard: do not save when node is dropped on original location
-    if (before === item.after) return
+    // @TODO: fix without after property (item.uid ?)
+    // if (before === item.after) return
 
     // save
-    const { putMoveNode } = item
+    const { putMoveNode } = props
     putMoveNode(parent, uid, newParent, before)
   }
 }
@@ -53,17 +53,18 @@ const DropSpec = {
   isOverItemUid: monitor.getItem() ? monitor.getItem().uid : null,
   canDrop: monitor.canDrop()
 }))
-export class NodeDroppable extends Component {
+export default class NodeDroppable extends Component {
 
   static propTypes = {
-    lang: PropTypes.string,
+    ui: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
     parent: PropTypes.string,
-    isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    hasNodes: PropTypes.bool.isRequired,
-    after: PropTypes.string,
-    actions: PropTypes.object.isRequired,
+    nodes: PropTypes.array.isRequired,
+    siblings: PropTypes.array.isRequired,
+    index: PropTypes.number.isRequired,
+    putMoveNode: PropTypes.func.isRequired,
     // Injected by React DnD DropTarget
     connectDropTarget: PropTypes.func.isRequired,
     isOver: PropTypes.bool.isRequired,
@@ -77,26 +78,48 @@ export class NodeDroppable extends Component {
 
   element = undefined
 
+  getSiblingAfter () : ?string {
+    const { siblings, index } = this.props
+    const nextNode = siblings[index + 1]
+    if (!nextNode) return null
+    return nextNode.uid
+  }
+
+  isOverOther () : bool {
+    const { isOver, isOverItemUid, uid } = this.props
+    return isOver && isOverItemUid !== uid
+  }
+
+  showNodeOverTop () : bool {
+    const isOverOther = this.isOverOther()
+    const { isOverPosition } = this.state
+    return isOverOther && isOverPosition === 'top'
+  }
+
+  showNodeOverBottom () : bool {
+    const isOverOther = this.isOverOther()
+    const { isOverPosition } = this.state
+    return isOverOther && isOverPosition === 'bottom'
+  }
+
   render () {
 
     const {
+      actions,
+      actions: { unsetIsEditing, setIsDragging, unsetIsDragging },
+      ui,
       parent,
       isRoot,
       uid,
       title,
-      hasNodes,
-      after,
-      actions,
-      actions: { unsetIsEditing, setIsDragging, unsetIsDragging },
-      connectDropTarget,
-      isOver,
-      isOverItemUid
+      nodes,
+      siblings,
+      index,
+      connectDropTarget
     } = this.props
-    const { isOverPosition } = this.state
 
-    const isOverOther = isOver && isOverItemUid !== uid
-    const showNodeOverTop = isOverOther && isOverPosition === 'top'
-    const showNodeOverBottom = isOverOther && isOverPosition === 'bottom'
+    const showNodeOverTop = this.showNodeOverTop()
+    const showNodeOverBottom = this.showNodeOverBottom()
 
     return (
       connectDropTarget(
@@ -105,17 +128,18 @@ export class NodeDroppable extends Component {
             <NodeOver position="top" />
           }
           <NodeDraggable
+            ui={ ui }
+            actions={ actions }
             parent={ parent }
+            isRoot={ isRoot }
             uid={ uid }
             title={ title }
-            after={ after }
-            showAddButton={ !hasNodes }
-            showDeleteButton={ !isRoot }
+            nodes={ nodes }
+            siblings={ siblings }
+            index={ index }
             unsetIsEditing={ unsetIsEditing }
             setIsDragging={ setIsDragging }
             unsetIsDragging={ unsetIsDragging }
-            actions={ actions }
-            allowExpanding={ hasNodes }
           />
           { showNodeOverBottom &&
             <NodeOver position="bottom" />
@@ -125,5 +149,3 @@ export class NodeDroppable extends Component {
     )
   }
 }
-
-export default connect()(NodeDroppable)

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { NodeWrap } from '../../app/components/NodeWrap'
+import NodeWrap from '../../app/components/NodeWrap'
 import { mount } from 'enzyme'
 import { DragDropContext } from 'react-dnd'
 import TestBackend from 'react-dnd-test-backend'
@@ -30,7 +30,8 @@ describe('NodeWrap', () => {
     const defaultProps = {
       ui: {},
       nodes: [],
-      isEditing: false,
+      siblings: [],
+      index: 0,
       actions: {
         setIsEditing: noop,
         unsetIsEditing: noop,
@@ -59,6 +60,8 @@ describe('NodeWrap', () => {
           uid={ uid }
           title={ 'title' }
           nodes={ props.nodes }
+          siblings={ props.siblings }
+          index={ props.index }
           hasNodes={ props.nodes.length > 0 }
           ui={ props.ui }
           isEditing={ props.isEditing }

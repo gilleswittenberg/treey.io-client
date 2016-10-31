@@ -1,41 +1,58 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
 import NodeWrap from '../components/NodeWrap'
 import NodeAdd from '../components/NodeAdd'
-import { isEditing } from '../reducers/ui'
-import DEFAULT_LANG from '../settings/DEFAULT_LANG'
+import { defaultState, isEditing } from '../reducers/ui'
+import { defaultActions } from '../lib/actions'
 
-export class Nodes extends Component {
+export default class Nodes extends Component {
 
   static propTypes = {
+    // state
+    ui: React.PropTypes.object,
+    // props
+    actions: PropTypes.object,
     parent: PropTypes.string,
-    nodes: PropTypes.array.isRequired,
-    actions: PropTypes.object.isRequired,
-    ui: PropTypes.object.isRequired,
-    isRoot: PropTypes.bool.isRequired
+    nodes: PropTypes.array
   }
 
   static defaultProps = {
-    lang: DEFAULT_LANG,
-    nodes: [],
-    ui: {}
+    ui: defaultState,
+    actions: defaultActions,
+    parent: null,
+    nodes: []
+  }
+
+  isRoot () : bool {
+    return this.props.parent === null
+  }
+
+  // @TODO: What if parent == null
+  isAdding () : bool {
+    const { ui, parent } = this.props
+    return isEditing(ui, parent, 'add')
   }
 
   render () {
 
     const {
-      lang,
-      parent,
-      isRoot,
-      nodes,
       ui,
+      ui: { lang },
       actions,
-      actions: { setIsEditing, unsetIsEditing, expand, postNode }
+      actions: {
+        setIsEditing,
+        unsetIsEditing,
+        expand,
+        postNode
+      },
+      parent,
+      nodes
     } = this.props
+
+    const isRoot = this.isRoot()
     const hasNodeAdd = !isRoot
-    const isAdding = isEditing(ui, parent, 'add')
+    const isAdding = this.isAdding()
 
     return (
       <ul>
@@ -43,12 +60,15 @@ export class Nodes extends Component {
         { nodes.map((node, index) =>
           <li key={ node.uid }>
             <NodeWrap
+              ui={ ui }
+              actions={ actions }
               parent={ parent }
+              isRoot={ isRoot }
               uid={ node.uid }
-              after={ nodes[index + 1] ? nodes[index + 1].uid : null }
               title={ node.title }
               nodes={ node.nodes }
-              actions={ actions }
+              siblings={ nodes }
+              index={ index }
             />
           </li>
         ) }
@@ -71,11 +91,3 @@ export class Nodes extends Component {
     )
   }
 }
-
-const mapStateToProps = (state, props) => ({
-  ...state,
-  lang: state.ui ? state.ui.lang : undefined,
-  ...props,
-  isRoot: props.parent === null
-})
-export default connect(mapStateToProps)(Nodes)

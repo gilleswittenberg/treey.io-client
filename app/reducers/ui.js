@@ -6,10 +6,11 @@ import Storage from '../lib/Storage'
 
 import type { UIState, UIAction } from '../../flow/types'
 
+import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 import EXPANDED_KEY from '../settings/EXPANDED_KEY'
 
-const defaultState: UIState = {
-  lang: 'en',
+export const defaultState: UIState = {
+  lang: DEFAULT_LANG,
   editing: null,
   dragging: null,
   showButtons: null,
@@ -63,18 +64,24 @@ export default function nodes (state: UIState = defaultState, action: UIAction) 
 }
 
 // @TODO: Move to seperate file
-export function isEditing (state: UIState, uid: string, type?: string) : boolean {
+export function isEditing (state: UIState, uid: ?string, type?: string) : boolean {
+  // guard
+  if (uid == null) return false
   const uidString = type ? `${ uid }.${ type }` : uid
   return state.editing === uidString
 }
 
 // @TODO: Move to seperate file
-export function isDragging (state: UIState, uid: string) : boolean {
+export function isDragging (state: UIState, uid: ?string) : boolean {
+  // guard
+  if (uid == null) return false
   return state.dragging === uid
 }
 
 // @TODO: Move to seperate file
-export function hasButtonsShown (state: UIState, uid: string) : boolean {
+export function hasButtonsShown (state: UIState, uid: ?string) : boolean {
+  // guard
+  if (uid == null) return false
   return state.showButtons === uid
 }
 

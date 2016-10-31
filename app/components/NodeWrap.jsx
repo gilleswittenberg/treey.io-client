@@ -1,37 +1,37 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
 import classNames from 'classnames'
 import NodeDroppable from '../components/NodeDroppable'
 import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
-import DEFAULT_LANG from '../settings/DEFAULT_LANG'
+import noop from '../lib/noop'
 import {
+  defaultState,
   isEditing as isEditingFunc,
   isDragging as isDraggingFunc,
-  hasButtonsShown as hasButtonsShownFunc,
   isExpanded as isExpandedFunc
 } from '../reducers/ui'
+import { defaultActions } from '../lib/actions'
 
-export class NodeWrap extends Component {
+export default class NodeWrap extends Component {
 
   static propTypes = {
-    lang: PropTypes.string,
+    ui: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
-    after: PropTypes.string,
     title: PropTypes.string.isRequired,
     nodes: PropTypes.array,
-    hasNodes: PropTypes.bool.isRequired,
-    ui: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired
+    siblings: PropTypes.array.isRequired,
+    index: PropTypes.number.isRequired
   }
 
   static defaultProps = {
-    lang: DEFAULT_LANG,
-    ui: {},
+    ui: defaultState,
+    // @TODO: Extract defaultActions
+    actions: defaultActions,
     nodes: [],
     title: ''
   }
@@ -40,35 +40,58 @@ export class NodeWrap extends Component {
     isOverPosition: -1
   }
 
-  element = undefined
+  isEditing () : bool {
+    const { ui, uid } = this.props
+    return isEditingFunc(ui, uid)
+  }
+
+  isAdding () : bool {
+    const { ui, uid } = this.props
+    return isEditingFunc(ui, uid, 'add')
+  }
+
+  isDragging () : bool {
+    const { ui, uid } = this.props
+    return isDraggingFunc(ui, uid)
+  }
+
+  isExpanded () : bool {
+    const { ui, uid } = this.props
+    return uid !== null && isExpandedFunc(ui, uid)
+  }
+
+  hasNodes () : bool {
+    const { nodes } = this.props
+    return Array.isArray(nodes) && nodes.length > 0
+  }
 
   render () {
 
     const {
-      lang,
+      ui,
+      ui: { lang },
+      actions,
+      actions: { unsetIsEditing, putNode, deleteNode, putMoveNode },
       parent,
       isRoot,
       uid,
       title,
       nodes,
-      hasNodes,
-      after,
-      ui,
-      actions,
-      actions: { unsetIsEditing, putNode, deleteNode }
+      siblings,
+      index
     } = this.props
-    const isEditing = isEditingFunc(ui, uid)
-    const isAdding = isEditingFunc(ui, uid, 'add')
-    const isDragging = isDraggingFunc(ui, uid)
-    const isExpanded = isExpandedFunc(ui, uid)
-    const hasButtonsShown = hasButtonsShownFunc(ui, uid)
+
+    const isEditing = this.isEditing()
+    const isAdding = this.isAdding()
+    const isDragging = this.isDragging()
+    const isExpanded = this.isExpanded()
+    const hasNodes = this.hasNodes()
 
     const className = classNames(
       'node',
       {
         '-is-dragging': isDragging,
-        '-is-expanded': (isExpanded && hasNodes) || isAdding,
-        '-has-buttons-shown': hasButtonsShown
+        '-is-expanded': (isExpanded && hasNodes) || isAdding
       }
     )
 
@@ -80,14 +103,16 @@ export class NodeWrap extends Component {
         <div className={ className }>
           { showNodeDroppable &&
             <NodeDroppable
+              ui={ ui }
+              actions={ actions }
               parent={ parent }
               isRoot={ isRoot }
               uid={ uid }
               title={ title }
-              hasNodes={ hasNodes }
-              after={ after }
-              showDeleteButton={ !isRoot }
-              actions={ actions }
+              nodes={ nodes }
+              siblings={ siblings }
+              index={ index }
+              putMoveNode={ putMoveNode }
             />
           }
           { showNodeEdit &&
@@ -104,20 +129,12 @@ export class NodeWrap extends Component {
         </div>
 
         <Nodes
+          ui={ ui }
+          actions={ actions }
           parent={ uid }
           nodes={ nodes }
-          actions={ actions }
         />
       </div>
     )
   }
 }
-
-const mapStateToProps = (state, props) => ({
-  ...state,
-  lang: state.ui ? state.ui.lang : undefined,
-  ...props,
-  isRoot: props.parent === null,
-  hasNodes: Array.isArray(props.nodes) && props.nodes.length > 0
-})
-export default connect(mapStateToProps)(NodeWrap)

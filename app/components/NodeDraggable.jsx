@@ -1,10 +1,8 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react'
-import { connect } from 'react-redux'
 import NodeBody from '../components/NodeBody'
 import DnDType from '../settings/DND_TYPE'
-import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 import { DragSource } from 'react-dnd'
 import classNames from 'classnames'
 
@@ -30,14 +28,16 @@ const DragSpec = {
   isDragging: monitor.isDragging(),
   connectDragPreview: connect.dragPreview()
 }))
-export class NodeDraggable extends Component {
+export default class NodeDraggable extends Component {
 
   static propTypes = {
-    lang: PropTypes.string,
+    ui: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
     parent: PropTypes.string,
+    isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    actions: PropTypes.object.isRequired,
+    nodes: PropTypes.array.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
     setIsDragging: PropTypes.func.isRequired,
     unsetIsDragging: PropTypes.func.isRequired,
@@ -47,20 +47,16 @@ export class NodeDraggable extends Component {
     connectDragPreview: React.PropTypes.func.isRequired
   }
 
-  static defaultProps = {
-    lang: DEFAULT_LANG
-  }
-
   render () {
 
     const {
-      lang,
+      ui,
+      ui: { lang },
       parent,
       isRoot,
       uid,
       title,
-      showAddButton,
-      allowExpanding,
+      nodes,
       isDragging,
       actions: { setIsEditing, unsetIsEditing, setShowButtons, toggleExpanded, deleteNode },
       connectDragSource
@@ -72,17 +68,17 @@ export class NodeDraggable extends Component {
       connectDragSource(
         <div className={ className }>
           <NodeBody
+            ui={ ui }
             lang={ lang }
             parent={ parent }
+            isRoot={ isRoot }
             uid={ uid }
             title={ title }
-            showAddButton={ showAddButton }
-            showDeleteButton={ !isRoot }
+            nodes={ nodes }
             unsetIsEditing={ unsetIsEditing }
             setIsEditing={ setIsEditing }
             toggleExpanded={ toggleExpanded }
             deleteNode={ deleteNode }
-            allowExpanding={ allowExpanding }
             setShowButtons={ setShowButtons }
           />
         </div>
@@ -90,9 +86,3 @@ export class NodeDraggable extends Component {
     )
   }
 }
-
-const mapStateToProps = (state, props) => ({
-  lang: state.ui ? state.ui.lang : undefined,
-  ...props
-})
-export default connect(mapStateToProps)(NodeDraggable)

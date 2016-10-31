@@ -29,10 +29,12 @@ class App extends React.Component {
     ui: React.PropTypes.object.isRequired
   }
 
+  // @TODO: Move to Tree component
   componentDidMount () {
     window.addEventListener('keyup', this.handleKeyPress)
   }
 
+  // @TODO: Move to Tree component
   handleKeyPress (event) {
     if (event.keyCode === 27) { // esc
       uiActionsBound.unsetIsEditing()
@@ -43,6 +45,7 @@ class App extends React.Component {
     const {
       dispatch,
       nodes: { tree, isSyncing, hasErrors },
+      ui,
       ui: { lang }
     } = this.props
 
@@ -52,17 +55,22 @@ class App extends React.Component {
 
     return (
       <div className="wrap">
-        <ServerStatus lang={ lang } hasErrors={ hasErrors } isSyncing={ isSyncing } />
+        <ServerStatus
+          lang={ lang }
+          hasErrors={ hasErrors }
+          isSyncing={ isSyncing }
+        />
         <div className="tree">
           { tree &&
             <Nodes
+              ui={ ui }
+              actions={ actions }
               parent={ null }
               nodes={ [tree] }
-              actions={ actions }
             />
           }
         </div>
-        <CustomDragLayer></CustomDragLayer>
+        <CustomDragLayer />
       </div>
     )
   }

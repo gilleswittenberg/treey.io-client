@@ -6,17 +6,18 @@ import classNames from 'classnames'
 import isURL from '../lib/isURL'
 import ButtonIcon from './ButtonIcon'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
+import { hasButtonsShown as hasButtonsShownFunc } from '../reducers/ui'
 
 export default class NodeBody extends Component {
 
   static propTypes = {
+    ui: PropTypes.object.isRequired,
     lang: PropTypes.string,
     parent: PropTypes.string,
+    isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    showAddButton: PropTypes.bool.isRequired,
-    showDeleteButton: PropTypes.bool.isRequired,
-    allowExpanding: PropTypes.bool.isRequired,
+    nodes: PropTypes.array,
     unsetIsEditing: PropTypes.func.isRequired,
     setIsEditing: PropTypes.func.isRequired,
     toggleExpanded: PropTypes.func.isRequired,
@@ -37,10 +38,10 @@ export default class NodeBody extends Component {
     }
     // regular click to collapse or expand
     else {
-      const { unsetIsEditing, allowExpanding, toggleExpanded, uid  } = this.props
+      const { unsetIsEditing, toggleExpanded, uid  } = this.props
       unsetIsEditing()
       // guard
-      if (!allowExpanding) {
+      if (!this.canExpand()) {
         return
       }
       toggleExpanded(uid)
@@ -66,10 +67,6 @@ export default class NodeBody extends Component {
   @autobind
   handleClickDelete () {
     const { parent, uid, deleteNode } = this.props
-    // guard
-    if (!parent) {
-      return
-    }
     deleteNode(parent, uid)
   }
 
@@ -80,14 +77,36 @@ export default class NodeBody extends Component {
     setShowButtons(uid)
   }
 
+  hasNodes () : bool {
+    const { nodes } = this.props
+    return Array.isArray(nodes) && nodes.length > 0
+  }
+
+  canExpand () : bool {
+    return this.hasNodes()
+  }
+
+  hasButtonsShown () : bool {
+    const { ui, uid } = this.props
+    return hasButtonsShownFunc(ui, uid)
+  }
+
   render () {
 
     const {
       lang,
-      title,
-      showAddButton,
-      showDeleteButton
+      isRoot,
+      title
     } = this.props
+
+    const showAddButton = !this.hasNodes()
+    const showDeleteButton = !isRoot
+    const hasButtonsShown = this.hasButtonsShown()
+
+    const className = classNames(
+      'node-body',
+      { '-has-buttons-shown': hasButtonsShown }
+    )
 
     let numButtons = 1
     if (showAddButton) numButtons++
@@ -101,11 +120,10 @@ export default class NodeBody extends Component {
       }
     )
 
-    // @TODO: extract to isURL method
     const contentIsURL = isURL(title)
 
     return (
-      <div className="node-body">
+      <div className={ className }>
         <div className={ nodeButtonsClassName }>
           { showAddButton &&
             <ButtonIcon type="ADD" lang={ lang } handleClick={ this.handleClickAdd } />
@@ -115,7 +133,6 @@ export default class NodeBody extends Component {
             <ButtonIcon type="DELETE" lang={ lang } handleClick={ this.handleClickDelete } />
           }
         </div>
-        { /* this should be Draggable */ }
         <div className="node-content" onClick={ this.handleClick }>
           <ButtonIcon type="MORE" lang={ lang } handleClick={ this.handleClickShowButtons } />
           { contentIsURL && <span><a href={ title }>{ title }</a></span> }

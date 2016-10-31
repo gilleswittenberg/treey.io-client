@@ -4,20 +4,20 @@ import getComponentHOF from '../getComponent'
 
 describe('NodeBody', () => {
 
+  const ui = {}
   const lang = 'en'
   const parent = '57bedc40e81b0620300d769a'
   const uid = '57bedc40e81b0620300d769b'
   const noop = () => {}
 
   const defaultProps = {
+    ui,
     lang,
     parent,
+    isRoot: false,
     uid,
     title: '',
-    showAddButton: false,
-    showDeleteButton: false,
-    isEditing: false,
-    allowExpanding: false,
+    nodes: [],
     unsetIsEditing: noop,
     setIsEditing: noop,
     toggleExpanded: noop,
@@ -36,7 +36,7 @@ describe('NodeBody', () => {
       expect(setIsEditing.mock.calls.length).toBe(1)
     })
 
-    it('allowExpanding', () => {
+    it('canExpand', () => {
       const toggleExpanded = jest.fn()
       const wrapper = shallow(getComponent({ toggleExpanded }))
       wrapper.find('div.node-content').simulate('click', {})
@@ -45,7 +45,7 @@ describe('NodeBody', () => {
 
     it('toggleExpanded', () => {
       const toggleExpanded = jest.fn()
-      const wrapper = shallow(getComponent({ allowExpanding: true, toggleExpanded }))
+      const wrapper = shallow(getComponent({ nodes: [1], toggleExpanded }))
       wrapper.find('div.node-content').simulate('click', {})
       expect(toggleExpanded.mock.calls.length).toBe(1)
     })
@@ -74,7 +74,6 @@ describe('NodeBody', () => {
     it('non root', () => {
       const deleteNode = jest.fn()
       const wrapper = mount(getComponent({
-        showDeleteButton: true,
         deleteNode
       }))
       wrapper.find('.button-icon-delete').simulate('click')
@@ -82,13 +81,8 @@ describe('NodeBody', () => {
     })
 
     it('root', () => {
-      const deleteNode = jest.fn()
-      const wrapper = mount(getComponent({
-        parent: null,
-        showDeleteButton: true
-      }))
-      wrapper.find('.button-icon-delete').simulate('click')
-      expect(deleteNode.mock.calls.length).toBe(0)
+      const wrapper = mount(getComponent({ isRoot: true }))
+      expect(wrapper.find('.button-icon-delete').length).toBe(0)
     })
   })
 
