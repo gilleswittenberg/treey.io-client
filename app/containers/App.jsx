@@ -4,14 +4,12 @@ import React, { PropTypes } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import ServerStatus from '../components/ServerStatus'
-import Nodes from '../components/Nodes'
+import Tree from '../components/Tree'
 import { setIsEditing, unsetIsEditing, setIsDragging, unsetIsDragging, setShowButtons, expand, toggleExpanded } from '../actions/ui'
 import { postNode, putNode, deleteNode, putMoveNode } from '../actions/nodes'
 
 let nodesActions = { postNode, putNode, deleteNode, putMoveNode }
 let uiActions = { setIsEditing, unsetIsEditing, setIsDragging, unsetIsDragging, setShowButtons, expand, toggleExpanded }
-let uiActionsBound
-let nodesActionsBound
 
 import { DragDropContext } from 'react-dnd'
 import { default as TouchBackend } from 'react-dnd-touch-backend'
@@ -29,28 +27,16 @@ class App extends React.Component {
     ui: PropTypes.object.isRequired
   }
 
-  // @TODO: Move to Tree component
-  componentDidMount () {
-    window.addEventListener('keyup', this.handleKeyPress)
-  }
-
-  // @TODO: Move to Tree component
-  handleKeyPress (event) {
-    if (event.keyCode === 27) { // esc
-      uiActionsBound.unsetIsEditing()
-    }
-  }
-
   render () {
     const {
       dispatch,
-      nodes: { tree, isSyncing, hasErrors },
       ui,
-      ui: { lang }
+      ui: { lang },
+      nodes: { tree, isSyncing, hasErrors }
     } = this.props
 
-    uiActionsBound = bindActionCreators(uiActions, dispatch)
-    nodesActionsBound = bindActionCreators(nodesActions, dispatch)
+    const uiActionsBound = bindActionCreators(uiActions, dispatch)
+    const nodesActionsBound = bindActionCreators(nodesActions, dispatch)
     const actions = { ...uiActionsBound, ...nodesActionsBound }
 
     return (
@@ -60,16 +46,7 @@ class App extends React.Component {
           hasErrors={ hasErrors }
           isSyncing={ isSyncing }
         />
-        <div className="tree">
-          { tree &&
-            <Nodes
-              ui={ ui }
-              actions={ actions }
-              parent={ null }
-              nodes={ [tree] }
-            />
-          }
-        </div>
+        <Tree ui={ ui } actions={ actions } tree={ tree } />
         <CustomDragLayer />
       </div>
     )
