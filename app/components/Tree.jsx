@@ -4,7 +4,7 @@ import Nodes from './Nodes'
 import autobind from 'autobind-decorator'
 
 import { DragDropContext } from 'react-dnd'
-import { default as TouchBackend } from 'react-dnd-touch-backend'
+import TouchBackend from 'react-dnd-touch-backend'
 import CustomDragLayer from '../components/CustomDragLayer'
 
 const touchBackendOptions = { enableMouseEvents: true, delayTouchStart: 400 }
