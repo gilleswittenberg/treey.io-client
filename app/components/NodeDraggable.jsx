@@ -53,15 +53,12 @@ export class NodeDraggable extends Component {
       connectDragSource
     } = this.props
 
+    const nodeContentProps = { lang, title, handleClick, handleClickMore }
+
     return (
       connectDragSource(
         <div>
-          <NodeContent
-            lang={ lang }
-            title={ title }
-            handleClick={ handleClick }
-            handleClickMore={ handleClickMore }
-          />
+          <NodeContent { ...nodeContentProps } />
         </div>
       )
     )

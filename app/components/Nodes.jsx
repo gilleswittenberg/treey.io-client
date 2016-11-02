@@ -10,7 +10,7 @@ export default class Nodes extends Component {
 
   static propTypes = {
     // state
-    ui: React.PropTypes.object,
+    ui: PropTypes.object,
     // props
     actions: PropTypes.object,
     parent: PropTypes.string,
@@ -54,16 +54,16 @@ export default class Nodes extends Component {
     const hasNodeAdd = !isRoot
     const isAdding = this.isAdding()
 
+    const nodeWrapProps = { ui, actions, parent, isRoot }
+    const nodeAddProps = { lang, parent, isEditing: isAdding, setIsEditing, unsetIsEditing, expand, postNode }
+
     return (
       <ul>
 
         { nodes.map((node, index) =>
           <li key={ node.uid }>
             <NodeWrap
-              ui={ ui }
-              actions={ actions }
-              parent={ parent }
-              isRoot={ isRoot }
+              { ...nodeWrapProps }
               uid={ node.uid }
               title={ node.title }
               nodes={ node.nodes }
@@ -75,15 +75,7 @@ export default class Nodes extends Component {
 
         { hasNodeAdd &&
           <li>
-            <NodeAdd
-              lang={ lang }
-              parent={ parent }
-              isEditing={ isAdding }
-              setIsEditing={ setIsEditing }
-              unsetIsEditing={ unsetIsEditing }
-              expand={ expand }
-              postNode={ postNode }
-            />
+            <NodeAdd { ...nodeAddProps } />
           </li>
         }
 

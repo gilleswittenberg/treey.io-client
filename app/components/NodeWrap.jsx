@@ -99,43 +99,21 @@ export default class NodeWrap extends Component {
 
     const NodeDroppableComponent = enableDnD ? NodeDroppableDecorated : NodeDroppable
 
+    const nodeDroppableProps = { ui, enableDnD, actions, parent, isRoot, uid, title, hasNodes, siblings, index, putMoveNode }
+    const nodeEditProps = { lang, parent, uid, title, unsetIsEditing, putNode, deleteNode }
+    const nodesProps = { ui, actions, parent: uid, nodes }
+
     return (
       <div>
         <div className={ className }>
           { showNodeDroppable &&
-            <NodeDroppableComponent
-              ui={ ui }
-              enableDnD={ enableDnD }
-              actions={ actions }
-              parent={ parent }
-              isRoot={ isRoot }
-              uid={ uid }
-              title={ title }
-              hasNodes={ hasNodes }
-              siblings={ siblings }
-              index={ index }
-              putMoveNode={ putMoveNode }
-            />
+            <NodeDroppableComponent { ...nodeDroppableProps } />
           }
           { showNodeEdit &&
-            <NodeEdit
-              lang={ lang }
-              parent={ parent }
-              uid={ uid }
-              title={ title }
-              unsetIsEditing={ unsetIsEditing }
-              putNode={ putNode }
-              deleteNode={ deleteNode }
-            />
+            <NodeEdit { ...nodeEditProps } />
           }
         </div>
-
-        <Nodes
-          ui={ ui }
-          actions={ actions }
-          parent={ uid }
-          nodes={ nodes }
-        />
+        <Nodes { ...nodesProps } />
       </div>
     )
   }

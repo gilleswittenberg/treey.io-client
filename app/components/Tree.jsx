@@ -1,13 +1,13 @@
 /* @flow */
 
-import React, { PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react'
 import Nodes from './Nodes'
 import CustomDragLayer from '../components/CustomDragLayer'
 import autobind from 'autobind-decorator'
 import { DragDropContext } from 'react-dnd'
 import TouchBackend from 'react-dnd-touch-backend'
 
-export class Tree extends React.Component {
+export class Tree extends Component {
 
   static propTypes = {
     ui: PropTypes.object.isRequired,
@@ -32,16 +32,11 @@ export class Tree extends React.Component {
 
     const { ui, actions, tree } = this.props
 
+    const nodesProps = { ui, actions, parent: null, nodes: [tree] }
+
     return (
       <div className="tree">
-        { tree &&
-          <Nodes
-            ui={ ui }
-            actions={ actions }
-            parent={ null }
-            nodes={ [tree] }
-          />
-        }
+        { tree && <Nodes { ...nodesProps } /> }
         <CustomDragLayer />
       </div>
     )

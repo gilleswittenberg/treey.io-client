@@ -134,6 +134,19 @@ export default class Node extends Component {
     )
 
     const NodeDraggableComponent = enableDnD ? NodeDraggableDecorated : NodeDraggable
+    const nodeDraggableProps = {
+      lang,
+      enableDnD,
+      parent,
+      isRoot,
+      uid,
+      title,
+      handleClick: this.handleClick,
+      handleClickMore: this.handleClickShowButtons,
+      unsetIsEditing,
+      setIsDragging,
+      unsetIsDragging
+    }
 
     return (
       <div className={ className }>
@@ -146,19 +159,7 @@ export default class Node extends Component {
             <ButtonIcon type="DELETE" lang={ lang } handleClick={ this.handleClickDelete } />
           }
         </div>
-        <NodeDraggableComponent
-          lang={ lang }
-          enableDnD={ enableDnD }
-          parent={ parent }
-          isRoot={ isRoot }
-          uid={ uid }
-          title={ title }
-          handleClick={ this.handleClick }
-          handleClickMore={ this.handleClickShowButtons }
-          unsetIsEditing={ unsetIsEditing }
-          setIsDragging={ setIsDragging }
-          unsetIsDragging={ unsetIsDragging }
-        />
+        <NodeDraggableComponent { ... nodeDraggableProps } />
       </div>
     )
   }

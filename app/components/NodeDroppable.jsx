@@ -126,27 +126,29 @@ export class NodeDroppable extends Component {
     const showNodeOverTop = this.showNodeOverTop()
     const showNodeOverBottom = this.showNodeOverBottom()
 
+    const nodeProps = {
+      ui,
+      actions,
+      lang,
+      parent,
+      isRoot,
+      uid,
+      title,
+      hasNodes,
+      unsetIsEditing,
+      setIsEditing,
+      toggleExpanded,
+      deleteNode,
+      setShowButtons
+    }
+
     return (
       connectDropTarget(
         <div ref={ c => this.element = c }>
           { showNodeOverTop &&
             <NodeOver position="top" />
           }
-          <Node
-            ui={ ui }
-            actions={ actions }
-            lang={ lang }
-            parent={ parent }
-            isRoot={ isRoot }
-            uid={ uid }
-            title={ title }
-            hasNodes={ hasNodes }
-            unsetIsEditing={ unsetIsEditing }
-            setIsEditing={ setIsEditing }
-            toggleExpanded={ toggleExpanded }
-            deleteNode={ deleteNode }
-            setShowButtons={ setShowButtons }
-          />
+          <Node { ...nodeProps } />
           { showNodeOverBottom &&
             <NodeOver position="bottom" />
           }

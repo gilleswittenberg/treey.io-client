@@ -15,6 +15,7 @@ class App extends React.Component {
   }
 
   render () {
+    
     const {
       dispatch,
       ui,
@@ -25,21 +26,15 @@ class App extends React.Component {
     const actions = getActions(dispatch)
     const { unsetIsEditing } = actions
 
+    const serverStatusProps = { lang, hasErrors, isSyncing }
+
     const TreeComponent = enableDnD ? TreeDecorated : Tree
+    const treeProps = { ui, actions, tree, unsetIsEditing }
 
     return (
       <div className="wrap">
-        <ServerStatus
-          lang={ lang }
-          hasErrors={ hasErrors }
-          isSyncing={ isSyncing }
-        />
-        <TreeComponent
-          ui={ ui }
-          actions={ actions }
-          tree={ tree }
-          unsetIsEditing={ unsetIsEditing }
-        />
+        <ServerStatus { ...serverStatusProps } />
+        <TreeComponent { ...treeProps } />
       </div>
     )
   }
