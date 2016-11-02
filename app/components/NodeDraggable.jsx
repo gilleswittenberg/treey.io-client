@@ -1,10 +1,9 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react'
-import NodeBody from '../components/NodeBody'
+import NodeContent from '../components/NodeContent'
 import DND_TYPE from '../settings/DND_TYPE'
 import { DragSource } from 'react-dnd'
-import classNames from 'classnames'
 
 const DragSpec = {
   canDrag (props) {
@@ -31,13 +30,11 @@ const DragSpec = {
 export default class NodeDraggable extends Component {
 
   static propTypes = {
-    ui: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
+    lang: PropTypes.string,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    hasNodes: PropTypes.bool.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
     setIsDragging: PropTypes.func.isRequired,
     unsetIsDragging: PropTypes.func.isRequired,
@@ -50,36 +47,21 @@ export default class NodeDraggable extends Component {
   render () {
 
     const {
-      ui,
-      ui: { lang },
-      parent,
-      isRoot,
-      uid,
+      lang,
       title,
-      hasNodes,
-      isDragging,
-      actions: { setIsEditing, unsetIsEditing, setShowButtons, toggleExpanded, deleteNode },
+      handleClick,
+      handleClickMore,
       connectDragSource
     } = this.props
 
-    const className = classNames({ '-is-dragging': isDragging })
-
     return (
       connectDragSource(
-        <div className={ className }>
-          <NodeBody
-            ui={ ui }
+        <div>
+          <NodeContent
             lang={ lang }
-            parent={ parent }
-            isRoot={ isRoot }
-            uid={ uid }
             title={ title }
-            hasNodes={ hasNodes }
-            unsetIsEditing={ unsetIsEditing }
-            setIsEditing={ setIsEditing }
-            toggleExpanded={ toggleExpanded }
-            deleteNode={ deleteNode }
-            setShowButtons={ setShowButtons }
+            handleClick={ handleClick }
+            handleClickMore={ handleClickMore }
           />
         </div>
       )

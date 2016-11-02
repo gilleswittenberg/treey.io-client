@@ -3,15 +3,19 @@
 import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
-import isURL from '../lib/isURL'
 import ButtonIcon from './ButtonIcon'
+import NodeDraggable from './NodeDraggable'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
-import { hasButtonsShown as hasButtonsShownFunc } from '../reducers/ui'
+import {
+  hasButtonsShown as hasButtonsShownFunc,
+  isDragging as isDraggingFunc
+} from '../reducers/ui'
 
 export default class NodeBody extends Component {
 
   static propTypes = {
     ui: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired,
     lang: PropTypes.string,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
@@ -86,11 +90,19 @@ export default class NodeBody extends Component {
     return hasButtonsShownFunc(ui, uid)
   }
 
+  isDragging () : bool {
+    const { ui, uid } = this.props
+    return isDraggingFunc(ui, uid)
+  }
+
   render () {
 
     const {
+      actions: { unsetIsEditing, setIsDragging, unsetIsDragging },
       lang,
+      parent,
       isRoot,
+      uid,
       title,
       hasNodes
     } = this.props
@@ -98,10 +110,15 @@ export default class NodeBody extends Component {
     const showAddButton = !hasNodes
     const showDeleteButton = !isRoot
     const hasButtonsShown = this.hasButtonsShown()
+    const isDragging = this.isDragging()
 
     const className = classNames(
       'node-body',
-      { '-has-buttons-shown': hasButtonsShown }
+      {
+        '-has-buttons-shown': hasButtonsShown,
+        '-is-dragging': isDragging
+      }
+
     )
 
     let numButtons = 1
@@ -116,8 +133,6 @@ export default class NodeBody extends Component {
       }
     )
 
-    const contentIsURL = isURL(title)
-
     return (
       <div className={ className }>
         <div className={ nodeButtonsClassName }>
@@ -129,11 +144,18 @@ export default class NodeBody extends Component {
             <ButtonIcon type="DELETE" lang={ lang } handleClick={ this.handleClickDelete } />
           }
         </div>
-        <div className="node-content" onClick={ this.handleClick }>
-          <ButtonIcon type="MORE" lang={ lang } handleClick={ this.handleClickShowButtons } />
-          { contentIsURL && <span><a href={ title }>{ title }</a></span> }
-          { !contentIsURL && <span>{ title }</span> }
-        </div>
+        <NodeDraggable
+          lang={ lang }
+          parent={ parent }
+          isRoot={ isRoot }
+          uid={ uid }
+          title={ title }
+          handleClick={ this.handleClick }
+          handleClickMore={ this.handleClickShowButtons }
+          unsetIsEditing={ unsetIsEditing }
+          setIsDragging={ setIsDragging }
+          unsetIsDragging={ unsetIsDragging }
+        />
       </div>
     )
   }

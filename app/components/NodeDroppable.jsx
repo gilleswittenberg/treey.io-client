@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react'
-import NodeDraggable from '../components/NodeDraggable'
+import NodeBody from '../components/NodeBody'
 import NodeOver from '../components/NodeOver'
 import DND_TYPE from '../settings/DND_TYPE'
 import { DropTarget } from 'react-dnd'
@@ -108,15 +108,20 @@ export default class NodeDroppable extends Component {
 
     const {
       actions,
-      actions: { unsetIsEditing, setIsDragging, unsetIsDragging },
+      actions: {
+        unsetIsEditing,
+        setIsEditing,
+        toggleExpanded,
+        deleteNode,
+        setShowButtons
+      },
       ui,
+      ui: { lang },
       parent,
       isRoot,
       uid,
       title,
       hasNodes,
-      siblings,
-      index,
       connectDropTarget
     } = this.props
 
@@ -129,19 +134,20 @@ export default class NodeDroppable extends Component {
           { showNodeOverTop &&
             <NodeOver position="top" />
           }
-          <NodeDraggable
+          <NodeBody
             ui={ ui }
             actions={ actions }
+            lang={ lang }
             parent={ parent }
             isRoot={ isRoot }
             uid={ uid }
             title={ title }
             hasNodes={ hasNodes }
-            siblings={ siblings }
-            index={ index }
             unsetIsEditing={ unsetIsEditing }
-            setIsDragging={ setIsDragging }
-            unsetIsDragging={ unsetIsDragging }
+            setIsEditing={ setIsEditing }
+            toggleExpanded={ toggleExpanded }
+            deleteNode={ deleteNode }
+            setShowButtons={ setShowButtons }
           />
           { showNodeOverBottom &&
             <NodeOver position="bottom" />
