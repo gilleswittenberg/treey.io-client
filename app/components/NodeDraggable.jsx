@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react'
 import NodeBody from '../components/NodeBody'
-import DnDType from '../settings/DND_TYPE'
+import DND_TYPE from '../settings/DND_TYPE'
 import { DragSource } from 'react-dnd'
 import classNames from 'classnames'
 
@@ -23,7 +23,7 @@ const DragSpec = {
   }
 }
 
-@DragSource(DnDType, DragSpec, (connect, monitor) => ({
+@DragSource(DND_TYPE, DragSpec, (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging(),
   connectDragPreview: connect.dragPreview()

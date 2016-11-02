@@ -3,7 +3,7 @@
 import React, { Component, PropTypes } from 'react'
 import NodeDraggable from '../components/NodeDraggable'
 import NodeOver from '../components/NodeOver'
-import DnDType from '../settings/DND_TYPE'
+import DND_TYPE from '../settings/DND_TYPE'
 import { DropTarget } from 'react-dnd'
 
 function getOverMousePosition (monitor, element) {
@@ -49,7 +49,7 @@ const DropSpec = {
   }
 }
 
-@DropTarget(DnDType, DropSpec, (connect, monitor) => ({
+@DropTarget(DND_TYPE, DropSpec, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver(),
   isOverItemUid: monitor.getItem() ? monitor.getItem().uid : null,
