@@ -52,8 +52,7 @@ const DropSpec = {
 @DropTarget(DND_TYPE, DropSpec, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver(),
-  isOverItemUid: monitor.getItem() ? monitor.getItem().uid : null,
-  canDrop: monitor.canDrop()
+  isOverItemUid: monitor.getItem() ? monitor.getItem().uid : null
 }))
 export default class NodeDroppable extends Component {
 
@@ -70,8 +69,7 @@ export default class NodeDroppable extends Component {
     // Injected by React DnD DropTarget
     connectDropTarget: PropTypes.func.isRequired,
     isOver: PropTypes.bool.isRequired,
-    isOverItemUid: PropTypes.string,
-    canDrop: PropTypes.bool.isRequired
+    isOverItemUid: PropTypes.string
   }
 
   state = {
