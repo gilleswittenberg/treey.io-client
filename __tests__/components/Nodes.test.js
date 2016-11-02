@@ -1,13 +1,13 @@
 import Nodes from '../../app/components/Nodes'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
+import noop from '../noop'
 
 describe('Nodes', () => {
 
   const parent = '57bedc40e81b0620300d769a'
   const uid1 = '57bedc40e81b0620300d769b'
   const uid2 = '57bedc40e81b0620300d769c'
-  const noop = () => {}
 
   const defaultProps = {
     ui: {},

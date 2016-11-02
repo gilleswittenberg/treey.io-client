@@ -1,12 +1,12 @@
 import NodeAdd from '../../app/components/NodeAdd'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
+import noop from '../noop'
 
 describe('NodeAdd', () => {
 
   const lang = 'en'
   const parent = '57bedc40e81b0620300d769a'
-  const noop = () => {}
 
   const defaultProps = {
     lang,

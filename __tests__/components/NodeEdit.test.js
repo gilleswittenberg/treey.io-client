@@ -1,13 +1,13 @@
 import NodeEdit from '../../app/components/NodeEdit'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
+import noop from '../noop'
 
 describe('NodeEdit', () => {
 
   const lang = 'en'
   const parent = '57bedc40e81b0620300d769a'
   const uid = '57bedc40e81b0620300d769b'
-  const noop = () => {}
   const defaultProps = {
     lang,
     parent,

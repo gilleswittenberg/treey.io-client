@@ -5,6 +5,7 @@ import { DragDropContext } from 'react-dnd'
 import TestBackend from 'react-dnd-test-backend'
 import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
+import noop from '../noop'
 
 // @LINK: https://github.com/gaearon/react-dnd/blob/master/docs/00%20Quick%20Start/Testing.md
 function wrapInTestContext (DecoratedComponent) {
@@ -19,7 +20,6 @@ function wrapInTestContext (DecoratedComponent) {
 
 describe('NodeWrap', () => {
 
-  const noop = () => {}
   const parent = '57bedc40e81b0620300d769a'
   const uid = '57bedc40e81b0620300d769b'
   const uid2 = '57bedc40e81b0620300d769c'
