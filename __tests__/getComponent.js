@@ -2,9 +2,9 @@ import React from 'react'
 
 export default function getComponent (Component, defaultProps) {
 
-  return function (args) {
+  return function (componentProps) {
 
-    const props = { ...defaultProps, ...args }
-    return React.createElement(Component, props, null)
+    const props = { ...defaultProps, ...componentProps }
+    return React.createElement(Component, props)
   }
 }
