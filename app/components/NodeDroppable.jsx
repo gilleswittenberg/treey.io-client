@@ -31,15 +31,17 @@ const DropSpec = {
 
   drop (props, monitor, component) {
 
-    const item = monitor.getItem()
+    const item = monitor.getItem() // NodeDraggable props
     const { parent, uid } = item
-    const { parent: newParent } = props
+    const { parent: newParent } = props // NodeDroppable props
     const overPosition = getOverMousePosition(monitor, component.element)
-    const before = overPosition === 'top' ? props.uid : component.getSiblingAfter()
+    const nextSiblingDroppable = component.getNextSibling() // next uid: ?string after NodeDroppable
+    const before = overPosition === 'top' ? props.uid : nextSiblingDroppable
 
+    // const nextSiblingDraggable = item.nextSibling // next uid: ?string after NodeDraggable
     // guard: do not save when node is dropped on original location
-    // @TODO: fix without after property (item.uid ?)
-    // if (before === item.after) return
+    // @TODO: fix nextSiblingDraggable
+    // if (before && before === nextSiblingDraggable) return
 
     // save
     const { putMoveNode } = props
@@ -78,7 +80,7 @@ export default class NodeDroppable extends Component {
 
   element = undefined
 
-  getSiblingAfter () : ?string {
+  getNextSibling () : ?string {
     const { siblings, index } = this.props
     const nextNode = siblings[index + 1]
     if (!nextNode) return null
