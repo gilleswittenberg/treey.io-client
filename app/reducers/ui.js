@@ -63,7 +63,8 @@ export default function nodes (state: UIState = defaultState, action: UIAction) 
   }
 }
 
-// @TODO: Move to seperate file
+// helper methods
+// these methods return checks on (current) state
 export function isEditing (state: UIState, uid: ?string, type?: string) : boolean {
   // guard
   if (uid == null) return false
@@ -71,21 +72,18 @@ export function isEditing (state: UIState, uid: ?string, type?: string) : boolea
   return state.editing === uidString
 }
 
-// @TODO: Move to seperate file
 export function isDragging (state: UIState, uid: ?string) : boolean {
   // guard
   if (uid == null) return false
   return state.dragging === uid
 }
 
-// @TODO: Move to seperate file
 export function hasButtonsShown (state: UIState, uid: ?string) : boolean {
   // guard
   if (uid == null) return false
   return state.showButtons === uid
 }
 
-// @TODO: Move to seperate file
 export function isExpanded (state: UIState, uid: string) : boolean {
   return Array.isArray(state.expanded) && state.expanded.includes(uid)
 }

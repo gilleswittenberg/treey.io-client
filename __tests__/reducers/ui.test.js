@@ -6,7 +6,7 @@ import {
   SET_SHOW_BUTTONS, UNSET_SHOW_BUTTONS
 } from '../../app/actions/ui'
 
-describe('nodes reducer', () => {
+describe('ui reducer', () => {
 
   it('returns initial state', () => {
 
