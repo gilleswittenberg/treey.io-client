@@ -1,17 +1,12 @@
 
 import React, { PropTypes } from 'react'
 import Nodes from './Nodes'
+import CustomDragLayer from '../components/CustomDragLayer'
 import autobind from 'autobind-decorator'
-
 import { DragDropContext } from 'react-dnd'
 import TouchBackend from 'react-dnd-touch-backend'
-import CustomDragLayer from '../components/CustomDragLayer'
 
-const touchBackendOptions = { enableMouseEvents: true, delayTouchStart: 400 }
-const backend = TouchBackend(touchBackendOptions)
-
-@DragDropContext(backend)
-export default class Tree extends React.Component {
+export class Tree extends React.Component {
 
   static propTypes = {
     ui: PropTypes.object.isRequired,
@@ -51,3 +46,9 @@ export default class Tree extends React.Component {
     )
   }
 }
+
+const touchBackendOptions = { enableMouseEvents: true, delayTouchStart: 400 }
+const backend = TouchBackend(touchBackendOptions)
+
+@DragDropContext(backend)
+export default class TreeDnD extends Tree {}
