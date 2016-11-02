@@ -28,23 +28,17 @@ function getItemStyles (props) {
   }
 }
 
-@DragLayer(monitor => ({
-  item: monitor.getItem(),
-  itemType: monitor.getItemType(),
-  currentOffset: monitor.getSourceClientOffset(),
-  isDragging: monitor.isDragging()
-}))
-export default class CustomDragLayer extends Component {
+export class CustomDragLayer extends Component {
 
   static propTypes = {
     // Injected by React DnD DragLayer
     item: PropTypes.object,
     itemType: PropTypes.string,
     currentOffset: PropTypes.shape({
-      x: PropTypes.number.isRequired,
-      y: PropTypes.number.isRequired
+      x: PropTypes.number,
+      y: PropTypes.number
     }),
-    isDragging: PropTypes.bool.isRequired
+    isDragging: PropTypes.bool
   }
 
   render () {
@@ -70,3 +64,11 @@ export default class CustomDragLayer extends Component {
     )
   }
 }
+
+@DragLayer(monitor => ({
+  item: monitor.getItem(),
+  itemType: monitor.getItemType(),
+  currentOffset: monitor.getSourceClientOffset(),
+  isDragging: monitor.isDragging()
+}))
+export default class CustomDragLayerDecorated extends CustomDragLayer {}

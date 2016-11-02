@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react'
 import Nodes from './Nodes'
-import CustomDragLayer from '../components/CustomDragLayer'
+import CustomDragLayerDecorated, { CustomDragLayer } from '../components/CustomDragLayer'
 import autobind from 'autobind-decorator'
 import { DragDropContext } from 'react-dnd'
 import TouchBackend from 'react-dnd-touch-backend'
@@ -30,14 +30,20 @@ export class Tree extends Component {
 
   render () {
 
-    const { ui, actions, tree } = this.props
+    const {
+      ui,
+      ui: { enableDnD },
+      actions,
+      tree
+    } = this.props
 
     const nodesProps = { ui, actions, parent: null, nodes: [tree] }
+    const CustomDragLayerComponent = enableDnD ? CustomDragLayerDecorated : CustomDragLayer
 
     return (
       <div className="tree">
         { tree && <Nodes { ...nodesProps } /> }
-        <CustomDragLayer />
+        <CustomDragLayerComponent />
       </div>
     )
   }

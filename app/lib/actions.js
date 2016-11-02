@@ -5,7 +5,11 @@ import noop from './noop'
 export const defaultActions = {
   setIsEditing: noop,
   unsetIsEditing: noop,
+  setIsDragging: noop,
+  unsetIsDragging: noop,
   expand: noop,
+  toggleExpanded: noop,
+  setShowButtons: noop,
   postNode: noop,
   putNode: noop,
   deleteNode: noop,
