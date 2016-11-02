@@ -1,9 +1,9 @@
-import NodeBody from '../../app/components/NodeBody'
+import Node from '../../app/components/Node'
 import { shallow, mount } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 
-describe('NodeBody', () => {
+describe('Node', () => {
 
   const ui = {}
   const lang = 'en'
@@ -29,33 +29,33 @@ describe('NodeBody', () => {
     deleteNode: noop,
     setShowButtons: noop
   }
-  const getComponent = getComponentHOF(NodeBody, defaultProps)
+  const getComponent = getComponentHOF(Node, defaultProps)
 
   describe('handleClick', () => {
 
     it('altKey', () => {
       const setIsEditing = jest.fn()
-      const nodeBody = new NodeBody({ setIsEditing })
+      const node = new Node({ setIsEditing })
       const mockEvent = { altKey: true }
-      nodeBody.handleClick(mockEvent)
+      node.handleClick(mockEvent)
       expect(setIsEditing.mock.calls.length).toBe(1)
     })
 
     it('canExpand', () => {
       const toggleExpanded = jest.fn()
       const unsetIsEditing = noop
-      const nodeBody = new NodeBody({ unsetIsEditing, toggleExpanded })
+      const node = new Node({ unsetIsEditing, toggleExpanded })
       const mockEvent = {}
-      nodeBody.handleClick(mockEvent)
+      node.handleClick(mockEvent)
       expect(toggleExpanded.mock.calls.length).toBe(0)
     })
 
     it('toggleExpanded', () => {
       const toggleExpanded = jest.fn()
       const unsetIsEditing = noop
-      const nodeBody = new NodeBody({ hasNodes: true, unsetIsEditing, toggleExpanded })
+      const node = new Node({ hasNodes: true, unsetIsEditing, toggleExpanded })
       const mockEvent = {}
-      nodeBody.handleClick(mockEvent)
+      node.handleClick(mockEvent)
       expect(toggleExpanded.mock.calls.length).toBe(1)
     })
   })

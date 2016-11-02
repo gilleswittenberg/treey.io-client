@@ -5,7 +5,7 @@ import isURL from '../lib/isURL'
 import ButtonIcon from './ButtonIcon'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 
-export default class NodeBody extends Component {
+export default class NodeContent extends Component {
 
   static propTypes = {
     lang: PropTypes.string,

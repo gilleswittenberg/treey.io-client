@@ -11,7 +11,7 @@ import {
   isDragging as isDraggingFunc
 } from '../reducers/ui'
 
-export default class NodeBody extends Component {
+export default class Node extends Component {
 
   static propTypes = {
     ui: PropTypes.object.isRequired,

@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react'
-import NodeBody from '../components/NodeBody'
+import Node from '../components/Node'
 import NodeOver from '../components/NodeOver'
 import DND_TYPE from '../settings/DND_TYPE'
 import { DropTarget } from 'react-dnd'
@@ -134,7 +134,7 @@ export default class NodeDroppable extends Component {
           { showNodeOverTop &&
             <NodeOver position="top" />
           }
-          <NodeBody
+          <Node
             ui={ ui }
             actions={ actions }
             lang={ lang }
