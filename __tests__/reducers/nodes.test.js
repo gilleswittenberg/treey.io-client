@@ -1,51 +1,21 @@
-import reducer from '../../app/reducers/nodes'
+import reducer, { defaultState } from '../../app/reducers/nodes'
 import { START_SYNCING, STOP_SYNCING, HAS_ERRORS, INDEX_NODES, ADD_NODE, UPDATE_NODE, REMOVE_NODE } from '../../app/actions/nodes'
 
 describe('nodes reducer', () => {
 
   it('returns initial state', () => {
-
-    expect(
-      reducer(undefined, {})
-    ).toEqual({
-      isSyncing: false,
-      hasErrors: false,
-      tree: null
-    })
+    expect(reducer(undefined, {})).toEqual(defaultState)
   })
 
   it('SYNCING', () => {
-
     const state = reducer(undefined, {})
-
-    expect(
-      reducer(state, { type: START_SYNCING })
-    ).toEqual({
-      isSyncing: true,
-      hasErrors: false,
-      tree: null
-    })
-
-    expect(
-      reducer(state, { type: STOP_SYNCING })
-    ).toEqual({
-      isSyncing: false,
-      hasErrors: false,
-      tree: null
-    })
+    expect(reducer(state, { type: START_SYNCING }).isSyncing).toBe(true)
+    expect(reducer(state, { type: STOP_SYNCING }).isSyncing).toBe(false)
   })
 
   it('HAS_ERRORS', () => {
-
     const state = reducer(undefined, {})
-
-    expect(
-      reducer(state, { type: HAS_ERRORS })
-    ).toEqual({
-      isSyncing: false,
-      hasErrors: true,
-      tree: null
-    })
+    expect(reducer(state, { type: HAS_ERRORS }).hasErrors).toBe(true)
   })
 
   it('NODES', () => {
@@ -74,12 +44,7 @@ describe('nodes reducer', () => {
     }
 
     const state2 = reducer(state, { type: INDEX_NODES, data: { tree } })
-    expect(state2).toEqual({
-      isSyncing: false,
-      hasErrors: false,
-      tree
-    })
-
+    expect(state2.tree).toEqual(tree)
     const state3 = reducer(state2, { type: ADD_NODE, data: {
       parent: '57bedc40e81b0620300d769a',
       node: { uid: '57bedc40e81b0620300d7690', title: 'new' } }

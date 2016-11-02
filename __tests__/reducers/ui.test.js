@@ -1,4 +1,4 @@
-import reducer from '../../app/reducers/ui'
+import reducer, { defaultState } from '../../app/reducers/ui'
 import {
   INIT_EXPANDED, EXPAND, TOGGLE_EXPANDED,
   SET_IS_EDITING, UNSET_IS_EDITING,
@@ -9,17 +9,7 @@ import {
 describe('ui reducer', () => {
 
   it('returns initial state', () => {
-
-    expect(
-      reducer(undefined, {})
-    ).toEqual({
-      lang: 'en',
-      enableDnD: true,
-      dragging: null,
-      editing: null,
-      showButtons: null,
-      expanded: []
-    })
+    expect(reducer(undefined, {})).toEqual(defaultState)
   })
 
   describe('editing', () => {
@@ -27,34 +17,12 @@ describe('ui reducer', () => {
     it('SET_IS_EDITING, UNSET_IS_EDITING', () => {
 
       const uid = '57bedc40e81b0620300d769a'
-
       const state = reducer(undefined, {})
-
       const state2 = reducer(state, { type: SET_IS_EDITING, data: { uid } })
-
-      expect(
-        state2
-      ).toEqual({
-        lang: 'en',
-        enableDnD: true,
-        dragging: null,
-        editing: uid,
-        showButtons: null,
-        expanded: []
-      })
+      expect(state2.editing).toBe(uid)
 
       const state3 = reducer(state, { type: UNSET_IS_EDITING })
-
-      expect(
-        state3
-      ).toEqual({
-        lang: 'en',
-        enableDnD: true,
-        dragging: null,
-        editing: null,
-        showButtons: null,
-        expanded: []
-      })
+      expect(state3.editing).toBe(null)
     })
   })
 
@@ -63,34 +31,13 @@ describe('ui reducer', () => {
     it('SET_IS_DRAGGING, UNSET_IS_DRAGGING', () => {
 
       const uid = '57bedc40e81b0620300d769a'
-
       const state = reducer(undefined, {})
 
       const state2 = reducer(state, { type: SET_IS_DRAGGING, data: { uid } })
-
-      expect(
-        state2
-      ).toEqual({
-        lang: 'en',
-        enableDnD: true,
-        dragging: uid,
-        editing: null,
-        showButtons: null,
-        expanded: []
-      })
+      expect(state2.dragging).toBe(uid)
 
       const state3 = reducer(state, { type: UNSET_IS_DRAGGING })
-
-      expect(
-        state3
-      ).toEqual({
-        lang: 'en',
-        enableDnD: true,
-        dragging: null,
-        editing: null,
-        showButtons: null,
-        expanded: []
-      })
+      expect(state3.dragging).toBe(null)
     })
   })
 
@@ -103,30 +50,10 @@ describe('ui reducer', () => {
       const state = reducer(undefined, {})
 
       const state2 = reducer(state, { type: SET_SHOW_BUTTONS, data: { uid } })
-
-      expect(
-        state2
-      ).toEqual({
-        lang: 'en',
-        enableDnD: true,
-        dragging: null,
-        editing: null,
-        showButtons: uid,
-        expanded: []
-      })
+      expect(state2.showButtons).toBe(uid)
 
       const state3 = reducer(state, { type: UNSET_SHOW_BUTTONS })
-
-      expect(
-        state3
-      ).toEqual({
-        lang: 'en',
-        enableDnD: true,
-        dragging: null,
-        editing: null,
-        showButtons: null,
-        expanded: []
-      })
+      expect(state3.showButtons).toBe(null)
     })
   })
 

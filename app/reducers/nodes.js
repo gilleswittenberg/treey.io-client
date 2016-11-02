@@ -5,7 +5,7 @@ import Tree from '../lib/Tree'
 
 import type { NodesState, NodesAction } from '../../flow/types'
 
-const defaultState: NodesState = {
+export const defaultState: NodesState = {
   isSyncing: false,
   hasErrors: false,
   tree: null
