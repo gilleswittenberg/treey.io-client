@@ -11,6 +11,7 @@ import EXPANDED_KEY from '../settings/EXPANDED_KEY'
 
 export const defaultState: UIState = {
   lang: DEFAULT_LANG,
+  enableDnD: true,
   editing: null,
   dragging: null,
   showButtons: null,

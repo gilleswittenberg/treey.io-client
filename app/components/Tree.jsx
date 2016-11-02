@@ -1,3 +1,4 @@
+/* @flow */
 
 import React, { PropTypes } from 'react'
 import Nodes from './Nodes'
@@ -20,7 +21,7 @@ export class Tree extends React.Component {
   }
 
   @autobind
-  handleKeyPress (event) {
+  handleKeyPress (event: KeyboardEvent) {
     if (event.keyCode === 27) { // esc
       const { unsetIsEditing } = this.props
       unsetIsEditing()
@@ -51,4 +52,4 @@ const touchBackendOptions = { enableMouseEvents: true, delayTouchStart: 400 }
 const backend = TouchBackend(touchBackendOptions)
 
 @DragDropContext(backend)
-export default class TreeDnD extends Tree {}
+export default class TreeDecorated extends Tree {}

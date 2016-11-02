@@ -22,12 +22,7 @@ const DragSpec = {
   }
 }
 
-@DragSource(DND_TYPE, DragSpec, (connect, monitor) => ({
-  connectDragSource: connect.dragSource(),
-  isDragging: monitor.isDragging(),
-  connectDragPreview: connect.dragPreview()
-}))
-export default class NodeDraggable extends Component {
+export class NodeDraggable extends Component {
 
   static propTypes = {
     lang: PropTypes.string,
@@ -39,9 +34,13 @@ export default class NodeDraggable extends Component {
     setIsDragging: PropTypes.func.isRequired,
     unsetIsDragging: PropTypes.func.isRequired,
     // Injected by React DnD DragSource
-    connectDragSource: PropTypes.func.isRequired,
-    isDragging: PropTypes.bool.isRequired,
-    connectDragPreview: React.PropTypes.func.isRequired
+    connectDragSource: PropTypes.func,
+    isDragging: PropTypes.bool,
+    connectDragPreview: React.PropTypes.func
+  }
+
+  static defaultProps = {
+    connectDragSource: (jsx: any) => jsx
   }
 
   render () {
@@ -68,3 +67,10 @@ export default class NodeDraggable extends Component {
     )
   }
 }
+
+@DragSource(DND_TYPE, DragSpec, (connect, monitor) => ({
+  connectDragSource: connect.dragSource(),
+  isDragging: monitor.isDragging(),
+  connectDragPreview: connect.dragPreview()
+}))
+export default class NodeDraggableDecorated extends NodeDraggable {}

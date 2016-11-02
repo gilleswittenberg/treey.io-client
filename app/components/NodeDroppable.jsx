@@ -49,15 +49,11 @@ const DropSpec = {
   }
 }
 
-@DropTarget(DND_TYPE, DropSpec, (connect, monitor) => ({
-  connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver(),
-  isOverItemUid: monitor.getItem() ? monitor.getItem().uid : null
-}))
-export default class NodeDroppable extends Component {
+export class NodeDroppable extends Component {
 
   static propTypes = {
     ui: PropTypes.object.isRequired,
+    enableDnD: PropTypes.bool.isRequired,
     actions: PropTypes.object.isRequired,
     parent: PropTypes.string,
     uid: PropTypes.string.isRequired,
@@ -67,9 +63,13 @@ export default class NodeDroppable extends Component {
     index: PropTypes.number.isRequired,
     putMoveNode: PropTypes.func.isRequired,
     // Injected by React DnD DropTarget
-    connectDropTarget: PropTypes.func.isRequired,
-    isOver: PropTypes.bool.isRequired,
+    connectDropTarget: PropTypes.func,
+    isOver: PropTypes.bool,
     isOverItemUid: PropTypes.string
+  }
+
+  static defaultProps = {
+    connectDropTarget: (jsx: any) => jsx
   }
 
   state = {
@@ -155,3 +155,10 @@ export default class NodeDroppable extends Component {
     )
   }
 }
+
+@DropTarget(DND_TYPE, DropSpec, (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
+  isOver: monitor.isOver(),
+  isOverItemUid: monitor.getItem() ? monitor.getItem().uid : null
+}))
+export default class NodeDroppableDecorated extends NodeDroppable {}

@@ -28,7 +28,7 @@ describe('NodeWrap', () => {
   function getProvider (args) {
 
     const defaultProps = {
-      ui: {},
+      ui: { enableDnD: false },
       nodes: [],
       siblings: [],
       index: 0,
@@ -107,7 +107,7 @@ describe('NodeWrap', () => {
     })
 
     it('true', () => {
-      const wrapper = mount(getProvider({ ui: { editing: uid } }))
+      const wrapper = mount(getProvider({ ui: { enableDnD: false, editing: uid } }))
       expect(wrapper.find('NodeEdit').length).toBe(1)
     })
   })

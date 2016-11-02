@@ -50,7 +50,7 @@ export default class CustomDragLayer extends Component {
   render () {
     const { item, isDragging } = this.props
 
-    // guard
+    // guard: do not render when not dragging
     if (!isDragging || !item) return null
 
     const { title } = item

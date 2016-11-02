@@ -14,6 +14,7 @@ describe('ui reducer', () => {
       reducer(undefined, {})
     ).toEqual({
       lang: 'en',
+      enableDnD: true,
       dragging: null,
       editing: null,
       showButtons: null,
@@ -35,6 +36,7 @@ describe('ui reducer', () => {
         state2
       ).toEqual({
         lang: 'en',
+        enableDnD: true,
         dragging: null,
         editing: uid,
         showButtons: null,
@@ -47,6 +49,7 @@ describe('ui reducer', () => {
         state3
       ).toEqual({
         lang: 'en',
+        enableDnD: true,
         dragging: null,
         editing: null,
         showButtons: null,
@@ -69,6 +72,7 @@ describe('ui reducer', () => {
         state2
       ).toEqual({
         lang: 'en',
+        enableDnD: true,
         dragging: uid,
         editing: null,
         showButtons: null,
@@ -81,6 +85,7 @@ describe('ui reducer', () => {
         state3
       ).toEqual({
         lang: 'en',
+        enableDnD: true,
         dragging: null,
         editing: null,
         showButtons: null,
@@ -103,6 +108,7 @@ describe('ui reducer', () => {
         state2
       ).toEqual({
         lang: 'en',
+        enableDnD: true,
         dragging: null,
         editing: null,
         showButtons: uid,
@@ -115,6 +121,7 @@ describe('ui reducer', () => {
         state3
       ).toEqual({
         lang: 'en',
+        enableDnD: true,
         dragging: null,
         editing: null,
         showButtons: null,

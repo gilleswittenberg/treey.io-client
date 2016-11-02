@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
-import NodeDroppable from '../components/NodeDroppable'
+import NodeDroppableDecorated, { NodeDroppable } from '../components/NodeDroppable'
 import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
 import {
@@ -68,7 +68,7 @@ export default class NodeWrap extends Component {
 
     const {
       ui,
-      ui: { lang },
+      ui: { lang, enableDnD },
       actions,
       actions: { unsetIsEditing, putNode, deleteNode, putMoveNode },
       parent,
@@ -97,12 +97,15 @@ export default class NodeWrap extends Component {
     const showNodeDroppable = !isEditing
     const showNodeEdit = isEditing
 
+    const NodeDroppableComponent = enableDnD ? NodeDroppableDecorated : NodeDroppable
+
     return (
       <div>
         <div className={ className }>
           { showNodeDroppable &&
-            <NodeDroppable
+            <NodeDroppableComponent
               ui={ ui }
+              enableDnD={ enableDnD }
               actions={ actions }
               parent={ parent }
               isRoot={ isRoot }

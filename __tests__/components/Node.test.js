@@ -1,11 +1,11 @@
 import Node from '../../app/components/Node'
-import { shallow, mount } from 'enzyme'
+import { mount } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 
 describe('Node', () => {
 
-  const ui = {}
+  const ui = { enableDnD: false }
   const lang = 'en'
   const parent = '57bedc40e81b0620300d769a'
   const uid = '57bedc40e81b0620300d769b'
@@ -60,7 +60,7 @@ describe('Node', () => {
     })
   })
 
-  xdescribe('startIsEditing', () => {
+  describe('startIsEditing', () => {
 
     it('handleClickEdit', () => {
       const setIsEditing = jest.fn()
@@ -78,7 +78,7 @@ describe('Node', () => {
     })
   })
 
-  xdescribe('handleClickDelete', () => {
+  describe('handleClickDelete', () => {
 
     it('non root', () => {
       const deleteNode = jest.fn()
@@ -95,7 +95,7 @@ describe('Node', () => {
     })
   })
 
-  xdescribe('handleClickShowButtons', () => {
+  describe('handleClickShowButtons', () => {
 
     it('click', () => {
       const setShowButtons = jest.fn()
@@ -103,19 +103,6 @@ describe('Node', () => {
       const eventMock = { stopPropagation: noop }
       wrapper.find('.button-icon-more').simulate('click', eventMock)
       expect(setShowButtons.mock.calls.length).toBe(1)
-    })
-  })
-
-  xdescribe('content', () => {
-
-    it('text', () => {
-      const wrapper = shallow(getComponent({ title: 'text' }))
-      expect(wrapper.find('a').length).toBe(0)
-    })
-
-    it('URL', () => {
-      const wrapper = shallow(getComponent({ title: 'http://treey.io' }))
-      expect(wrapper.find('a').length).toBe(1)
     })
   })
 })

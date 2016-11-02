@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import getActions from '../lib/actions'
 import ServerStatus from '../components/ServerStatus'
-import Tree from '../components/Tree'
+import TreeDecorated, { Tree } from '../components/Tree'
 
 class App extends React.Component {
 
@@ -18,12 +18,14 @@ class App extends React.Component {
     const {
       dispatch,
       ui,
-      ui: { lang },
+      ui: { lang, enableDnD },
       nodes: { tree, isSyncing, hasErrors }
     } = this.props
 
     const actions = getActions(dispatch)
     const { unsetIsEditing } = actions
+
+    const TreeComponent = enableDnD ? TreeDecorated : Tree
 
     return (
       <div className="wrap">
@@ -32,7 +34,7 @@ class App extends React.Component {
           hasErrors={ hasErrors }
           isSyncing={ isSyncing }
         />
-        <Tree
+        <TreeComponent
           ui={ ui }
           actions={ actions }
           tree={ tree }

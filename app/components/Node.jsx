@@ -4,7 +4,7 @@ import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
 import ButtonIcon from './ButtonIcon'
-import NodeDraggable from './NodeDraggable'
+import NodeDraggableDecorated, { NodeDraggable } from './NodeDraggable'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 import {
   hasButtonsShown as hasButtonsShownFunc,
@@ -99,6 +99,7 @@ export default class Node extends Component {
 
     const {
       actions: { unsetIsEditing, setIsDragging, unsetIsDragging },
+      ui: { enableDnD },
       lang,
       parent,
       isRoot,
@@ -118,7 +119,6 @@ export default class Node extends Component {
         '-has-buttons-shown': hasButtonsShown,
         '-is-dragging': isDragging
       }
-
     )
 
     let numButtons = 1
@@ -133,6 +133,8 @@ export default class Node extends Component {
       }
     )
 
+    const NodeDraggableComponent = enableDnD ? NodeDraggableDecorated : NodeDraggable
+
     return (
       <div className={ className }>
         <div className={ nodeButtonsClassName }>
@@ -144,8 +146,9 @@ export default class Node extends Component {
             <ButtonIcon type="DELETE" lang={ lang } handleClick={ this.handleClickDelete } />
           }
         </div>
-        <NodeDraggable
+        <NodeDraggableComponent
           lang={ lang }
+          enableDnD={ enableDnD }
           parent={ parent }
           isRoot={ isRoot }
           uid={ uid }
