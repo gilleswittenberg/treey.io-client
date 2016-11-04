@@ -28,7 +28,7 @@ function getItemStyles (props) {
   }
 }
 
-export class CustomDragLayer extends Component {
+class CustomDragLayer extends Component {
 
   static propTypes = {
     // Injected by React DnD DragLayer

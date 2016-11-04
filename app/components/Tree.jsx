@@ -2,12 +2,12 @@
 
 import React, { Component, PropTypes } from 'react'
 import Nodes from './Nodes'
-import CustomDragLayerDecorated, { CustomDragLayer } from '../components/CustomDragLayer'
+import CustomDragLayer from '../components/CustomDragLayer'
 import autobind from 'autobind-decorator'
 import { DragDropContext } from 'react-dnd'
 import TouchBackend from 'react-dnd-touch-backend'
 
-export class Tree extends Component {
+class Tree extends Component {
 
   static propTypes = {
     enableDnD: PropTypes.bool,
@@ -39,7 +39,8 @@ export class Tree extends Component {
     } = this.props
 
     const nodesProps = { ...this.props, parent: null, nodes: [tree] }
-    const CustomDragLayerComponent = enableDnD ? CustomDragLayerDecorated : CustomDragLayer
+    // $FlowIssue Flow does not recognize CustomDragLayer.DecoratedComponent
+    const CustomDragLayerComponent = enableDnD ? CustomDragLayer : CustomDragLayer.DecoratedComponent
 
     return (
       <div className="tree">

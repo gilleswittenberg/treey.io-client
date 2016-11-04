@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
-import NodeDroppableDecorated, { NodeDroppable } from '../components/NodeDroppable'
+import NodeDroppable from '../components/NodeDroppable'
 import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
 import {
@@ -85,7 +85,8 @@ export default class NodeWrap extends Component {
     const showNodeDroppable = !isEditing
     const showNodeEdit = isEditing
 
-    const NodeDroppableComponent = enableDnD ? NodeDroppableDecorated : NodeDroppable
+    // $FlowIssue Flow does not recognize NodeDroppable.DecoratedComponent
+    const NodeDroppableComponent = enableDnD ? NodeDroppable : NodeDroppable.DecoratedComponent
 
     const nodeDroppableProps = { ...this.props, hasNodes }
     const nodeEditProps = { ...this.props }

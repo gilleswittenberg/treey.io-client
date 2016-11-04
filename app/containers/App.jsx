@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import getActions from '../lib/actions'
 import ServerStatus from '../components/ServerStatus'
-import TreeDecorated, { Tree } from '../components/Tree'
+import Tree from '../components/Tree'
 
 class App extends React.Component {
 
@@ -27,7 +27,8 @@ class App extends React.Component {
 
     const serverStatusProps = { lang, hasErrors, isSyncing }
 
-    const TreeComponent = enableDnD ? TreeDecorated : Tree
+    // $FlowIssue Flow does not recognize Tree.DecoratedComponent
+    const TreeComponent = enableDnD ? Tree : Tree.DecoratedComponent
     const treeProps = { lang, enableDnD, ui, tree, ...actions }
 
     return (

@@ -1,4 +1,4 @@
-import { Tree } from '../../app/components/Tree'
+import Tree from '../../app/components/Tree'
 import { shallow, render } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
@@ -18,7 +18,7 @@ describe('Tree', () => {
     tree: null,
     unsetIsEditing: noop
   }
-  const getComponent = getComponentHOF(Tree, defaultProps)
+  const getComponent = getComponentHOF(Tree.DecoratedComponent, defaultProps)
 
   describe('index', () => {
 

@@ -49,7 +49,7 @@ const DropSpec = {
   }
 }
 
-export class NodeDroppable extends Component {
+class NodeDroppable extends Component {
 
   static propTypes = {
     parent: PropTypes.string,
