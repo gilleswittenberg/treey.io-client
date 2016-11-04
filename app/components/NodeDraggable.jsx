@@ -52,7 +52,7 @@ export class NodeDraggable extends Component {
 
     return (
       connectDragSource(
-        <div>
+        <div className="node-draggable">
           <NodeContent { ...nodeContentProps } />
         </div>
       )
