@@ -14,9 +14,10 @@ import {
 export default class Node extends Component {
 
   static propTypes = {
+    lang: PropTypes.string,
+    enableDnD: PropTypes.bool,
     ui: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
-    lang: PropTypes.string,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
@@ -30,7 +31,8 @@ export default class Node extends Component {
   }
 
   static defaultProps = {
-    lang: DEFAULT_LANG
+    lang: DEFAULT_LANG,
+    enableDnD: false
   }
 
   @autobind
@@ -99,12 +101,9 @@ export default class Node extends Component {
 
     const {
       actions: { unsetIsEditing, setIsDragging, unsetIsDragging },
-      ui: { enableDnD },
+      enableDnD,
       lang,
-      parent,
       isRoot,
-      uid,
-      title,
       hasNodes
     } = this.props
 
@@ -135,12 +134,7 @@ export default class Node extends Component {
 
     const NodeDraggableComponent = enableDnD ? NodeDraggableDecorated : NodeDraggable
     const nodeDraggableProps = {
-      lang,
-      enableDnD,
-      parent,
-      isRoot,
-      uid,
-      title,
+      ...this.props,
       handleClick: this.handleClick,
       handleClickMore: this.handleClickShowButtons,
       unsetIsEditing,

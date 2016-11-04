@@ -25,7 +25,6 @@ const DragSpec = {
 export class NodeDraggable extends Component {
 
   static propTypes = {
-    lang: PropTypes.string,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
@@ -46,14 +45,10 @@ export class NodeDraggable extends Component {
   render () {
 
     const {
-      lang,
-      title,
-      handleClick,
-      handleClickMore,
       connectDragSource
     } = this.props
 
-    const nodeContentProps = { lang, title, handleClick, handleClickMore }
+    const nodeContentProps = this.props
 
     return (
       connectDragSource(

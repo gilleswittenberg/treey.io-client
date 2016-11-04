@@ -9,6 +9,7 @@ import { defaultActions } from '../lib/actions'
 export default class Nodes extends Component {
 
   static propTypes = {
+    enableDnD: PropTypes.bool,
     // state
     ui: PropTypes.object,
     // props
@@ -18,6 +19,7 @@ export default class Nodes extends Component {
   }
 
   static defaultProps = {
+    enableDnD: false,
     ui: defaultState,
     actions: defaultActions,
     parent: null,
@@ -37,16 +39,12 @@ export default class Nodes extends Component {
   render () {
 
     const {
-      ui,
-      ui: { lang },
-      actions,
       actions: {
         setIsEditing,
         unsetIsEditing,
         expand,
         postNode
       },
-      parent,
       nodes
     } = this.props
 
@@ -54,8 +52,8 @@ export default class Nodes extends Component {
     const hasNodeAdd = !isRoot
     const isAdding = this.isAdding()
 
-    const nodeWrapProps = { ui, actions, parent, isRoot }
-    const nodeAddProps = { lang, parent, isEditing: isAdding, setIsEditing, unsetIsEditing, expand, postNode }
+    const nodeWrapProps = { ...this.props, isRoot }
+    const nodeAddProps = { ...this.props, isEditing: isAdding, setIsEditing, unsetIsEditing, expand, postNode }
 
     return (
       <ul>

@@ -10,10 +10,15 @@ import TouchBackend from 'react-dnd-touch-backend'
 export class Tree extends Component {
 
   static propTypes = {
+    enableDnD: PropTypes.bool,
     ui: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     tree: PropTypes.object,
     unsetIsEditing: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    enableDnD: false
   }
 
   componentDidMount () {
@@ -31,13 +36,11 @@ export class Tree extends Component {
   render () {
 
     const {
-      ui,
-      ui: { enableDnD },
-      actions,
+      enableDnD,
       tree
     } = this.props
 
-    const nodesProps = { ui, actions, parent: null, nodes: [tree] }
+    const nodesProps = { ...this.props, parent: null, nodes: [tree] }
     const CustomDragLayerComponent = enableDnD ? CustomDragLayerDecorated : CustomDragLayer
 
     return (

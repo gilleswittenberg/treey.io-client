@@ -16,6 +16,7 @@ import { defaultActions } from '../lib/actions'
 export default class NodeWrap extends Component {
 
   static propTypes = {
+    enableDnD: PropTypes.bool,
     ui: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
     parent: PropTypes.string,
@@ -28,6 +29,7 @@ export default class NodeWrap extends Component {
   }
 
   static defaultProps = {
+    enableDnD: false,
     ui: defaultState,
     // @TODO: Extract defaultActions
     actions: defaultActions,
@@ -67,17 +69,9 @@ export default class NodeWrap extends Component {
   render () {
 
     const {
-      ui,
-      ui: { lang, enableDnD },
-      actions,
+      enableDnD,
       actions: { unsetIsEditing, putNode, deleteNode, putMoveNode },
-      parent,
-      isRoot,
-      uid,
-      title,
-      nodes,
-      siblings,
-      index
+      uid
     } = this.props
 
     const isEditing = this.isEditing()
@@ -99,9 +93,9 @@ export default class NodeWrap extends Component {
 
     const NodeDroppableComponent = enableDnD ? NodeDroppableDecorated : NodeDroppable
 
-    const nodeDroppableProps = { ui, enableDnD, actions, parent, isRoot, uid, title, hasNodes, siblings, index, putMoveNode }
-    const nodeEditProps = { lang, parent, uid, title, unsetIsEditing, putNode, deleteNode }
-    const nodesProps = { ui, actions, parent: uid, nodes }
+    const nodeDroppableProps = { ...this.props, hasNodes, putMoveNode }
+    const nodeEditProps = { ...this.props, unsetIsEditing, putNode, deleteNode }
+    const nodesProps = { ...this.props, parent: uid }
 
     return (
       <div>

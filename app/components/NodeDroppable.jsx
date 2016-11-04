@@ -53,7 +53,6 @@ export class NodeDroppable extends Component {
 
   static propTypes = {
     ui: PropTypes.object.isRequired,
-    enableDnD: PropTypes.bool.isRequired,
     actions: PropTypes.object.isRequired,
     parent: PropTypes.string,
     uid: PropTypes.string.isRequired,
@@ -105,7 +104,6 @@ export class NodeDroppable extends Component {
   render () {
 
     const {
-      actions,
       actions: {
         unsetIsEditing,
         setIsEditing,
@@ -113,13 +111,6 @@ export class NodeDroppable extends Component {
         deleteNode,
         setShowButtons
       },
-      ui,
-      ui: { lang },
-      parent,
-      isRoot,
-      uid,
-      title,
-      hasNodes,
       connectDropTarget
     } = this.props
 
@@ -127,14 +118,7 @@ export class NodeDroppable extends Component {
     const showNodeOverBottom = this.showNodeOverBottom()
 
     const nodeProps = {
-      ui,
-      actions,
-      lang,
-      parent,
-      isRoot,
-      uid,
-      title,
-      hasNodes,
+      ...this.props,
       unsetIsEditing,
       setIsEditing,
       toggleExpanded,
