@@ -11,8 +11,6 @@ export class Tree extends Component {
 
   static propTypes = {
     enableDnD: PropTypes.bool,
-    ui: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
     tree: PropTypes.object,
     unsetIsEditing: PropTypes.func.isRequired
   }

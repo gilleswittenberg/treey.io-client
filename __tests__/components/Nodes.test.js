@@ -11,14 +11,12 @@ describe('Nodes', () => {
 
   const defaultProps = {
     ui: {},
-    actions: {
-      setIsEditing: noop,
-      unsetIsEditing: noop,
-      expand: noop,
-      postNode: noop
-    },
     parent: null,
-    nodes: []
+    nodes: [],
+    setIsEditing: noop,
+    unsetIsEditing: noop,
+    expand: noop,
+    postNode: noop
   }
   const getComponent = getComponentHOF(Nodes, defaultProps)
 

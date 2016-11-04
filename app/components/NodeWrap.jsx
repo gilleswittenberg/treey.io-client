@@ -6,19 +6,16 @@ import NodeDroppableDecorated, { NodeDroppable } from '../components/NodeDroppab
 import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
 import {
-  defaultState,
   isEditing as isEditingFunc,
   isDragging as isDraggingFunc,
   isExpanded as isExpandedFunc
 } from '../reducers/ui'
-import { defaultActions } from '../lib/actions'
 
 export default class NodeWrap extends Component {
 
   static propTypes = {
     enableDnD: PropTypes.bool,
     ui: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
@@ -30,11 +27,9 @@ export default class NodeWrap extends Component {
 
   static defaultProps = {
     enableDnD: false,
-    ui: defaultState,
-    // @TODO: Extract defaultActions
-    actions: defaultActions,
-    nodes: [],
-    title: ''
+    parent: null,
+    title: '',
+    nodes: []
   }
 
   state = {
@@ -70,7 +65,6 @@ export default class NodeWrap extends Component {
 
     const {
       enableDnD,
-      actions: { unsetIsEditing, putNode, deleteNode, putMoveNode },
       uid
     } = this.props
 
@@ -93,8 +87,8 @@ export default class NodeWrap extends Component {
 
     const NodeDroppableComponent = enableDnD ? NodeDroppableDecorated : NodeDroppable
 
-    const nodeDroppableProps = { ...this.props, hasNodes, putMoveNode }
-    const nodeEditProps = { ...this.props, unsetIsEditing, putNode, deleteNode }
+    const nodeDroppableProps = { ...this.props, hasNodes }
+    const nodeEditProps = { ...this.props }
     const nodesProps = { ...this.props, parent: uid }
 
     return (

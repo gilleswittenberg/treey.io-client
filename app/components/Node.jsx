@@ -17,7 +17,6 @@ export default class Node extends Component {
     lang: PropTypes.string,
     enableDnD: PropTypes.bool,
     ui: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
@@ -100,7 +99,6 @@ export default class Node extends Component {
   render () {
 
     const {
-      actions: { unsetIsEditing, setIsDragging, unsetIsDragging },
       enableDnD,
       lang,
       isRoot,
@@ -136,10 +134,7 @@ export default class Node extends Component {
     const nodeDraggableProps = {
       ...this.props,
       handleClick: this.handleClick,
-      handleClickMore: this.handleClickShowButtons,
-      unsetIsEditing,
-      setIsDragging,
-      unsetIsDragging
+      handleClickMore: this.handleClickShowButtons
     }
 
     return (

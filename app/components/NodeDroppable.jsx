@@ -52,8 +52,6 @@ const DropSpec = {
 export class NodeDroppable extends Component {
 
   static propTypes = {
-    ui: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired,
     parent: PropTypes.string,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -104,27 +102,13 @@ export class NodeDroppable extends Component {
   render () {
 
     const {
-      actions: {
-        unsetIsEditing,
-        setIsEditing,
-        toggleExpanded,
-        deleteNode,
-        setShowButtons
-      },
       connectDropTarget
     } = this.props
 
     const showNodeOverTop = this.showNodeOverTop()
     const showNodeOverBottom = this.showNodeOverBottom()
 
-    const nodeProps = {
-      ...this.props,
-      unsetIsEditing,
-      setIsEditing,
-      toggleExpanded,
-      deleteNode,
-      setShowButtons
-    }
+    const nodeProps = { ...this.props }
 
     return (
       connectDropTarget(

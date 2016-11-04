@@ -16,19 +16,17 @@ describe('NodeWrap', () => {
     nodes: [],
     siblings: [],
     index: 0,
-    actions: {
-      setIsEditing: noop,
-      unsetIsEditing: noop,
-      setIsDragging: noop,
-      unsetIsDragging: noop,
-      setShowButtons: noop,
-      expand: noop,
-      toggleExpanded: noop,
-      putNode: noop,
-      postNode: noop,
-      deleteNode: noop,
-      putMoveNode: noop
-    }
+    setIsEditing: noop,
+    unsetIsEditing: noop,
+    setIsDragging: noop,
+    unsetIsDragging: noop,
+    setShowButtons: noop,
+    expand: noop,
+    toggleExpanded: noop,
+    putNode: noop,
+    postNode: noop,
+    deleteNode: noop,
+    putMoveNode: noop
   }
 
   const getComponent = getComponentHOF(NodeWrap, defaultProps)

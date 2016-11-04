@@ -12,11 +12,6 @@ describe('Node', () => {
 
   const defaultProps = {
     ui,
-    actions: {
-      unsetIsEditing: noop,
-      setIsDragging: noop,
-      unsetIsDragging: noop
-    },
     lang,
     parent,
     isRoot: false,
@@ -27,7 +22,9 @@ describe('Node', () => {
     setIsEditing: noop,
     toggleExpanded: noop,
     deleteNode: noop,
-    setShowButtons: noop
+    setShowButtons: noop,
+    setIsDragging: noop,
+    unsetIsDragging: noop
   }
   const getComponent = getComponentHOF(Node, defaultProps)
 

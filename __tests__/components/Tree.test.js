@@ -14,7 +14,7 @@ describe('Tree', () => {
       lang: 'en',
       enableDnD: false
     },
-    actions: defaultActions,
+    ...defaultActions,
     tree: null,
     unsetIsEditing: noop
   }

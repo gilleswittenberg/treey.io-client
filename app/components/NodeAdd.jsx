@@ -9,7 +9,7 @@ import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 export default class NodeAdd extends Component {
 
   static propTypes = {
-    lang: PropTypes.string.isRequired,
+    lang: PropTypes.string,
     parent: PropTypes.string.isRequired,
     isEditing: PropTypes.bool.isRequired,
     setIsEditing: PropTypes.func.isRequired,

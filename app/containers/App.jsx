@@ -24,12 +24,11 @@ class App extends React.Component {
     } = this.props
 
     const actions = getActions(dispatch)
-    const { unsetIsEditing } = actions
 
     const serverStatusProps = { lang, hasErrors, isSyncing }
 
     const TreeComponent = enableDnD ? TreeDecorated : Tree
-    const treeProps = { lang, enableDnD, ui, actions, tree, unsetIsEditing }
+    const treeProps = { lang, enableDnD, ui, tree, ...actions }
 
     return (
       <div className="wrap">
