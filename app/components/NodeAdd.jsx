@@ -27,8 +27,8 @@ export default class NodeAdd extends Component {
   }
 
   // clear input when user starts adding
-  componentWillUpdate (nextProps: any) {
-    if (nextProps.isEditing === true && this.props.isEditing === false) {
+  componentWillReceiveProps (nextProps: any) {
+    if (nextProps.isEditing !== this.props.isEditing) {
       this.setState({ title: '' })
     }
   }
@@ -56,9 +56,8 @@ export default class NodeAdd extends Component {
     const { parent, postNode, unsetIsEditing, expand } = this.props
     const { title } = this.state
     const titleTrimmed = title.trim()
-    this.setState({ title: '' })
 
-    // guard
+    // guard: do not save empty string
     if (titleTrimmed === '') {
       unsetIsEditing()
       return

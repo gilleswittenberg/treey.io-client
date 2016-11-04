@@ -47,7 +47,6 @@ describe('NodeAdd', () => {
   describe('input', () => {
 
     it('change', () => {
-
       const wrapper = shallow(getComponent({ isEditing: true }))
       const input = document.createElement('input')
       input.value = 'user input'
@@ -56,19 +55,55 @@ describe('NodeAdd', () => {
       expect(wrapper.state().title).toEqual('user input')
     })
 
-    it('sumbit', () => {
+    describe('componentWillReceiveProps', () => {
 
-      const unsetIsEditing = jest.fn()
-      const postNode = jest.fn()
-      const wrapper = shallow(getComponent({ isEditing: true, unsetIsEditing, postNode }))
+      it('true => false', () => {
+        const wrapper = shallow(getComponent({ isEditing: true }))
+        wrapper.setState({ title: 'blabla' })
+        wrapper.setProps({ isEditing: false })
+        expect(wrapper.state().title).toEqual('')
+      })
 
-      wrapper.setState({ title: 'user input' })
-      const mockEvent = { preventDefault: () => {} }
-      wrapper.find('form').simulate('submit', mockEvent)
-      expect(wrapper.state().title).toEqual('')
-      expect(unsetIsEditing.mock.calls.length).toBe(1)
-      expect(postNode.mock.calls.length).toBe(1)
-      expect(postNode.mock.calls[0][1]).toEqual({ title: 'user input' })
+      it('false => true', () => {
+        const wrapper = shallow(getComponent({ isEditing: false }))
+        wrapper.setState({ title: 'blabla' })
+        wrapper.setProps({ isEditing: true })
+        expect(wrapper.state().title).toEqual('')
+      })
+    })
+
+    describe('sumbit', () => {
+
+      it('input', () => {
+
+        const unsetIsEditing = jest.fn()
+        const postNode = jest.fn()
+        const expand = jest.fn()
+        const wrapper = shallow(getComponent({ isEditing: true, unsetIsEditing, postNode, expand }))
+
+        wrapper.setState({ title: 'user input' })
+        const mockEvent = { preventDefault: () => {} }
+        wrapper.find('form').simulate('submit', mockEvent)
+        expect(unsetIsEditing.mock.calls.length).toBe(1)
+        expect(postNode.mock.calls.length).toBe(1)
+        expect(postNode.mock.calls[0][1]).toEqual({ title: 'user input' })
+        expect(expand.mock.calls.length).toBe(1)
+      })
+
+      it('empty (whitespace) input', () => {
+
+        const unsetIsEditing = jest.fn()
+        const postNode = jest.fn()
+        const expand = jest.fn()
+        const wrapper = shallow(getComponent({ isEditing: true, unsetIsEditing, postNode }))
+
+        wrapper.setState({ title: ' ' })
+        const mockEvent = { preventDefault: () => {} }
+        wrapper.find('form').simulate('submit', mockEvent)
+        expect(unsetIsEditing.mock.calls.length).toBe(1)
+        expect(postNode.mock.calls.length).toBe(0)
+        expect(expand.mock.calls.length).toBe(0)
+      })
     })
   })
 })
