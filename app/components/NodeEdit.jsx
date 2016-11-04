@@ -26,11 +26,14 @@ export default class NodeEdit extends Component {
   }
 
   constructor (props: any) {
-
     super(props)
+    this.state.title = props.title
+  }
 
-    const { title } = props
-    this.state.title = title
+  componentWillReceiveProps (nextProps: any) {
+    if (nextProps.title !== this.props.title) {
+      this.setState({ title: nextProps.title })
+    }
   }
 
   @autobind

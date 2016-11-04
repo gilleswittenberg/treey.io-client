@@ -28,6 +28,15 @@ describe('NodeEdit', () => {
     expect(wrapper.state().title).toEqual('user input')
   })
 
+  describe('componentWillReceiveProps', () => {
+
+    it('new title', () => {
+      const wrapper = shallow(getComponent({ title: 'one' }))
+      wrapper.setProps({ title: 'new title' })
+      expect(wrapper.state().title).toEqual('new title')
+    })
+  })
+
   describe('sumbit', () => {
 
     it('deleteNode', () => {
