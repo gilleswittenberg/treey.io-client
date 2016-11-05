@@ -44,10 +44,7 @@ export class NodeDraggable extends Component {
 
   render () {
 
-    const {
-      connectDragSource
-    } = this.props
-
+    const { connectDragSource } = this.props
     const nodeContentProps = this.props
 
     return (
