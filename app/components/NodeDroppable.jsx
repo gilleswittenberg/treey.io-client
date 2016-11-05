@@ -5,14 +5,8 @@ import Node from '../components/Node'
 import NodeOver from '../components/NodeOver'
 import DND_TYPE from '../settings/DND_TYPE'
 import { DropTarget } from 'react-dnd'
-
-function getOverMousePosition (monitor, element) {
-  const height = 34 // 32 height + 2 margin
-  const yDrag = monitor.getClientOffset().y
-  const yDrop = element.getBoundingClientRect().top
-  const isOverPosition = yDrag - yDrop < height / 2 ? 'top' : 'bottom'
-  return isOverPosition
-}
+import getOverMousePosition from '../lib/getOverMousePosition'
+import getNextSibling from '../lib/getNextSibling'
 
 const DropSpec = {
 
@@ -23,29 +17,33 @@ const DropSpec = {
   hover (props, monitor, component) {
 
     // guard: do not allow dropping as sibling of root
-    if (props.isRoot) return
+    if (!this.canDrop(props)) return
 
-    const overPosition = getOverMousePosition (monitor, component.element)
+    const overPosition = component.getOverMousePosition (monitor, component.element)
     component.setState({ isOverPosition: overPosition })
   },
 
   drop (props, monitor, component) {
 
     const item = monitor.getItem() // NodeDraggable props
-    const { parent, uid } = item
-    const { parent: newParent } = props // NodeDroppable props
-    const overPosition = getOverMousePosition(monitor, component.element)
-    const nextSiblingDroppable = component.getNextSibling() // next uid: ?string after NodeDroppable
-    const before = overPosition === 'top' ? props.uid : nextSiblingDroppable
-
-    // const nextSiblingDraggable = item.nextSibling // next uid: ?string after NodeDraggable
-    // guard: do not save when node is dropped on original location
-    // @TODO: fix nextSiblingDraggable
-    // if (before && before === nextSiblingDraggable) return
+    const {
+      parent: parentDraggable,
+      uid: uidDraggable,
+      siblings: siblingsDraggable,
+      index: indexDraggable
+    } = item
+    const { parent, uid, siblings, index } = props // NodeDroppable props
+    const overPosition = component.getOverMousePosition(monitor, component.element)
+    const nextSiblingDroppable = getNextSibling(siblings, index) // next uid: ?string after NodeDroppable
+    const nextSiblingDraggable = getNextSibling(siblingsDraggable, indexDraggable) // next uid: ?string after NodeDraggable
+    const before = overPosition === 'top' ? uid : nextSiblingDroppable
+    // guard: do not put when dropped on original position
+    if (overPosition === 'top' && before === nextSiblingDraggable) return
+    if (overPosition === 'bottom' && before === uidDraggable) return
 
     // save
     const { putMoveNode } = props
-    putMoveNode(parent, uid, newParent, before)
+    putMoveNode(parentDraggable, uidDraggable, parent, before)
   }
 }
 
@@ -53,6 +51,7 @@ class NodeDroppable extends Component {
 
   static propTypes = {
     parent: PropTypes.string,
+    isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     hasNodes: PropTypes.bool.isRequired,
@@ -75,16 +74,19 @@ class NodeDroppable extends Component {
 
   element = undefined
 
-  getNextSibling () : ?string {
-    const { siblings, index } = this.props
-    const nextNode = siblings[index + 1]
-    if (!nextNode) return null
-    return nextNode.uid
-  }
-
   isOverOther () : bool {
     const { isOver, isOverItemUid, uid } = this.props
     return isOver && isOverItemUid !== uid
+  }
+
+  // Added as method to component to dependency inject getOverMousePosition.
+  // Another way would be to mock the es6 module import of getOverMousePosition
+  // But this is hard / impossible with Jest
+  // @TODO: Try to make mocking es6 default export work in Jest. And remove.
+  getOverMousePosition (monitor, element) : string {
+    const { overMousePosition } = this.props
+    if (overMousePosition) return overMousePosition
+    return getOverMousePosition(monitor, element)
   }
 
   showNodeOverTop () : bool {

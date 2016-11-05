@@ -18,6 +18,8 @@ describe('Node', () => {
     uid,
     title: '',
     hasNodes: false,
+    siblings: [{ uid }],
+    index: 0,
     unsetIsEditing: noop,
     setIsEditing: noop,
     toggleExpanded: noop,

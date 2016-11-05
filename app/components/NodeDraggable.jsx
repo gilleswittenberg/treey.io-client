@@ -27,6 +27,8 @@ export class NodeDraggable extends Component {
   static propTypes = {
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
+    siblings: PropTypes.array.isRequired,
+    index: PropTypes.number.isRequired,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
