@@ -36,6 +36,19 @@
       .node-buttons-num-3 + .node-draggable
         margin-right: 3 * ($dim + $margin-ui)
 
+  .node-body.-has-move-child-button-shown
+    .node-draggable
+      margin-right: $dim + $margin-ui
+    .node-button-move-child
+      display: block
+      float: right
+      button
+        width: $dim
+        margin-left: $margin-ui
+
+  .node-button-move-child
+    display: none
+
   .node-buttons
     float: right
     button

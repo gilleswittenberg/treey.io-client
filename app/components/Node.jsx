@@ -22,6 +22,7 @@ export default class Node extends Component {
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     hasNodes: PropTypes.bool.isRequired,
+    isOver: PropTypes.bool,
     unsetIsEditing: PropTypes.func.isRequired,
     setIsEditing: PropTypes.func.isRequired,
     toggleExpanded: PropTypes.func.isRequired,
@@ -31,7 +32,8 @@ export default class Node extends Component {
 
   static defaultProps = {
     lang: DEFAULT_LANG,
-    enableDnD: false
+    enableDnD: false,
+    isOver: false
   }
 
   @autobind
@@ -102,17 +104,20 @@ export default class Node extends Component {
       enableDnD,
       lang,
       isRoot,
-      hasNodes
+      hasNodes,
+      isOver
     } = this.props
 
     const showAddButton = !hasNodes
     const showDeleteButton = !isRoot
     const hasButtonsShown = this.hasButtonsShown()
     const isDragging = this.isDragging()
+    const showMoveChildButton = isOver && !hasNodes
 
     const className = classNames(
       'node-body',
       {
+        '-has-move-child-button-shown':  showMoveChildButton,
         '-has-buttons-shown': hasButtonsShown,
         '-is-dragging': isDragging
       }
@@ -140,6 +145,9 @@ export default class Node extends Component {
 
     return (
       <div className={ className }>
+        <div className="node-button-move-child">
+          <ButtonIcon type="MOVE_CHILD" lang={ lang } />
+        </div>
         <div className={ nodeButtonsClassName }>
           { showAddButton &&
             <ButtonIcon type="ADD" lang={ lang } handleClick={ this.handleClickAdd } />

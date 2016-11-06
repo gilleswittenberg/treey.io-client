@@ -6,6 +6,7 @@ import __ from '../lib/i18n'
 
 const typesData = {
   ADD: { iconClass: 'fa-plus-square-o' },
+  MOVE_CHILD: { iconClass: 'fa-plus-square-o' },
   DELETE: { iconClass: 'fa-trash-o' },
   EDIT: { iconClass: 'fa-pencil-square-o' },
   MORE: { iconClass: 'fa-ellipsis-v' },
@@ -28,7 +29,8 @@ export default class ButtonIcon extends Component {
   render () {
     const { type, lang, handleClick } = this.props
     const typeLowerCased = type.toLowerCase()
-    const classNameType = `button-icon-${ typeLowerCased }`
+    const typeLowerCasedHyphenated = typeLowerCased.replace(/_/g, '-')
+    const classNameType = `button-icon-${ typeLowerCasedHyphenated }`
     const className = classNames('button-icon', classNameType)
     const iconClass = typesData[type].iconClass
     const classNameIcon = classNames('fa', iconClass)

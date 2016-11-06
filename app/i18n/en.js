@@ -1,9 +1,10 @@
 export default {
-  SAVE: 'save',
-  EDIT: 'edit',
   ADD: 'add',
   DELETE: 'delete',
-  MORE: 'more',
+  EDIT: 'edit',
   HAS_ERRRORS: 'has errors',
-  IS_SYNCING: 'is syncing…'
+  IS_SYNCING: 'is syncing…',
+  MORE: 'more',
+  MOVE_CHILD: 'move child',
+  SAVE: 'save'
 }
