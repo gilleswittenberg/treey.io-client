@@ -58,17 +58,17 @@ export default class NodeAdd extends Component {
     const { title } = this.state
     const titleTrimmed = title.trim()
 
-    // @TODO: see if unsetIsEditing can be extracted to be called before guard
+    unsetIsEditing()
 
     // guard: do not save empty string
     if (titleTrimmed === '') {
-      unsetIsEditing()
       return
     }
 
     const data = { title: titleTrimmed }
     postNode(parent, data)
-    unsetIsEditing()
+
+    // expand to open node that had no children before
     expand(parent)
   }
 
