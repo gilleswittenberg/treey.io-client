@@ -17,8 +17,11 @@ const DropSpec = {
 
   hover (props, monitor, component) {
 
+    // guard: do not allow hover on self
+    if (props.uid === monitor.getItem().uid) return false
+
     // guard: do not allow dropping as sibling of root
-    if (!monitor.canDrop()) return
+    if (!monitor.canDrop()) return false
 
     const overPosition = component.getOverMousePosition (monitor, component.element)
     component.setState({ isOverPosition: overPosition })
@@ -61,8 +64,7 @@ class NodeDroppable extends Component {
     putMoveNode: PropTypes.func.isRequired,
     // Injected by React DnD DropTarget
     connectDropTarget: PropTypes.func,
-    isOver: PropTypes.bool,
-    isOverItemUid: PropTypes.string
+    isOver: PropTypes.bool
   }
 
   static defaultProps = {
@@ -74,11 +76,6 @@ class NodeDroppable extends Component {
   }
 
   element = undefined
-
-  isOverOther () : bool {
-    const { isOver, isOverItemUid, uid } = this.props
-    return isOver && isOverItemUid !== uid
-  }
 
   isMovingChild () : bool {
     const { ui, uid } = this.props
@@ -96,15 +93,15 @@ class NodeDroppable extends Component {
   }
 
   showNodeOverTop () : bool {
-    const isOverOther = this.isOverOther()
+    const { isOver } = this.props
     const { isOverPosition } = this.state
-    return isOverOther && isOverPosition === 'top'
+    return isOver && isOverPosition === 'top'
   }
 
   showNodeOverBottom () : bool {
-    const isOverOther = this.isOverOther()
+    const { isOver } = this.props
     const { isOverPosition } = this.state
-    return isOverOther && isOverPosition === 'bottom'
+    return isOver && isOverPosition === 'bottom'
   }
 
   render () {
@@ -137,7 +134,6 @@ class NodeDroppable extends Component {
 
 @DropTarget(DND_TYPE, DropSpec, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver(),
-  isOverItemUid: monitor.getItem() ? monitor.getItem().uid : null
+  isOver: monitor.isOver()
 }))
 export default class NodeDroppableDecorated extends NodeDroppable {}

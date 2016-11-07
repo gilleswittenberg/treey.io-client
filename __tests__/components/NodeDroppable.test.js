@@ -110,7 +110,7 @@ describe('NodeDroppable', () => {
     it('guard against isRoot', () => {
 
       const propsDraggable = { ...defaultPropsDraggable }
-      const propsDroppable = { ...defaultPropsDroppable, isRoot: true }
+      const propsDroppable = { ...defaultPropsDroppable, uid: uid1 }
       const Context = wrapInTestContext(NodeDraggable, NodeDroppable, propsDraggable, propsDroppable)
       const wrapper = mount(<Context />)
       const manager = wrapper.get(0).getManager()
