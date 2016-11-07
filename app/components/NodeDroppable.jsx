@@ -18,8 +18,7 @@ const DropSpec = {
   hover (props, monitor, component) {
 
     // guard: do not allow dropping as sibling of root
-    // @TODO: Change `this.canDrop(props)` => `monitor.canDrop()`
-    if (!this.canDrop(props)) return
+    if (!monitor.canDrop()) return
 
     const overPosition = component.getOverMousePosition (monitor, component.element)
     component.setState({ isOverPosition: overPosition })

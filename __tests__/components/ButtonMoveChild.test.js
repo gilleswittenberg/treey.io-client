@@ -94,7 +94,7 @@ describe('ButtonMoveChild', () => {
       const sourceIdButtonMoveChild = buttonMoveChild.getHandlerId()
       backend.simulateBeginDrag([sourceIdNodeDraggable])
       backend.simulateHover([sourceIdButtonMoveChild])
-      backend.simulateEndDrag([sourceIdNodeDraggable])
+      backend.simulateEndDrag()
       expect(unsetIsMovingChild.mock.calls.length).toBe(1)
     })
   })
