@@ -2,6 +2,7 @@ import Node from '../../app/components/Node'
 import { mount } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
+import getMockEvent from '../getMockEvent'
 
 describe('Node', () => {
 
@@ -35,7 +36,7 @@ describe('Node', () => {
     it('altKey', () => {
       const setIsEditing = jest.fn()
       const node = new Node({ setIsEditing })
-      const mockEvent = { altKey: true }
+      const mockEvent = getMockEvent({ altKey: true })
       node.handleClick(mockEvent)
       expect(setIsEditing.mock.calls.length).toBe(1)
     })
@@ -44,7 +45,7 @@ describe('Node', () => {
       const toggleExpanded = jest.fn()
       const unsetIsEditing = noop
       const node = new Node({ unsetIsEditing, toggleExpanded })
-      const mockEvent = {}
+      const mockEvent = getMockEvent()
       node.handleClick(mockEvent)
       expect(toggleExpanded.mock.calls.length).toBe(0)
     })
@@ -53,7 +54,7 @@ describe('Node', () => {
       const toggleExpanded = jest.fn()
       const unsetIsEditing = noop
       const node = new Node({ hasNodes: true, unsetIsEditing, toggleExpanded })
-      const mockEvent = {}
+      const mockEvent = getMockEvent()
       node.handleClick(mockEvent)
       expect(toggleExpanded.mock.calls.length).toBe(1)
     })
@@ -99,8 +100,8 @@ describe('Node', () => {
     it('click', () => {
       const setShowButtons = jest.fn()
       const wrapper = mount(getComponent({ setShowButtons }))
-      const eventMock = { stopPropagation: noop }
-      wrapper.find('.button-icon-more').simulate('click', eventMock)
+      const mockEvent =  getMockEvent()
+      wrapper.find('.button-icon-more').simulate('click', mockEvent)
       expect(setShowButtons.mock.calls.length).toBe(1)
     })
   })

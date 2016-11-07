@@ -2,6 +2,7 @@ import NodeAdd from '../../app/components/NodeAdd'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
+import getMockEvent from '../getMockEvent'
 
 describe('NodeAdd', () => {
 
@@ -50,7 +51,7 @@ describe('NodeAdd', () => {
       const wrapper = shallow(getComponent({ isEditing: true }))
       const input = document.createElement('input')
       input.value = 'user input'
-      const mockEvent = { target: input }
+      const mockEvent = getMockEvent({ target: input })
       wrapper.find('input').simulate('change', mockEvent)
       expect(wrapper.state().title).toEqual('user input')
     })
@@ -82,7 +83,7 @@ describe('NodeAdd', () => {
         const wrapper = shallow(getComponent({ isEditing: true, unsetIsEditing, postNode, expand }))
 
         wrapper.setState({ title: 'user input' })
-        const mockEvent = { preventDefault: () => {} }
+        const mockEvent = getMockEvent()
         wrapper.find('form').simulate('submit', mockEvent)
         expect(unsetIsEditing.mock.calls.length).toBe(1)
         expect(postNode.mock.calls.length).toBe(1)
@@ -98,7 +99,7 @@ describe('NodeAdd', () => {
         const wrapper = shallow(getComponent({ isEditing: true, unsetIsEditing, postNode }))
 
         wrapper.setState({ title: ' ' })
-        const mockEvent = { preventDefault: () => {} }
+        const mockEvent = getMockEvent()
         wrapper.find('form').simulate('submit', mockEvent)
         expect(unsetIsEditing.mock.calls.length).toBe(1)
         expect(postNode.mock.calls.length).toBe(0)

@@ -34,7 +34,8 @@ export default class NodeAdd extends Component {
   }
 
   @autobind
-  handleClick () {
+  handleClick (event: Event) {
+    event.stopPropagation()
     const { parent, setIsEditing } = this.props
     this.setState({ title: '' })
     setIsEditing(parent, 'add')
@@ -56,6 +57,8 @@ export default class NodeAdd extends Component {
     const { parent, postNode, unsetIsEditing, expand } = this.props
     const { title } = this.state
     const titleTrimmed = title.trim()
+
+    // @TODO: see if unsetIsEditing can be extracted to be called before guard
 
     // guard: do not save empty string
     if (titleTrimmed === '') {

@@ -6,6 +6,7 @@ import CustomDragLayer from '../components/CustomDragLayer'
 import autobind from 'autobind-decorator'
 import { DragDropContext } from 'react-dnd'
 import TouchBackend from 'react-dnd-touch-backend'
+import delay from '../lib/delay'
 
 class Tree extends Component {
 
@@ -21,6 +22,7 @@ class Tree extends Component {
 
   componentDidMount () {
     window.addEventListener('keyup', this.handleKeyPress)
+    window.addEventListener('click', this.handleWindowClick)
   }
 
   @autobind
@@ -31,6 +33,13 @@ class Tree extends Component {
     }
   }
 
+  @autobind
+  handleWindowClick () {
+    const { unsetIsEditing } = this.props
+    // this needs to be delayed to be called after a possible submit event
+    delay(unsetIsEditing)
+  }
+
   render () {
 
     const {
@@ -39,6 +48,7 @@ class Tree extends Component {
     } = this.props
 
     const nodesProps = { ...this.props, parent: null, nodes: [tree] }
+
     // $FlowIssue Flow does not recognize CustomDragLayer.DecoratedComponent
     const CustomDragLayerComponent = enableDnD ? CustomDragLayer : CustomDragLayer.DecoratedComponent
 

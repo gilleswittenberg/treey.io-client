@@ -40,6 +40,8 @@ export default class Node extends Component {
   @autobind
   handleClick (event: Event) {
 
+    event.stopPropagation()
+
     // alt key to edit
     if (event.altKey) {
       this.startEditing()
@@ -57,12 +59,14 @@ export default class Node extends Component {
   }
 
   @autobind
-  handleClickAdd () {
+  handleClickAdd (event: Event) {
+    event.stopPropagation()
     this.startEditing('add')
   }
 
   @autobind
-  handleClickEdit () {
+  handleClickEdit (event: Event) {
+    event.stopPropagation()
     this.startEditing()
   }
 
@@ -139,7 +143,7 @@ export default class Node extends Component {
     // $FlowIssue Flow does not recognize ButtonMoveChild.DecoratedComponent
     const ButtonMoveChildComponent = enableDnD ? ButtonMoveChild : ButtonMoveChild.DecoratedComponent
     const buttonMoveChildProps = { ...this.props }
-    
+
     // $FlowIssue Flow does not recognize NodeDraggable.DecoratedComponent
     const NodeDraggableComponent = enableDnD ? NodeDraggable : NodeDraggable.DecoratedComponent
     const nodeDraggableProps = {

@@ -2,6 +2,7 @@ import NodeEdit from '../../app/components/NodeEdit'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
+import getMockEvent from '../getMockEvent'
 
 describe('NodeEdit', () => {
 
@@ -23,7 +24,7 @@ describe('NodeEdit', () => {
     const wrapper = shallow(getComponent())
     const input = document.createElement('input')
     input.value = 'user input'
-    const mockEvent = { target: input }
+    const mockEvent = getMockEvent({ target: input })
     wrapper.find('input').simulate('change', mockEvent)
     expect(wrapper.state().title).toEqual('user input')
   })
@@ -43,7 +44,7 @@ describe('NodeEdit', () => {
       const unsetIsEditing = jest.fn()
       const deleteNode = jest.fn()
       const wrapper = shallow(getComponent({ unsetIsEditing, deleteNode }))
-      const mockEvent = { preventDefault: () => {} }
+      const mockEvent = getMockEvent()
       wrapper.find('form').simulate('submit', mockEvent)
       expect(unsetIsEditing.mock.calls.length).toBe(1)
       expect(deleteNode.mock.calls.length).toBe(1)
@@ -54,7 +55,7 @@ describe('NodeEdit', () => {
       const putNode = jest.fn()
       const wrapper = shallow(getComponent({ unsetIsEditing, putNode }))
       wrapper.setState({ title: 'user input' })
-      const mockEvent = { preventDefault: () => {} }
+      const mockEvent = getMockEvent()
       wrapper.find('form').simulate('submit', mockEvent)
       expect(unsetIsEditing.mock.calls.length).toBe(1)
       expect(putNode.mock.calls.length).toBe(1)
