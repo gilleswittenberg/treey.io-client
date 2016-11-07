@@ -11,11 +11,17 @@ const DropSpec = {
   hover (props) {
     const { uid, setIsMovingChild } = props
     setIsMovingChild(uid)
-  }/* ,
+  },
 
-  drop (props, monitor, component) {
+  drop (props, monitor) {
+    const item = monitor.getItem() // NodeDraggable props
+    const {
+      parent: parentDraggable,
+      uid: uidDraggable
+    } = item
+    const { uid, putMoveNode } = props // NodeDroppable props
+    putMoveNode(parentDraggable, uidDraggable, uid)
   }
-  */
 }
 
 class ButtonMoveChild extends Component {
