@@ -5,6 +5,8 @@ import noop from './noop'
 export const defaultActions = {
   setIsEditing: noop,
   unsetIsEditing: noop,
+  setIsMovingChild: noop,
+  unsetIsMovingChild: noop,
   setIsDragging: noop,
   unsetIsDragging: noop,
   expand: noop,
@@ -17,11 +19,41 @@ export const defaultActions = {
 }
 
 import { bindActionCreators } from 'redux'
-import { setIsEditing, unsetIsEditing, setIsDragging, unsetIsDragging, setShowButtons, expand, toggleExpanded } from '../actions/ui'
-import { postNode, putNode, deleteNode, putMoveNode } from '../actions/nodes'
+import {
+  setIsEditing,
+  unsetIsEditing,
+  setIsMovingChild,
+  unsetIsMovingChild,
+  setIsDragging,
+  unsetIsDragging,
+  setShowButtons,
+  expand,
+  toggleExpanded
+} from '../actions/ui'
+import {
+  postNode,
+  putNode,
+  deleteNode,
+  putMoveNode
+} from '../actions/nodes'
 
-let nodesActions = { postNode, putNode, deleteNode, putMoveNode }
-let uiActions = { setIsEditing, unsetIsEditing, setIsDragging, unsetIsDragging, setShowButtons, expand, toggleExpanded }
+let nodesActions = {
+  postNode,
+  putNode,
+  deleteNode,
+  putMoveNode
+}
+let uiActions = {
+  setIsEditing,
+  unsetIsEditing,
+  setIsMovingChild,
+  unsetIsMovingChild,
+  setIsDragging,
+  unsetIsDragging,
+  setShowButtons,
+  expand,
+  toggleExpanded
+}
 
 export default function (dispatch: any) {
 

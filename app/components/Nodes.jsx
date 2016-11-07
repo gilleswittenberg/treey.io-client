@@ -1,22 +1,25 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react'
-import NodeWrap from '../components/NodeWrap'
-import NodeAdd from '../components/NodeAdd'
-import { isEditing } from '../reducers/ui'
+import NodeWrap from './NodeWrap'
+import NodeAdd from './NodeAdd'
+import NodeOver from './NodeOver'
+import { isEditing, isMovingChild } from '../reducers/ui'
 
 export default class Nodes extends Component {
 
   static propTypes = {
     enableDnD: PropTypes.bool,
     parent: PropTypes.string,
-    nodes: PropTypes.array
+    nodes: PropTypes.array,
+    hasNodes: PropTypes.bool
   }
 
   static defaultProps = {
     enableDnD: false,
     parent: null,
-    nodes: []
+    nodes: [],
+    hasNodes: false
   }
 
   isRoot () : bool {
@@ -28,15 +31,25 @@ export default class Nodes extends Component {
     return isEditing(ui, parent, 'add')
   }
 
+  isMovingChild () : bool {
+    const { ui, parent } = this.props
+    return isMovingChild(ui, parent)
+  }
+
   render () {
 
     const {
-      nodes
+      nodes,
+      hasNodes
     } = this.props
 
     const isRoot = this.isRoot()
     const hasNodeAdd = !isRoot
     const isAdding = this.isAdding()
+
+    const isMovingChild = this.isMovingChild()
+    const showNodeMoveChild = !hasNodes && isMovingChild
+    const showNodeAdd = hasNodeAdd && !isMovingChild
 
     const nodeWrapProps = { ...this.props, isRoot }
     const nodeAddProps = { ...this.props, isEditing: isAdding }
@@ -57,9 +70,15 @@ export default class Nodes extends Component {
           </li>
         ) }
 
-        { hasNodeAdd &&
+        { showNodeAdd &&
           <li>
             <NodeAdd { ...nodeAddProps } />
+          </li>
+        }
+
+        { showNodeMoveChild &&
+          <li>
+            <NodeOver position="child" />
           </li>
         }
 

@@ -1,12 +1,13 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react'
-import Node from '../components/Node'
-import NodeOver from '../components/NodeOver'
+import Node from './Node'
+import NodeOver from './NodeOver'
 import DND_TYPE from '../settings/DND_TYPE'
 import { DropTarget } from 'react-dnd'
 import getOverMousePosition from '../lib/getOverMousePosition'
 import getNextSibling from '../lib/getNextSibling'
+import { isMovingChild } from '../reducers/ui'
 
 const DropSpec = {
 
@@ -17,6 +18,7 @@ const DropSpec = {
   hover (props, monitor, component) {
 
     // guard: do not allow dropping as sibling of root
+    // @TODO: Change `this.canDrop(props)` => `monitor.canDrop()`
     if (!this.canDrop(props)) return
 
     const overPosition = component.getOverMousePosition (monitor, component.element)
@@ -79,6 +81,11 @@ class NodeDroppable extends Component {
     return isOver && isOverItemUid !== uid
   }
 
+  isMovingChild () : bool {
+    const { ui, uid } = this.props
+    return isMovingChild(ui, uid)
+  }
+
   // Added as method to component to dependency inject getOverMousePosition.
   // Another way would be to mock the es6 module import of getOverMousePosition
   // But this is hard / impossible with Jest
@@ -107,8 +114,9 @@ class NodeDroppable extends Component {
       connectDropTarget
     } = this.props
 
-    const showNodeOverTop = this.showNodeOverTop()
-    const showNodeOverBottom = this.showNodeOverBottom()
+    const isMovingChild = this.isMovingChild()
+    const showNodeOverTop = this.showNodeOverTop() && !isMovingChild
+    const showNodeOverBottom = this.showNodeOverBottom() && !isMovingChild
 
     const nodeProps = { ...this.props }
 

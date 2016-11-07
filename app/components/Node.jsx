@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
 import ButtonIcon from './ButtonIcon'
+import ButtonMoveChild from './ButtonMoveChild'
 import NodeDraggable from './NodeDraggable'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 import {
@@ -135,6 +136,10 @@ export default class Node extends Component {
       }
     )
 
+    // $FlowIssue Flow does not recognize ButtonMoveChild.DecoratedComponent
+    const ButtonMoveChildComponent = enableDnD ? ButtonMoveChild : ButtonMoveChild.DecoratedComponent
+    const buttonMoveChildProps = { ...this.props }
+    
     // $FlowIssue Flow does not recognize NodeDraggable.DecoratedComponent
     const NodeDraggableComponent = enableDnD ? NodeDraggable : NodeDraggable.DecoratedComponent
     const nodeDraggableProps = {
@@ -145,9 +150,7 @@ export default class Node extends Component {
 
     return (
       <div className={ className }>
-        <div className="node-button-move-child">
-          <ButtonIcon type="MOVE_CHILD" lang={ lang } />
-        </div>
+        <ButtonMoveChildComponent { ...buttonMoveChildProps } />
         <div className={ nodeButtonsClassName }>
           { showAddButton &&
             <ButtonIcon type="ADD" lang={ lang } handleClick={ this.handleClickAdd } />

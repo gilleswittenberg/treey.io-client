@@ -54,6 +54,8 @@ type UIActionType =
   'TOGGLE_EXPANDED' |
   'SET_IS_EDITING' |
   'UNSET_IS_EDITING' |
+  'SET_IS_MOVING_CHILD' |
+  'UNSET_IS_MOVING_CHILD' |
   'SET_IS_DRAGGING' |
   'UNSET_IS_DRAGGING' |
   'SET_SHOW_BUTTONS' |
@@ -71,6 +73,7 @@ export type UIState = {
   lang: string,
   enableDnD: bool,
   editing: ?string,
+  movingChild: ?string,
   dragging: ?string,
   showButtons: ?string,
   expanded: string[]

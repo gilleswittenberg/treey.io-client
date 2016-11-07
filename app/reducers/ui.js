@@ -13,6 +13,7 @@ export const defaultState: UIState = {
   lang: DEFAULT_LANG,
   enableDnD: true,
   editing: null,
+  movingChild: null,
   dragging: null,
   showButtons: null,
   expanded: []
@@ -47,6 +48,12 @@ export default function nodes (state: UIState = defaultState, action: UIAction) 
   case types.UNSET_IS_EDITING:
     return { ...state, editing: null }
 
+  // movingChild
+  case types.SET_IS_MOVING_CHILD:
+    return { ...state, movingChild: action.data.uid }
+  case types.UNSET_IS_MOVING_CHILD:
+    return { ...state, movingChild: null }
+
   // dragging
   case types.SET_IS_DRAGGING:
     return { ...state, dragging: action.data.uid }
@@ -71,6 +78,12 @@ export function isEditing (state: UIState, uid: ?string, type?: string) : boolea
   if (uid == null) return false
   const uidString = type ? `${ uid }.${ type }` : uid
   return state.editing === uidString
+}
+
+export function isMovingChild (state: UIState, uid: ?string) : boolean {
+  // guard
+  if (uid == null) return false
+  return state.movingChild === uid
 }
 
 export function isDragging (state: UIState, uid: ?string) : boolean {

@@ -18,6 +18,23 @@ export function unsetIsEditing () {
   }
 }
 
+export const SET_IS_MOVING_CHILD = 'SET_IS_MOVING_CHILD'
+export function setIsMovingChild (uid: string) {
+  return {
+    type: SET_IS_MOVING_CHILD,
+    data: {
+      uid
+    }
+  }
+}
+
+export const UNSET_IS_MOVING_CHILD = 'UNSET_IS_MOVING_CHILD'
+export function unsetIsMovingChild () {
+  return {
+    type: UNSET_IS_MOVING_CHILD
+  }
+}
+
 export const SET_IS_DRAGGING = 'SET_IS_DRAGGING'
 export function setIsDragging (uid: string) {
   return {

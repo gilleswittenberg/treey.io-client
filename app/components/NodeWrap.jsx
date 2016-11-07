@@ -7,6 +7,7 @@ import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
 import {
   isEditing as isEditingFunc,
+  isMovingChild as isMovingChildFunc,
   isDragging as isDraggingFunc,
   isExpanded as isExpandedFunc
 } from '../reducers/ui'
@@ -41,6 +42,11 @@ export default class NodeWrap extends Component {
     return isEditingFunc(ui, uid)
   }
 
+  isMovingChild () : bool {
+    const { ui, uid } = this.props
+    return isMovingChildFunc(ui, uid)
+  }
+
   isAdding () : bool {
     const { ui, uid } = this.props
     return isEditingFunc(ui, uid, 'add')
@@ -69,6 +75,7 @@ export default class NodeWrap extends Component {
     } = this.props
 
     const isEditing = this.isEditing()
+    const isMovingChild = this.isMovingChild()
     const isAdding = this.isAdding()
     const isDragging = this.isDragging()
     const isExpanded = this.isExpanded()
@@ -78,7 +85,7 @@ export default class NodeWrap extends Component {
       'node',
       {
         '-is-dragging': isDragging,
-        '-is-expanded': (isExpanded && hasNodes) || isAdding
+        '-is-expanded': (isExpanded && hasNodes) || isAdding || isMovingChild
       }
     )
 
@@ -90,7 +97,7 @@ export default class NodeWrap extends Component {
 
     const nodeDroppableProps = { ...this.props, hasNodes }
     const nodeEditProps = { ...this.props }
-    const nodesProps = { ...this.props, parent: uid }
+    const nodesProps = { ...this.props, parent: uid, hasNodes }
 
     return (
       <div>

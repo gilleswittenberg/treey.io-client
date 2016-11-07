@@ -53,6 +53,8 @@ describe('NodeDroppable', () => {
     putMoveNode: noop,
     setIsEditing: noop,
     unsetIsEditing: noop,
+    setIsMovingChild: noop,
+    unsetIsMovingChild: noop,
     setIsDragging: noop,
     unsetIsDragging: noop,
     setShowButtons: noop,
