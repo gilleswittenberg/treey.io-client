@@ -26,7 +26,6 @@ describe('ButtonMoveChild', () => {
 
   const uid1 = '57bedc40e81b0620300d7691'
   const uid2 = '57bedc40e81b0620300d7692'
-  const uid3 = '57bedc40e81b0620300d7693'
   const defaultPropsDraggable = {
     parent: null,
     isRoot: false,
