@@ -100,11 +100,12 @@ describe('ButtonMoveChild', () => {
 
   describe('drop', () => {
 
-    it('putMoveNode', () => {
+    it('putMoveNode, expand', () => {
 
       const putMoveNode = jest.fn()
+      const expand = jest.fn()
       const propsDraggable = { ...defaultPropsDraggable }
-      const propsButtonMoveChild = { ...defaultPropsButtonMoveChild, putMoveNode }
+      const propsButtonMoveChild = { ...defaultPropsButtonMoveChild, putMoveNode, expand }
       const Context = wrapInTestContext(NodeDraggable, ButtonMoveChild, propsDraggable, propsButtonMoveChild)
       const wrapper = mount(<Context />)
       const manager = wrapper.get(0).getManager()
@@ -118,6 +119,7 @@ describe('ButtonMoveChild', () => {
       backend.simulateDrop()
       backend.simulateEndDrag()
       expect(putMoveNode.mock.calls.length).toBe(1)
+      expect(expand.mock.calls.length).toBe(1)
     })
   })
 })
