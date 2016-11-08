@@ -37,6 +37,7 @@ class ButtonMoveChild extends Component {
     connectDropTarget: (jsx: any) => jsx
   }
 
+  // logic for hover out
   componentWillReceiveProps (nextProps: any) {
     const { isOver, unsetIsMovingChild } = this.props
     if (nextProps.isOver === false && isOver === true) {

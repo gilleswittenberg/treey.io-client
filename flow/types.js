@@ -78,3 +78,5 @@ export type UIState = {
   showButtons: ?string,
   expanded: string[]
 }
+
+export type HoverRegion = 'top' | 'bottom'
