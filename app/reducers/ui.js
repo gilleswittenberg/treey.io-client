@@ -12,6 +12,7 @@ import EXPANDED_KEY from '../settings/EXPANDED_KEY'
 export const defaultState: UIState = {
   lang: DEFAULT_LANG,
   enableDnD: true,
+  active: null,
   editing: null,
   movingChild: null,
   dragging: null,
@@ -48,6 +49,12 @@ export default function nodes (state: UIState = defaultState, action: UIAction) 
   case types.UNSET_IS_EDITING:
     return { ...state, editing: null }
 
+  // active
+  case types.SET_IS_ACTIVE:
+    return { ...state, active: action.data.uid }
+  case types.UNSET_IS_ACTIVE:
+    return { ...state, active: null }
+
   // movingChild
   case types.SET_IS_MOVING_CHILD:
     return { ...state, movingChild: action.data.uid }
@@ -73,6 +80,12 @@ export default function nodes (state: UIState = defaultState, action: UIAction) 
 
 // helper methods
 // these methods return checks on (current) state
+export function isActive (state: UIState, uid: ?string) : boolean {
+  // guard
+  if (uid == null) return false
+  return state.active === uid
+}
+
 export function isEditing (state: UIState, uid: ?string, type?: string) : boolean {
   // guard
   if (uid == null) return false

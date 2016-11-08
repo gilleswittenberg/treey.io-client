@@ -7,6 +7,29 @@ const mockStore = configureMockStore(middlewares)
 
 describe('ui actions', () => {
 
+  describe('isActive', () => {
+
+    it('setIsActive', () => {
+
+      const store = mockStore({ ui: null })
+      const uid = '57bedc40e81b0620300d769a'
+
+      store.dispatch(actions.setIsActive(uid))
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual(actions.SET_IS_ACTIVE)
+      expect(lastAction.data.uid).toEqual(uid)
+    })
+
+    it('unsetIsActive', () => {
+
+      const store = mockStore({ ui: null })
+
+      store.dispatch(actions.unsetIsActive())
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual(actions.UNSET_IS_ACTIVE)
+    })
+  })
+
   describe('isEditing', () => {
 
     it('setIsEditing', () => {

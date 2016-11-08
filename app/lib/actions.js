@@ -3,6 +3,8 @@
 import noop from './noop'
 
 export const defaultActions = {
+  setIsActive: noop,
+  unsetIsActive: noop,
   setIsEditing: noop,
   unsetIsEditing: noop,
   setIsMovingChild: noop,
@@ -20,6 +22,8 @@ export const defaultActions = {
 
 import { bindActionCreators } from 'redux'
 import {
+  setIsActive,
+  unsetIsActive,
   setIsEditing,
   unsetIsEditing,
   setIsMovingChild,
@@ -44,6 +48,8 @@ let nodesActions = {
   putMoveNode
 }
 let uiActions = {
+  setIsActive,
+  unsetIsActive,
   setIsEditing,
   unsetIsEditing,
   setIsMovingChild,

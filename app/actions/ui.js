@@ -1,5 +1,22 @@
 /* @flow */
 
+export const SET_IS_ACTIVE = 'SET_IS_ACTIVE'
+export function setIsActive (uid: string) {
+  return {
+    type: SET_IS_ACTIVE,
+    data: {
+      uid
+    }
+  }
+}
+
+export const UNSET_IS_ACTIVE = 'UNSET_IS_ACTIVE'
+export function unsetIsActive () {
+  return {
+    type: UNSET_IS_ACTIVE
+  }
+}
+
 export const SET_IS_EDITING = 'SET_IS_EDITING'
 export function setIsEditing (uid: string, type: string) {
   const uidString = type ? `${ uid }.${ type }` : uid
@@ -17,6 +34,7 @@ export function unsetIsEditing () {
     type: UNSET_IS_EDITING
   }
 }
+
 
 export const SET_IS_MOVING_CHILD = 'SET_IS_MOVING_CHILD'
 export function setIsMovingChild (uid: string) {

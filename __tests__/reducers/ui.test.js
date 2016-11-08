@@ -1,6 +1,7 @@
 import reducer, { defaultState } from '../../app/reducers/ui'
 import {
   INIT_EXPANDED, EXPAND, TOGGLE_EXPANDED,
+  SET_IS_ACTIVE, UNSET_IS_ACTIVE,
   SET_IS_EDITING, UNSET_IS_EDITING,
   SET_IS_DRAGGING, UNSET_IS_DRAGGING,
   SET_SHOW_BUTTONS, UNSET_SHOW_BUTTONS
@@ -10,6 +11,20 @@ describe('ui reducer', () => {
 
   it('returns initial state', () => {
     expect(reducer(undefined, {})).toEqual(defaultState)
+  })
+
+  describe('active', () => {
+
+    it('SET_IS_ACTIVE, UNSET_IS_ACTIVE', () => {
+
+      const uid = '57bedc40e81b0620300d769a'
+      const state = reducer(undefined, {})
+      const state2 = reducer(state, { type: SET_IS_ACTIVE, data: { uid } })
+      expect(state2.active).toBe(uid)
+
+      const state3 = reducer(state, { type: UNSET_IS_ACTIVE })
+      expect(state3.active).toBe(null)
+    })
   })
 
   describe('editing', () => {
@@ -25,6 +40,7 @@ describe('ui reducer', () => {
       expect(state3.editing).toBe(null)
     })
   })
+
 
   describe('dragging', () => {
 

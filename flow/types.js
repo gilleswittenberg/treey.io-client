@@ -72,6 +72,7 @@ export type UIAction = {
 export type UIState = {
   lang: string,
   enableDnD: bool,
+  active: ?string,
   editing: ?string,
   movingChild: ?string,
   dragging: ?string,

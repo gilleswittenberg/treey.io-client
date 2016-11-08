@@ -13,11 +13,20 @@ class Tree extends Component {
   static propTypes = {
     enableDnD: PropTypes.bool,
     tree: PropTypes.object,
-    unsetIsEditing: PropTypes.func.isRequired
+    unsetIsEditing: PropTypes.func.isRequired,
+    setIsActive: PropTypes.func.isRequired
   }
 
   static defaultProps = {
-    enableDnD: false
+    enableDnD: false,
+    tree: null
+  }
+
+  componentWillReceiveProps (nextProps: any) {
+    const { tree, setIsActive } = this.props
+    if (tree === null && nextProps.tree) {
+      setIsActive(nextProps.tree.uid)
+    }
   }
 
   componentDidMount () {

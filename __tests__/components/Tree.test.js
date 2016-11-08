@@ -64,5 +64,14 @@ describe('Tree', () => {
       // deepest child nodes 3 + 2
       expect(wrapper.find('ul ul ul ul').length).toBe(3 + 2)
     })
+
+    it('componentWillReceiveProps', () => {
+
+      const setIsActive = jest.fn()
+      const wrapper = shallow(getComponent({ setIsActive }))
+      const tree = { uid: uid1 }
+      wrapper.setProps({ tree })
+      expect(setIsActive.mock.calls.length).toBe(1)
+    })
   })
 })

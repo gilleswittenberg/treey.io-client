@@ -18,6 +18,8 @@
   .node-body, .node-editing
     padding: $margin-vertical 0
 
+
+
   &.-is-dragging
     .node-body
       display: none
@@ -96,6 +98,10 @@
         text-decoration: none
         &:hover
           text-decoration: underline
+          
+  &.-is-active
+    .node-content
+      background-color: $colorActive
 
 .node-drag-layer
   .node-content

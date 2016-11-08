@@ -5,7 +5,9 @@ import classNames from 'classnames'
 import NodeDroppable from '../components/NodeDroppable'
 import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
+// @TODO: Use original names
 import {
+  isActive,
   isEditing as isEditingFunc,
   isMovingChild as isMovingChildFunc,
   isDragging as isDraggingFunc,
@@ -35,6 +37,11 @@ export default class NodeWrap extends Component {
 
   state = {
     isOverPosition: -1
+  }
+
+  isActive () : bool {
+    const { ui, uid } = this.props
+    return isActive(ui, uid)
   }
 
   isEditing () : bool {
@@ -74,6 +81,7 @@ export default class NodeWrap extends Component {
       uid
     } = this.props
 
+    const isActive = this.isActive()
     const isEditing = this.isEditing()
     const isMovingChild = this.isMovingChild()
     const isAdding = this.isAdding()
@@ -84,6 +92,7 @@ export default class NodeWrap extends Component {
     const className = classNames(
       'node',
       {
+        '-is-active': isActive,
         '-is-dragging': isDragging,
         '-is-expanded': (isExpanded && hasNodes) || isAdding || isMovingChild
       }
