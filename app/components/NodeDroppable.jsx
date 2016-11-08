@@ -130,11 +130,11 @@ class NodeDroppable extends Component {
       connectDropTarget(
         <div ref={ c => this.element = c }>
           { showNodeOverTop &&
-            <NodeOver position="top" />
+            <NodeOver position="above" />
           }
           <Node { ...nodeProps } />
           { showNodeOverBottom &&
-            <NodeOver position="bottom" />
+            <NodeOver position="below" />
           }
         </div>
       )

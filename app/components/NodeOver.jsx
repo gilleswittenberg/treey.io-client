@@ -6,7 +6,7 @@ import classNames from 'classnames'
 export default class NodeOver extends Component {
 
   static propTypes = {
-    position: PropTypes.oneOf(['top', 'bottom', 'child']).isRequired
+    position: PropTypes.oneOf(['above', 'below', 'child']).isRequired
   }
 
   render () {

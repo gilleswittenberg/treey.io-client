@@ -8,18 +8,18 @@ describe('NodeOver', () => {
 
   describe('position', () => {
 
-    it('top', () => {
+    it('above', () => {
 
-      const wrapper = shallow(getComponent({ position: 'top' }))
+      const wrapper = shallow(getComponent({ position: 'above' }))
       expect(wrapper.hasClass('node-over')).toBe(true)
-      expect(wrapper.hasClass('node-over-top')).toBe(true)
+      expect(wrapper.hasClass('node-over-above')).toBe(true)
     })
 
-    it('bottom', () => {
+    it('below', () => {
 
-      const wrapper = shallow(getComponent({ position: 'bottom' }))
+      const wrapper = shallow(getComponent({ position: 'below' }))
       expect(wrapper.hasClass('node-over')).toBe(true)
-      expect(wrapper.hasClass('node-over-bottom')).toBe(true)
+      expect(wrapper.hasClass('node-over-below')).toBe(true)
     })
   })
 })
