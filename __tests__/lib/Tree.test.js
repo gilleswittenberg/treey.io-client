@@ -342,5 +342,19 @@ describe('Tree', () => {
       expect(newTreeData.nodes[0].nodes.length).toEqual(3)
       expect(newTreeData.nodes[0].nodes[0].uid).toEqual('c2')
     })
+
+    it('move to node without children', () => {
+      const treeData = {
+        uid: '1',
+        nodes: [
+          { uid: 'c1' },
+          { uid: 'c2' }
+        ]
+      }
+      const newTreeData = Tree.move(treeData, '1', 'c1', 'c2')
+      expect(newTreeData.nodes.length).toEqual(1)
+      expect(newTreeData.nodes[0].nodes.length).toEqual(1)
+      expect(newTreeData.nodes[0].nodes[0].uid).toEqual('c1')
+    })
   })
 })

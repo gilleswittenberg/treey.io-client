@@ -87,6 +87,9 @@ const Tree = {
     if (before) {
       beforeIndex = nodes.findIndex(value => value.get(idKey) === before)
     }
+    if (!nodes) {
+      nodes = List()
+    }
     if (beforeIndex !== undefined) {
       nodes = nodes.splice(beforeIndex, 0, node)
     } else {
