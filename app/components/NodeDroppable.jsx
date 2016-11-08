@@ -23,7 +23,7 @@ const DropSpec = {
     // guard: do not allow dropping as sibling of root
     if (!monitor.canDrop()) return false
 
-    const hoverRegion = component.getHoverRegion (monitor, component.element)
+    const hoverRegion = component.getHoverRegion(monitor, component.element)
     component.setState({ hoverRegion })
   },
 
@@ -90,16 +90,19 @@ class NodeDroppable extends Component {
     return isMovingChild(ui, uid)
   }
 
-  // Added as method to component to dependency inject getHoverRegion.
-  // Another way would be to mock the es6 module import of getHoverRegion
-  // But this is hard / impossible with Jest
-  // @TODO: Try to make mocking es6 default export work in Jest. And remove.
   getHoverRegion (monitor, element) : string {
+
+    // used when mocking
+    // @TODO: Try to make mocking es6 default export work in Jest. And remove.
     const { hoverRegion: hoverRegionProps } = this.props
     if (hoverRegionProps) return hoverRegionProps
-    const { hoverRegion } = this.state
-    if (hoverRegion === null) return 'top'
-    return getHoverRegion(monitor, element)
+
+    // first time hover
+    const { hoverRegion: hoverRegionState } = this.state
+    if (hoverRegionState === null) return 'top'
+
+    // succeeding hover events
+    return getHoverRegion(monitor, element, hoverRegionState)
   }
 
   showNodeOverTop () : bool {
@@ -144,6 +147,6 @@ class NodeDroppable extends Component {
 
 @DropTarget(DND_TYPE, DropSpec, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver()
+  isOver: monitor.isOver({ shallow: true })
 }))
 export default class NodeDroppableDecorated extends NodeDroppable {}

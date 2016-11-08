@@ -72,6 +72,6 @@ class ButtonMoveChild extends Component {
 
 @DropTarget(DND_TYPE, DropSpec, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver()
+  isOver: monitor.isOver({ shallow: true })
 }))
 export default class ButtonMoveChildDecorated extends ButtonMoveChild {}

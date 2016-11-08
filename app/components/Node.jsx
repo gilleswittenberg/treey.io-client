@@ -103,21 +103,25 @@ export default class Node extends Component {
     return isDraggingFunc(ui, uid)
   }
 
+  userIsDragging () : bool {
+    const { ui: { dragging } } = this.props
+    return dragging !== null
+  }
+
   render () {
 
     const {
       enableDnD,
       lang,
       isRoot,
-      hasNodes,
-      isOver
+      hasNodes
     } = this.props
 
     const showAddButton = !hasNodes
     const showDeleteButton = !isRoot
     const hasButtonsShown = this.hasButtonsShown()
     const isDragging = this.isDragging()
-    const showMoveChildButton = isOver && !hasNodes
+    const showMoveChildButton = this.userIsDragging() && !hasNodes
 
     const className = classNames(
       'node-body',
