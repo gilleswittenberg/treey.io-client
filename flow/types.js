@@ -6,15 +6,17 @@ export type Type = 'boolean' | 'number' | 'string' | '[]' | 'boolean[]' | 'strin
 
 export type NodeData = { title: string }
 export type NodeUI = {
-  expanded: boolean,
-  editing: boolean,
   active: boolean,
+  expanded: boolean,
+  adding: boolean,
+  editing: boolean,
   dragging: boolean,
   movingChild: boolean,
   hasButtonsShown: boolean
 }
 export type Node = {
   uid: string,
+  path?: string,
   data?: NodeData,
   ui?: NodeUI,
   nodes?: Node[]

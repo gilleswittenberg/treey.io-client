@@ -29,13 +29,16 @@ const Tree = {
     return false
   },
 
-  _parseNode (nodeMap: NodeMap) {
+  _parseNode (nodeMap: NodeMap, parentPath: string = '') {
     let map = nodeMap
+    let uid = map.get('uid')
+    let path = `${ parentPath }/${ uid }`
+    map = map.set('path', path)
     map = map.set('data', { title: nodeMap.get('title') })
     map = map.remove('title')
     const nodes: any = map.get('nodes')
     if (nodes) {
-      const nodesList = nodes.map(this._parseNode.bind(this))
+      const nodesList = nodes.map(node => this._parseNode.bind(this)(node, path))
       map = map.set('nodes', nodesList)
     }
     const ui = { expanded: false, active: false, dragging: false, hasButtonsShown: false, editing: false, movingChild: false }

@@ -14,15 +14,20 @@ describe('Tree', () => {
 
     it('root', () => {
       const tree = { uid, title: 'Mr. Foo' }
-      expect(Tree.parse(tree)).toEqual({ uid, data: { title: 'Mr. Foo' }, ui })
+      expect(Tree.parse(tree)).toEqual({
+        uid,
+        path: `/${ uid }`,
+        data: { title: 'Mr. Foo' },
+        ui
+      })
     })
 
     it('1st generation', () => {
       const nodes = [{ uid: uid1, title: 'First child' }, { uid: uid2, title: 'Second child' }]
       const tree = { uid, title: 'Mr. Foo', nodes }
       expect(Tree.parse(tree).nodes).toEqual([
-        { uid: uid1, data: { title: 'First child' }, ui },
-        { uid: uid2, data: { title: 'Second child' }, ui }
+        { uid: uid1, path: `/${ uid }/${ uid1 }`, data: { title: 'First child' }, ui },
+        { uid: uid2, path: `/${ uid }/${ uid2 }`, data: { title: 'Second child' }, ui }
       ])
     })
 
@@ -37,8 +42,8 @@ describe('Tree', () => {
         ]
       }
       expect(Tree.parse(tree).nodes[1].nodes).toEqual([
-        { uid: uid2, data: { title: 'First grandchild' }, ui },
-        { uid: uid3, data: { title: 'Second grandchild' }, ui }
+        { uid: uid2, path: `/${ uid }/${ uid1 }/${ uid2 }`, data: { title: 'First grandchild' }, ui },
+        { uid: uid3, path: `/${ uid }/${ uid1 }/${ uid3 }`, data: { title: 'Second grandchild' }, ui }
       ])
     })
 
