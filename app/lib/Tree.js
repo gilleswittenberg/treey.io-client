@@ -29,6 +29,26 @@ const Tree = {
     return false
   },
 
+  _parseNode (nodeMap: NodeMap) {
+    let map = nodeMap
+    map = map.set('data', { title: nodeMap.get('title') })
+    map = map.remove('title')
+    const nodes: any = map.get('nodes')
+    if (nodes) {
+      const nodesList = nodes.map(this._parseNode.bind(this))
+      map = map.set('nodes', nodesList)
+    }
+    const ui = { expanded: false, active: false, dragging: false, hasButtonsShown: false, editing: false, movingChild: false }
+    map = map.set('ui', ui)
+    return map
+  },
+
+  parse (treeData: Node) {
+    let tree = fromJS(treeData)
+    tree = this._parseNode(tree)
+    return toJS(tree)
+  },
+
   create (treeData: Node, parent: string, data: {}) {
     let tree = fromJS(treeData)
     let keyPath = this._getKeyPath(tree, parent, true)
