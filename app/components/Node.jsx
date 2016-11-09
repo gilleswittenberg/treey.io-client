@@ -21,7 +21,6 @@ export default class Node extends Component {
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
     hasNodes: PropTypes.bool.isRequired,
     isOver: PropTypes.bool,
     unsetIsEditing: PropTypes.func.isRequired,

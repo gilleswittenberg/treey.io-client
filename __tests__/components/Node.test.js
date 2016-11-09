@@ -17,7 +17,9 @@ describe('Node', () => {
     parent,
     isRoot: false,
     uid,
-    title: '',
+    data: {
+      title: ''
+    },
     hasNodes: false,
     siblings: [{ uid }],
     index: 0,

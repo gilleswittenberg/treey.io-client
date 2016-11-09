@@ -13,6 +13,8 @@ export const defaultState: NodesState = {
 
 export default function nodes (state: NodesState = defaultState, action: NodesAction) {
   let tree
+
+  // backend
   switch (action.type) {
   case types.START_SYNCING:
     return { ...state, isSyncing: true }
@@ -20,8 +22,11 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     return { ...state, isSyncing: false }
   case types.HAS_ERRORS:
     return { ...state, hasErrors: true }
+
+  // nodes
   case types.INDEX_NODES:
-    return { ...state, ...action.data }
+    tree = Tree.parse(action.data.tree)
+    return { ...state, tree }
   case types.ADD_NODE:
     if (state.tree) {
       tree = Tree.create(state.tree, action.data.parent, action.data.node)

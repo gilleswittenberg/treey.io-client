@@ -4,8 +4,21 @@ import { Map, List } from 'immutable'
 
 export type Type = 'boolean' | 'number' | 'string' | '[]' | 'boolean[]' | 'string[]' | 'number[]'
 
-export type Node = { uid: string, title: string, nodes: ?Node[] }
 export type NodeData = { title: string }
+export type NodeUI = {
+  expanded: boolean,
+  editing: boolean,
+  active: boolean,
+  dragging: boolean,
+  movingChild: boolean,
+  hasButtonsShown: boolean
+}
+export type Node = {
+  uid: string,
+  data?: NodeData,
+  ui?: NodeUI,
+  nodes?: Node[]
+}
 export type NodeMap = Map<string, any>
 export type NodesList = List<NodeMap>
 
@@ -41,6 +54,7 @@ type NodesActionType =
 export type NodesAction = {
   type: NodesActionType,
   data: {
+    tree: any,
     parent: string,
     node: NodeData,
     uid: string,

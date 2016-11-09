@@ -30,7 +30,6 @@ export class NodeDraggable extends Component {
     siblings: PropTypes.array.isRequired,
     index: PropTypes.number.isRequired,
     uid: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
     unsetIsEditing: PropTypes.func.isRequired,
     setIsDragging: PropTypes.func.isRequired,
     unsetIsDragging: PropTypes.func.isRequired,
@@ -46,8 +45,8 @@ export class NodeDraggable extends Component {
 
   render () {
 
-    const { connectDragSource } = this.props
-    const nodeContentProps = this.props
+    const { data: { title }, connectDragSource } = this.props
+    const nodeContentProps = { ...this.props, title }
 
     return (
       connectDragSource(

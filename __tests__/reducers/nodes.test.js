@@ -43,8 +43,71 @@ describe('nodes reducer', () => {
       ]
     }
 
+    const ui = { expanded: false, active: false, dragging: false, hasButtonsShown: false, editing: false, movingChild: false }
+
+    const parsedTree = {
+      uid: '57bedc40e81b0620300d769a',
+      data: {
+        title: 'John Doe'
+      },
+      ui,
+      nodes: [
+        {
+          data: {
+            title: 'ToDo'
+          },
+          ui,
+          nodes: [
+            {
+              uid: '57ebc46eb0bf9b00106a3c5e',
+              data: {
+                title: 'bring home the milk'
+              },
+              ui
+            },
+            {
+              uid: '57ebc46eb0bf9b00106a3c5f',
+              data: {
+                title: 'clean the house'
+              },
+              ui
+            }
+          ]
+        },
+        {
+          data: {
+            title: 'Movies'
+          },
+          ui,
+          nodes: [
+            {
+              uid: '57ebc46eb0bf9b00106a3c60',
+              data: {
+                title: 'Star Wars: Episode IV - A New Hope (1977)'
+              },
+              ui
+            },
+            {
+              uid: '57ebc46eb0bf9b00106a3c62',
+              data: {
+                title: 'The Terminator (1984)'
+              },
+              ui
+            },
+            {
+              uid: '57ebc46eb0bf9b00106a3c61',
+              data: {
+                title: 'The Matrix (1999)'
+              },
+              ui
+            }
+          ]
+        }
+      ]
+    }
+
     const state2 = reducer(state, { type: INDEX_NODES, data: { tree } })
-    expect(state2.tree).toEqual(tree)
+    expect(state2.tree).toEqual(parsedTree)
     const state3 = reducer(state2, { type: ADD_NODE, data: {
       parent: '57bedc40e81b0620300d769a',
       node: { uid: '57bedc40e81b0620300d7690', title: 'new' } }

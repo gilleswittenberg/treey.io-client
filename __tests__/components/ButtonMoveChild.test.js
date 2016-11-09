@@ -30,7 +30,9 @@ describe('ButtonMoveChild', () => {
     parent: null,
     isRoot: false,
     uid: uid1,
-    title: 'node draggable',
+    data: {
+      title: 'node draggable'
+    },
     siblings: [{ uid: uid1 }],
     index: 0,
     unsetIsEditing: noop,
@@ -45,7 +47,9 @@ describe('ButtonMoveChild', () => {
     isRoot: false,
     uid: uid2,
     ui: {},
-    title: 'node droppable',
+    data: {
+      title: 'node droppable'
+    },
     hasNodes: false,
     deleteNode: noop,
     putMoveNode: noop,

@@ -23,7 +23,9 @@ describe('NodeDraggable', () => {
     parent: null,
     isRoot: true,
     uid,
-    title: 'node draggable',
+    data: {
+      title: 'node draggable'
+    },
     siblings: [{ uid }],
     index: 0,
     unsetIsEditing: noop,

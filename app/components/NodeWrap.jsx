@@ -106,6 +106,7 @@ export default class NodeWrap extends Component {
 
     const nodeDroppableProps = { ...this.props, hasNodes }
     const nodeEditProps = { ...this.props }
+    nodeEditProps.title = nodeEditProps.data.title
     const nodesProps = { ...this.props, parent: uid, hasNodes }
 
     return (

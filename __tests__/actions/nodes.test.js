@@ -146,6 +146,13 @@ describe('nodes actions', () => {
         title: 'New User'
       }
 
+      const actionData = {
+        uid: '57bedc40e81b0620300d7691',
+        data: {
+          title: 'New User'
+        }
+      }
+
       nock(hostname)
         .post(`/node/${ parent }`, data)
         .reply(200, body)
@@ -156,7 +163,7 @@ describe('nodes actions', () => {
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('ADD_NODE')
-          expect(lastAction.data).toEqual({ parent, node: body })
+          expect(lastAction.data).toEqual({ parent, node: actionData })
         })
     })
   })
@@ -206,6 +213,13 @@ describe('nodes actions', () => {
         title: 'New User'
       }
 
+      const actionData = {
+        uid,
+        data: {
+          title: 'New User'
+        }
+      }
+
       nock(hostname)
         .put(`/node/${ uid }`, data)
         .reply(200, body)
@@ -216,7 +230,7 @@ describe('nodes actions', () => {
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('UPDATE_NODE')
-          expect(lastAction.data).toEqual({ uid, node: body })
+          expect(lastAction.data).toEqual({ node: actionData })
         })
     })
   })

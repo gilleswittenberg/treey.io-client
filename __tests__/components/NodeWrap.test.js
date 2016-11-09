@@ -12,6 +12,9 @@ describe('NodeWrap', () => {
     ui: { enableDnD: false },
     parent,
     uid,
+    data: {
+      title: ''
+    },
     isRoot: false,
     nodes: [],
     siblings: [],

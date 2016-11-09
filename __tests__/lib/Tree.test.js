@@ -178,7 +178,9 @@ describe('Tree', () => {
       }
       const data = {
         uid: 'c1',
-        title: 'Name with spaces'
+        data: {
+          title: 'Name with spaces'
+        }
       }
       const newTreeData = Tree.create(treeData, '1', data)
       expect(newTreeData.nodes.length).toEqual(1)
@@ -195,7 +197,9 @@ describe('Tree', () => {
       }
       const data = {
         uid: 'c3',
-        title: 'Name with spaces'
+        data: {
+          title: 'Name with spaces'
+        }
       }
       const newTreeData = Tree.create(treeData, '1', data)
       expect(newTreeData.nodes.length).toEqual(3)
@@ -212,7 +216,9 @@ describe('Tree', () => {
       }
       const data = {
         uid: 'cc1',
-        title: 'Grand child'
+        data: {
+          title: 'Grand child'
+        }
       }
       const newTreeData = Tree.create(treeData, 'c2', data)
       expect(newTreeData.nodes[1].nodes.length).toEqual(1)
@@ -227,10 +233,12 @@ describe('Tree', () => {
         uid: '1'
       }
       const data = {
-        title: 'Root'
+        data: {
+          title: 'Root'
+        }
       }
       const newTreeData = Tree.update(treeData, '1', data)
-      expect(newTreeData.title).toEqual('Root')
+      expect(newTreeData.data.title).toEqual('Root')
     })
 
     it('first child', () => {
@@ -243,10 +251,12 @@ describe('Tree', () => {
       }
       const data = {
         uid: 'c1',
-        title: 'First child'
+        data: {
+          title: 'First child'
+        }
       }
       const newTreeData = Tree.update(treeData, 'c2', data)
-      expect(newTreeData.nodes[1].title).toEqual('First child')
+      expect(newTreeData.nodes[1].data.title).toEqual('First child')
     })
   })
 

@@ -38,7 +38,7 @@ export function hasErrors () {
 }
 
 export const INDEX_NODES = 'INDEX_NODES'
-export function indexNodes (tree: Node) {
+export function indexNodes (tree: any) {
   return {
     type: INDEX_NODES,
     data: {
@@ -81,7 +81,13 @@ export function getNodes (uid: string) {
 }
 
 export const ADD_NODE = 'ADD_NODE'
-export function addNode (parent: string, node: Node) {
+export function addNode (parent: string, json: any) {
+  const node: Node = {
+    uid: json.uid,
+    data: {
+      title: json.title
+    }
+  }
   return {
     type: ADD_NODE,
     data: {
@@ -127,11 +133,16 @@ export function postNode (parent: string, data: NodeData) {
 }
 
 export const UPDATE_NODE = 'UPDATE_NODE'
-export function updateNode (uid: string, node: Node) {
+export function updateNode (uid: string, json: any) {
+  const node: Node = {
+    uid,
+    data: {
+      title: json.title
+    }
+  }
   return {
     type: UPDATE_NODE,
     data: {
-      uid,
       node
     }
   }
