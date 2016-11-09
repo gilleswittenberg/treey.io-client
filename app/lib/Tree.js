@@ -29,6 +29,18 @@ const Tree = {
     return false
   },
 
+  // @TODO: get indexes of ordered tree
+  _pathToKeyPath (path: string) {
+    const regexp = /^(\/[0-9a-f]{24})+$/
+    if (!path.match(regexp)) return null
+    const parts = path.split('/').filter(part => part !== '')
+    if (parts.length <= 1) return []
+    parts.shift()
+    const ret = []
+    parts.forEach(part => ret.push('nodes', part))
+    return ret
+  },
+
   _parseNode (nodeMap: NodeMap, parentPath: string = '') {
     let map = nodeMap
     let uid = map.get('uid')
@@ -49,6 +61,15 @@ const Tree = {
   parse (treeData: Node) {
     let tree = fromJS(treeData)
     tree = this._parseNode(tree)
+    return toJS(tree)
+  },
+
+  setNodeKey (treeData: Node, uid: string, key: string, value: any) {
+    let tree = fromJS(treeData)
+    let keyPath = this._getKeyPath(tree, uid)
+    let keys = key.split('.')
+    keyPath = keyPath.concat(keys)
+    tree = tree.setIn(keyPath, value)
     return toJS(tree)
   },
 

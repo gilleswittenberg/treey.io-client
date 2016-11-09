@@ -23,7 +23,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
   case types.HAS_ERRORS:
     return { ...state, hasErrors: true }
 
-  // nodes
+  // nodes tree
   case types.INDEX_NODES:
     tree = Tree.parse(action.data.tree)
     return { ...state, tree }
@@ -55,6 +55,10 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
       tree = state.tree
     }
     return { ...state, tree }
+
+  // node ui
+  // case types.SET_ACTIVE:
+    // tree = Tree.setNodeKey('ui.active', node, true)
   default:
     return state
   }

@@ -3,13 +3,14 @@ import Tree from '../../app/lib/Tree'
 
 describe('Tree', () => {
 
+  const uid = '57bedc40e81b0620300d7690'
+  const uid1 = '57bedc40e81b0620300d7691'
+  const uid2 = '57bedc40e81b0620300d7692'
+  const uid3 = '57bedc40e81b0620300d7693'
+  const uid4 = '57bedc40e81b0620300d7694'
+
   describe('parse', () => {
 
-    const uid = '57bedc40e81b0620300d7690'
-    const uid1 = '57bedc40e81b0620300d7691'
-    const uid2 = '57bedc40e81b0620300d7692'
-    const uid3 = '57bedc40e81b0620300d7693'
-    const uid4 = '57bedc40e81b0620300d7694'
     const ui = { expanded: false, active: false, dragging: false, hasButtonsShown: false, editing: false, movingChild: false }
 
     it('root', () => {
@@ -172,6 +173,48 @@ describe('Tree', () => {
         }
         expect(Tree._getKeyPath(fromJS(treeData), 'ccc2', true)).toEqual(['nodes', 1, 'nodes', 3, 'nodes', 2, 'nodes'])
       })
+    })
+  })
+
+  describe('pathToKeyPath', () => {
+
+    it('root', () => {
+      const path = `/${ uid }`
+      expect(Tree._pathToKeyPath(path)).toEqual([])
+    })
+
+    it('1st generation', () => {
+      const path = `/${ uid }/${ uid1 }`
+      expect(Tree._pathToKeyPath(path)).toEqual(['nodes', uid1])
+    })
+
+    it('2nd generation', () => {
+      const path = `/${ uid }/${ uid1 }/${ uid2 }`
+      expect(Tree._pathToKeyPath(path)).toEqual(['nodes', uid1, 'nodes', uid2])
+    })
+  })
+
+  describe('setNodeKey', () => {
+
+    it('root', () => {
+      const treeData = { uid, ui: { active: false } }
+      expect(Tree.setNodeKey(treeData, uid, 'ui.active', true).ui.active).toBe(true)
+    })
+
+    it('1st generation', () => {
+      const treeData = { uid, nodes: [{ uid: uid1, ui: { active: false } }] }
+      expect(Tree.setNodeKey(treeData, uid1, 'ui.active', true).nodes[0].ui.active).toBe(true)
+    })
+
+    it('2nd generation', () => {
+      const treeData = {
+        uid,
+        nodes: [{
+          uid: uid1,
+          nodes: [{ uid: uid2, ui: { active: false } }]
+        }]
+      }
+      expect(Tree.setNodeKey(treeData, uid2, 'ui.active', true).nodes[0].nodes[0].ui.active).toBe(true)
     })
   })
 
