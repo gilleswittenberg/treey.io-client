@@ -1,6 +1,7 @@
 /* @flow */
 
 import * as types from '../actions/nodes'
+import TreeParse from '../lib/TreeParse'
 import Tree from '../lib/Tree'
 
 import type { NodesState, NodesAction } from '../../flow/types'
@@ -25,7 +26,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
 
   // nodes tree
   case types.INDEX_NODES:
-    tree = Tree.parse(action.data.tree)
+    tree = TreeParse.parse(action.data.tree)
     return { ...state, tree }
   case types.ADD_NODE:
     if (state.tree) {
