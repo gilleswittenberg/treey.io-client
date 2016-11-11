@@ -41,29 +41,6 @@ const Tree = {
     return ret
   },
 
-  _parseNode (nodeMap: NodeMap, parentPath: string = '') {
-    let map = nodeMap
-    let uid = map.get('uid')
-    let path = `${ parentPath }/${ uid }`
-    map = map.set('path', path)
-    map = map.set('data', { title: nodeMap.get('title') })
-    map = map.remove('title')
-    const nodes: any = map.get('nodes')
-    if (nodes) {
-      const nodesList = nodes.map(node => this._parseNode.bind(this)(node, path))
-      map = map.set('nodes', nodesList)
-    }
-    const ui = { expanded: false, active: false, dragging: false, hasButtonsShown: false, editing: false, movingChild: false }
-    map = map.set('ui', ui)
-    return map
-  },
-
-  parse (treeData: Node) {
-    let tree = fromJS(treeData)
-    tree = this._parseNode(tree)
-    return toJS(tree)
-  },
-
   setNodeKey (treeData: Node, uid: string, key: string, value: any) {
     let tree = fromJS(treeData)
     let keyPath = this._getKeyPath(tree, uid)

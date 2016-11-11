@@ -325,15 +325,4 @@ describe('Tree2', () => {
       })
     })
   })
-
-  // @TODO
-  // path as array
-  // skip by path
-  // path to indexPath
-  // action remove
-  // action add sibling after
-  // abort after number of non skipped
-  // breath first, depth first
-  // skip generations
-  // skip branch
 })
