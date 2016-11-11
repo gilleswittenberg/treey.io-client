@@ -10,10 +10,16 @@ function toJS (im: ?NodeMap) {
 
 const TreeParse = {
 
-  _parseNode (nodeMap: NodeMap, parentPath: string = '') {
+  _getPath (parentPath: string[], id: string) : string[] {
+    parentPath = fromJS(parentPath)
+    parentPath = parentPath.push(id)
+    return parentPath
+  },
+
+  _parseNode (nodeMap: NodeMap, parentPath: string[] = []) {
     let map = nodeMap
     let id = map.get(idKey)
-    let path = `${ parentPath }/${ id }`
+    let path = this._getPath(parentPath, id)
     map = map.set('path', path)
     map = map.set('data', { title: nodeMap.get('title') })
     map = map.remove('title')

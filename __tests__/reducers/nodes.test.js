@@ -49,7 +49,7 @@ describe('nodes reducer', () => {
 
     const parsedTree = {
       uid: '57bedc40e81b0620300d769a',
-      path: '/57bedc40e81b0620300d769a',
+      path: ['57bedc40e81b0620300d769a'],
       data: {
         title: 'John Doe'
       },
@@ -57,7 +57,7 @@ describe('nodes reducer', () => {
       nodes: [
         {
           uid: '57bedc40e81b0620300d769b',
-          path: '/57bedc40e81b0620300d769a/57bedc40e81b0620300d769b',
+          path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b'],
           data: {
             title: 'ToDo'
           },
@@ -65,7 +65,7 @@ describe('nodes reducer', () => {
           nodes: [
             {
               uid: '57ebc46eb0bf9b00106a3c5e',
-              path: '/57bedc40e81b0620300d769a/57bedc40e81b0620300d769b/57ebc46eb0bf9b00106a3c5e',
+              path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b', '57ebc46eb0bf9b00106a3c5e'],
               data: {
                 title: 'bring home the milk'
               },
@@ -73,7 +73,7 @@ describe('nodes reducer', () => {
             },
             {
               uid: '57ebc46eb0bf9b00106a3c5f',
-              path: '/57bedc40e81b0620300d769a/57bedc40e81b0620300d769b/57ebc46eb0bf9b00106a3c5f',
+              path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b', '57ebc46eb0bf9b00106a3c5f'],
               data: {
                 title: 'clean the house'
               },
@@ -86,12 +86,12 @@ describe('nodes reducer', () => {
             title: 'Movies'
           },
           uid: '57bedc40e81b0620300d769c',
-          path: '/57bedc40e81b0620300d769a/57bedc40e81b0620300d769c',
+          path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c'],
           ui,
           nodes: [
             {
               uid: '57ebc46eb0bf9b00106a3c60',
-              path: '/57bedc40e81b0620300d769a/57bedc40e81b0620300d769c/57ebc46eb0bf9b00106a3c60',
+              path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c', '57ebc46eb0bf9b00106a3c60'],
               data: {
                 title: 'Star Wars: Episode IV - A New Hope (1977)'
               },
@@ -99,7 +99,7 @@ describe('nodes reducer', () => {
             },
             {
               uid: '57ebc46eb0bf9b00106a3c62',
-              path: '/57bedc40e81b0620300d769a/57bedc40e81b0620300d769c/57ebc46eb0bf9b00106a3c62',
+              path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c', '57ebc46eb0bf9b00106a3c62'],
               data: {
                 title: 'The Terminator (1984)'
               },
@@ -107,7 +107,7 @@ describe('nodes reducer', () => {
             },
             {
               uid: '57ebc46eb0bf9b00106a3c61',
-              path: '/57bedc40e81b0620300d769a/57bedc40e81b0620300d769c/57ebc46eb0bf9b00106a3c61',
+              path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c', '57ebc46eb0bf9b00106a3c61'],
               data: {
                 title: 'The Matrix (1999)'
               },
