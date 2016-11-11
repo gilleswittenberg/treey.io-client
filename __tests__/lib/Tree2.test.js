@@ -1,5 +1,6 @@
 import Tree2 from '../../app/lib/Tree2'
 import { fromJS } from 'immutable'
+import { updateNode, createNode, addNode, removeNode } from '../../app/lib/TreeActions'
 
 describe('Tree2', () => {
 
@@ -14,7 +15,10 @@ describe('Tree2', () => {
 
       it('action', () => {
         const tree = { uid, title: 'Mr. Foo' }
-        const action = node => node.set('title', 'new title')
+        const action = node => {
+          node.title = 'new title'
+          return node
+        }
         const newTree = Tree2.doActionAll(tree, action)
         // immutable
         expect(tree.title).toEqual('Mr. Foo')
@@ -24,8 +28,11 @@ describe('Tree2', () => {
 
       it('skip', () => {
         const tree = { uid, title: 'Mr. Foo' }
-        const action = node => node.set('title', 'new title')
-        const skip = node => node.get('uid') === uid
+        const action = node => {
+          node.title = 'new title'
+          return node
+        }
+        const skip = node => node.uid === uid
         const newTree = Tree2.doActionAll(tree, action, skip)
         // new value skipped
         expect(newTree.title).toEqual('Mr. Foo')
@@ -45,7 +52,10 @@ describe('Tree2', () => {
             }
           ]
         }
-        const action = node => node.set('title', 'new title')
+        const action = node => {
+          node.title = 'new title'
+          return node
+        }
         const newTree = Tree2.doActionAll(tree, action)
         // immutable
         expect(tree.title).toEqual('Mr. Foo')
@@ -66,8 +76,11 @@ describe('Tree2', () => {
             }
           ]
         }
-        const action = node => node.set('title', 'new title')
-        const skip = node => node.get('uid') === uid1
+        const action = node => {
+          node.title = 'new title'
+          return node
+        }
+        const skip = node => node.uid === uid1
         const newTree = Tree2.doActionAll(tree, action, skip)
         // immutable
         expect(tree.title).toEqual('Mr. Foo')
@@ -89,7 +102,10 @@ describe('Tree2', () => {
             }
           ]
         }
-        const action = node => node.set('title', 'new title')
+        const action = node => {
+          node.title = 'new title'
+          return node
+        }
         const skip = () => true
         const newTree = Tree2.doActionAll(tree, action, skip)
         // immutable
@@ -124,7 +140,10 @@ describe('Tree2', () => {
             }
           ]
         }
-        const action = node => node.set('title', 'new title')
+        const action = node => {
+          node.title = 'new title'
+          return node
+        }
         const newTree = Tree2.doActionAll(tree, action)
         // immutable
         expect(tree.nodes[0].nodes[0].title).toEqual('1st grandchild')
@@ -155,8 +174,11 @@ describe('Tree2', () => {
             }
           ]
         }
-        const action = node => node.set('title', 'new title')
-        const skip = node => node.get('uid') === uid2
+        const action = node => {
+          node.title = 'new title'
+          return node
+        }
+        const skip = node => node.uid === uid2
         const newTree = Tree2.doActionAll(tree, action, skip)
         // immutable
         expect(tree.nodes[0].nodes[0].title).toEqual('1st grandchild')
@@ -187,7 +209,10 @@ describe('Tree2', () => {
             }
           ]
         }
-        const action = node => node.set('title', 'new title')
+        const action = node => {
+          node.title = 'new title'
+          return node
+        }
         const skip = () => true
         const newTree = Tree2.doActionAll(tree, action, skip)
         // new value skipped
@@ -271,7 +296,10 @@ describe('Tree2', () => {
       it('action', () => {
         const tree = { uid, title: 'Mr. Foo' }
         const path = [uid]
-        const action = node => node.set('title', 'new title')
+        const action = node => {
+          node.title = 'new title'
+          return node
+        }
         const newTree = Tree2.doAction(tree, path, action)
         // immutable
         expect(tree.title).toEqual('Mr. Foo')
@@ -285,7 +313,10 @@ describe('Tree2', () => {
       it('action', () => {
         const tree = { uid, title: 'Mr. Foo', nodes: [{ uid: uid1, title: 'First child' }] }
         const path = [uid, uid1]
-        const action = node => node.set('title', 'new title')
+        const action = node => {
+          node.title = 'new title'
+          return node
+        }
         const newTree = Tree2.doAction(tree, path, action)
         // immutable
         expect(tree.nodes[0].title).toEqual('First child')
@@ -316,12 +347,305 @@ describe('Tree2', () => {
           }]
         }
         const path = [uid, uid1, uid3]
-        const action = node => node.set('title', 'new title')
+        const action = node => {
+          node.title = 'new title'
+          return node
+        }
         const newTree = Tree2.doAction(tree, path, action)
         // immutable
         expect(tree.nodes[0].nodes[1].title).toEqual('Second grandchild')
         // new value
         expect(newTree.nodes[0].nodes[1].title).toEqual('new title')
+      })
+    })
+
+    describe('TreeActions', () => {
+
+      describe('updateNode', () => {
+
+        it('root', () => {
+
+          const tree = {
+            uid,
+            path: [uid],
+            data: {
+              title: 'Mr. Foo'
+            }
+          }
+          const path = [uid]
+          const data = { title: 'new title' }
+          const newTree = Tree2.doAction(tree, path, updateNode(data))
+          // immutable
+          expect(tree.data.title).toEqual('Mr. Foo')
+          // new value
+          expect(newTree.data.title).toEqual('new title')
+        })
+
+        it('1st generation', () => {
+
+          const tree = {
+            uid,
+            path: [uid],
+            data: {
+              title: 'Mr. Foo'
+            },
+            nodes: [{
+              uid: uid1,
+              path: [uid, uid1],
+              data: {
+                title: 'First child'
+              }
+            }]
+          }
+          const path = [uid, uid1]
+          const data = { title: 'new title' }
+          const newTree = Tree2.doAction(tree, path, updateNode(data))
+          // immutable
+          expect(tree.nodes[0].data.title).toEqual('First child')
+          // new value
+          expect(newTree.nodes[0].data.title).toEqual('new title')
+        })
+
+        it('2nd generation', () => {
+
+          const tree = {
+            uid,
+            path: [uid],
+            data: {
+              title: 'Mr. Foo'
+            },
+            nodes: [{
+              uid: uid1,
+              path: [uid, uid1],
+              data: {
+                title: 'First child'
+              },
+              nodes: [
+                {
+                  uid: uid2,
+                  data: {
+                    title: 'First grandchild'
+                  }
+                },
+                {
+                  uid: uid3,
+                  data: {
+                    title: 'Second grandchild'
+                  }
+                }
+              ]
+            }]
+          }
+          const path = [uid, uid1, uid3]
+          const data = { title: 'new title' }
+          const newTree = Tree2.doAction(tree, path, updateNode(data))
+          // immutable
+          expect(tree.nodes[0].nodes[1].data.title).toEqual('Second grandchild')
+          // new value
+          expect(newTree.nodes[0].nodes[1].data.title).toEqual('new title')
+        })
+      })
+
+      describe('addNode', () => {
+
+        it('root', () => {
+
+          const tree = {
+            uid,
+            path: [uid],
+            data: {
+              title: 'Mr. Foo'
+            }
+          }
+          const path = [uid]
+          const node = { uid: uid1, data: { title: 'new node' } }
+          const newTree = Tree2.doAction(tree, path, addNode(node))
+          // immutable
+          expect(tree.nodes).toBe(undefined)
+          // new value
+          expect(newTree.nodes.length).toBe(1)
+          expect(newTree.nodes[0]).toEqual(node)
+        })
+
+        it('root before', () => {
+
+          const nodes = [{
+            uid: uid1,
+            data: {
+              title: 'First child'
+            }
+          }]
+          const tree = {
+            uid,
+            path: [uid],
+            data: {
+              title: 'Mr. Foo'
+            },
+            nodes
+          }
+          const path = [uid]
+          const node = { uid: uid2, data: { title: 'new node' } }
+          const newTree = Tree2.doAction(tree, path, addNode(node, uid1))
+          // immutable
+          expect(tree.nodes).toBe(nodes)
+          // new value
+          expect(newTree.nodes.length).toBe(2)
+          expect(newTree.nodes[0]).toEqual(node)
+        })
+
+        it('1st generation before', () => {
+          const nodes = [{
+            uid: uid2,
+            path: [uid, uid1, uid2],
+            data: {
+              title: 'First grandchild'
+            }
+          }]
+
+          const tree = {
+            uid,
+            path: [uid],
+            data: {
+              title: 'Mr. Foo'
+            },
+            nodes: [{
+              uid: uid1,
+              path: [uid, uid1],
+              data: {
+                title: 'First child'
+              },
+              nodes
+            }]
+          }
+          const path = [uid, uid1]
+          const node = { uid: uid3, data: { title: 'new node' } }
+          const newTree = Tree2.doAction(tree, path, addNode(node, uid2))
+          // immutable
+          expect(tree.nodes[0].nodes).toBe(nodes)
+          // new value
+          expect(newTree.nodes[0].nodes.length).toBe(2)
+          expect(newTree.nodes[0].nodes[0]).toEqual(node)
+        })
+      })
+
+      describe('removeNode', () => {
+
+        it('1st generation', () => {
+
+          const tree = {
+            uid,
+            path: [uid],
+            data: {
+              title: 'Mr. Foo'
+            },
+            nodes: [{
+              uid: uid1,
+              path: [uid, uid1],
+              data: {
+                title: 'First child'
+              }
+            }]
+          }
+          const path = [uid]
+          const newTree = Tree2.doAction(tree, path, removeNode(uid1))
+          // immutable
+          expect(tree.nodes.length).toBe(1)
+          // new value
+          expect(newTree.nodes.length).toBe(0)
+        })
+
+        it('1st generation non existing', () => {
+
+          const tree = {
+            uid,
+            path: [uid],
+            data: {
+              title: 'Mr. Foo'
+            },
+            nodes: [{
+              uid: uid1,
+              path: [uid, uid1],
+              data: {
+                title: 'First child'
+              }
+            }]
+          }
+          const path = [uid]
+          const newTree = Tree2.doAction(tree, path, removeNode(uid2))
+          // immutable
+          expect(tree.nodes.length).toBe(1)
+          // new value
+          expect(newTree.nodes.length).toBe(1)
+        })
+      })
+
+      describe('createNode, addNode', () => {
+
+        it('1st generation before', () => {
+
+          const data = {
+            title: 'new node'
+          }
+
+          const tree = {
+            uid,
+            path: [uid],
+            data: {
+              title: 'Mr. Foo'
+            },
+            nodes: [{
+              uid: uid1,
+              path: [uid, uid1],
+              data: {
+                title: 'First child'
+              }
+            }]
+          }
+          const path = [uid, uid1]
+          const newTree = Tree2.doAction(tree, path, createNode(data), addNode(uid2))
+          // new value
+          expect(newTree.nodes[0].nodes.length).toBe(1)
+          expect(newTree.nodes[0].nodes[0].data.title).toBe('new node')
+        })
+      })
+
+      // @TODO: Allow chaining removeNode, createNode with different paths
+      describe('moveNode', () => {
+
+        it('1st generation', () => {
+
+          const tree = {
+            uid,
+            path: [uid],
+            data: {
+              title: 'Mr. Foo'
+            },
+            nodes: [
+              {
+                uid: uid1,
+                path: [uid, uid1],
+                data: {
+                  title: 'First child'
+                }
+              },
+              {
+                uid: uid2,
+                path: [uid, uid2],
+                data: {
+                  title: 'Second child'
+                }
+              }
+            ]
+          }
+          const node = Tree2.getNode(tree, [uid, uid1])
+          let newTree
+          newTree = Tree2.doAction(tree, [uid], removeNode(uid1))
+          newTree = Tree2.doAction(newTree, [uid], addNode(node))
+          // new value
+          expect(newTree.nodes.length).toBe(2)
+          expect(newTree.nodes[0].data.title).toBe('Second child')
+          expect(newTree.nodes[1].data.title).toBe('First child')
+        })
       })
     })
   })

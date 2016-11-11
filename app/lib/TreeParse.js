@@ -16,7 +16,7 @@ const TreeParse = {
     return parentPath
   },
 
-  _parseNode (nodeMap: NodeMap, parentPath: string[] = []) {
+  _parseNode (nodeMap: NodeMap, parentPath: string[] = []) : NodeMap {
     let map = nodeMap
     let id = map.get(idKey)
     let path = this._getPath(parentPath, id)

@@ -6,16 +6,29 @@ import type { Node, NodeMap, NodesList } from '../../flow/types'
 const idKey = 'uid'
 const nodesKey = 'nodes'
 
-function toJS (im: ?NodeMap) {
-  return im ? im.toJS() : {}
-}
-
 const Tree = {
 
+  doo (node: NodeMap, action: Function, prev: any) : NodeMap {
+    node = node.toJS()
+    node = action(node, prev)
+    return fromJS(node)
+  },
+
+  doos (node: NodeMap, actions: any) : any {
+    let result
+    for (let i = 0, l = actions.length; i < l; i++) {
+      result = this.doo(node, actions[i], result)
+    }
+    return result
+  },
+
   // do action or skip
-  skipOrDo (node: Node, action: Function, skip: Function = () => false) : Node {
-    if (!skip(node)) return action(node)
-    return node
+  skipOrDo (node: NodeMap, action: Function, skip: Function = () => false) : NodeMap {
+    node = node.toJS()
+    if (!skip(node)) {
+      node = action(node)
+    }
+    return fromJS(node)
   },
 
   // path index
@@ -45,16 +58,23 @@ const Tree = {
     return pathIndexes.reduce((prev, index) => prev.concat([nodesKey, index]), [])
   },
 
-  doAction (treeData: Node, path: string[], action: Function) {
+  getNode (treeData: Node, path: string[]) {
     let tree = fromJS(treeData)
     let indexPath = this.includeNodesKeyInPathIndexes(this.getPathIndexes(tree, path))
     let node = tree.getIn(indexPath)
-    node = this.skipOrDo(node, action)
-    tree = tree.setIn(indexPath, node)
-    return toJS(tree)
+    return node
   },
 
-  doActionRecursive (node: Node, action: Function, skip: Function) {
+  doAction (treeData: Node, path: string[], ...actions: any) {
+    let tree = fromJS(treeData)
+    let indexPath = this.includeNodesKeyInPathIndexes(this.getPathIndexes(tree, path))
+    let node = tree.getIn(indexPath)
+    node = this.doos(node, actions)
+    tree = tree.setIn(indexPath, node)
+    return tree.toJS()
+  },
+
+  doActionRecursive (node: NodeMap, action: Function, skip: Function) {
     node = this.skipOrDo(node, action, skip)
     let nodes: NodesList = node.get(nodesKey)
     if (List.isList(nodes)) {
@@ -69,7 +89,7 @@ const Tree = {
   doActionAll (treeData: Node, action: Function, skip: Function) {
     let tree = fromJS(treeData)
     tree = this.doActionRecursive(tree, action, skip)
-    return toJS(tree)
+    return tree.toJS()
   }
 }
 
