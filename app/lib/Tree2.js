@@ -90,6 +90,24 @@ const Tree = {
     let tree = fromJS(treeData)
     tree = this.doActionRecursive(tree, action, skip)
     return tree.toJS()
+  },
+
+  // depth first
+  findRecursive (node: Node, search: Function, parent?: Node, siblings?: Node[], index?: number) {
+    let found = []
+    if (search(node, parent, siblings, index)) found.push(node)
+    const nodes = node[nodesKey]
+    if (nodes) {
+      for (let i = 0, l = nodes.length; i < l; i++) {
+        const result = this.findRecursive(nodes[i], search, node, nodes, i)
+        found = found.concat(result)
+      }
+    }
+    return found
+  },
+
+  find (treeData: Node, search: Function = () => false) {
+    return this.findRecursive(treeData, search, null)
   }
 }
 

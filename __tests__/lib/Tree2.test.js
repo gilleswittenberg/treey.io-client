@@ -8,6 +8,7 @@ describe('Tree2', () => {
   const uid1 = '57bedc40e81b0620300d7691'
   const uid2 = '57bedc40e81b0620300d7692'
   const uid3 = '57bedc40e81b0620300d7693'
+  const uid4 = '57bedc40e81b0620300d7694'
 
   describe('doActionAll', () => {
 
@@ -286,6 +287,91 @@ describe('Tree2', () => {
 
     it('indexes', () => {
       expect(Tree2.includeNodesKeyInPathIndexes([0, 1])).toEqual(['nodes', 0, 'nodes', 1])
+    })
+  })
+
+  describe('find', () => {
+
+    describe('property', () => {
+
+      it('root false', () => {
+        const tree = {
+          active: true
+        }
+        expect(Tree2.find(tree)).toEqual([])
+      })
+
+      it('root', () => {
+        const tree = {
+          active: true
+        }
+        expect(Tree2.find(tree, node => node.active)).toEqual([tree])
+      })
+
+      it('first generation', () => {
+        const tree = {
+          nodes: [
+            { uid: uid1, active: true },
+            { uid: uid2, active: false },
+            { uid: uid3, active: true }
+          ]
+        }
+        expect(Tree2.find(tree, node => node.active)).toEqual([{ uid: uid1, active: true }, { uid: uid3, active: true }])
+      })
+
+      it('2nd generation', () => {
+        const tree = {
+          nodes: [
+            { uid: uid1, active: true },
+            {
+              uid: uid2,
+              active: false,
+              nodes: [
+                { uid: uid3, active: false },
+                { uid: uid4, active: true }
+              ]
+            }
+          ]
+        }
+        expect(Tree2.find(tree, node => node.active)).toEqual([{ uid: uid1, active: true }, { uid: uid4, active: true }])
+      })
+    })
+
+    describe('parent', () => {
+
+      it('root', () => {
+        const tree = {
+          uid,
+          nodes: [
+            { uid: uid1 },
+            { uid: uid2 },
+            { uid: uid3 }
+          ]
+        }
+        expect(Tree2.find(tree, (node, parent) => parent && parent.uid === uid)).toEqual([
+          { uid: uid1 }, { uid: uid2 }, { uid: uid3 }
+        ])
+      })
+    })
+
+    describe('parent, sibling', () => {
+
+      it('root', () => {
+        const tree = {
+          uid,
+          nodes: [
+            { uid: uid1 },
+            { uid: uid2 },
+            { uid: uid3 }
+          ]
+        }
+        expect(Tree2.find(tree, (node, parent, siblings, index) => {
+          if (!parent || parent.uid !== uid) return false
+          const prevSibling = siblings[index - 1]
+          if (!prevSibling || prevSibling.uid !== uid1) return false
+          return true
+        })).toEqual([{ uid: uid2 }])
+      })
     })
   })
 
