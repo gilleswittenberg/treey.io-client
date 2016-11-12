@@ -47,6 +47,28 @@ export function indexNodes (tree: any) {
   }
 }
 
+export const UPDATE_NODE_UI = 'UPDATE_NODE_UI'
+export function updateNodeUI (path: string[], key: string, value: boolean) {
+  return {
+    type: UPDATE_NODE_UI,
+    data: {
+      path,
+      key,
+      value
+    }
+  }
+}
+
+export const SET_NEXT_UI_ACTIVE = 'SET_NEXT_UI_ACTIVE'
+export function setNextUIActive (path: string[]) {
+  return {
+    type: SET_NEXT_UI_ACTIVE,
+    data: {
+      path
+    }
+  }
+}
+
 export const GET_NODES = 'GET_NODES'
 export function getNodes (uid: string) {
   return function (dispatch: () => void) {

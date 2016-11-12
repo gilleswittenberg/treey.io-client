@@ -1,10 +1,17 @@
-import type { NodeData, NodeMap } from '../../flow/types'
+import type { NodeData, Node, NodeMap } from '../../flow/types'
 
 const nodesKey = 'nodes'
 
 export const updateNode = (data: NodeData) => {
   return function (node: Node) : Node {
     node.data = data
+    return node
+  }
+}
+
+export const updateNodeUI = (key: string, value: boolean) => {
+  return function (node: Node) : Node {
+    node.nodeUi[key] = value
     return node
   }
 }

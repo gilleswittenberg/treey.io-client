@@ -29,7 +29,7 @@ const TreeParse = {
       map = map.set(nodesKey, nodesList)
     }
     const ui = { expanded: false, active: false, dragging: false, hasButtonsShown: false, editing: false, movingChild: false }
-    map = map.set('ui', ui)
+    map = map.set('nodeUi', ui)
     return map
   },
 

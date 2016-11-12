@@ -15,6 +15,7 @@ describe('NodeWrap', () => {
     data: {
       title: ''
     },
+    nodeUi: {},
     isRoot: false,
     nodes: [],
     siblings: [],

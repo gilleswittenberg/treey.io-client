@@ -43,6 +43,7 @@ type NodesActionType =
   'STOP_SYNCING' |
   'HAS_ERRORS' |
   'INDEX_NODES' |
+  'UPDATE_NODE_UI' |
   'GET_NODES' |
   'ADD_NODE' |
   'POST_NODE' |
@@ -57,11 +58,14 @@ export type NodesAction = {
   type: NodesActionType,
   data: {
     tree: any,
+    path: string[],
     parent: string,
     node: NodeData,
     uid: string,
     newParent: string,
-    before: string
+    before: string,
+    key: string,
+    value: boolean
   }
 }
 

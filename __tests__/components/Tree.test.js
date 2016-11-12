@@ -16,6 +16,7 @@ describe('Tree', () => {
     },
     ...defaultActions,
     tree: null,
+    updateNodeUI: noop,
     unsetIsEditing: noop
   }
   const getComponent = getComponentHOF(Tree.DecoratedComponent, defaultProps)
@@ -30,7 +31,8 @@ describe('Tree', () => {
     it('nodes', () => {
       const tree = {
         uid: uid1,
-        nodes: [uid2]
+        nodes: [uid2],
+        nodeUi: {}
       }
       const wrapper = shallow(getComponent({ tree }))
       expect(wrapper.find('Nodes').length).toBe(1)
@@ -42,15 +44,17 @@ describe('Tree', () => {
         data: {
           title: 'John Doe'
         },
+        nodeUi: {},
         nodes: [
           {
             uid: '57bedc40e81b0620300d769b',
             data: {
               title: 'ToDo'
             },
+            nodeUi: {},
             nodes: [
-              { uid: '57ebc46eb0bf9b00106a3c5e', data: { title: 'bring home the milk' } },
-              { uid: '57ebc46eb0bf9b00106a3c5f', data: { title: 'clean the house' } }
+              { uid: '57ebc46eb0bf9b00106a3c5e', data: { title: 'bring home the milk' }, nodeUi: {} },
+              { uid: '57ebc46eb0bf9b00106a3c5f', data: { title: 'clean the house' }, nodeUi: {} }
             ]
           },
           {
@@ -58,10 +62,11 @@ describe('Tree', () => {
             data: {
               title: 'Movies'
             },
+            nodeUi: {},
             nodes: [
-              { uid: '57ebc46eb0bf9b00106a3c60', data: { title: 'Star Wars: Episode IV - A New Hope (1977)' } },
-              { uid: '57ebc46eb0bf9b00106a3c62', data: { title: 'The Terminator (1984)' } },
-              { uid: '57ebc46eb0bf9b00106a3c61', data: { title: 'The Matrix (1999)' } }
+              { uid: '57ebc46eb0bf9b00106a3c60', data: { title: 'Star Wars: Episode IV - A New Hope (1977)' }, nodeUi: {} },
+              { uid: '57ebc46eb0bf9b00106a3c62', data: { title: 'The Terminator (1984)' }, nodeUi: {} },
+              { uid: '57ebc46eb0bf9b00106a3c61', data: { title: 'The Matrix (1999)' }, nodeUi: {} }
             ]
           }
         ]
@@ -73,11 +78,11 @@ describe('Tree', () => {
 
     it('componentWillReceiveProps', () => {
 
-      const setIsActive = jest.fn()
-      const wrapper = shallow(getComponent({ setIsActive }))
+      const updateNodeUI = jest.fn()
+      const wrapper = shallow(getComponent({ updateNodeUI }))
       const tree = { uid: uid1 }
       wrapper.setProps({ tree })
-      expect(setIsActive.mock.calls.length).toBe(1)
+      expect(updateNodeUI.mock.calls.length).toBe(1)
     })
   })
 })

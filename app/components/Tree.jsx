@@ -14,7 +14,8 @@ class Tree extends Component {
     enableDnD: PropTypes.bool,
     tree: PropTypes.object,
     unsetIsEditing: PropTypes.func.isRequired,
-    setIsActive: PropTypes.func.isRequired
+    setIsActive: PropTypes.func.isRequired,
+    updateNodeUI: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -23,9 +24,10 @@ class Tree extends Component {
   }
 
   componentWillReceiveProps (nextProps: any) {
-    const { tree, setIsActive } = this.props
+    const { tree, updateNodeUI } = this.props
     if (tree === null && nextProps.tree) {
-      setIsActive(nextProps.tree.uid)
+      const { tree: { path } } = nextProps
+      updateNodeUI(path, 'active', true)
     }
   }
 
@@ -39,6 +41,9 @@ class Tree extends Component {
     if (event.keyCode === 27) { // esc
       const { unsetIsEditing } = this.props
       unsetIsEditing()
+    } else if (event.keyCode === 40) {
+      const { tree: { path }, setNextActive } = this.props
+      setNextActive(path)
     }
   }
 

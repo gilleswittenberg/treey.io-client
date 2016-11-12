@@ -63,6 +63,7 @@ export default class Nodes extends Component {
               { ...nodeWrapProps }
               uid={ node.uid }
               data={ node.data }
+              nodeUi={ node.nodeUi }
               nodes={ node.nodes }
               siblings={ nodes }
               index={ index }

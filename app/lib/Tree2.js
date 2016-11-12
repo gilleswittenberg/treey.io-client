@@ -86,7 +86,7 @@ const Tree = {
     return node
   },
 
-  doActionAll (treeData: Node, action: Function, skip: Function) {
+  doActionAll (treeData: Node, action: Function, skip?: Function) {
     let tree = fromJS(treeData)
     tree = this.doActionRecursive(tree, action, skip)
     return tree.toJS()

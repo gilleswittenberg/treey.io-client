@@ -7,7 +7,7 @@ import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
 // @TODO: Use original names
 import {
-  isActive,
+  // isActive,
   isEditing as isEditingFunc,
   isMovingChild as isMovingChildFunc,
   isDragging as isDraggingFunc,
@@ -19,6 +19,7 @@ export default class NodeWrap extends Component {
   static propTypes = {
     enableDnD: PropTypes.bool,
     ui: PropTypes.object.isRequired,
+    nodeUi: PropTypes.object.isRequired,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
@@ -39,10 +40,12 @@ export default class NodeWrap extends Component {
     isOverPosition: -1
   }
 
+  /*
   isActive () : bool {
     const { ui, uid } = this.props
     return isActive(ui, uid)
   }
+  */
 
   isEditing () : bool {
     const { ui, uid } = this.props
@@ -78,10 +81,11 @@ export default class NodeWrap extends Component {
 
     const {
       enableDnD,
-      uid
+      uid,
+      nodeUi
     } = this.props
 
-    const isActive = this.isActive()
+    const isActive = nodeUi ? nodeUi.active : false
     const isEditing = this.isEditing()
     const isMovingChild = this.isMovingChild()
     const isAdding = this.isAdding()
