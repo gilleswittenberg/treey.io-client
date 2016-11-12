@@ -54,7 +54,7 @@ export default class NodeAdd extends Component {
 
     event.preventDefault()
 
-    const { parent, postNode, unsetIsEditing, expand } = this.props
+    const { parent, postNode, unsetIsEditing, updateNodeUI } = this.props
     const { title } = this.state
     const titleTrimmed = title.trim()
 
@@ -69,7 +69,7 @@ export default class NodeAdd extends Component {
     postNode(parent, data)
 
     // expand to open node that had no children before
-    expand(parent)
+    updateNodeUI(parent.path, 'expanded', true)
   }
 
   render () {

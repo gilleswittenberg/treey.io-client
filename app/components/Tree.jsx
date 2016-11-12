@@ -15,7 +15,8 @@ class Tree extends Component {
     tree: PropTypes.object,
     unsetIsEditing: PropTypes.func.isRequired,
     setIsActive: PropTypes.func.isRequired,
-    updateNodeUI: PropTypes.func.isRequired
+    setNextUIActive: PropTypes.func.isRequired,
+    setPrevUIActive: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -28,6 +29,7 @@ class Tree extends Component {
     if (tree === null && nextProps.tree) {
       const { tree: { path } } = nextProps
       updateNodeUI(path, 'active', true)
+      updateNodeUI(path, 'expanded', true)
     }
   }
 
@@ -42,8 +44,11 @@ class Tree extends Component {
       const { unsetIsEditing } = this.props
       unsetIsEditing()
     } else if (event.keyCode === 40) {
-      const { tree: { path }, setNextActive } = this.props
-      setNextActive(path)
+      const { setNextUIActive } = this.props
+      setNextUIActive()
+    } else if (event.keyCode === 38) {
+      const { setPrevUIActive } = this.props
+      setPrevUIActive()
     }
   }
 

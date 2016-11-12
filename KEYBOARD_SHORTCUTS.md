@@ -8,8 +8,11 @@
 - esc               exit editing / adding
 - D                 delete
 - +                 add child
-- U                 undo 
+- U                 undo
 
 # keyboard + mouse
 
+- cmd + click       select / active
 - alt + click       edit
+- select drag       select / active multiple
+- shift + ↓, ↑      select / active multiple

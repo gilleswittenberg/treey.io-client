@@ -57,6 +57,7 @@ class NodeDroppable extends Component {
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
+    path: PropTypes.array.isRequired,
     hasNodes: PropTypes.bool.isRequired,
     siblings: PropTypes.array.isRequired,
     index: PropTypes.number.isRequired,

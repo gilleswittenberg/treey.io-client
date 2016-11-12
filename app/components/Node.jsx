@@ -21,11 +21,12 @@ export default class Node extends Component {
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
+    path: PropTypes.array.isRequired,
     hasNodes: PropTypes.bool.isRequired,
     isOver: PropTypes.bool,
     unsetIsEditing: PropTypes.func.isRequired,
     setIsEditing: PropTypes.func.isRequired,
-    toggleExpanded: PropTypes.func.isRequired,
+    updateNodeUI: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired,
     setShowButtons: PropTypes.func.isRequired
   }
@@ -47,13 +48,13 @@ export default class Node extends Component {
     }
     // regular click to collapse or expand
     else {
-      const { unsetIsEditing, toggleExpanded, uid  } = this.props
+      const { unsetIsEditing, updateNodeUI, nodeUi: { expanded }, path } = this.props
       unsetIsEditing()
       // guard
       if (!this.canExpand()) {
         return
       }
-      toggleExpanded(uid)
+      updateNodeUI(path, 'expanded', !expanded)
     }
   }
 

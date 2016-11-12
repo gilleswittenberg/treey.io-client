@@ -60,12 +60,15 @@ export function updateNodeUI (path: string[], key: string, value: boolean) {
 }
 
 export const SET_NEXT_UI_ACTIVE = 'SET_NEXT_UI_ACTIVE'
-export function setNextUIActive (path: string[]) {
+export function setNextUIActive () {
   return {
-    type: SET_NEXT_UI_ACTIVE,
-    data: {
-      path
-    }
+    type: SET_NEXT_UI_ACTIVE
+  }
+}
+export const SET_PREV_UI_ACTIVE = 'SET_PREV_UI_ACTIVE'
+export function setPrevUIActive () {
+  return {
+    type: SET_PREV_UI_ACTIVE
   }
 }
 

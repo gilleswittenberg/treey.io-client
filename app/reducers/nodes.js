@@ -42,10 +42,31 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     return { ...state, tree }
 
   case types.SET_NEXT_UI_ACTIVE:
+  case types.SET_PREV_UI_ACTIVE:
     if (state.tree) {
-      // const next = Tree2.getNextExpanded()
+      const active = Tree2.find(state.tree, (node) => {
+        return node.nodeUi.active === true
+      })[0]
+      const search = (node, parent) => {
+        const parentVisible = parent && parent.nodeUi.expanded === true
+        const visible = node.nodeUi.expanded === true
+        return parentVisible || visible
+      }
+      const visible = Tree2.find(state.tree, search)
+      const index = visible.findIndex(node => node.path === active.path)
+      let indexNext
+      if (action.type === types.SET_NEXT_UI_ACTIVE) {
+        indexNext = index + 1 < visible.length ? index + 1 : 0
+      } else {
+        indexNext = index - 1 >= 0 ? index - 1 : visible.length - 1
+      }
+      const next = visible[indexNext]
       tree = Tree2.doActionAll(state.tree, node => {
-        if (node.ui) node.ui.active = false
+        if (node.nodeUi) node.nodeUi.active = false
+        return node
+      })
+      tree = Tree2.doAction(tree, next.path, node => {
+        node.nodeUi.active = true
         return node
       })
     } else {

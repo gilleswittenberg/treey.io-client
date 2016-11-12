@@ -19,9 +19,9 @@ const DropSpec = {
       parent: parentDraggable,
       uid: uidDraggable
     } = item
-    const { uid, putMoveNode, expand } = props // NodeDroppable props
+    const { uid, path, putMoveNode, updateNodeUI } = props // NodeDroppable props
     putMoveNode(parentDraggable, uidDraggable, uid)
-    expand(uid)
+    updateNodeUI(path, 'expanded', true)
   }
 }
 

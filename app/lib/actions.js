@@ -39,7 +39,9 @@ import {
   postNode,
   putNode,
   deleteNode,
-  putMoveNode
+  putMoveNode,
+  setNextUIActive,
+  setPrevUIActive
 } from '../actions/nodes'
 
 let nodesActions = {
@@ -47,7 +49,9 @@ let nodesActions = {
   postNode,
   putNode,
   deleteNode,
-  putMoveNode
+  putMoveNode,
+  setNextUIActive,
+  setPrevUIActive
 }
 let uiActions = {
   setIsActive,

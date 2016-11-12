@@ -5,13 +5,11 @@ import classNames from 'classnames'
 import NodeDroppable from '../components/NodeDroppable'
 import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
-// @TODO: Use original names
+// @TODO: Remove
 import {
-  // isActive,
   isEditing as isEditingFunc,
   isMovingChild as isMovingChildFunc,
-  isDragging as isDraggingFunc,
-  isExpanded as isExpandedFunc
+  isDragging as isDraggingFunc
 } from '../reducers/ui'
 
 export default class NodeWrap extends Component {
@@ -22,6 +20,7 @@ export default class NodeWrap extends Component {
     nodeUi: PropTypes.object.isRequired,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
+    path: PropTypes.array.isRequired,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     nodes: PropTypes.array,
@@ -39,13 +38,6 @@ export default class NodeWrap extends Component {
   state = {
     isOverPosition: -1
   }
-
-  /*
-  isActive () : bool {
-    const { ui, uid } = this.props
-    return isActive(ui, uid)
-  }
-  */
 
   isEditing () : bool {
     const { ui, uid } = this.props
@@ -67,11 +59,6 @@ export default class NodeWrap extends Component {
     return isDraggingFunc(ui, uid)
   }
 
-  isExpanded () : bool {
-    const { ui, uid } = this.props
-    return uid !== null && isExpandedFunc(ui, uid)
-  }
-
   hasNodes () : bool {
     const { nodes } = this.props
     return Array.isArray(nodes) && nodes.length > 0
@@ -90,7 +77,7 @@ export default class NodeWrap extends Component {
     const isMovingChild = this.isMovingChild()
     const isAdding = this.isAdding()
     const isDragging = this.isDragging()
-    const isExpanded = this.isExpanded()
+    const isExpanded = nodeUi ? nodeUi.expanded : false
     const hasNodes = this.hasNodes()
 
     const className = classNames(
