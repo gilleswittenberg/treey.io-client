@@ -18,6 +18,9 @@ export default class Node extends Component {
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
     path: PropTypes.array.isRequired,
+    data: PropTypes.object.isRequired,
+    // @TODO: Use shape
+    ui: PropTypes.object.isRequired,
     hasNodes: PropTypes.bool.isRequired,
     isOver: PropTypes.bool,
     clearNodeUI: PropTypes.func.isRequired,
@@ -94,14 +97,17 @@ export default class Node extends Component {
       lang,
       isRoot,
       hasNodes,
-      ui,
+      ui: {
+        buttonsShown,
+        dragging
+      },
       userIsDragging
     } = this.props
 
     const showAddButton = !hasNodes
     const showDeleteButton = !isRoot
-    const hasButtonsShown = ui && ui.buttonsShown === true
-    const isDragging = ui && ui.dragging === true
+    const hasButtonsShown = buttonsShown
+    const isDragging = dragging
     const showMoveChildButton = userIsDragging && !hasNodes
 
     const className = classNames(

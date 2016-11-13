@@ -11,6 +11,7 @@ export default class NodeWrap extends Component {
   static propTypes = {
     enableDnD: PropTypes.bool,
     app: PropTypes.object.isRequired,
+    // @TODO: use shape
     ui: PropTypes.object.isRequired,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
@@ -71,6 +72,7 @@ export default class NodeWrap extends Component {
 
     const nodeDroppableProps = { ...this.props, hasNodes }
     const nodeEditProps = { ...this.props }
+    // @TODO: Clean up
     nodeEditProps.title = nodeEditProps.data.title
     const nodesProps = { ...this.props, parent: uid, hasNodes }
 

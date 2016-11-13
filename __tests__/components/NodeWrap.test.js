@@ -38,7 +38,6 @@ describe('NodeWrap', () => {
       expect(wrapper.find('NodeDroppableDecorated').length).toBe(1)
     })
 
-
     it('Nodes', () => {
       const wrapper = shallow(getComponent())
       expect(wrapper.find('Nodes').length).toBe(1)

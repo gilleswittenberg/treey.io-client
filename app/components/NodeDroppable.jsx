@@ -57,6 +57,8 @@ class NodeDroppable extends Component {
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
     path: PropTypes.array.isRequired,
+    // @TODO: use shape
+    ui: PropTypes.object.isRequired,
     hasNodes: PropTypes.bool.isRequired,
     siblings: PropTypes.array.isRequired,
     index: PropTypes.number.isRequired,
@@ -114,13 +116,12 @@ class NodeDroppable extends Component {
   render () {
 
     const {
-      ui,
+      ui: { movingChild },
       connectDropTarget
     } = this.props
 
-    const isMovingChild = ui && ui.movingChild === true
-    const showNodeOverTop = this.showNodeOverTop() && !isMovingChild
-    const showNodeOverBottom = this.showNodeOverBottom() && !isMovingChild
+    const showNodeOverTop = this.showNodeOverTop() && !movingChild
+    const showNodeOverBottom = this.showNodeOverBottom() && !movingChild
 
     const nodeProps = { ...this.props }
 

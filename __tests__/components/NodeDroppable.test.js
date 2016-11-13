@@ -4,7 +4,9 @@ import NodeDraggable from '../../app/components/NodeDraggable'
 import TestBackend from 'react-dnd-test-backend'
 import { DragDropContext } from 'react-dnd'
 import { mount } from 'enzyme'
+import { defaultNodeUI } from '../../app/lib/TreeParse'
 import noop from '../noop'
+
 
 // Wraps a component into a DragDropContext that uses the TestBackend.
 function wrapInTestContext (DecoratedDraggableComponent, DecoratedDroppableComponent, propsDraggable, propsDroppable) {
@@ -24,9 +26,11 @@ function wrapInTestContext (DecoratedDraggableComponent, DecoratedDroppableCompo
 
 describe('NodeDroppable', () => {
 
+  const ui = defaultNodeUI
   const uid1 = '57bedc40e81b0620300d7691'
   const uid2 = '57bedc40e81b0620300d7692'
   const uid3 = '57bedc40e81b0620300d7693'
+
   const defaultPropsDraggable = {
     parent: null,
     isRoot: false,
@@ -35,6 +39,7 @@ describe('NodeDroppable', () => {
     data: {
       title: 'node draggable'
     },
+    ui,
     siblings: [{ uid: uid1 }],
     index: 0,
     clearNodeUI: noop,
@@ -51,6 +56,7 @@ describe('NodeDroppable', () => {
     data: {
       title: 'node droppable'
     },
+    ui,
     hasNodes: false,
     siblings: [{ uid: uid2 }],
     index: 0,

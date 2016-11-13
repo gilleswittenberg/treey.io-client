@@ -10,6 +10,8 @@ export default class Nodes extends Component {
   static propTypes = {
     enableDnD: PropTypes.bool,
     parent: PropTypes.string,
+    // @TODO: Use shape
+    ui: PropTypes.object,
     nodes: PropTypes.array,
     hasNodes: PropTypes.bool
   }
@@ -17,6 +19,7 @@ export default class Nodes extends Component {
   static defaultProps = {
     enableDnD: false,
     parent: null,
+    ui: {},
     nodes: [],
     hasNodes: false
   }
@@ -30,19 +33,18 @@ export default class Nodes extends Component {
     const {
       nodes,
       hasNodes,
-      ui
+      // @TODO: check is this works
+      ui: { adding, movingChild }
     } = this.props
 
     const isRoot = this.isRoot()
     const hasNodeAdd = !isRoot
-    const isAdding = ui && ui.adding === true
 
-    const isMovingChild = ui && ui.movingChild === true
-    const showNodeMoveChild = !hasNodes && isMovingChild
-    const showNodeAdd = hasNodeAdd && !isMovingChild
+    const showNodeMoveChild = !hasNodes && movingChild
+    const showNodeAdd = hasNodeAdd && !movingChild
 
     const nodeWrapProps = { ...this.props, isRoot }
-    const nodeAddProps = { ...this.props, isEditing: isAdding }
+    const nodeAddProps = { ...this.props, isEditing: adding }
 
     return (
       <ul>
