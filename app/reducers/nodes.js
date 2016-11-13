@@ -11,11 +11,13 @@ import type { NodesState, NodesAction } from '../../flow/types'
 export const defaultState: NodesState = {
   isSyncing: false,
   hasErrors: false,
-  tree: null
+  tree: null,
+  userIsDragging: false
 }
 
 export default function nodes (state: NodesState = defaultState, action: NodesAction) {
   let tree
+  let userIsDragging
 
   // backend
   switch (action.type) {
@@ -35,11 +37,12 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
   case types.CLEAR_NODE_UI:
     if (state.tree) {
       tree = Tree2.doActionAll(state.tree, updateNodeUI(action.data.key, false))
+      userIsDragging = action.data.key === 'dragging' ? false : state.userIsDragging
     } else {
       // @TODO: Clean up (@flow)
       tree = state.tree
     }
-    return { ...state, tree }
+    return { ...state, userIsDragging, tree }
 
   case types.UPDATE_NODE_UI:
     if (state.tree) {

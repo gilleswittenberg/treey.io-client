@@ -17,23 +17,6 @@ export function unsetIsActive () {
   }
 }
 
-export const SET_IS_DRAGGING = 'SET_IS_DRAGGING'
-export function setIsDragging (uid: string) {
-  return {
-    type: SET_IS_DRAGGING,
-    data: {
-      uid
-    }
-  }
-}
-
-export const UNSET_IS_DRAGGING = 'UNSET_IS_DRAGGING'
-export function unsetIsDragging () {
-  return {
-    type: UNSET_IS_DRAGGING
-  }
-}
-
 export const INIT_EXPANDED = 'INIT_EXPANDED'
 export function initExpanded (expanded: string[]) {
   return {

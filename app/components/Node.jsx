@@ -7,9 +7,6 @@ import ButtonIcon from './ButtonIcon'
 import ButtonMoveChild from './ButtonMoveChild'
 import NodeDraggable from './NodeDraggable'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
-import {
-  isDragging as isDraggingFunc
-} from '../reducers/ui'
 
 export default class Node extends Component {
 
@@ -90,16 +87,6 @@ export default class Node extends Component {
     return this.props.hasNodes
   }
 
-  isDragging () : bool {
-    const { ui, uid } = this.props
-    return isDraggingFunc(ui, uid)
-  }
-
-  userIsDragging () : bool {
-    const { ui: { dragging } } = this.props
-    return dragging !== null
-  }
-
   render () {
 
     const {
@@ -107,14 +94,15 @@ export default class Node extends Component {
       lang,
       isRoot,
       hasNodes,
-      nodeUi
+      nodeUi,
+      userIsDragging
     } = this.props
 
     const showAddButton = !hasNodes
     const showDeleteButton = !isRoot
     const hasButtonsShown = nodeUi && nodeUi.showButtons === true
-    const isDragging = this.isDragging()
-    const showMoveChildButton = this.userIsDragging() && !hasNodes
+    const isDragging = nodeUi && nodeUi.dragging === true
+    const showMoveChildButton = userIsDragging && !hasNodes
 
     const className = classNames(
       'node-body',

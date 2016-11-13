@@ -3,10 +3,6 @@
 import noop from './noop'
 
 export const defaultActions = {
-  // @TODO: remove
-  setIsDragging: noop,
-  unsetIsDragging: noop,
-
   postNode: noop,
   putNode: noop,
   deleteNode: noop,
@@ -19,11 +15,6 @@ export const defaultActions = {
 }
 
 import { bindActionCreators } from 'redux'
-import {
-  // @TODO: remove
-  setIsDragging,
-  unsetIsDragging
-} from '../actions/ui'
 import {
   postNode,
   putNode,
@@ -47,16 +38,9 @@ let nodesActions = {
   setNextUIActive,
   setPrevUIActive
 }
-// @TODO: remove
-let uiActions = {
-  setIsDragging,
-  unsetIsDragging
-}
 
 export default function (dispatch: any) {
 
-  // @TODO: remove
-  const uiActionsBound = bindActionCreators(uiActions, dispatch)
   const nodesActionsBound = bindActionCreators(nodesActions, dispatch)
-  return { ...uiActionsBound, ...nodesActionsBound }
+  return { ...nodesActionsBound }
 }

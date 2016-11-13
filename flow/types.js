@@ -35,7 +35,8 @@ export type State = {
 export type NodesState = {
   isSyncing: boolean,
   hasErrors: boolean,
-  tree: ?Node
+  tree: ?Node,
+  userIsDragging: boolean
 }
 
 type NodesActionType =
@@ -91,13 +92,7 @@ export type UIAction = {
 
 export type UIState = {
   lang: string,
-  enableDnD: bool,
-  active: ?string,
-  editing: ?string,
-  movingChild: ?string,
-  dragging: ?string,
-  showButtons: ?string,
-  expanded: string[]
+  enableDnD: bool
 }
 
 export type HoverRegion = 'top' | 'bottom'
