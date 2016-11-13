@@ -4,8 +4,6 @@ import noop from './noop'
 
 export const defaultActions = {
   // @TODO: remove
-  setIsMovingChild: noop,
-  unsetIsMovingChild: noop,
   setIsDragging: noop,
   unsetIsDragging: noop,
 
@@ -23,8 +21,6 @@ export const defaultActions = {
 import { bindActionCreators } from 'redux'
 import {
   // @TODO: remove
-  setIsMovingChild,
-  unsetIsMovingChild,
   setIsDragging,
   unsetIsDragging
 } from '../actions/ui'
@@ -53,8 +49,6 @@ let nodesActions = {
 }
 // @TODO: remove
 let uiActions = {
-  setIsMovingChild,
-  unsetIsMovingChild,
   setIsDragging,
   unsetIsDragging
 }

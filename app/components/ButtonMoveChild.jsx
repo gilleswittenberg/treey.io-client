@@ -9,8 +9,8 @@ import classNames from 'classnames'
 const DropSpec = {
 
   hover (props) {
-    const { uid, setIsMovingChild } = props
-    setIsMovingChild(uid)
+    const { path, updateNodeUI } = props
+    updateNodeUI(path, 'movingChild', true)
   },
 
   drop (props, monitor) {
@@ -29,6 +29,8 @@ class ButtonMoveChild extends Component {
 
   static propTypes = {
     lang: PropTypes.string,
+    updateNodeUI: PropTypes.func.isRequired,
+    clearNodeUI: PropTypes.func.isRequired,
     // Injected by React DnD DropTarget
     connectDropTarget: PropTypes.func,
     isOver: PropTypes.bool
@@ -40,9 +42,9 @@ class ButtonMoveChild extends Component {
 
   // logic for hover out
   componentWillReceiveProps (nextProps: any) {
-    const { isOver, unsetIsMovingChild } = this.props
+    const { isOver, clearNodeUI } = this.props
     if (nextProps.isOver === false && isOver === true) {
-      unsetIsMovingChild()
+      clearNodeUI('movingChild')
     }
   }
 
