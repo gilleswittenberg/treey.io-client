@@ -77,9 +77,6 @@ export default class NodeAdd extends Component {
 
     const { lang, nodeUi: { adding } } = this.props
     const { title: value } = this.state
-    if (adding === true) {
-      console.log(this.props.uid)
-    }
 
     const className = classNames(
       'node',

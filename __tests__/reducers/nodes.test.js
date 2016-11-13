@@ -45,6 +45,8 @@ describe('nodes reducer', () => {
       ]
     }
 
+    // @TODO enable
+    /*
     const ui = { expanded: false, active: false, dragging: false, hasButtonsShown: false, editing: false, movingChild: false }
 
     const parsedTree = {
@@ -125,9 +127,11 @@ describe('nodes reducer', () => {
         }
       ]
     }
+    */
 
     const state2 = reducer(state, { type: INDEX_NODES, data: { tree } })
-    //expect(state2.tree).toEqual(parsedTree)
+    // @TODO enable
+    // expect(state2.tree).toEqual(parsedTree)
     const state3 = reducer(state2, { type: ADD_NODE, data: {
       parent: '57bedc40e81b0620300d769a',
       node: { uid: '57bedc40e81b0620300d7690', title: 'new' } }
