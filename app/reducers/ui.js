@@ -16,7 +16,6 @@ export const defaultState: UIState = {
   editing: null,
   movingChild: null,
   dragging: null,
-  showButtons: null,
   expanded: []
 }
 
@@ -67,12 +66,6 @@ export default function nodes (state: UIState = defaultState, action: UIAction) 
   case types.UNSET_IS_DRAGGING:
     return { ...state, dragging: null }
 
-  // showButtons
-  case types.SET_SHOW_BUTTONS:
-    return { ...state, showButtons: action.data.uid }
-  case types.UNSET_SHOW_BUTTONS:
-    return { ...state, showButtons: null }
-
   default:
     return state
   }
@@ -103,12 +96,6 @@ export function isDragging (state: UIState, uid: ?string) : boolean {
   // guard
   if (uid == null) return false
   return state.dragging === uid
-}
-
-export function hasButtonsShown (state: UIState, uid: ?string) : boolean {
-  // guard
-  if (uid == null) return false
-  return state.showButtons === uid
 }
 
 export function isExpanded (state: UIState, uid: string) : boolean {

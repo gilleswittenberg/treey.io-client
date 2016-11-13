@@ -22,7 +22,7 @@ export const createNode = (data: NodeData) => {
       uid: null,
       path: null,
       data,
-      ui: { expanded: false, active: false, dragging: false, hasButtonsShown: false, editing: false, movingChild: false }
+      ui: { expanded: false, active: false, dragging: false, showButtons: false, editing: false, movingChild: false }
     }
   }
 }

@@ -8,7 +8,6 @@ import ButtonMoveChild from './ButtonMoveChild'
 import NodeDraggable from './NodeDraggable'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 import {
-  hasButtonsShown as hasButtonsShownFunc,
   isDragging as isDraggingFunc
 } from '../reducers/ui'
 
@@ -26,8 +25,7 @@ export default class Node extends Component {
     isOver: PropTypes.bool,
     clearNodeUI: PropTypes.func.isRequired,
     updateNodeUI: PropTypes.func.isRequired,
-    deleteNode: PropTypes.func.isRequired,
-    setShowButtons: PropTypes.func.isRequired
+    deleteNode: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -83,17 +81,13 @@ export default class Node extends Component {
   @autobind
   handleClickShowButtons (event: Event) {
     event.stopPropagation()
-    const { uid, setShowButtons } = this.props
-    setShowButtons(uid)
+    const { path, clearNodeUI, updateNodeUI } = this.props
+    clearNodeUI('showButtons')
+    updateNodeUI(path)
   }
 
   canExpand () : bool {
     return this.props.hasNodes
-  }
-
-  hasButtonsShown () : bool {
-    const { ui, uid } = this.props
-    return hasButtonsShownFunc(ui, uid)
   }
 
   isDragging () : bool {
@@ -112,12 +106,13 @@ export default class Node extends Component {
       enableDnD,
       lang,
       isRoot,
-      hasNodes
+      hasNodes,
+      nodeUi
     } = this.props
 
     const showAddButton = !hasNodes
     const showDeleteButton = !isRoot
-    const hasButtonsShown = this.hasButtonsShown()
+    const hasButtonsShown = nodeUi && nodeUi.showButtons === true
     const isDragging = this.isDragging()
     const showMoveChildButton = this.userIsDragging() && !hasNodes
 

@@ -8,7 +8,6 @@ export const defaultActions = {
   unsetIsMovingChild: noop,
   setIsDragging: noop,
   unsetIsDragging: noop,
-  setShowButtons: noop,
 
   postNode: noop,
   putNode: noop,
@@ -27,8 +26,7 @@ import {
   setIsMovingChild,
   unsetIsMovingChild,
   setIsDragging,
-  unsetIsDragging,
-  setShowButtons
+  unsetIsDragging
 } from '../actions/ui'
 import {
   postNode,
@@ -58,8 +56,7 @@ let uiActions = {
   setIsMovingChild,
   unsetIsMovingChild,
   setIsDragging,
-  unsetIsDragging,
-  setShowButtons
+  unsetIsDragging
 }
 
 export default function (dispatch: any) {

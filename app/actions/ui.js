@@ -51,23 +51,6 @@ export function unsetIsDragging () {
   }
 }
 
-export const SET_SHOW_BUTTONS = 'SET_SHOW_BUTTONS'
-export function setShowButtons (uid: string) {
-  return {
-    type: SET_SHOW_BUTTONS,
-    data: {
-      uid
-    }
-  }
-}
-
-export const UNSET_SHOW_BUTTONS = 'UNSET_SHOW_BUTTONS'
-export function unsetShowButtons () {
-  return {
-    type: UNSET_SHOW_BUTTONS
-  }
-}
-
 export const INIT_EXPANDED = 'INIT_EXPANDED'
 export function initExpanded (expanded: string[]) {
   return {
