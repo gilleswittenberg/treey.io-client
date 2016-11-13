@@ -28,6 +28,7 @@ const TreeParse = {
       const nodesList = nodes.map(node => this._parseNode.bind(this)(node, path))
       map = map.set(nodesKey, nodesList)
     }
+    // @TOOD: extract
     const ui = { expanded: false, active: false, dragging: false, hasButtonsShown: false, editing: false, movingChild: false }
     map = map.set('nodeUi', ui)
     return map

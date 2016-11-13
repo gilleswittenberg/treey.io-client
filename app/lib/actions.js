@@ -3,42 +3,39 @@
 import noop from './noop'
 
 export const defaultActions = {
-  setIsActive: noop,
-  unsetIsActive: noop,
-  setIsEditing: noop,
-  unsetIsEditing: noop,
+  // @TODO: remove
   setIsMovingChild: noop,
   unsetIsMovingChild: noop,
   setIsDragging: noop,
   unsetIsDragging: noop,
-  expand: noop,
-  toggleExpanded: noop,
   setShowButtons: noop,
+
   postNode: noop,
   putNode: noop,
   deleteNode: noop,
-  putMoveNode: noop
+  putMoveNode: noop,
+  clearNodeUI: noop,
+  updateNodeUI: noop,
+  updateActiveNodeUI: noop,
+  setNextUIActive: noop,
+  setPrevUIActive: noop
 }
 
 import { bindActionCreators } from 'redux'
 import {
-  setIsActive,
-  unsetIsActive,
-  setIsEditing,
-  unsetIsEditing,
+  // @TODO: remove
   setIsMovingChild,
   unsetIsMovingChild,
   setIsDragging,
   unsetIsDragging,
-  setShowButtons,
-  expand,
-  toggleExpanded
+  setShowButtons
 } from '../actions/ui'
 import {
   postNode,
   putNode,
   deleteNode,
   putMoveNode,
+  clearNodeUI,
   updateNodeUI,
   updateActiveNodeUI,
   setNextUIActive,
@@ -50,27 +47,24 @@ let nodesActions = {
   putNode,
   deleteNode,
   putMoveNode,
+  clearNodeUI,
   updateNodeUI,
   updateActiveNodeUI,
   setNextUIActive,
   setPrevUIActive
 }
+// @TODO: remove
 let uiActions = {
-  setIsActive,
-  unsetIsActive,
-  setIsEditing,
-  unsetIsEditing,
   setIsMovingChild,
   unsetIsMovingChild,
   setIsDragging,
   unsetIsDragging,
-  setShowButtons,
-  expand,
-  toggleExpanded
+  setShowButtons
 }
 
 export default function (dispatch: any) {
 
+  // @TODO: remove
   const uiActionsBound = bindActionCreators(uiActions, dispatch)
   const nodesActionsBound = bindActionCreators(nodesActions, dispatch)
   return { ...uiActionsBound, ...nodesActionsBound }

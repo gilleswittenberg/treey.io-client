@@ -8,7 +8,7 @@
 - esc               exit editing / adding
 - D                 delete
 - +                 add child
-- U                 undo
+- cmd + Z           undo
 
 # keyboard + mouse
 

@@ -32,6 +32,15 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     return { ...state, tree }
 
   // ui
+  case types.CLEAR_NODE_UI:
+    if (state.tree) {
+      tree = Tree2.doActionAll(state.tree, updateNodeUI(action.data.key, false))
+    } else {
+      // @TODO: Clean up (@flow)
+      tree = state.tree
+    }
+    return { ...state, tree }
+
   case types.UPDATE_NODE_UI:
     if (state.tree) {
       tree = Tree2.doAction(state.tree, action.data.path, updateNodeUI(action.data.key, action.data.value))
@@ -89,6 +98,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
 
   case types.ADD_NODE:
     if (state.tree) {
+      // @TOOD: parse from backend
       tree = Tree.create(state.tree, action.data.parent, action.data.node)
     } else {
       tree = state.tree
@@ -116,9 +126,6 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     }
     return { ...state, tree }
 
-  // node ui
-  // case types.SET_ACTIVE:
-    // tree = Tree.setNodeKey('ui.active', node, true)
   default:
     return state
   }

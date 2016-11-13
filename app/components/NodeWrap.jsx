@@ -7,7 +7,6 @@ import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
 // @TODO: Remove
 import {
-  isEditing as isEditingFunc,
   isMovingChild as isMovingChildFunc,
   isDragging as isDraggingFunc
 } from '../reducers/ui'
@@ -39,19 +38,9 @@ export default class NodeWrap extends Component {
     isOverPosition: -1
   }
 
-  isEditing () : bool {
-    const { ui, uid } = this.props
-    return isEditingFunc(ui, uid)
-  }
-
   isMovingChild () : bool {
     const { ui, uid } = this.props
     return isMovingChildFunc(ui, uid)
-  }
-
-  isAdding () : bool {
-    const { ui, uid } = this.props
-    return isEditingFunc(ui, uid, 'add')
   }
 
   isDragging () : bool {
@@ -73,9 +62,9 @@ export default class NodeWrap extends Component {
     } = this.props
 
     const isActive = nodeUi ? nodeUi.active : false
-    const isEditing = this.isEditing()
+    const isEditing = nodeUi ? nodeUi.editing : false
     const isMovingChild = this.isMovingChild()
-    const isAdding = this.isAdding()
+    const isAdding = nodeUi ? nodeUi.adding : false
     const isDragging = this.isDragging()
     const isExpanded = nodeUi ? nodeUi.expanded : false
     const hasNodes = this.hasNodes()

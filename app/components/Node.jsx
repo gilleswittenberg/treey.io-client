@@ -24,8 +24,7 @@ export default class Node extends Component {
     path: PropTypes.array.isRequired,
     hasNodes: PropTypes.bool.isRequired,
     isOver: PropTypes.bool,
-    unsetIsEditing: PropTypes.func.isRequired,
-    setIsEditing: PropTypes.func.isRequired,
+    clearNodeUI: PropTypes.func.isRequired,
     updateNodeUI: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired,
     setShowButtons: PropTypes.func.isRequired
@@ -44,12 +43,15 @@ export default class Node extends Component {
 
     // alt key to edit
     if (event.altKey) {
-      this.startEditing()
+      const { updateNodeUi, path } = this.props
+      updateNodeUi(path, 'editing', true)
     }
     // regular click to collapse or expand
     else {
-      const { unsetIsEditing, updateNodeUI, nodeUi: { expanded }, path } = this.props
-      unsetIsEditing()
+      const { clearNodeUI, updateNodeUI, nodeUi: { expanded }, path } = this.props
+      // @TODO: combine
+      clearNodeUI('adding')
+      clearNodeUI('editing')
       // guard
       if (!this.canExpand()) {
         return
@@ -61,19 +63,15 @@ export default class Node extends Component {
   @autobind
   handleClickAdd (event: Event) {
     event.stopPropagation()
-    this.startEditing('add')
+    const { parent: { path }, updateNodeUI } = this.props
+    updateNodeUI(path, 'adding', true)
   }
 
   @autobind
   handleClickEdit (event: Event) {
     event.stopPropagation()
-    this.startEditing()
-  }
-
-  @autobind
-  startEditing (type?: string) {
-    const { uid, setIsEditing } = this.props
-    setIsEditing(uid, type)
+    const { path, updateNodeUI } = this.props
+    updateNodeUI(path, 'editing', true)
   }
 
   @autobind

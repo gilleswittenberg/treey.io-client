@@ -11,10 +11,9 @@ export default class NodeAdd extends Component {
   static propTypes = {
     lang: PropTypes.string,
     parent: PropTypes.string.isRequired,
-    isEditing: PropTypes.bool.isRequired,
-    setIsEditing: PropTypes.func.isRequired,
-    unsetIsEditing: PropTypes.func.isRequired,
-    expand: PropTypes.func.isRequired,
+    nodeUi: PropTypes.object.isRequired,
+    clearNodeUI: PropTypes.func.isRequired,
+    updateNodeUI: PropTypes.func.isRequired,
     postNode: PropTypes.func.isRequired
   }
 
@@ -28,7 +27,7 @@ export default class NodeAdd extends Component {
 
   // clear input when user starts adding
   componentWillReceiveProps (nextProps: any) {
-    if (nextProps.isEditing !== this.props.isEditing) {
+    if (nextProps.nodeUi.adding !== this.props.nodeUi.adding) {
       this.setState({ title: '' })
     }
   }
@@ -36,9 +35,9 @@ export default class NodeAdd extends Component {
   @autobind
   handleClick (event: Event) {
     event.stopPropagation()
-    const { parent, setIsEditing } = this.props
+    const { path, updateNodeUI } = this.props
     this.setState({ title: '' })
-    setIsEditing(parent, 'add')
+    updateNodeUI(path, 'adding', true)
   }
 
   @autobind
@@ -54,11 +53,13 @@ export default class NodeAdd extends Component {
 
     event.preventDefault()
 
-    const { parent, postNode, unsetIsEditing, updateNodeUI } = this.props
+    const { parent, postNode, clearNodeUI, updateNodeUI } = this.props
     const { title } = this.state
     const titleTrimmed = title.trim()
 
-    unsetIsEditing()
+    // @TODO: combine
+    clearNodeUI('editing')
+    clearNodeUI('adding')
 
     // guard: do not save empty string
     if (titleTrimmed === '') {
@@ -74,25 +75,28 @@ export default class NodeAdd extends Component {
 
   render () {
 
-    const { lang, isEditing } = this.props
+    const { lang, nodeUi: { adding } } = this.props
     const { title: value } = this.state
+    if (adding === true) {
+      console.log(this.props.uid)
+    }
 
     const className = classNames(
       'node',
       'node-add',
-      { '-is-editing': isEditing }
+      { '-is-editing': adding }
     )
 
     return (
       <div className={ className }>
 
-        { !isEditing &&
+        { !adding &&
           <div className="node-body">
             <ButtonIcon type="ADD" lang={ lang } handleClick={ this.handleClick } />
           </div>
         }
 
-        { isEditing &&
+        { adding &&
           <div className="node-editing">
             <form onSubmit={ this.handleSubmit }>
               <div className="node-buttons">

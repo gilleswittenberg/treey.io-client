@@ -17,25 +17,6 @@ export function unsetIsActive () {
   }
 }
 
-export const SET_IS_EDITING = 'SET_IS_EDITING'
-export function setIsEditing (uid: string, type: string) {
-  const uidString = type ? `${ uid }.${ type }` : uid
-  return {
-    type: SET_IS_EDITING,
-    data: {
-      uid: uidString
-    }
-  }
-}
-
-export const UNSET_IS_EDITING = 'UNSET_IS_EDITING'
-export function unsetIsEditing () {
-  return {
-    type: UNSET_IS_EDITING
-  }
-}
-
-
 export const SET_IS_MOVING_CHILD = 'SET_IS_MOVING_CHILD'
 export function setIsMovingChild (uid: string) {
   return {
