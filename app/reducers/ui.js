@@ -1,6 +1,6 @@
 /* @flow */
 
-import type { UIState, UIAction } from '../../flow/types'
+import type { UIState/* , UIAction */ } from '../../flow/types'
 
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 
