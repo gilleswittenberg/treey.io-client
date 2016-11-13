@@ -16,7 +16,7 @@ describe('NodeWrap', () => {
     data: {
       title: ''
     },
-    nodeUi: {},
+    ui: {},
     isRoot: false,
     nodes: [],
     siblings: [],
@@ -53,7 +53,7 @@ describe('NodeWrap', () => {
     })
 
     it('true', () => {
-      const wrapper = shallow(getComponent({ ui: { enableDnD: false }, nodeUi: { editing: true } }))
+      const wrapper = shallow(getComponent({ app: { enableDnD: false }, ui: { editing: true } }))
       expect(wrapper.find('NodeEdit').length).toBe(1)
     })
   })

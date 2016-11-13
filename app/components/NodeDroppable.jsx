@@ -114,11 +114,11 @@ class NodeDroppable extends Component {
   render () {
 
     const {
-      nodeUi,
+      ui,
       connectDropTarget
     } = this.props
 
-    const isMovingChild = nodeUi && nodeUi.movingChild === true
+    const isMovingChild = ui && ui.movingChild === true
     const showNodeOverTop = this.showNodeOverTop() && !isMovingChild
     const showNodeOverBottom = this.showNodeOverBottom() && !isMovingChild
 

@@ -12,7 +12,7 @@ describe('NodeAdd', () => {
   const defaultProps = {
     lang,
     parent,
-    nodeUi: {},
+    ui: {},
     clearNodeUI: noop,
     updateNodeUI: noop,
     postNode: noop
@@ -27,7 +27,7 @@ describe('NodeAdd', () => {
     })
 
     it('true', () => {
-      const wrapper = shallow(getComponent({ nodeUi: { adding: true } }))
+      const wrapper = shallow(getComponent({ ui: { adding: true } }))
       expect(wrapper.render().find('input').length).toBe(1)
     })
   })
@@ -39,7 +39,7 @@ describe('NodeAdd', () => {
       const wrapper = shallow(getComponent())
       wrapper.setState({ title: 'user input' })
       expect(wrapper.state().title).toBe('user input')
-      wrapper.setProps({ nodeUi: { adding: true } })
+      wrapper.setProps({ ui: { adding: true } })
       expect(wrapper.state().title).toBe('')
     })
   })
@@ -47,7 +47,7 @@ describe('NodeAdd', () => {
   describe('input', () => {
 
     it('change', () => {
-      const wrapper = shallow(getComponent({ nodeUi: { adding: true } }))
+      const wrapper = shallow(getComponent({ ui: { adding: true } }))
       const input = document.createElement('input')
       input.value = 'user input'
       const mockEvent = getMockEvent({ target: input })
@@ -58,16 +58,16 @@ describe('NodeAdd', () => {
     describe('componentWillReceiveProps', () => {
 
       it('true => false', () => {
-        const wrapper = shallow(getComponent({ nodeUi: { adding: true } }))
+        const wrapper = shallow(getComponent({ ui: { adding: true } }))
         wrapper.setState({ title: 'blabla' })
-        wrapper.setProps({ nodeUi: { adding: false } })
+        wrapper.setProps({ ui: { adding: false } })
         expect(wrapper.state().title).toEqual('')
       })
 
       it('false => true', () => {
-        const wrapper = shallow(getComponent({ nodeUi: { adding: false } }))
+        const wrapper = shallow(getComponent({ ui: { adding: false } }))
         wrapper.setState({ title: 'blabla' })
-        wrapper.setProps({ nodeUi: { adding: true } })
+        wrapper.setProps({ ui: { adding: true } })
         expect(wrapper.state().title).toEqual('')
       })
     })
@@ -79,7 +79,7 @@ describe('NodeAdd', () => {
         const clearNodeUI = jest.fn()
         const postNode = jest.fn()
         const updateNodeUI = jest.fn()
-        const wrapper = shallow(getComponent({ nodeUi: { adding: true }, clearNodeUI, postNode, updateNodeUI }))
+        const wrapper = shallow(getComponent({ ui: { adding: true }, clearNodeUI, postNode, updateNodeUI }))
 
         wrapper.setState({ title: 'user input' })
         const mockEvent = getMockEvent()
@@ -96,7 +96,7 @@ describe('NodeAdd', () => {
         const clearNodeUI = jest.fn()
         const postNode = jest.fn()
         const updateNodeUI = jest.fn()
-        const wrapper = shallow(getComponent({ nodeUi: { adding: true }, clearNodeUI, postNode }))
+        const wrapper = shallow(getComponent({ ui: { adding: true }, clearNodeUI, postNode }))
 
         wrapper.setState({ title: ' ' })
         const mockEvent = getMockEvent()

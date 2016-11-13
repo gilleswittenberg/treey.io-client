@@ -11,7 +11,7 @@ export default class NodeWrap extends Component {
   static propTypes = {
     enableDnD: PropTypes.bool,
     app: PropTypes.object.isRequired,
-    nodeUi: PropTypes.object.isRequired,
+    ui: PropTypes.object.isRequired,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     path: PropTypes.array.isRequired,
@@ -43,15 +43,15 @@ export default class NodeWrap extends Component {
     const {
       enableDnD,
       uid,
-      nodeUi
+      ui
     } = this.props
 
-    const isActive = nodeUi ? nodeUi.active : false
-    const isEditing = nodeUi ? nodeUi.editing : false
-    const isMovingChild = nodeUi ? nodeUi.movingChild : false
-    const isAdding = nodeUi ? nodeUi.adding : false
-    const isDragging = nodeUi ? nodeUi.dragging : false
-    const isExpanded = nodeUi ? nodeUi.expanded : false
+    const isActive = ui ? ui.active : false
+    const isEditing = ui ? ui.editing : false
+    const isMovingChild = ui ? ui.movingChild : false
+    const isAdding = ui ? ui.adding : false
+    const isDragging = ui ? ui.dragging : false
+    const isExpanded = ui ? ui.expanded : false
     const hasNodes = this.hasNodes()
 
     const className = classNames(

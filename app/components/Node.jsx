@@ -43,7 +43,7 @@ export default class Node extends Component {
     }
     // regular click to collapse or expand
     else {
-      const { clearNodeUI, updateNodeUI, nodeUi: { expanded }, path } = this.props
+      const { clearNodeUI, updateNodeUI, ui: { expanded }, path } = this.props
       // @TODO: combine
       clearNodeUI('adding')
       clearNodeUI('editing')
@@ -94,14 +94,14 @@ export default class Node extends Component {
       lang,
       isRoot,
       hasNodes,
-      nodeUi,
+      ui,
       userIsDragging
     } = this.props
 
     const showAddButton = !hasNodes
     const showDeleteButton = !isRoot
-    const hasButtonsShown = nodeUi && nodeUi.buttonsShown === true
-    const isDragging = nodeUi && nodeUi.dragging === true
+    const hasButtonsShown = ui && ui.buttonsShown === true
+    const isDragging = ui && ui.dragging === true
     const showMoveChildButton = userIsDragging && !hasNodes
 
     const className = classNames(

@@ -33,7 +33,7 @@ const TreeParse = {
     map = map.set('path', path)
     map = map.set('data', { title: nodeMap.get('title') })
     map = map.remove('title')
-    map = map.set('nodeUi', defaultNodeUI)
+    map = map.set('ui', defaultNodeUI)
     const nodes: any = map.get(nodesKey)
     if (nodes) {
       const nodesList = nodes.map(node => this._parseNode.bind(this)(node, path))

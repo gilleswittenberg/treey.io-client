@@ -15,7 +15,7 @@ describe('Nodes', () => {
     parent: null,
     path: [],
     nodes: [],
-    nodeUi: {},
+    ui: {},
     clearNodeUI: noop,
     updateNodeUI: noop,
     postNode: noop
@@ -38,7 +38,7 @@ describe('Nodes', () => {
   describe('nodes', () => {
 
     it('nodes', () => {
-      const nodes = [{ uid: uid1, path: [uid1], nodeUi: {} }, { uid: uid2, path: [uid2], nodeUi: {} }]
+      const nodes = [{ uid: uid1, path: [uid1], ui: {} }, { uid: uid2, path: [uid2], ui: {} }]
       const wrapper = shallow(getComponent({ nodes }))
       expect(wrapper.find('li').length).toBe(2)
     })

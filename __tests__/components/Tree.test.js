@@ -35,7 +35,7 @@ describe('Tree', () => {
           uid: uid2,
           path: [uid1, uid2]
         }],
-        nodeUi: {}
+        ui: {}
       }
       const wrapper = shallow(getComponent({ tree }))
       expect(wrapper.find('Nodes').length).toBe(1)
@@ -48,7 +48,7 @@ describe('Tree', () => {
         data: {
           title: 'John Doe'
         },
-        nodeUi: {},
+        ui: {},
         nodes: [
           {
             uid: '57bedc40e81b0620300d769b',
@@ -56,19 +56,19 @@ describe('Tree', () => {
             data: {
               title: 'ToDo'
             },
-            nodeUi: {},
+            ui: {},
             nodes: [
               {
                 uid: '57ebc46eb0bf9b00106a3c5e',
                 path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b', '57ebc46eb0bf9b00106a3c5e'],
                 data: { title: 'bring home the milk' },
-                nodeUi: {}
+                ui: {}
               },
               {
                 uid: '57ebc46eb0bf9b00106a3c5f',
                 path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b', '57ebc46eb0bf9b00106a3c5f'],
                 data: { title: 'clean the house' },
-                nodeUi: {} }
+                ui: {} }
             ]
           },
           {
@@ -77,25 +77,25 @@ describe('Tree', () => {
             data: {
               title: 'Movies'
             },
-            nodeUi: {},
+            ui: {},
             nodes: [
               {
                 uid: '57ebc46eb0bf9b00106a3c60',
                 path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c', '57ebc46eb0bf9b00106a3c60'],
                 data: { title: 'Star Wars: Episode IV - A New Hope (1977)' },
-                nodeUi: {}
+                ui: {}
               },
               {
                 uid: '57ebc46eb0bf9b00106a3c62',
                 path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c', '57ebc46eb0bf9b00106a3c62'],
                 data: { title: 'The Terminator (1984)' },
-                nodeUi: {}
+                ui: {}
               },
               {
                 uid: '57ebc46eb0bf9b00106a3c61',
                 path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c', '57ebc46eb0bf9b00106a3c61'],
                 data: { title: 'The Matrix (1999)' },
-                nodeUi: {}
+                ui: {}
               }
             ]
           }

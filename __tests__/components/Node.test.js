@@ -21,7 +21,7 @@ describe('Node', () => {
     data: {
       title: ''
     },
-    nodeUi: {},
+    ui: {},
     hasNodes: false,
     siblings: [{ uid }],
     index: 0,
@@ -36,7 +36,7 @@ describe('Node', () => {
     it('altKey', () => {
       const updateNodeUI = jest.fn()
       // @TODO: use mount / shallow
-      const node = new Node({ updateNodeUI, nodeUi: {} })
+      const node = new Node({ updateNodeUI, ui: {} })
       const mockEvent = getMockEvent({ altKey: true })
       node.handleClick(mockEvent)
       expect(updateNodeUI.mock.calls.length).toBe(1)
@@ -46,7 +46,7 @@ describe('Node', () => {
       const updateNodeUI = jest.fn()
       const clearNodeUI = noop
       // @TODO: use mount / shallow
-      const node = new Node({ clearNodeUI, updateNodeUI, nodeUi: {} })
+      const node = new Node({ clearNodeUI, updateNodeUI, ui: {} })
       const mockEvent = getMockEvent()
       node.handleClick(mockEvent)
       expect(updateNodeUI.mock.calls.length).toBe(0)
@@ -56,7 +56,7 @@ describe('Node', () => {
       const updateNodeUI = jest.fn()
       const clearNodeUI = noop
       // @TODO: use mount / shallow
-      const node = new Node({ hasNodes: true, clearNodeUI, updateNodeUI, nodeUi: {} })
+      const node = new Node({ hasNodes: true, clearNodeUI, updateNodeUI, ui: {} })
       const mockEvent = getMockEvent()
       node.handleClick(mockEvent)
       expect(updateNodeUI.mock.calls.length).toBe(1)

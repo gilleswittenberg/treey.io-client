@@ -56,7 +56,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
   case types.UPDATE_ACTIVE_NODE_UI:
     if (state.tree) {
       const active = Tree2.find(state.tree, node => {
-        return node.nodeUi.active === true
+        return node.ui.active === true
       })[0]
       if (state.tree) {
         tree = Tree2.doAction(state.tree, active.path, updateNodeUI(action.data.key, action.data.value))
@@ -71,11 +71,11 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
   case types.SET_PREV_UI_ACTIVE:
     if (state.tree) {
       const active = Tree2.find(state.tree, node => {
-        return node.nodeUi.active === true
+        return node.ui.active === true
       })[0]
       const search = (node, parent) => {
-        const parentVisible = parent && parent.nodeUi.expanded === true
-        const visible = node.nodeUi.expanded === true
+        const parentVisible = parent && parent.ui.expanded === true
+        const visible = node.ui.expanded === true
         return parentVisible || visible
       }
       // @TODO: Clean up (@flow)
@@ -91,11 +91,11 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
         const next = visible[indexNext]
         if (tree && state.tree) {
           tree = Tree2.doActionAll(state.tree, node => {
-            if (node.nodeUi) node.nodeUi.active = false
+            if (node.ui) node.ui.active = false
             return node
           })
           tree = Tree2.doAction(tree, next.path, node => {
-            node.nodeUi.active = true
+            node.ui.active = true
             return node
           })
         }

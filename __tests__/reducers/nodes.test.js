@@ -55,7 +55,7 @@ describe('nodes reducer', () => {
       data: {
         title: 'John Doe'
       },
-      nodeUi: {},
+      ui: {},
       ui,
       nodes: [
         {
@@ -64,7 +64,7 @@ describe('nodes reducer', () => {
           data: {
             title: 'ToDo'
           },
-          nodeUi: {},
+          ui: {},
           ui,
           nodes: [
             {
@@ -73,7 +73,7 @@ describe('nodes reducer', () => {
               data: {
                 title: 'bring home the milk'
               },
-              nodeUi: {},
+              ui: {},
               ui
             },
             {
@@ -82,7 +82,7 @@ describe('nodes reducer', () => {
               data: {
                 title: 'clean the house'
               },
-              nodeUi: {},
+              ui: {},
               ui
             }
           ]
@@ -93,7 +93,7 @@ describe('nodes reducer', () => {
           },
           uid: '57bedc40e81b0620300d769c',
           path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c'],
-          nodeUi: {},
+          ui: {},
           ui,
           nodes: [
             {
@@ -102,7 +102,7 @@ describe('nodes reducer', () => {
               data: {
                 title: 'Star Wars: Episode IV - A New Hope (1977)'
               },
-              nodeUi: {},
+              ui: {},
               ui
             },
             {
@@ -111,7 +111,7 @@ describe('nodes reducer', () => {
               data: {
                 title: 'The Terminator (1984)'
               },
-              nodeUi: {},
+              ui: {},
               ui
             },
             {
@@ -120,7 +120,7 @@ describe('nodes reducer', () => {
               data: {
                 title: 'The Matrix (1999)'
               },
-              nodeUi: {},
+              ui: {},
               ui
             }
           ]

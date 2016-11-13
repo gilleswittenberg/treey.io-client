@@ -30,14 +30,14 @@ export default class Nodes extends Component {
     const {
       nodes,
       hasNodes,
-      nodeUi
+      ui
     } = this.props
 
     const isRoot = this.isRoot()
     const hasNodeAdd = !isRoot
-    const isAdding = nodeUi && nodeUi.adding === true
+    const isAdding = ui && ui.adding === true
 
-    const isMovingChild = nodeUi && nodeUi.movingChild === true
+    const isMovingChild = ui && ui.movingChild === true
     const showNodeMoveChild = !hasNodes && isMovingChild
     const showNodeAdd = hasNodeAdd && !isMovingChild
 
@@ -54,7 +54,7 @@ export default class Nodes extends Component {
               uid={ node.uid }
               path={ node.path }
               data={ node.data }
-              nodeUi={ node.nodeUi }
+              ui={ node.ui }
               nodes={ node.nodes }
               siblings={ nodes }
               index={ index }

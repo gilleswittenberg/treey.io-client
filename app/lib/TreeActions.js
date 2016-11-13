@@ -13,7 +13,7 @@ export const updateNode = (data: NodeData) => {
 
 export const updateNodeUI = (key: string, value: boolean) => {
   return function (node: Node) : Node {
-    node.nodeUi[key] = value
+    node.ui[key] = value
     return node
   }
 }

@@ -11,7 +11,7 @@ export default class NodeAdd extends Component {
   static propTypes = {
     lang: PropTypes.string,
     parent: PropTypes.string.isRequired,
-    nodeUi: PropTypes.object.isRequired,
+    ui: PropTypes.object.isRequired,
     clearNodeUI: PropTypes.func.isRequired,
     updateNodeUI: PropTypes.func.isRequired,
     postNode: PropTypes.func.isRequired
@@ -27,7 +27,7 @@ export default class NodeAdd extends Component {
 
   // clear input when user starts adding
   componentWillReceiveProps (nextProps: any) {
-    if (nextProps.nodeUi.adding !== this.props.nodeUi.adding) {
+    if (nextProps.ui.adding !== this.props.ui.adding) {
       this.setState({ title: '' })
     }
   }
@@ -75,7 +75,7 @@ export default class NodeAdd extends Component {
 
   render () {
 
-    const { lang, nodeUi: { adding } } = this.props
+    const { lang, ui: { adding } } = this.props
     const { title: value } = this.state
 
     const className = classNames(
