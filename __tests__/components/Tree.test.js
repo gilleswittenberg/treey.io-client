@@ -3,13 +3,14 @@ import { shallow, render } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import { defaultActions } from '../../app/lib/actions'
+import { defaultNodeUI } from '../../app/lib/TreeParse'
 
 describe('Tree', () => {
 
   const app = { lang: 'en', enableDnD: false }
+  const ui = defaultNodeUI
   const uid1 = '57bedc40e81b0620300d7691'
   const uid2 = '57bedc40e81b0620300d7692'
-
 
   const defaultProps = {
     app,
@@ -33,9 +34,10 @@ describe('Tree', () => {
         path: [uid1],
         nodes: [{
           uid: uid2,
-          path: [uid1, uid2]
+          path: [uid1, uid2],
+          ui
         }],
-        ui: {}
+        ui
       }
       const wrapper = shallow(getComponent({ tree }))
       expect(wrapper.find('Nodes').length).toBe(1)
@@ -48,7 +50,7 @@ describe('Tree', () => {
         data: {
           title: 'John Doe'
         },
-        ui: {},
+        ui,
         nodes: [
           {
             uid: '57bedc40e81b0620300d769b',
@@ -56,19 +58,20 @@ describe('Tree', () => {
             data: {
               title: 'ToDo'
             },
-            ui: {},
+            ui,
             nodes: [
               {
                 uid: '57ebc46eb0bf9b00106a3c5e',
                 path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b', '57ebc46eb0bf9b00106a3c5e'],
                 data: { title: 'bring home the milk' },
-                ui: {}
+                ui
               },
               {
                 uid: '57ebc46eb0bf9b00106a3c5f',
                 path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b', '57ebc46eb0bf9b00106a3c5f'],
                 data: { title: 'clean the house' },
-                ui: {} }
+                ui
+              }
             ]
           },
           {
@@ -77,25 +80,25 @@ describe('Tree', () => {
             data: {
               title: 'Movies'
             },
-            ui: {},
+            ui,
             nodes: [
               {
                 uid: '57ebc46eb0bf9b00106a3c60',
                 path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c', '57ebc46eb0bf9b00106a3c60'],
                 data: { title: 'Star Wars: Episode IV - A New Hope (1977)' },
-                ui: {}
+                ui
               },
               {
                 uid: '57ebc46eb0bf9b00106a3c62',
                 path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c', '57ebc46eb0bf9b00106a3c62'],
                 data: { title: 'The Terminator (1984)' },
-                ui: {}
+                ui
               },
               {
                 uid: '57ebc46eb0bf9b00106a3c61',
                 path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c', '57ebc46eb0bf9b00106a3c61'],
                 data: { title: 'The Matrix (1999)' },
-                ui: {}
+                ui
               }
             ]
           }
@@ -110,7 +113,7 @@ describe('Tree', () => {
 
       const updateNodeUI = jest.fn()
       const wrapper = shallow(getComponent({ updateNodeUI }))
-      const tree = { uid: uid1 }
+      const tree = { uid: uid1, ui }
       wrapper.setProps({ tree })
       // @TODO: Add tests for arguments updateNodeUI
       expect(updateNodeUI.mock.calls.length).toBe(2)

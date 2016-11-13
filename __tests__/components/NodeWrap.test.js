@@ -2,9 +2,11 @@ import NodeWrap from '../../app/components/NodeWrap'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
+import { defaultNodeUI } from '../../app/lib/TreeParse'
 
 describe('NodeWrap', () => {
 
+  const ui = defaultNodeUI
   const parent = '57bedc40e81b0620300d769a'
   const uid = '57bedc40e81b0620300d769b'
 
@@ -16,7 +18,7 @@ describe('NodeWrap', () => {
     data: {
       title: ''
     },
-    ui: {},
+    ui,
     isRoot: false,
     nodes: [],
     siblings: [],
@@ -52,7 +54,7 @@ describe('NodeWrap', () => {
     })
 
     it('true', () => {
-      const wrapper = shallow(getComponent({ app: { enableDnD: false }, ui: { editing: true } }))
+      const wrapper = shallow(getComponent({ app: { enableDnD: false }, ui: { ...ui, editing: true } }))
       expect(wrapper.find('NodeEdit').length).toBe(1)
     })
   })

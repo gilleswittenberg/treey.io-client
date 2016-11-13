@@ -3,11 +3,13 @@ import { mount } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import getMockEvent from '../getMockEvent'
+import { defaultNodeUI } from '../../app/lib/TreeParse'
 
 describe('Node', () => {
 
   const app = { enableDnD: false }
   const lang = 'en'
+  const ui = defaultNodeUI
   const parent = '57bedc40e81b0620300d769a'
   const uid = '57bedc40e81b0620300d769b'
 
@@ -21,9 +23,9 @@ describe('Node', () => {
     data: {
       title: ''
     },
-    ui: {},
+    ui,
     hasNodes: false,
-    siblings: [{ uid }],
+    siblings: [{ uid, ui }],
     index: 0,
     clearNodeUI: noop,
     updateNodeUI: noop,
@@ -36,7 +38,7 @@ describe('Node', () => {
     it('altKey', () => {
       const updateNodeUI = jest.fn()
       // @TODO: use mount / shallow
-      const node = new Node({ updateNodeUI, ui: {} })
+      const node = new Node({ updateNodeUI, ui })
       const mockEvent = getMockEvent({ altKey: true })
       node.handleClick(mockEvent)
       expect(updateNodeUI.mock.calls.length).toBe(1)
@@ -46,7 +48,7 @@ describe('Node', () => {
       const updateNodeUI = jest.fn()
       const clearNodeUI = noop
       // @TODO: use mount / shallow
-      const node = new Node({ clearNodeUI, updateNodeUI, ui: {} })
+      const node = new Node({ clearNodeUI, updateNodeUI, ui })
       const mockEvent = getMockEvent()
       node.handleClick(mockEvent)
       expect(updateNodeUI.mock.calls.length).toBe(0)
@@ -56,7 +58,7 @@ describe('Node', () => {
       const updateNodeUI = jest.fn()
       const clearNodeUI = noop
       // @TODO: use mount / shallow
-      const node = new Node({ hasNodes: true, clearNodeUI, updateNodeUI, ui: {} })
+      const node = new Node({ hasNodes: true, clearNodeUI, updateNodeUI, ui })
       const mockEvent = getMockEvent()
       node.handleClick(mockEvent)
       expect(updateNodeUI.mock.calls.length).toBe(1)

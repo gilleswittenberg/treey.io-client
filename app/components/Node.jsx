@@ -7,6 +7,7 @@ import ButtonIcon from './ButtonIcon'
 import ButtonMoveChild from './ButtonMoveChild'
 import NodeDraggable from './NodeDraggable'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
+import propTypeShapeUI from '../lib/propTypeShapeUI'
 
 export default class Node extends Component {
 
@@ -19,8 +20,7 @@ export default class Node extends Component {
     uid: PropTypes.string.isRequired,
     path: PropTypes.array.isRequired,
     data: PropTypes.object.isRequired,
-    // @TODO: Use shape
-    ui: PropTypes.object.isRequired,
+    ui: PropTypes.shape(propTypeShapeUI),
     hasNodes: PropTypes.bool.isRequired,
     isOver: PropTypes.bool,
     clearNodeUI: PropTypes.func.isRequired,

@@ -2,11 +2,13 @@ import Nodes from '../../app/components/Nodes'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
+import { defaultNodeUI } from '../../app/lib/TreeParse'
 
 describe('Nodes', () => {
 
   const app = { enableDnD: false }
   const parent = '57bedc40e81b0620300d769a'
+  const ui = defaultNodeUI
   const uid1 = '57bedc40e81b0620300d769b'
   const uid2 = '57bedc40e81b0620300d769c'
 
@@ -15,7 +17,7 @@ describe('Nodes', () => {
     parent: null,
     path: [],
     nodes: [],
-    ui: {},
+    ui,
     clearNodeUI: noop,
     updateNodeUI: noop,
     postNode: noop
@@ -38,7 +40,7 @@ describe('Nodes', () => {
   describe('nodes', () => {
 
     it('nodes', () => {
-      const nodes = [{ uid: uid1, path: [uid1], ui: {} }, { uid: uid2, path: [uid2], ui: {} }]
+      const nodes = [{ uid: uid1, path: [uid1], ui }, { uid: uid2, path: [uid2], ui }]
       const wrapper = shallow(getComponent({ nodes }))
       expect(wrapper.find('li').length).toBe(2)
     })

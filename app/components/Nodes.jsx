@@ -4,14 +4,14 @@ import React, { Component, PropTypes } from 'react'
 import NodeWrap from './NodeWrap'
 import NodeAdd from './NodeAdd'
 import NodeOver from './NodeOver'
+import propTypeShapeUI from '../lib/propTypeShapeUI'
 
 export default class Nodes extends Component {
 
   static propTypes = {
     enableDnD: PropTypes.bool,
     parent: PropTypes.string,
-    // @TODO: Use shape
-    ui: PropTypes.object,
+    ui: PropTypes.shape(propTypeShapeUI),
     nodes: PropTypes.array,
     hasNodes: PropTypes.bool
   }

@@ -7,6 +7,7 @@ import DND_TYPE from '../settings/DND_TYPE'
 import { DropTarget } from 'react-dnd'
 import getHoverRegion from '../lib/getHoverRegion'
 import getNextSibling from '../lib/getNextSibling'
+import propTypeShapeUI from '../lib/propTypeShapeUI'
 
 const DropSpec = {
 
@@ -57,8 +58,7 @@ class NodeDroppable extends Component {
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
     path: PropTypes.array.isRequired,
-    // @TODO: use shape
-    ui: PropTypes.object.isRequired,
+    ui: PropTypes.shape(propTypeShapeUI),
     hasNodes: PropTypes.bool.isRequired,
     siblings: PropTypes.array.isRequired,
     index: PropTypes.number.isRequired,
