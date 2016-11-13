@@ -28,18 +28,17 @@ describe('NodeDraggable', () => {
     },
     siblings: [{ uid }],
     index: 0,
-    unsetIsEditing: noop,
-    setIsDragging: noop,
-    unsetIsDragging: noop,
+    clearNodeUI: noop,
+    updateNodeUI: noop,
     handleClick: noop,
     handleClickMore: noop
   }
 
   it('canDrag', () => {
 
-    const setIsDragging = jest.fn()
+    const updateNodeUI = jest.fn()
 
-    const props = { ...defaultProps, setIsDragging }
+    const props = { ...defaultProps, updateNodeUI }
     const Context = wrapInTestContext(NodeDraggable, props)
     const wrapper = mount(<Context />)
     const manager = wrapper.get(0).getManager()
@@ -47,14 +46,14 @@ describe('NodeDraggable', () => {
     const nodeDraggable = wrapper.find(NodeDraggable).get(0)
     const sourceId = nodeDraggable.getHandlerId()
     backend.simulateBeginDrag([sourceId])
-    expect(setIsDragging.mock.calls.length).toBe(0)
+    expect(updateNodeUI.mock.calls.length).toBe(0)
   })
 
-  it('beginDrag setIsDragging', () => {
+  it('beginDrag updateNodeUI', () => {
 
-    const setIsDragging = jest.fn()
+    const updateNodeUI = jest.fn()
 
-    const props = { ...defaultProps, setIsDragging, isRoot: false }
+    const props = { ...defaultProps, updateNodeUI, isRoot: false }
     const Context = wrapInTestContext(NodeDraggable, props)
     const wrapper = mount(<Context />)
     const manager = wrapper.get(0).getManager()
@@ -62,14 +61,14 @@ describe('NodeDraggable', () => {
     const nodeDraggable = wrapper.find(NodeDraggable).get(0)
     const sourceId = nodeDraggable.getHandlerId()
     backend.simulateBeginDrag([sourceId])
-    expect(setIsDragging.mock.calls.length).toBe(1)
+    expect(updateNodeUI.mock.calls.length).toBe(1)
   })
 
-  it('endDrag unsetIsDragging', () => {
+  it('endDrag clearNodeUI', () => {
 
-    const unsetIsDragging = jest.fn()
+    const clearNodeUI = jest.fn()
 
-    const props = { ...defaultProps, unsetIsDragging, isRoot: false }
+    const props = { ...defaultProps, clearNodeUI, isRoot: false }
     const Context = wrapInTestContext(NodeDraggable, props)
     const wrapper = mount(<Context />)
     const manager = wrapper.get(0).getManager()
@@ -78,6 +77,7 @@ describe('NodeDraggable', () => {
     const sourceId = nodeDraggable.getHandlerId()
     backend.simulateBeginDrag([sourceId])
     backend.simulateEndDrag([sourceId])
-    expect(unsetIsDragging.mock.calls.length).toBe(1)
+    // @TODO: test arguments
+    expect(clearNodeUI.mock.calls.length).toBe(3)
   })
 })

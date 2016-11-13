@@ -10,7 +10,8 @@ describe('TreeParse', () => {
 
   describe('parse', () => {
 
-    const ui = { expanded: false, active: false, dragging: false, hasButtonsShown: false, editing: false, movingChild: false }
+    // @TODO: extract
+    const ui = { expanded: false, active: false, dragging: false, showButtons: false, editing: false, movingChild: false }
 
     it('root', () => {
       const tree = { uid, title: 'Mr. Foo' }

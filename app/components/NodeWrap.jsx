@@ -38,16 +38,6 @@ export default class NodeWrap extends Component {
     isOverPosition: -1
   }
 
-  isMovingChild () : bool {
-    const { ui, uid } = this.props
-    return isMovingChildFunc(ui, uid)
-  }
-
-  isDragging () : bool {
-    const { ui, uid } = this.props
-    return isDraggingFunc(ui, uid)
-  }
-
   hasNodes () : bool {
     const { nodes } = this.props
     return Array.isArray(nodes) && nodes.length > 0
@@ -63,9 +53,9 @@ export default class NodeWrap extends Component {
 
     const isActive = nodeUi ? nodeUi.active : false
     const isEditing = nodeUi ? nodeUi.editing : false
-    const isMovingChild = this.isMovingChild()
+    const isMovingChild = nodeUi ? nodeUi.movingChild : false
     const isAdding = nodeUi ? nodeUi.adding : false
-    const isDragging = this.isDragging()
+    const isDragging = nodeUi ? nodeUi.dragging : false
     const isExpanded = nodeUi ? nodeUi.expanded : false
     const hasNodes = this.hasNodes()
 

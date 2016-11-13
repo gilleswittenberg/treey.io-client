@@ -12,6 +12,7 @@ describe('NodeWrap', () => {
     ui: { enableDnD: false },
     parent,
     uid,
+    path: [uid],
     data: {
       title: ''
     },
@@ -20,13 +21,8 @@ describe('NodeWrap', () => {
     nodes: [],
     siblings: [],
     index: 0,
-    setIsEditing: noop,
-    unsetIsEditing: noop,
-    setIsDragging: noop,
-    unsetIsDragging: noop,
-    setShowButtons: noop,
-    expand: noop,
-    toggleExpanded: noop,
+    clearNodeUI: noop,
+    updateNodeUI: noop,
     putNode: noop,
     postNode: noop,
     deleteNode: noop,
@@ -57,7 +53,7 @@ describe('NodeWrap', () => {
     })
 
     it('true', () => {
-      const wrapper = shallow(getComponent({ ui: { enableDnD: false, editing: uid } }))
+      const wrapper = shallow(getComponent({ ui: { enableDnD: false }, nodeUi: { editing: true } }))
       expect(wrapper.find('NodeEdit').length).toBe(1)
     })
   })

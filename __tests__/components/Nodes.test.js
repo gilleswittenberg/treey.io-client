@@ -5,18 +5,19 @@ import noop from '../noop'
 
 describe('Nodes', () => {
 
+  const ui = { enableDnD: false }
   const parent = '57bedc40e81b0620300d769a'
   const uid1 = '57bedc40e81b0620300d769b'
   const uid2 = '57bedc40e81b0620300d769c'
 
   const defaultProps = {
-    ui: {},
+    ui,
     parent: null,
+    path: [],
     nodes: [],
     nodeUi: {},
-    setIsEditing: noop,
-    unsetIsEditing: noop,
-    expand: noop,
+    clearNodeUI: noop,
+    updateNodeUI: noop,
     postNode: noop
   }
   const getComponent = getComponentHOF(Nodes, defaultProps)
@@ -37,7 +38,7 @@ describe('Nodes', () => {
   describe('nodes', () => {
 
     it('nodes', () => {
-      const nodes = [{ uid: uid1, nodeUi: {} }, { uid: uid2, nodeUi: {} }]
+      const nodes = [{ uid: uid1, path: [uid1], nodeUi: {} }, { uid: uid2, path: [uid2], nodeUi: {} }]
       const wrapper = shallow(getComponent({ nodes }))
       expect(wrapper.find('li').length).toBe(2)
     })

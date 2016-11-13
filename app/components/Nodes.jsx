@@ -4,7 +4,6 @@ import React, { Component, PropTypes } from 'react'
 import NodeWrap from './NodeWrap'
 import NodeAdd from './NodeAdd'
 import NodeOver from './NodeOver'
-import { isMovingChild } from '../reducers/ui'
 
 export default class Nodes extends Component {
 
@@ -26,11 +25,6 @@ export default class Nodes extends Component {
     return this.props.parent === null
   }
 
-  isMovingChild () : bool {
-    const { ui, parent } = this.props
-    return isMovingChild(ui, parent)
-  }
-
   render () {
 
     const {
@@ -43,7 +37,7 @@ export default class Nodes extends Component {
     const hasNodeAdd = !isRoot
     const isAdding = nodeUi && nodeUi.adding === true
 
-    const isMovingChild = this.isMovingChild()
+    const isMovingChild = nodeUi && nodeUi.movingChild === true
     const showNodeMoveChild = !hasNodes && isMovingChild
     const showNodeAdd = hasNodeAdd && !isMovingChild
 

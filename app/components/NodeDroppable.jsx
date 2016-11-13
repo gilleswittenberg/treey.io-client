@@ -85,11 +85,6 @@ class NodeDroppable extends Component {
     }
   }
 
-  isMovingChild () : bool {
-    const { ui, uid } = this.props
-    return isMovingChild(ui, uid)
-  }
-
   getHoverRegion (monitor, element) : string {
 
     // used when mocking
@@ -120,10 +115,11 @@ class NodeDroppable extends Component {
   render () {
 
     const {
+      nodeUi,
       connectDropTarget
     } = this.props
 
-    const isMovingChild = this.isMovingChild()
+    const isMovingChild = nodeUi && nodeUi.movingChild === true
     const showNodeOverTop = this.showNodeOverTop() && !isMovingChild
     const showNodeOverBottom = this.showNodeOverBottom() && !isMovingChild
 

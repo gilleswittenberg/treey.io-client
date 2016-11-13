@@ -33,11 +33,11 @@ describe('ButtonMoveChild', () => {
     data: {
       title: 'node draggable'
     },
+    nodeUi: {},
     siblings: [{ uid: uid1 }],
     index: 0,
-    unsetIsEditing: noop,
-    setIsDragging: noop,
-    unsetIsDragging: noop,
+    clearNodeUI: noop,
+    updateNodeUI: noop,
     handleClick: noop,
     handleClickMore: noop
   }
@@ -50,26 +50,21 @@ describe('ButtonMoveChild', () => {
     data: {
       title: 'node droppable'
     },
+    nodeUi: {},
     hasNodes: false,
     deleteNode: noop,
     putMoveNode: noop,
-    setIsEditing: noop,
-    unsetIsEditing: noop,
-    setIsMovingChild: noop,
-    unsetIsMovingChild: noop,
-    setIsDragging: noop,
-    unsetIsDragging: noop,
-    setShowButtons: noop,
-    toggleExpanded: noop
+    clearNodeUI: noop,
+    updateNodeUI: noop
   }
 
   describe('hover', () => {
 
-    it('setIsMovingChild', () => {
+    it('updateNodeUI', () => {
 
-      const setIsMovingChild = jest.fn()
+      const updateNodeUI = jest.fn()
       const propsDraggable = { ...defaultPropsDraggable }
-      const propsButtonMoveChild = { ...defaultPropsButtonMoveChild, setIsMovingChild }
+      const propsButtonMoveChild = { ...defaultPropsButtonMoveChild, updateNodeUI }
       const Context = wrapInTestContext(NodeDraggable, ButtonMoveChild, propsDraggable, propsButtonMoveChild)
       const wrapper = mount(<Context />)
       const manager = wrapper.get(0).getManager()
@@ -80,13 +75,13 @@ describe('ButtonMoveChild', () => {
       const sourceIdButtonMoveChild = buttonMoveChild.getHandlerId()
       backend.simulateBeginDrag([sourceIdNodeDraggable])
       backend.simulateHover([sourceIdButtonMoveChild])
-      expect(setIsMovingChild.mock.calls.length).toBe(1)
+      expect(updateNodeUI.mock.calls.length).toBe(1)
     })
 
-    it('unsetIsMovingChild', () => {
-      const unsetIsMovingChild = jest.fn()
+    it('clearNodeUI', () => {
+      const clearNodeUI = jest.fn()
       const propsDraggable = { ...defaultPropsDraggable }
-      const propsButtonMoveChild = { ...defaultPropsButtonMoveChild, unsetIsMovingChild }
+      const propsButtonMoveChild = { ...defaultPropsButtonMoveChild, clearNodeUI }
       const Context = wrapInTestContext(NodeDraggable, ButtonMoveChild, propsDraggable, propsButtonMoveChild)
       const wrapper = mount(<Context />)
       const manager = wrapper.get(0).getManager()
@@ -98,18 +93,18 @@ describe('ButtonMoveChild', () => {
       backend.simulateBeginDrag([sourceIdNodeDraggable])
       backend.simulateHover([sourceIdButtonMoveChild])
       backend.simulateEndDrag()
-      expect(unsetIsMovingChild.mock.calls.length).toBe(1)
+      expect(clearNodeUI.mock.calls.length).toBe(1)
     })
   })
 
   describe('drop', () => {
 
-    it('putMoveNode, expand', () => {
+    it('putMoveNode, updateNodeUI', () => {
 
       const putMoveNode = jest.fn()
-      const expand = jest.fn()
+      const updateNodeUI = jest.fn()
       const propsDraggable = { ...defaultPropsDraggable }
-      const propsButtonMoveChild = { ...defaultPropsButtonMoveChild, putMoveNode, expand }
+      const propsButtonMoveChild = { ...defaultPropsButtonMoveChild, putMoveNode, updateNodeUI }
       const Context = wrapInTestContext(NodeDraggable, ButtonMoveChild, propsDraggable, propsButtonMoveChild)
       const wrapper = mount(<Context />)
       const manager = wrapper.get(0).getManager()
@@ -123,7 +118,8 @@ describe('ButtonMoveChild', () => {
       backend.simulateDrop()
       backend.simulateEndDrag()
       expect(putMoveNode.mock.calls.length).toBe(1)
-      expect(expand.mock.calls.length).toBe(1)
+      // @TODO: test argument
+      expect(updateNodeUI.mock.calls.length).toBe(2)
     })
   })
 })

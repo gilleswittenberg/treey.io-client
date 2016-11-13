@@ -12,10 +12,9 @@ describe('NodeAdd', () => {
   const defaultProps = {
     lang,
     parent,
-    isEditing: false,
-    setIsEditing: noop,
-    unsetIsEditing: noop,
-    expand: noop,
+    nodeUi: {},
+    clearNodeUI: noop,
+    updateNodeUI: noop,
     postNode: noop
   }
   const getComponent = getComponentHOF(NodeAdd, defaultProps)
@@ -28,7 +27,7 @@ describe('NodeAdd', () => {
     })
 
     it('true', () => {
-      const wrapper = shallow(getComponent({ isEditing: true }))
+      const wrapper = shallow(getComponent({ nodeUi: { adding: true } }))
       expect(wrapper.render().find('input').length).toBe(1)
     })
   })
@@ -40,7 +39,7 @@ describe('NodeAdd', () => {
       const wrapper = shallow(getComponent())
       wrapper.setState({ title: 'user input' })
       expect(wrapper.state().title).toBe('user input')
-      wrapper.setProps({ isEditing: true })
+      wrapper.setProps({ nodeUi: { adding: true } })
       expect(wrapper.state().title).toBe('')
     })
   })
@@ -48,7 +47,7 @@ describe('NodeAdd', () => {
   describe('input', () => {
 
     it('change', () => {
-      const wrapper = shallow(getComponent({ isEditing: true }))
+      const wrapper = shallow(getComponent({ nodeUi: { adding: true } }))
       const input = document.createElement('input')
       input.value = 'user input'
       const mockEvent = getMockEvent({ target: input })
@@ -59,51 +58,53 @@ describe('NodeAdd', () => {
     describe('componentWillReceiveProps', () => {
 
       it('true => false', () => {
-        const wrapper = shallow(getComponent({ isEditing: true }))
+        const wrapper = shallow(getComponent({ nodeUi: { adding: true } }))
         wrapper.setState({ title: 'blabla' })
-        wrapper.setProps({ isEditing: false })
+        wrapper.setProps({ nodeUi: { adding: false } })
         expect(wrapper.state().title).toEqual('')
       })
 
       it('false => true', () => {
-        const wrapper = shallow(getComponent({ isEditing: false }))
+        const wrapper = shallow(getComponent({ nodeUi: { adding: false } }))
         wrapper.setState({ title: 'blabla' })
-        wrapper.setProps({ isEditing: true })
+        wrapper.setProps({ nodeUi: { adding: true } })
         expect(wrapper.state().title).toEqual('')
       })
     })
 
-    describe('sumbit', () => {
+    describe('submit', () => {
 
       it('input', () => {
 
-        const unsetIsEditing = jest.fn()
+        const clearNodeUI = jest.fn()
         const postNode = jest.fn()
-        const expand = jest.fn()
-        const wrapper = shallow(getComponent({ isEditing: true, unsetIsEditing, postNode, expand }))
+        const updateNodeUI = jest.fn()
+        const wrapper = shallow(getComponent({ nodeUi: { adding: true }, clearNodeUI, postNode, updateNodeUI }))
 
         wrapper.setState({ title: 'user input' })
         const mockEvent = getMockEvent()
         wrapper.find('form').simulate('submit', mockEvent)
-        expect(unsetIsEditing.mock.calls.length).toBe(1)
+        // @TODO: test arguments
+        expect(clearNodeUI.mock.calls.length).toBe(2)
         expect(postNode.mock.calls.length).toBe(1)
         expect(postNode.mock.calls[0][1]).toEqual({ title: 'user input' })
-        expect(expand.mock.calls.length).toBe(1)
+        expect(updateNodeUI.mock.calls.length).toBe(1)
       })
 
       it('empty (whitespace) input', () => {
 
-        const unsetIsEditing = jest.fn()
+        const clearNodeUI = jest.fn()
         const postNode = jest.fn()
-        const expand = jest.fn()
-        const wrapper = shallow(getComponent({ isEditing: true, unsetIsEditing, postNode }))
+        const updateNodeUI = jest.fn()
+        const wrapper = shallow(getComponent({ nodeUi: { adding: true }, clearNodeUI, postNode }))
 
         wrapper.setState({ title: ' ' })
         const mockEvent = getMockEvent()
         wrapper.find('form').simulate('submit', mockEvent)
-        expect(unsetIsEditing.mock.calls.length).toBe(1)
+        // @TODO: test arguments
+        expect(clearNodeUI.mock.calls.length).toBe(2)
         expect(postNode.mock.calls.length).toBe(0)
-        expect(expand.mock.calls.length).toBe(0)
+        expect(updateNodeUI.mock.calls.length).toBe(0)
       })
     })
   })

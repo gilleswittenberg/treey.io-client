@@ -31,14 +31,14 @@ describe('NodeDroppable', () => {
     parent: null,
     isRoot: false,
     uid: uid1,
+    path: [uid1],
     data: {
       title: 'node draggable'
     },
     siblings: [{ uid: uid1 }],
     index: 0,
-    unsetIsEditing: noop,
-    setIsDragging: noop,
-    unsetIsDragging: noop,
+    clearNodeUI: noop,
+    updateNodeUI: noop,
     handleClick: noop,
     handleClickMore: noop
   }
@@ -46,6 +46,7 @@ describe('NodeDroppable', () => {
     parent: null,
     isRoot: false,
     uid: uid2,
+    path: [uid2],
     ui: {},
     data: {
       title: 'node droppable'
@@ -55,15 +56,9 @@ describe('NodeDroppable', () => {
     index: 0,
     deleteNode: noop,
     putMoveNode: noop,
-    setIsEditing: noop,
-    unsetIsEditing: noop,
-    setIsMovingChild: noop,
-    unsetIsMovingChild: noop,
-    setIsDragging: noop,
-    unsetIsDragging: noop,
-    setShowButtons: noop,
-    toggleExpanded: noop,
-    handleClick: noop,
+    clearNodeUI: noop,
+    updateNodeUI: noop,
+    andleClick: noop,
     handleClickMore: noop
   }
 

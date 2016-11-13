@@ -38,8 +38,8 @@ export default class Node extends Component {
 
     // alt key to edit
     if (event.altKey) {
-      const { updateNodeUi, path } = this.props
-      updateNodeUi(path, 'editing', true)
+      const { updateNodeUI, path } = this.props
+      updateNodeUI(path, 'editing', true)
     }
     // regular click to collapse or expand
     else {

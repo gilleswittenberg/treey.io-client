@@ -17,66 +17,67 @@ describe('Node', () => {
     parent,
     isRoot: false,
     uid,
+    path: [],
     data: {
       title: ''
     },
+    nodeUi: {},
     hasNodes: false,
     siblings: [{ uid }],
     index: 0,
-    unsetIsEditing: noop,
-    setIsEditing: noop,
-    toggleExpanded: noop,
-    deleteNode: noop,
-    setShowButtons: noop,
-    setIsDragging: noop,
-    unsetIsDragging: noop
+    clearNodeUI: noop,
+    updateNodeUI: noop,
+    deleteNode: noop
   }
   const getComponent = getComponentHOF(Node, defaultProps)
 
   describe('handleClick', () => {
 
     it('altKey', () => {
-      const setIsEditing = jest.fn()
-      const node = new Node({ setIsEditing })
+      const updateNodeUI = jest.fn()
+      // @TODO: use mount / shallow
+      const node = new Node({ updateNodeUI, nodeUi: {} })
       const mockEvent = getMockEvent({ altKey: true })
       node.handleClick(mockEvent)
-      expect(setIsEditing.mock.calls.length).toBe(1)
+      expect(updateNodeUI.mock.calls.length).toBe(1)
     })
 
     it('canExpand', () => {
-      const toggleExpanded = jest.fn()
-      const unsetIsEditing = noop
-      const node = new Node({ unsetIsEditing, toggleExpanded })
+      const updateNodeUI = jest.fn()
+      const clearNodeUI = noop
+      // @TODO: use mount / shallow
+      const node = new Node({ clearNodeUI, updateNodeUI, nodeUi: {} })
       const mockEvent = getMockEvent()
       node.handleClick(mockEvent)
-      expect(toggleExpanded.mock.calls.length).toBe(0)
+      expect(updateNodeUI.mock.calls.length).toBe(0)
     })
 
-    it('toggleExpanded', () => {
-      const toggleExpanded = jest.fn()
-      const unsetIsEditing = noop
-      const node = new Node({ hasNodes: true, unsetIsEditing, toggleExpanded })
+    it('updateNodeUI', () => {
+      const updateNodeUI = jest.fn()
+      const clearNodeUI = noop
+      // @TODO: use mount / shallow
+      const node = new Node({ hasNodes: true, clearNodeUI, updateNodeUI, nodeUi: {} })
       const mockEvent = getMockEvent()
       node.handleClick(mockEvent)
-      expect(toggleExpanded.mock.calls.length).toBe(1)
+      expect(updateNodeUI.mock.calls.length).toBe(1)
     })
   })
 
   describe('startIsEditing', () => {
 
     it('handleClickEdit', () => {
-      const setIsEditing = jest.fn()
-      const wrapper = mount(getComponent({ setIsEditing }))
+      const updateNodeUI = jest.fn()
+      const wrapper = mount(getComponent({ updateNodeUI }))
       wrapper.find('.button-icon-edit').simulate('click')
-      expect(setIsEditing.mock.calls.length).toBe(1)
+      expect(updateNodeUI.mock.calls.length).toBe(1)
     })
 
     it('handleClickAdd', () => {
-      const setIsEditing = jest.fn()
-      const wrapper = mount(getComponent({ setIsEditing, showAddButton: true }))
+      const updateNodeUI = jest.fn()
+      const wrapper = mount(getComponent({ updateNodeUI, showAddButton: true }))
       wrapper.find('.button-icon-add').simulate('click')
-      expect(setIsEditing.mock.calls.length).toBe(1)
-      expect(setIsEditing.mock.calls[0][1]).toEqual('add')
+      expect(updateNodeUI.mock.calls.length).toBe(1)
+      expect(updateNodeUI.mock.calls[0][1]).toEqual('adding')
     })
   })
 
@@ -100,11 +101,11 @@ describe('Node', () => {
   describe('handleClickShowButtons', () => {
 
     it('click', () => {
-      const setShowButtons = jest.fn()
-      const wrapper = mount(getComponent({ setShowButtons }))
+      const updateNodeUI = jest.fn()
+      const wrapper = mount(getComponent({ updateNodeUI }))
       const mockEvent =  getMockEvent()
       wrapper.find('.button-icon-more').simulate('click', mockEvent)
-      expect(setShowButtons.mock.calls.length).toBe(1)
+      expect(updateNodeUI.mock.calls.length).toBe(1)
     })
   })
 })
