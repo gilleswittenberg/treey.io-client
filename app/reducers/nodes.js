@@ -58,7 +58,9 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
       const active = Tree2.find(state.tree, node => {
         return node.nodeUi.active === true
       })[0]
-      tree = Tree2.doAction(state.tree, active.path, updateNodeUI(action.data.key, action.data.value))
+      if (state.tree) {
+        tree = Tree2.doAction(state.tree, active.path, updateNodeUI(action.data.key, action.data.value))
+      }
     } else {
       // @TODO: Clean up (@flow)
       tree = state.tree
@@ -76,23 +78,28 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
         const visible = node.nodeUi.expanded === true
         return parentVisible || visible
       }
-      const visible = Tree2.find(state.tree, search)
-      const index = visible.findIndex(node => node.path === active.path)
-      let indexNext
-      if (action.type === types.SET_NEXT_UI_ACTIVE) {
-        indexNext = index + 1 < visible.length ? index + 1 : 0
-      } else {
-        indexNext = index - 1 >= 0 ? index - 1 : visible.length - 1
+      // @TODO: Clean up (@flow)
+      if (state.tree) {
+        const visible = Tree2.find(state.tree, search)
+        const index = visible.findIndex(node => node.path === active.path)
+        let indexNext
+        if (action.type === types.SET_NEXT_UI_ACTIVE) {
+          indexNext = index + 1 < visible.length ? index + 1 : 0
+        } else {
+          indexNext = index - 1 >= 0 ? index - 1 : visible.length - 1
+        }
+        const next = visible[indexNext]
+        if (tree && state.tree) {
+          tree = Tree2.doActionAll(state.tree, node => {
+            if (node.nodeUi) node.nodeUi.active = false
+            return node
+          })
+          tree = Tree2.doAction(tree, next.path, node => {
+            node.nodeUi.active = true
+            return node
+          })
+        }
       }
-      const next = visible[indexNext]
-      tree = Tree2.doActionAll(state.tree, node => {
-        if (node.nodeUi) node.nodeUi.active = false
-        return node
-      })
-      tree = Tree2.doAction(tree, next.path, node => {
-        node.nodeUi.active = true
-        return node
-      })
     } else {
       // @TODO: Clean up (@flow)
       tree = state.tree

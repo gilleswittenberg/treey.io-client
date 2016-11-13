@@ -5,11 +5,6 @@ import classNames from 'classnames'
 import NodeDroppable from '../components/NodeDroppable'
 import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
-// @TODO: Remove
-import {
-  isMovingChild as isMovingChildFunc,
-  isDragging as isDraggingFunc
-} from '../reducers/ui'
 
 export default class NodeWrap extends Component {
 

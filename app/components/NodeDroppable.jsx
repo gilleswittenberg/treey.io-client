@@ -7,7 +7,6 @@ import DND_TYPE from '../settings/DND_TYPE'
 import { DropTarget } from 'react-dnd'
 import getHoverRegion from '../lib/getHoverRegion'
 import getNextSibling from '../lib/getNextSibling'
-import { isMovingChild } from '../reducers/ui'
 
 const DropSpec = {
 
