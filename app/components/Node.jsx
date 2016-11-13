@@ -13,7 +13,7 @@ export default class Node extends Component {
   static propTypes = {
     lang: PropTypes.string,
     enableDnD: PropTypes.bool,
-    ui: PropTypes.object.isRequired,
+    app: PropTypes.object.isRequired,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,

@@ -29,7 +29,7 @@ export type Lang = 'en'
 
 export type State = {
   nodes: NodesState,
-  ui: UIState
+  app: AppState
 }
 
 export type NodesState = {
@@ -70,29 +70,16 @@ export type NodesAction = {
   }
 }
 
-type UIActionType =
-  'INIT_EXPANDED' |
-  'TOGGLE_EXPANDED' |
-  'SET_IS_EDITING' |
-  'UNSET_IS_EDITING' |
-  'SET_IS_MOVING_CHILD' |
-  'UNSET_IS_MOVING_CHILD' |
-  'SET_IS_DRAGGING' |
-  'UNSET_IS_DRAGGING' |
-  'SET_SHOW_BUTTONS' |
-  'UNSET_SHOW_BUTTONS'
+type AppActionType = '@TODO'
 
-export type UIAction = {
-  type: UIActionType,
-  data: {
-    expanded: string[],
-    uid: string
-  }
+export type AppAction = {
+  type: AppActionType,
+  data: {}
 }
 
-export type UIState = {
-  lang: string,
-  enableDnD: bool
+export type AppState = {
+  lang: Lang,
+  enableDnD: boolean
 }
 
 export type HoverRegion = 'top' | 'bottom'

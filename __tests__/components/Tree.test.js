@@ -6,14 +6,13 @@ import { defaultActions } from '../../app/lib/actions'
 
 describe('Tree', () => {
 
+  const app = { lang: 'en', enableDnD: false }
   const uid1 = '57bedc40e81b0620300d7691'
   const uid2 = '57bedc40e81b0620300d7692'
 
+
   const defaultProps = {
-    ui: {
-      lang: 'en',
-      enableDnD: false
-    },
+    app,
     ...defaultActions,
     tree: null,
     updateNodeUI: noop,

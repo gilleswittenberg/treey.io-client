@@ -10,7 +10,7 @@ export default class NodeWrap extends Component {
 
   static propTypes = {
     enableDnD: PropTypes.bool,
-    ui: PropTypes.object.isRequired,
+    app: PropTypes.object.isRequired,
     nodeUi: PropTypes.object.isRequired,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,

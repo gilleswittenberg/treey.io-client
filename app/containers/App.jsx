@@ -11,15 +11,15 @@ class App extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     nodes: PropTypes.object.isRequired,
-    ui: PropTypes.object.isRequired
+    app: PropTypes.object.isRequired
   }
 
   render () {
 
     const {
       dispatch,
-      ui,
-      ui: { lang, enableDnD },
+      app,
+      app: { lang, enableDnD },
       nodes: { tree, isSyncing, hasErrors }
     } = this.props
 
@@ -29,7 +29,7 @@ class App extends React.Component {
 
     // $FlowIssue Flow does not recognize Tree.DecoratedComponent
     const TreeComponent = enableDnD ? Tree : Tree.DecoratedComponent
-    const treeProps = { lang, enableDnD, ui, tree, ...actions }
+    const treeProps = { lang, enableDnD, app, tree, ...actions }
 
     return (
       <div className="wrap">

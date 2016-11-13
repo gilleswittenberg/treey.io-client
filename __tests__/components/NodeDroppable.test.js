@@ -47,7 +47,7 @@ describe('NodeDroppable', () => {
     isRoot: false,
     uid: uid2,
     path: [uid2],
-    ui: {},
+    app: {},
     data: {
       title: 'node droppable'
     },

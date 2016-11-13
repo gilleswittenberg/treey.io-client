@@ -46,7 +46,7 @@ describe('ButtonMoveChild', () => {
     parent: null,
     isRoot: false,
     uid: uid2,
-    ui: {},
+    app: {},
     data: {
       title: 'node droppable'
     },

@@ -9,7 +9,7 @@ describe('NodeWrap', () => {
   const uid = '57bedc40e81b0620300d769b'
 
   const defaultProps = {
-    ui: { enableDnD: false },
+    app: { enableDnD: false },
     parent,
     uid,
     path: [uid],

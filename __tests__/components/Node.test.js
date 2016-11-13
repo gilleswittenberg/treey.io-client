@@ -6,13 +6,13 @@ import getMockEvent from '../getMockEvent'
 
 describe('Node', () => {
 
-  const ui = { enableDnD: false }
+  const app = { enableDnD: false }
   const lang = 'en'
   const parent = '57bedc40e81b0620300d769a'
   const uid = '57bedc40e81b0620300d769b'
 
   const defaultProps = {
-    ui,
+    app,
     lang,
     parent,
     isRoot: false,

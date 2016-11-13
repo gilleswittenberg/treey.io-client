@@ -2,9 +2,9 @@
 
 import { combineReducers } from 'redux'
 import nodes from './nodes'
-import ui from './ui'
+import app from './app'
 
 export default combineReducers({
   nodes,
-  ui
+  app
 })

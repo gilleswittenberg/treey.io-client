@@ -5,13 +5,13 @@ import noop from '../noop'
 
 describe('Nodes', () => {
 
-  const ui = { enableDnD: false }
+  const app = { enableDnD: false }
   const parent = '57bedc40e81b0620300d769a'
   const uid1 = '57bedc40e81b0620300d769b'
   const uid2 = '57bedc40e81b0620300d769c'
 
   const defaultProps = {
-    ui,
+    app,
     parent: null,
     path: [],
     nodes: [],
