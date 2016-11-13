@@ -79,7 +79,7 @@ export default class Node extends Component {
   handleClickShowButtons (event: Event) {
     event.stopPropagation()
     const { path, clearNodeUI, updateNodeUI } = this.props
-    clearNodeUI('showButtons')
+    clearNodeUI('buttonsShown')
     updateNodeUI(path)
   }
 
@@ -100,7 +100,7 @@ export default class Node extends Component {
 
     const showAddButton = !hasNodes
     const showDeleteButton = !isRoot
-    const hasButtonsShown = nodeUi && nodeUi.showButtons === true
+    const hasButtonsShown = nodeUi && nodeUi.buttonsShown === true
     const isDragging = nodeUi && nodeUi.dragging === true
     const showMoveChildButton = userIsDragging && !hasNodes
 

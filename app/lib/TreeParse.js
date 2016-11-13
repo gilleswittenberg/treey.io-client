@@ -1,8 +1,18 @@
 import { fromJS } from 'immutable'
-import type { Node, NodeMap } from '../../flow/types'
+import type { NodeUI, Node, NodeMap } from '../../flow/types'
 
 const idKey = 'uid'
 const nodesKey = 'nodes'
+
+export const defaultNodeUI: NodeUI = {
+  active: false,
+  expanded: false,
+  adding: false,
+  editing: false,
+  dragging: false,
+  movingChild: false,
+  buttonsShown: false
+}
 
 function toJS (im: ?NodeMap) {
   return im ? im.toJS() : {}
@@ -23,14 +33,12 @@ const TreeParse = {
     map = map.set('path', path)
     map = map.set('data', { title: nodeMap.get('title') })
     map = map.remove('title')
+    map = map.set('nodeUi', defaultNodeUI)
     const nodes: any = map.get(nodesKey)
     if (nodes) {
       const nodesList = nodes.map(node => this._parseNode.bind(this)(node, path))
       map = map.set(nodesKey, nodesList)
     }
-    // @TOOD: extract
-    const ui = { expanded: false, active: false, dragging: false, showButtons: false, editing: false, movingChild: false }
-    map = map.set('nodeUi', ui)
     return map
   },
 

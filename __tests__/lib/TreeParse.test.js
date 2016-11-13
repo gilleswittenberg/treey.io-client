@@ -1,4 +1,4 @@
-import TreeParse from '../../app/lib/TreeParse'
+import TreeParse, { defaultNodeUI } from '../../app/lib/TreeParse'
 
 describe('TreeParse', () => {
 
@@ -10,8 +10,7 @@ describe('TreeParse', () => {
 
   describe('parse', () => {
 
-    // @TODO: extract
-    const ui = { expanded: false, active: false, dragging: false, showButtons: false, editing: false, movingChild: false }
+    const nodeUi = defaultNodeUI
 
     it('root', () => {
       const tree = { uid, title: 'Mr. Foo' }
@@ -19,7 +18,7 @@ describe('TreeParse', () => {
         uid,
         path: [uid],
         data: { title: 'Mr. Foo' },
-        nodeUi: ui
+        nodeUi
       })
     })
 
@@ -27,8 +26,8 @@ describe('TreeParse', () => {
       const nodes = [{ uid: uid1, title: 'First child' }, { uid: uid2, title: 'Second child' }]
       const tree = { uid, title: 'Mr. Foo', nodes }
       expect(TreeParse.parse(tree).nodes).toEqual([
-        { uid: uid1, path: [uid, uid1], data: { title: 'First child' }, nodeUi: ui },
-        { uid: uid2, path: [uid, uid2], data: { title: 'Second child' }, nodeUi: ui }
+        { uid: uid1, path: [uid, uid1], data: { title: 'First child' }, nodeUi },
+        { uid: uid2, path: [uid, uid2], data: { title: 'Second child' }, nodeUi }
       ])
     })
 
@@ -43,8 +42,8 @@ describe('TreeParse', () => {
         ]
       }
       expect(TreeParse.parse(tree).nodes[1].nodes).toEqual([
-        { uid: uid2, path: [uid, uid1, uid2], data: { title: 'First grandchild' }, nodeUi: ui },
-        { uid: uid3, path: [uid, uid1, uid3], data: { title: 'Second grandchild' }, nodeUi: ui }
+        { uid: uid2, path: [uid, uid1, uid2], data: { title: 'First grandchild' }, nodeUi },
+        { uid: uid3, path: [uid, uid1, uid3], data: { title: 'Second grandchild' }, nodeUi }
       ])
     })
 
@@ -53,8 +52,8 @@ describe('TreeParse', () => {
       const tree = { uid, title: 'Mr. Foo', nodes }
       const parsedTree = TreeParse.parse(tree)
 
-      expect(parsedTree.nodeUi).toEqual(ui)
-      expect(parsedTree.nodes[1].nodeUi).toEqual(ui)
+      expect(parsedTree.nodeUi).toEqual(nodeUi)
+      expect(parsedTree.nodes[1].nodeUi).toEqual(nodeUi)
     })
   })
 })

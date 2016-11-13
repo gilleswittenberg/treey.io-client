@@ -12,7 +12,7 @@ export type NodeUI = {
   editing: boolean,
   dragging: boolean,
   movingChild: boolean,
-  hasButtonsShown: boolean
+  buttonsShown: boolean
 }
 export type Node = {
   uid: string,

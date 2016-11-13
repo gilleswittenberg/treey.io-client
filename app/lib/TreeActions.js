@@ -1,5 +1,7 @@
 import type { NodeData, Node, NodeMap } from '../../flow/types'
 
+import { defaultNodeUI } from './TreeParse'
+
 const nodesKey = 'nodes'
 
 export const updateNode = (data: NodeData) => {
@@ -22,7 +24,7 @@ export const createNode = (data: NodeData) => {
       uid: null,
       path: null,
       data,
-      ui: { expanded: false, active: false, dragging: false, showButtons: false, editing: false, movingChild: false }
+      ui: defaultNodeUI
     }
   }
 }
