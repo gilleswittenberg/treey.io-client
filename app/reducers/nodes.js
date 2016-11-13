@@ -41,10 +41,22 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     }
     return { ...state, tree }
 
+  case types.UPDATE_ACTIVE_NODE_UI:
+    if (state.tree) {
+      const active = Tree2.find(state.tree, node => {
+        return node.nodeUi.active === true
+      })[0]
+      tree = Tree2.doAction(state.tree, active.path, updateNodeUI(action.data.key, action.data.value))
+    } else {
+      // @TODO: Clean up (@flow)
+      tree = state.tree
+    }
+    return { ...state, tree }
+
   case types.SET_NEXT_UI_ACTIVE:
   case types.SET_PREV_UI_ACTIVE:
     if (state.tree) {
-      const active = Tree2.find(state.tree, (node) => {
+      const active = Tree2.find(state.tree, node => {
         return node.nodeUi.active === true
       })[0]
       const search = (node, parent) => {

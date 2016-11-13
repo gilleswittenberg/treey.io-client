@@ -34,7 +34,7 @@ class Tree extends Component {
   }
 
   componentDidMount () {
-    window.addEventListener('keyup', this.handleKeyPress)
+    window.addEventListener('keydown', this.handleKeyPress)
     window.addEventListener('click', this.handleWindowClick)
   }
 
@@ -43,12 +43,22 @@ class Tree extends Component {
     if (event.keyCode === 27) { // esc
       const { unsetIsEditing } = this.props
       unsetIsEditing()
-    } else if (event.keyCode === 40) {
+    } else if (event.keyCode === 40) { // down arrow
+      event.preventDefault()
       const { setNextUIActive } = this.props
       setNextUIActive()
-    } else if (event.keyCode === 38) {
+    } else if (event.keyCode === 38) { // up arrow
+      event.preventDefault()
       const { setPrevUIActive } = this.props
       setPrevUIActive()
+    } else if (event.keyCode === 37) { // left arrow
+      event.preventDefault()
+      const { updateActiveNodeUI } = this.props
+      updateActiveNodeUI('expanded', false)
+    } else if (event.keyCode === 39) { // right arrow
+      event.preventDefault()
+      const { updateActiveNodeUI } = this.props
+      updateActiveNodeUI('expanded', true)
     }
   }
 

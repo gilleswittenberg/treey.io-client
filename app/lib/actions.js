@@ -35,21 +35,23 @@ import {
   toggleExpanded
 } from '../actions/ui'
 import {
-  updateNodeUI,
   postNode,
   putNode,
   deleteNode,
   putMoveNode,
+  updateNodeUI,
+  updateActiveNodeUI,
   setNextUIActive,
   setPrevUIActive
 } from '../actions/nodes'
 
 let nodesActions = {
-  updateNodeUI,
   postNode,
   putNode,
   deleteNode,
   putMoveNode,
+  updateNodeUI,
+  updateActiveNodeUI,
   setNextUIActive,
   setPrevUIActive
 }

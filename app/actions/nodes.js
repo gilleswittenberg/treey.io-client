@@ -59,6 +59,17 @@ export function updateNodeUI (path: string[], key: string, value: boolean) {
   }
 }
 
+export const UPDATE_ACTIVE_NODE_UI = 'UPDATE_ACTIVE_NODE_UI'
+export function updateActiveNodeUI (key: string, value: boolean) {
+  return {
+    type: UPDATE_ACTIVE_NODE_UI,
+    data: {
+      key,
+      value
+    }
+  }
+}
+
 export const SET_NEXT_UI_ACTIVE = 'SET_NEXT_UI_ACTIVE'
 export function setNextUIActive () {
   return {
