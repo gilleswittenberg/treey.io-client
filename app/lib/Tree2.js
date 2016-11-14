@@ -93,13 +93,6 @@ const Tree = {
     return tree.toJS()
   },
 
-  /*
-  flatten() {}, // breath first, depth first
-  find() {},
-  prev() {},
-  next() {},
-  */
-
   // depth first
   findRecursive (node: Node, search: Function, parent?: Node, siblings?: Node[], index?: number) {
     let found = []

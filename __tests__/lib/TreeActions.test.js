@@ -1,4 +1,4 @@
-import { updateNode, createNode } from '../../app/lib/TreeActions'
+import { updateNode, createNode, removeNode } from '../../app/lib/TreeActions'
 
 describe('TreeActions', () => {
 
@@ -10,10 +10,6 @@ describe('TreeActions', () => {
   })
 
   describe('createNode', () => {
-
-    it('function', () => {
-      expect(typeof createNode()).toBe('function')
-    })
 
     describe('return', () => {
 
@@ -34,6 +30,13 @@ describe('TreeActions', () => {
         const node = createNode(data, uid)()
         expect(node.uid).toBe(uid)
       })
+    })
+  })
+
+  describe('removeNode', () => {
+
+    it('function', () => {
+      expect(typeof removeNode()).toBe('function')
     })
   })
 })
