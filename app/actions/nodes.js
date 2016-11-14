@@ -1,7 +1,7 @@
 /* @flow */
 
 import fetch from 'isomorphic-fetch'
-import type { Node, NodeData } from '../../flow/types'
+import type { NodeData } from '../../flow/types'
 
 let host
 switch (process.env.NODE_ENV) {
@@ -127,9 +127,8 @@ export function getNodes (uid: string) {
 }
 
 export const ADD_NODE = 'ADD_NODE'
-export function addNode (parent: string, json: any) {
-  const node: Node = {
-    uid: json.uid,
+export function addNode (path: string[], json: any) {
+  const node = {
     data: {
       title: json.title
     }
@@ -137,14 +136,14 @@ export function addNode (parent: string, json: any) {
   return {
     type: ADD_NODE,
     data: {
-      node,
-      parent
+      path,
+      node
     }
   }
 }
 
 export const POST_NODE = 'POST_NODE'
-export function postNode (parent: string, data: NodeData) {
+export function postNode (parent: string, path: string[], data: NodeData) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
     const url = `${ host }/node/${ parent }`
@@ -168,7 +167,7 @@ export function postNode (parent: string, data: NodeData) {
       .then(
         json => {
           dispatch(stopSyncing())
-          dispatch(addNode(parent, json))
+          dispatch(addNode(path, json))
         },
         () => {
           dispatch(stopSyncing())

@@ -12,6 +12,7 @@ describe('NodeAdd', () => {
   const defaultProps = {
     lang,
     parent,
+    path: [],
     ui: {},
     clearNodeUI: noop,
     updateNodeUI: noop,
@@ -87,7 +88,7 @@ describe('NodeAdd', () => {
         // @TODO: test arguments
         expect(clearNodeUI.mock.calls.length).toBe(2)
         expect(postNode.mock.calls.length).toBe(1)
-        expect(postNode.mock.calls[0][1]).toEqual({ title: 'user input' })
+        expect(postNode.mock.calls[0][2]).toEqual({ title: 'user input' })
         expect(updateNodeUI.mock.calls.length).toBe(1)
       })
 

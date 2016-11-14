@@ -4,7 +4,7 @@ import * as types from '../actions/nodes'
 import TreeParse from '../lib/TreeParse'
 import Tree from '../lib/Tree'
 import Tree2 from '../lib/Tree2'
-import { updateNode, updateNodeUI } from '../lib/TreeActions'
+import { createNode, addNode, updateNode, updateNodeUI } from '../lib/TreeActions'
 
 import type { NodesState, NodesAction } from '../../flow/types'
 
@@ -109,10 +109,8 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
 
   case types.ADD_NODE:
     if (state.tree) {
-      // @TOOD: parse from backend
-      tree = Tree.create(state.tree, action.data.parent, action.data.node)
-    } else {
-      tree = state.tree
+      const data = action.data.node.data
+      tree = Tree2.doAction(state.tree, action.data.path, createNode(data), addNode())
     }
     return { ...state, tree }
   case types.UPDATE_NODE:

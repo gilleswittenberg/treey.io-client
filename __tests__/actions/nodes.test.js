@@ -136,6 +136,7 @@ describe('nodes actions', () => {
     it('OK', () => {
 
       const parent = '57bedc40e81b0620300d769a'
+      const path = ['57bedc40e81b0620300d769a']
 
       const data = {
         title: 'New User'
@@ -147,7 +148,6 @@ describe('nodes actions', () => {
       }
 
       const actionData = {
-        uid: '57bedc40e81b0620300d7691',
         data: {
           title: 'New User'
         }
@@ -159,11 +159,11 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.postNode(parent, data))
+      return store.dispatch(actions.postNode(parent, path, data))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('ADD_NODE')
-          expect(lastAction.data).toEqual({ parent, node: actionData })
+          expect(lastAction.data).toEqual({ path, node: actionData })
         })
     })
   })
