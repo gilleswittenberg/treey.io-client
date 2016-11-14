@@ -89,7 +89,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
           indexNext = index - 1 >= 0 ? index - 1 : visible.length - 1
         }
         const next = visible[indexNext]
-        if (tree && state.tree) {
+        if (state.tree) {
           tree = Tree2.doActionAll(state.tree, node => {
             if (node.ui) node.ui.active = false
             return node
