@@ -692,6 +692,7 @@ describe('Tree2', () => {
           // new value
           expect(newTree.nodes[0].nodes.length).toBe(1)
           expect(newTree.nodes[0].nodes[0].data.title).toBe('new node')
+          expect(newTree.nodes[0].nodes[0].path).toEqual([uid, uid1, null])
         })
       })
 

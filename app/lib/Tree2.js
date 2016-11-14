@@ -10,6 +10,7 @@ const Tree = {
 
   doo (node: NodeMap, action: Function, prev: any) : NodeMap {
     node = node.toJS()
+    prev = prev && prev.toJS()
     node = action(node, prev)
     return fromJS(node)
   },
