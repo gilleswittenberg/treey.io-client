@@ -3,13 +3,13 @@ import { mount } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import getMockEvent from '../getMockEvent'
-import { defaultNodeUI } from '../../app/lib/TreeParse'
+import defaultUI from '../../app/lib/defaultUI'
 
 describe('Node', () => {
 
   const app = { enableDnD: false }
   const lang = 'en'
-  const ui = defaultNodeUI
+  const ui = defaultUI
   const parent = '57bedc40e81b0620300d769a'
   const uid = '57bedc40e81b0620300d769b'
 

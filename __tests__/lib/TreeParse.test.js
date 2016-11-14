@@ -1,4 +1,5 @@
-import TreeParse, { defaultNodeUI } from '../../app/lib/TreeParse'
+import TreeParse from '../../app/lib/TreeParse'
+import defaultUI from '../../app/lib/defaultUI'
 
 describe('TreeParse', () => {
 
@@ -10,7 +11,7 @@ describe('TreeParse', () => {
 
   describe('parse', () => {
 
-    const ui = defaultNodeUI
+    const ui = defaultUI
 
     it('root', () => {
       const tree = { uid, title: 'Mr. Foo' }

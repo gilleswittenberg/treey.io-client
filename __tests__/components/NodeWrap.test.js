@@ -2,11 +2,11 @@ import NodeWrap from '../../app/components/NodeWrap'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
-import { defaultNodeUI } from '../../app/lib/TreeParse'
+import defaultUI from '../../app/lib/defaultUI'
 
 describe('NodeWrap', () => {
 
-  const ui = defaultNodeUI
+  const ui = defaultUI
   const parent = '57bedc40e81b0620300d769a'
   const uid = '57bedc40e81b0620300d769b'
 

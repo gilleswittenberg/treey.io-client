@@ -4,7 +4,7 @@ import NodeDraggable from '../../app/components/NodeDraggable'
 import TestBackend from 'react-dnd-test-backend'
 import { DragDropContext } from 'react-dnd'
 import { mount } from 'enzyme'
-import { defaultNodeUI } from '../../app/lib/TreeParse'
+import defaultUI from '../../app/lib/defaultUI'
 import noop from '../noop'
 
 
@@ -26,7 +26,7 @@ function wrapInTestContext (DecoratedDraggableComponent, DecoratedDroppableCompo
 
 describe('NodeDroppable', () => {
 
-  const ui = defaultNodeUI
+  const ui = defaultUI
   const uid1 = '57bedc40e81b0620300d7691'
   const uid2 = '57bedc40e81b0620300d7692'
   const uid3 = '57bedc40e81b0620300d7693'

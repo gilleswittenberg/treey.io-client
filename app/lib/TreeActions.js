@@ -1,6 +1,6 @@
 import type { NodeData, Node, NodeMap } from '../../flow/types'
 
-import { defaultNodeUI } from './TreeParse'
+import defaultUI from './defaultUI'
 
 const nodesKey = 'nodes'
 
@@ -24,7 +24,7 @@ export const createNode = (data: NodeData) => {
       uid: null,
       path: null,
       data,
-      ui: defaultNodeUI
+      ui: defaultUI
     }
   }
 }

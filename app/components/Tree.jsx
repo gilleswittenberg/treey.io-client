@@ -7,7 +7,7 @@ import autobind from 'autobind-decorator'
 import { DragDropContext } from 'react-dnd'
 import TouchBackend from 'react-dnd-touch-backend'
 import delay from '../lib/delay'
-import { defaultNodeUI } from '../lib/TreeParse'
+import defaultUI from '../lib/defaultUI'
 
 class Tree extends Component {
 
@@ -84,7 +84,7 @@ class Tree extends Component {
       tree
     } = this.props
 
-    const nodesProps = { ...this.props, parent: null, nodes: [tree], ui: defaultNodeUI }
+    const nodesProps = { ...this.props, parent: null, nodes: [tree], ui: defaultUI }
 
     // $FlowIssue Flow does not recognize CustomDragLayer.DecoratedComponent
     const CustomDragLayerComponent = enableDnD ? CustomDragLayer : CustomDragLayer.DecoratedComponent

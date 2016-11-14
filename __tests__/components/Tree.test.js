@@ -3,12 +3,12 @@ import { shallow, render } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import { defaultActions } from '../../app/lib/actions'
-import { defaultNodeUI } from '../../app/lib/TreeParse'
+import defaultUI from '../../app/lib/defaultUI'
 
 describe('Tree', () => {
 
   const app = { lang: 'en', enableDnD: false }
-  const ui = defaultNodeUI
+  const ui = defaultUI
   const uid1 = '57bedc40e81b0620300d7691'
   const uid2 = '57bedc40e81b0620300d7692'
 
