@@ -229,18 +229,18 @@ export function putNode (uid: string, path: string[], data: NodeData) {
 }
 
 export const REMOVE_NODE = 'REMOVE_NODE'
-export function removeNode (parent: string, uid: string) {
+export function removeNode (path: string[]) {
   return {
     type: REMOVE_NODE,
     data: {
-      parent,
-      uid
+      path
     }
   }
 }
 
 export const DELETE_NODE = 'DELETE_NODE'
-export function deleteNode (parent: string, uid: string) {
+// @TODO: remove parent, uid arguments
+export function deleteNode (path: string[], parent: string, uid: string) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
     const url = `${ host }/node/${ parent }/${ uid }`
@@ -261,7 +261,7 @@ export function deleteNode (parent: string, uid: string) {
       .then(
         () => {
           dispatch(stopSyncing())
-          dispatch(removeNode(parent, uid))
+          dispatch(removeNode(path))
         },
         () => {
           dispatch(stopSyncing())

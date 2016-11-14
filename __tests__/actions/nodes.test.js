@@ -273,17 +273,19 @@ describe('nodes actions', () => {
 
     it('OK', () => {
 
+      const path = []
+
       nock(hostname)
         .delete(`/node/${ parent }/${ uid }`)
         .reply(200)
 
       const store = mockStore({ tree: null })
 
-      return store.dispatch(actions.deleteNode(parent, uid))
+      return store.dispatch(actions.deleteNode(path, parent, uid))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('REMOVE_NODE')
-          expect(lastAction.data).toEqual({ parent, uid })
+          expect(lastAction.data).toEqual({ path })
         })
     })
   })

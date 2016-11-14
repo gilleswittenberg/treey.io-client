@@ -74,8 +74,9 @@ export default class Node extends Component {
 
   @autobind
   handleClickDelete () {
-    const { parent, uid, deleteNode } = this.props
-    deleteNode(parent, uid)
+    // @TODO: remove parent, uid
+    const { path, parent, uid, deleteNode } = this.props
+    deleteNode(path, parent, uid)
   }
 
   @autobind

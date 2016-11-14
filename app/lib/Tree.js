@@ -1,5 +1,7 @@
 /* @flow */
 
+// @TODO: remove
+
 import { fromJS, List } from 'immutable'
 import type { Node, NodeMap, NodesList } from '../../flow/types'
 

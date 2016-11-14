@@ -4,7 +4,7 @@ import * as types from '../actions/nodes'
 import TreeParse from '../lib/TreeParse'
 import Tree from '../lib/Tree'
 import Tree2 from '../lib/Tree2'
-import { createNode, addNode, updateNode, updateNodeUI } from '../lib/TreeActions'
+import { createNode, addNode, updateNode, removeNode, updateNodeUI } from '../lib/TreeActions'
 
 import type { NodesState, NodesAction } from '../../flow/types'
 
@@ -16,8 +16,7 @@ export const defaultState: NodesState = {
 }
 
 export default function nodes (state: NodesState = defaultState, action: NodesAction) {
-  let tree
-  let userIsDragging
+  let tree, userIsDragging, path, uid
 
   // backend
   switch (action.type) {
@@ -113,20 +112,22 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
       tree = Tree2.doAction(state.tree, action.data.path, createNode(data), addNode())
     }
     return { ...state, tree }
+
   case types.UPDATE_NODE:
     if (state.tree) {
       const data = action.data.node.data
       tree = Tree2.doAction(state.tree, action.data.path, updateNode(data))
     }
     return { ...state, tree }
+
   case types.REMOVE_NODE:
+    path = action.data.path
+    uid = path.pop()
     if (state.tree) {
-      tree = Tree.removeChild(state.tree, action.data.parent, action.data.uid)
-    } else {
-      // @TODO: Clean up (@flow)
-      tree = state.tree
+      tree = Tree2.doAction(state.tree, path, removeNode(uid))
     }
     return { ...state, tree }
+
   case types.MOVE_NODE:
     if (state.tree) {
       tree = Tree.move(state.tree, action.data.parent, action.data.uid, action.data.newParent, action.data.before)
