@@ -4,7 +4,7 @@ import * as types from '../actions/nodes'
 import TreeParse from '../lib/TreeParse'
 import Tree from '../lib/Tree'
 import Tree2 from '../lib/Tree2'
-import { updateNodeUI } from '../lib/TreeActions'
+import { updateNode, updateNodeUI } from '../lib/TreeActions'
 
 import type { NodesState, NodesAction } from '../../flow/types'
 
@@ -30,6 +30,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
 
   // nodes tree
   case types.INDEX_NODES:
+    // @TODO: only validate
     tree = TreeParse.parse(action.data.tree)
     return { ...state, tree }
 
@@ -116,15 +117,15 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     return { ...state, tree }
   case types.UPDATE_NODE:
     if (state.tree) {
-      tree = Tree.update(state.tree, action.data.uid, action.data.node)
-    } else {
-      tree = state.tree
+      const data = action.data.node.data
+      tree = Tree2.doAction(state.tree, action.data.path, updateNode(data))
     }
     return { ...state, tree }
   case types.REMOVE_NODE:
     if (state.tree) {
       tree = Tree.removeChild(state.tree, action.data.parent, action.data.uid)
     } else {
+      // @TODO: Clean up (@flow)
       tree = state.tree
     }
     return { ...state, tree }

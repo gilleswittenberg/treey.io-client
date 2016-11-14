@@ -58,10 +58,10 @@ type NodesActionType =
 export type NodesAction = {
   type: NodesActionType,
   data: {
+    node: any,
     tree: any,
     path: string[],
     parent: string,
-    node: NodeData,
     uid: string,
     newParent: string,
     before: string,

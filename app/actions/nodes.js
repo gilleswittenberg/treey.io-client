@@ -179,9 +179,8 @@ export function postNode (parent: string, data: NodeData) {
 }
 
 export const UPDATE_NODE = 'UPDATE_NODE'
-export function updateNode (uid: string, json: any) {
-  const node: Node = {
-    uid,
+export function updateNode (path: string[], json: any) {
+  const node = {
     data: {
       title: json.title
     }
@@ -189,13 +188,14 @@ export function updateNode (uid: string, json: any) {
   return {
     type: UPDATE_NODE,
     data: {
+      path,
       node
     }
   }
 }
 
 export const PUT_NODE = 'PUT_NODE'
-export function putNode (uid: string, data: NodeData) {
+export function putNode (uid: string, path: string[], data: NodeData) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
     const url = `${ host }/node/${ uid }`
@@ -219,7 +219,7 @@ export function putNode (uid: string, data: NodeData) {
       .then(
         json => {
           dispatch(stopSyncing())
-          dispatch(updateNode(uid, json))
+          dispatch(updateNode(path, json))
         },
         () => {
           dispatch(stopSyncing())

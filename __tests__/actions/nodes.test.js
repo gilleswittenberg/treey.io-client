@@ -203,18 +203,17 @@ describe('nodes actions', () => {
     it('OK', () => {
 
       const uid = '57bedc40e81b0620300d769a'
+      const path = ['57bedc40e81b0620300d769a']
 
       const data = {
         title: 'New User'
       }
 
       const body = {
-        uid,
         title: 'New User'
       }
 
       const actionData = {
-        uid,
         data: {
           title: 'New User'
         }
@@ -226,11 +225,11 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putNode(uid, data))
+      return store.dispatch(actions.putNode(uid, path, data))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('UPDATE_NODE')
-          expect(lastAction.data).toEqual({ node: actionData })
+          expect(lastAction.data).toEqual({ path, node: actionData })
         })
     })
   })
@@ -278,7 +277,7 @@ describe('nodes actions', () => {
         .delete(`/node/${ parent }/${ uid }`)
         .reply(200)
 
-      const store = mockStore({ nodes: null })
+      const store = mockStore({ tree: null })
 
       return store.dispatch(actions.deleteNode(parent, uid))
         .then(() => {

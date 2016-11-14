@@ -139,8 +139,8 @@ describe('nodes reducer', () => {
     expect(state3.tree.nodes.length).toBe(3)
     expect(state3.tree.nodes[2].title).toBe('new')
 
-    const state4 = reducer(state3, { type: UPDATE_NODE, data: { uid: '57bedc40e81b0620300d769a', node: { title: 'John Doe Sr.' } } })
-    expect(state4.tree.title).toBe('John Doe Sr.')
+    const state4 = reducer(state3, { type: UPDATE_NODE, data: { path: ['57bedc40e81b0620300d769a'], node: { data: { title: 'John Doe Sr.' } } } })
+    expect(state4.tree.data.title).toBe('John Doe Sr.')
 
     const state5 = reducer(state4, { type: REMOVE_NODE, data: {
       parent: '57bedc40e81b0620300d769a', uid: '57bedc40e81b0620300d7690' }
