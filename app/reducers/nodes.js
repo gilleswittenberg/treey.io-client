@@ -1,10 +1,10 @@
 /* @flow */
 
 import * as types from '../actions/nodes'
-import TreeParse from '../lib/TreeParse'
-import Tree from '../lib/Tree'
-import Tree2 from '../lib/Tree2'
-import { createNode, addNode, updateNode, removeNode, updateNodeUI } from '../lib/TreeActions'
+import { index, createAndAdd, update, remove, move, setUI } from '../lib/TreeActions2'
+import { updateNodes, getNodeFromIndexPath } from '../lib/treeModifiers'
+import { find, filter, flatten, pathToNodesPath } from '../lib/TreeUtils'
+import { getNextCircular, getPrevCircular } from '../lib/ArrayUtils'
 
 import type { NodesState, NodesAction } from '../../flow/types'
 
@@ -16,7 +16,7 @@ export const defaultState: NodesState = {
 }
 
 export default function nodes (state: NodesState = defaultState, action: NodesAction) {
-  let tree, userIsDragging, path, uid
+  let tree, userIsDragging
 
   // backend
   switch (action.type) {
@@ -29,112 +29,103 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
 
   // nodes tree
   case types.INDEX_NODES:
-    // @TODO: only validate
-    tree = TreeParse.parse(action.data.tree)
-    return { ...state, tree }
+    if (action.data.tree != null) {
+      tree = index(action.data.tree)
+      return { ...state, tree }
+    }
+    return state
 
   // ui
   case types.CLEAR_NODE_UI:
-    if (state.tree) {
-      tree = Tree2.doActionAll(state.tree, updateNodeUI(action.data.key, false))
+    if (state.tree != null && action.data.key != null) {
+      tree = updateNodes(state.tree, null, { [action.data.key]: false })
       userIsDragging = action.data.key === 'dragging' ? false : state.userIsDragging
-    } else {
-      // @TODO: Clean up (@flow)
-      tree = state.tree
+      return { ...state, userIsDragging, tree }
     }
-    return { ...state, userIsDragging, tree }
+    return state
 
   case types.UPDATE_NODE_UI:
-    if (state.tree) {
-      tree = Tree2.doAction(state.tree, action.data.path, updateNodeUI(action.data.key, action.data.value))
-    } else {
-      // @TODO: Clean up (@flow)
-      tree = state.tree
+    if (state.tree != null && action.data.path != null && action.data.key != null) {
+      tree = setUI(state.tree, action.data.path, { [action.data.key]: action.data.value })
+      return { ...state, tree }
     }
-    return { ...state, tree }
+    return state
 
   case types.UPDATE_ACTIVE_NODE_UI:
-    if (state.tree) {
-      const active = Tree2.find(state.tree, node => {
-        return node.ui.active === true
-      })[0]
-      if (state.tree) {
-        tree = Tree2.doAction(state.tree, active.path, updateNodeUI(action.data.key, action.data.value))
+    if (state.tree != null) {
+      const activeIndexPath = find(state.tree, node => node.ui && node.ui.active === true, 'nodes', 'uid')
+      if (activeIndexPath != null) {
+        const activeIndexNodesPath = pathToNodesPath(activeIndexPath, 'nodes')
+        if (state.tree != null) {
+          tree = update(state.tree, activeIndexNodesPath, { [action.data.key]: action.data.value })
+        }
       }
-    } else {
-      // @TODO: Clean up (@flow)
-      tree = state.tree
+      return { ...state, tree }
     }
-    return { ...state, tree }
+    return state
 
   case types.SET_NEXT_UI_ACTIVE:
   case types.SET_PREV_UI_ACTIVE:
-    if (state.tree) {
-      const active = Tree2.find(state.tree, node => {
-        return node.ui.active === true
-      })[0]
-      const search = (node, parent) => {
-        const parentVisible = parent && parent.ui.expanded === true
-        const visible = node.ui.expanded === true
-        return parentVisible || visible
-      }
-      // @TODO: Clean up (@flow)
-      if (state.tree) {
-        const visible = Tree2.find(state.tree, search)
-        const index = visible.findIndex(node => node.path === active.path)
-        let indexNext
-        if (action.type === types.SET_NEXT_UI_ACTIVE) {
-          indexNext = index + 1 < visible.length ? index + 1 : 0
-        } else {
-          indexNext = index - 1 >= 0 ? index - 1 : visible.length - 1
-        }
-        const next = visible[indexNext]
-        if (state.tree) {
-          tree = Tree2.doActionAll(state.tree, node => {
-            if (node.ui) node.ui.active = false
-            return node
-          })
-          tree = Tree2.doAction(tree, next.path, node => {
-            node.ui.active = true
-            return node
-          })
+    if (state.tree != null) {
+      const activeIndexPath = find(state.tree, node => node.ui && node.ui.active === true, 'nodes', 'uid')
+      if (activeIndexPath != null && state.tree != null) {
+        const activeNode = getNodeFromIndexPath(state.tree, activeIndexPath)
+        if (activeNode != null && state.tree != null) {
+          const search = (node, parent) => {
+            const parentVisible = parent && parent.ui.expanded === true
+            const visible = node.ui && node.ui.expanded === true
+            return parentVisible || visible
+          }
+          const filteredTree = filter(state.tree, null, search, 'nodes', 'uid')
+          const flattenedTree = flatten(filteredTree, 'nodes')
+          const index = flattenedTree.findIndex(node => node.uid === activeNode.uid)
+          let next: any
+          if (action.type === types.SET_NEXT_UI_ACTIVE) {
+            next = getNextCircular(flattenedTree, index)
+          } else if (action.type === types.SET_PREV_UI_ACTIVE) {
+            next = getPrevCircular(flattenedTree, index)
+          }
+          if (state.tree != null) {
+            tree = updateNodes(state.tree, null, { active: false })
+          }
+          if (state.tree != null && next != null) {
+            tree = setUI(state.tree, next.path, { active: true })
+          }
+          return { ...state, tree }
         }
       }
-    } else {
-      // @TODO: Clean up (@flow)
-      tree = state.tree
+      return state
     }
     return { ...state, tree }
 
+  // nodes
   case types.ADD_NODE:
-    if (state.tree) {
-      const data = action.data.node.data
-      tree = Tree2.doAction(state.tree, action.data.path, createNode(data), addNode())
+    if (state.tree != null && action.data.path != null && action.data.node != null && action.data.node.data != null) {
+      tree = createAndAdd(state.tree, action.data.path, action.data.node.data)
+      return { ...state, tree }
     }
-    return { ...state, tree }
+    return state
 
   case types.UPDATE_NODE:
-    if (state.tree) {
-      const data = action.data.node.data
-      tree = Tree2.doAction(state.tree, action.data.path, updateNode(data))
+    if (state.tree != null && action.data.path != null && action.data.node != null && action.data.node.data != null) {
+      tree = update(state.tree, action.data.path, action.data.node.data)
+      return { ...state, tree }
     }
-    return { ...state, tree }
+    return state
 
   case types.REMOVE_NODE:
-    path = action.data.path
-    uid = path.pop()
-    if (state.tree) {
-      tree = Tree2.doAction(state.tree, path, removeNode(uid))
+    if (state.tree != null && action.data.path) {
+      tree = remove(state.tree, action.data.path)
+      return { ...state, tree }
     }
-    return { ...state, tree }
+    return state
 
   case types.MOVE_NODE:
-    if (state.tree) {
-      tree = Tree.move(state.tree, action.data.parent, action.data.uid, action.data.newParent, action.data.before)
-    } else {
-      tree = state.tree
+    if (state.tree != null && action.data.path != null && action.data.newPath != null && action.data.before != null) {
+      tree = move(state.tree, action.data.path, action.data.newPath, action.data.before)
+      return { ...state, tree }
     }
-    return { ...state, tree }
+    return state
 
   default:
     return state

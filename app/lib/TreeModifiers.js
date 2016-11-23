@@ -3,6 +3,7 @@
 import type {
   TreeData,
   TreePath,
+  TreeIndexPath,
   Node,
   NodeId,
   NodeData,
@@ -43,6 +44,12 @@ export const getNode = function (treeData: TreeData, path: TreePath) : ?Node {
   return tree.getIn(nodesPath).toJS()
 }
 
+export const getNodeFromIndexPath = function (treeData: TreeData, indexPath: TreeIndexPath) : ?Node {
+  const nodesPath = pathToNodesPath(indexPath, NODES)
+  let tree = fromJS(treeData)
+  return tree.getIn(nodesPath).toJS()
+}
+
 export const addNode = function (treeData: TreeData, path: TreePath, node: Node, before: ?NodeId) : TreeData {
   const pathIndexes = getPathIndexes(treeData, path, NODES, ID)
   if (pathIndexes == null) return treeData
@@ -77,7 +84,7 @@ export const removeNode = function (treeData: TreeData, path: TreePath) : TreeDa
 }
 
 export const updateNodes = function (treeData: TreeData, data: ?NodeData, ui: ?NodeUI) : TreeData {
-  const mapFn = node => update(node, undefined, data, ui)
+  const mapFn = node => update(node, null, data, ui)
   let tree = fromJS(treeData).toJS()
   return map(tree, mapFn, NODES)
 }

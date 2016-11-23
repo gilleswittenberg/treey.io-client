@@ -1,5 +1,5 @@
 import reducer, { defaultState } from '../../app/reducers/nodes'
-import { START_SYNCING, STOP_SYNCING, HAS_ERRORS, INDEX_NODES, ADD_NODE, UPDATE_NODE/* , REMOVE_NODE */ } from '../../app/actions/nodes'
+import { START_SYNCING, STOP_SYNCING, HAS_ERRORS, INDEX_NODES, ADD_NODE, UPDATE_NODE, REMOVE_NODE } from '../../app/actions/nodes'
 
 describe('nodes reducer', () => {
 
@@ -22,116 +22,44 @@ describe('nodes reducer', () => {
 
     const state = reducer(undefined, {})
     const tree = {
-      uid: '57bedc40e81b0620300d769a',
-      title: 'John Doe',
-      nodes: [
-        {
-          uid: '57bedc40e81b0620300d769b',
-          title: 'ToDo',
-          nodes: [
-            { uid: '57ebc46eb0bf9b00106a3c5e', title: 'bring home the milk' },
-            { uid: '57ebc46eb0bf9b00106a3c5f', title: 'clean the house' }
-          ]
-        },
-        {
-          uid: '57bedc40e81b0620300d769c',
-          title: 'Movies',
-          nodes: [
-            { uid: '57ebc46eb0bf9b00106a3c60', title: 'Star Wars: Episode IV - A New Hope (1977)' },
-            { uid: '57ebc46eb0bf9b00106a3c62', title: 'The Terminator (1984)' },
-            { uid: '57ebc46eb0bf9b00106a3c61', title: 'The Matrix (1999)' }
-          ]
-        }
-      ]
-    }
-
-    // @TODO enable
-    /*
-    const ui = { expanded: false, active: false, dragging: false, hasButtonsShown: false, editing: false, movingChild: false }
-
-    const parsedTree = {
-      uid: '57bedc40e81b0620300d769a',
-      path: ['57bedc40e81b0620300d769a'],
-      data: {
-        title: 'John Doe'
-      },
-      ui: {},
-      ui,
-      nodes: [
-        {
-          uid: '57bedc40e81b0620300d769b',
-          path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b'],
-          data: {
-            title: 'ToDo'
+      nodes: [{
+        uid: '57bedc40e81b0620300d769a',
+        title: 'John Doe',
+        nodes: [
+          {
+            uid: '57bedc40e81b0620300d769b',
+            title: 'ToDo',
+            nodes: [
+              { uid: '57ebc46eb0bf9b00106a3c5e', title: 'bring home the milk' },
+              { uid: '57ebc46eb0bf9b00106a3c5f', title: 'clean the house' }
+            ]
           },
-          ui: {},
-          ui,
-          nodes: [
-            {
-              uid: '57ebc46eb0bf9b00106a3c5e',
-              path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b', '57ebc46eb0bf9b00106a3c5e'],
-              data: {
-                title: 'bring home the milk'
-              },
-              ui: {},
-              ui
-            },
-            {
-              uid: '57ebc46eb0bf9b00106a3c5f',
-              path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b', '57ebc46eb0bf9b00106a3c5f'],
-              data: {
-                title: 'clean the house'
-              },
-              ui: {},
-              ui
-            }
-          ]
-        },
-        {
-          data: {
-            title: 'Movies'
-          },
-          uid: '57bedc40e81b0620300d769c',
-          path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c'],
-          ui: {},
-          ui,
-          nodes: [
-            {
-              uid: '57ebc46eb0bf9b00106a3c60',
-              path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c', '57ebc46eb0bf9b00106a3c60'],
-              data: {
-                title: 'Star Wars: Episode IV - A New Hope (1977)'
-              },
-              ui: {},
-              ui
-            },
-            {
-              uid: '57ebc46eb0bf9b00106a3c62',
-              path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c', '57ebc46eb0bf9b00106a3c62'],
-              data: {
-                title: 'The Terminator (1984)'
-              },
-              ui: {},
-              ui
-            },
-            {
-              uid: '57ebc46eb0bf9b00106a3c61',
-              path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c', '57ebc46eb0bf9b00106a3c61'],
-              data: {
-                title: 'The Matrix (1999)'
-              },
-              ui: {},
-              ui
-            }
-          ]
-        }
-      ]
+          {
+            uid: '57bedc40e81b0620300d769c',
+            title: 'Movies',
+            nodes: [
+              { uid: '57ebc46eb0bf9b00106a3c60', title: 'Star Wars: Episode IV - A New Hope (1977)' },
+              { uid: '57ebc46eb0bf9b00106a3c62', title: 'The Terminator (1984)' },
+              { uid: '57ebc46eb0bf9b00106a3c61', title: 'The Matrix (1999)' }
+            ]
+          }
+        ]
+      }]
     }
-    */
-
+    
     const state2 = reducer(state, { type: INDEX_NODES, data: { tree } })
-    // @TODO enable
-    // expect(state2.tree).toEqual(parsedTree)
+    // parsed Tree
+    expect(state2.tree.nodes[0].path).not.toBe(null)
+    expect(state2.tree.nodes[0].ui).not.toBe(null)
+    state2.tree.nodes[0].nodes.forEach(function (node) {
+      expect(node.path).not.toBe(null)
+      expect(node.ui).not.toBe(null)
+      node.nodes.forEach(node => {
+        expect(node.path).not.toBe(null)
+        expect(node.ui).not.toBe(null)
+      })
+    })
+
     const state3 = reducer(state2, {
       type: ADD_NODE,
       data: {
@@ -141,24 +69,26 @@ describe('nodes reducer', () => {
         }
       }
     })
-    expect(state3.tree.nodes.length).toBe(3)
-    expect(state3.tree.nodes[2].data.title).toBe('new')
+    expect(state3.tree.nodes[0].nodes.length).toBe(3)
+    expect(state3.tree.nodes[0].nodes[2].data.title).toBe('new')
 
     const state4 = reducer(state3, {
       type: UPDATE_NODE,
       data: {
         path: ['57bedc40e81b0620300d769a'],
-        node: { data: { title: 'John Doe Sr.' } }
+        node: {
+          data: { title: 'John Doe Sr.' }
+        }
       }
     })
-    expect(state4.tree.data.title).toBe('John Doe Sr.')
+    expect(state4.tree.nodes[0].data.title).toBe('John Doe Sr.')
 
-    /*
-    // @TODO: enable
-    const state5 = reducer(state4, { type: REMOVE_NODE, data: {
-      parent: '57bedc40e81b0620300d769a', uid: '57bedc40e81b0620300d7690' }
+    const state5 = reducer(state4, {
+      type: REMOVE_NODE,
+      data: {
+        path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b', '57ebc46eb0bf9b00106a3c5e']
+      }
     })
-    expect(state5.tree.nodes.length).toBe(2)
-    */
+    expect(state5.tree.nodes[0].nodes[0].nodes.length).toBe(1)
   })
 })

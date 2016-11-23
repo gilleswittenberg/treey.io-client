@@ -12,7 +12,7 @@ export type TreeData = {
 
 export type TreePath = string[]
 export type TreeIndexPath = number[]
-export type TreeNodesPath = mixed[]
+export type TreeNodesPath = []
 
 export type Nodes = Node[]
 export type NodesIndex = number
@@ -28,14 +28,14 @@ export type Node = {
 }
 
 export type NodeData = {
-  title: string
+  title?: string
 }
 export type NodeUI = {
-  active: boolean,
-  expanded: boolean,
-  adding: boolean,
-  editing: boolean,
-  dragging: boolean,
-  movingChild: boolean,
-  buttonsShown: boolean
+  active?: boolean,
+  expanded?: boolean,
+  adding?: boolean,
+  editing?: boolean,
+  dragging?: boolean,
+  movingChild?: boolean,
+  buttonsShown?: boolean
 }

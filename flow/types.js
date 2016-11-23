@@ -1,26 +1,10 @@
 /* @flow */
 
 import { Map, List } from 'immutable'
+import type { TreeData, TreePath, NodeId, Node } from './tree'
 
 export type Type = 'boolean' | 'number' | 'string' | '[]' | 'boolean[]' | 'string[]' | 'number[]'
 
-export type NodeData = { title: string }
-export type NodeUI = {
-  active: boolean,
-  expanded: boolean,
-  adding: boolean,
-  editing: boolean,
-  dragging: boolean,
-  movingChild: boolean,
-  buttonsShown: boolean
-}
-export type Node = {
-  uid: string,
-  path?: string,
-  data?: NodeData,
-  ui?: NodeUI,
-  nodes?: Node[]
-}
 export type NodeMap = Map<string, any>
 export type NodesList = List<NodeMap>
 
@@ -35,7 +19,7 @@ export type State = {
 export type NodesState = {
   isSyncing: boolean,
   hasErrors: boolean,
-  tree: ?Node,
+  tree: ?TreeData,
   userIsDragging: boolean
 }
 
@@ -58,15 +42,13 @@ type NodesActionType =
 export type NodesAction = {
   type: NodesActionType,
   data: {
-    node: any,
-    tree: any,
-    path: string[],
-    parent: string,
-    uid: string,
-    newParent: string,
-    before: string,
-    key: string,
-    value: boolean
+    node?: Node,
+    tree?: TreeData,
+    path?: TreePath,
+    newPath?: TreePath,
+    before?: NodeId,
+    key?: string,
+    value?: boolean
   }
 }
 

@@ -1,7 +1,7 @@
 /* @flow */
 
 import fetch from 'isomorphic-fetch'
-import type { NodeData } from '../../flow/types'
+import type { NodeData } from '../../flow/tree'
 
 let host
 switch (process.env.NODE_ENV) {
