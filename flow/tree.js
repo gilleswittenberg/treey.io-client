@@ -22,6 +22,7 @@ export type NodesIndex = number
 // @TODO: allow for settings NodesKey dynamically
 export type Node = {
   uid: ?NodeId,
+  path?: TreePath,
   data?: NodeData,
   ui?: NodeUI,
   nodes: Nodes

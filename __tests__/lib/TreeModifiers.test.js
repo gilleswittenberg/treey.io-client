@@ -6,7 +6,7 @@ declare var it: any
 declare var expect: any
 
 import { create } from '../../app/lib/NodeModifiers'
-import { getNode, addNode, updateNode, removeNode, updateNodes } from '../../app/lib/TreeModifiers'
+import { getNode, indexNodes, addNode, updateNode, removeNode, updateNodes } from '../../app/lib/TreeModifiers'
 import defaultUI from '../../app/lib/defaultUI'
 
 describe('TreeModifiers', () => {
@@ -14,6 +14,8 @@ describe('TreeModifiers', () => {
   const uid = '57bedc40e81b0620300d7690'
   const uid1 = '57bedc40e81b0620300d7691'
   const uid2 = '57bedc40e81b0620300d7692'
+  const uid3 = '57bedc40e81b0620300d7693'
+  const uid4 = '57bedc40e81b0620300d7694'
 
   describe('getNode', () => {
 
@@ -38,6 +40,28 @@ describe('TreeModifiers', () => {
       expect(getNode(treeData, path)).toEqual(node)
     })
   })
+
+  describe('indexNodes', () => {
+
+    it('parse', () => {
+      const data = {
+        uid,
+        title: 'Mr. Foo',
+        nodes : [
+          { uid: uid1, title: 'First child' },
+          { uid: uid2, title: 'Second child', nodes: [
+            { uid: uid3, title: 'First grandchild' },
+            { uid: uid4, title: 'Second grandchild' }
+          ] }
+        ]
+      }
+      const tree = indexNodes(data)
+      expect(tree.nodes.length).toBe(1)
+      expect(tree.nodes[0].nodes.length).toBe(2)
+      expect(tree.nodes[0].nodes[1].nodes.length).toBe(2)
+    })
+  })
+
 
   describe('addNode', () => {
 

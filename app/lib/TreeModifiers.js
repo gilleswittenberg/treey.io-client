@@ -12,10 +12,13 @@ import type {
 
 import { fromJS } from 'immutable'
 import { update } from './NodeModifiers'
-import { getNodesIndex, getPathIndexes, pathToNodesPath, map } from './TreeUtils'
+import { getNodesIndex, getPathIndexes, pathToNodesPath, parse, map } from './TreeUtils'
+import * as nodeModifiers from '../../app/lib/NodeModifiers'
+const { parse: parseNode } = nodeModifiers
 import ID from '../settings/TREE_ID_KEY'
 import NODES from '../settings/TREE_NODES_KEY'
 
+// @TODO: Move to TreeUtils
 export const getNode = function (treeData: TreeData, path: TreePath) : ?Node {
   const pathIndexes = getPathIndexes(treeData, path, NODES, ID)
   if (pathIndexes == null) return null
@@ -24,10 +27,15 @@ export const getNode = function (treeData: TreeData, path: TreePath) : ?Node {
   return tree.getIn(nodesPath).toJS()
 }
 
+// @TODO: Move to TreeUtils
 export const getNodeFromIndexPath = function (treeData: TreeData, indexPath: TreeIndexPath) : ?Node {
   const nodesPath = pathToNodesPath(indexPath, NODES)
   let tree = fromJS(treeData)
   return tree.getIn(nodesPath).toJS()
+}
+
+export const indexNodes = (data: {}) : TreeData => {
+  return parse(data, parseNode, NODES, ID)
 }
 
 export const addNode = function (treeData: TreeData, path: TreePath, node: Node, before: ?NodeId) : TreeData {

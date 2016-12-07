@@ -22,29 +22,27 @@ describe('nodes reducer', () => {
 
     const state = reducer(undefined, {})
     const tree = {
-      nodes: [{
-        uid: '57bedc40e81b0620300d769a',
-        title: 'John Doe',
-        nodes: [
-          {
-            uid: '57bedc40e81b0620300d769b',
-            title: 'ToDo',
-            nodes: [
-              { uid: '57ebc46eb0bf9b00106a3c5e', title: 'bring home the milk' },
-              { uid: '57ebc46eb0bf9b00106a3c5f', title: 'clean the house' }
-            ]
-          },
-          {
-            uid: '57bedc40e81b0620300d769c',
-            title: 'Movies',
-            nodes: [
-              { uid: '57ebc46eb0bf9b00106a3c60', title: 'Star Wars: Episode IV - A New Hope (1977)' },
-              { uid: '57ebc46eb0bf9b00106a3c62', title: 'The Terminator (1984)' },
-              { uid: '57ebc46eb0bf9b00106a3c61', title: 'The Matrix (1999)' }
-            ]
-          }
-        ]
-      }]
+      uid: '57bedc40e81b0620300d769a',
+      title: 'John Doe',
+      nodes: [
+        {
+          uid: '57bedc40e81b0620300d769b',
+          title: 'ToDo',
+          nodes: [
+            { uid: '57ebc46eb0bf9b00106a3c5e', title: 'bring home the milk' },
+            { uid: '57ebc46eb0bf9b00106a3c5f', title: 'clean the house' }
+          ]
+        },
+        {
+          uid: '57bedc40e81b0620300d769c',
+          title: 'Movies',
+          nodes: [
+            { uid: '57ebc46eb0bf9b00106a3c60', title: 'Star Wars: Episode IV - A New Hope (1977)' },
+            { uid: '57ebc46eb0bf9b00106a3c62', title: 'The Terminator (1984)' },
+            { uid: '57ebc46eb0bf9b00106a3c61', title: 'The Matrix (1999)' }
+          ]
+        }
+      ]
     }
     
     const state2 = reducer(state, { type: INDEX_NODES, data: { tree } })

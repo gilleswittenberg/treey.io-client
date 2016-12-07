@@ -10,6 +10,7 @@ function toJS (im: ?NodeMap) {
   return im ? im.toJS() : {}
 }
 
+// @TODO: Move to TreeUtils
 const TreeParse = {
 
   _getPath (parentPath: string[], id: string) : string[] {

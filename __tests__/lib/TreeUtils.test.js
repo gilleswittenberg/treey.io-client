@@ -5,7 +5,9 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import { pathToNodesPath, getNodesIndex, getPathIndexes, find, filter, flatten, map } from '../../app/lib/TreeUtils'
+import { pathToNodesPath, getNodesIndex, getPathIndexes, parse, find, filter, flatten, map } from '../../app/lib/TreeUtils'
+import * as nodeModifiers from '../../app/lib/NodeModifiers'
+const { parse: parseNode } = nodeModifiers
 import defaultUI from '../../app/lib/defaultUI'
 
 describe('TreeUtils', () => {
@@ -108,6 +110,47 @@ describe('TreeUtils', () => {
     })
   })
 
+  describe('parse', () => {
+
+    it('root', () => {
+      const tree = { uid, title: 'Mr. Foo' }
+      const parsedTree = parse(tree, parseNode, 'nodes', 'uid')
+      expect(parsedTree.nodes.length).toBe(1)
+      expect(parsedTree.nodes[0].uid).toBe(uid)
+      expect(parsedTree.nodes[0].path).toEqual([uid])
+      expect(parsedTree.nodes[0].data).toEqual({ title: 'Mr. Foo' })
+      expect(parsedTree.nodes[0].nodes).toEqual([])
+    })
+
+    it('1st generation', () => {
+      const nodes = [{ uid: uid1, title: 'First child' }, { uid: uid2, title: 'Second child' }]
+      const tree = { uid, title: 'Mr. Foo', nodes }
+      const parsedTree = parse(tree, parseNode, 'nodes', 'uid')
+      expect(parsedTree.nodes[0].nodes.length).toBe(2)
+      expect(parsedTree.nodes[0].nodes[0].uid).toBe(uid1)
+      expect(parsedTree.nodes[0].nodes[0].data).toEqual({ title: 'First child' })
+      expect(parsedTree.nodes[0].nodes[1].uid).toBe(uid2)
+      expect(parsedTree.nodes[0].nodes[1].data).toEqual({ title: 'Second child' })
+    })
+
+    it('2nd generation', () => {
+      const nodes = [{ uid: uid2, title: 'First grandchild' }, { uid: uid3, title: 'Second grandchild' }]
+      const tree = {
+        uid,
+        title: 'Mr. Foo',
+        nodes : [
+          { uid: uid4, title: 'First child' },
+          { uid: uid1, title: 'Second child', nodes }
+        ]
+      }
+      const parsedTree = parse(tree, parseNode, 'nodes', 'uid')
+      expect(parsedTree.nodes[0].nodes[1].nodes.length).toBe(2)
+      expect(parsedTree.nodes[0].nodes[1].nodes[0].uid).toBe(uid2)
+      expect(parsedTree.nodes[0].nodes[1].nodes[0].data).toEqual({ title: 'First grandchild' })
+      expect(parsedTree.nodes[0].nodes[1].nodes[1].uid).toBe(uid3)
+      expect(parsedTree.nodes[0].nodes[1].nodes[1].data).toEqual({ title: 'Second grandchild' })
+    })
+  })
 
   describe('find', () => {
 
@@ -304,4 +347,6 @@ describe('TreeUtils', () => {
       expect(treeMapped.nodes[0].nodes[0].nodes[1].ui).toEqual({ editing: true })
     })
   })
+
+
 })

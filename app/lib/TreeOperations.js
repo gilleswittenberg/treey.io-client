@@ -10,11 +10,10 @@ import type {
 } from '../../flow/tree'
 
 import { create } from './NodeModifiers'
-import { getNode, addNode, updateNode, removeNode, updateNodes } from './TreeModifiers'
-import TreeParse from './TreeParse'
+import { getNode, indexNodes, addNode, updateNode, removeNode, updateNodes } from './TreeModifiers'
 
 export const index = (data: TreeData) => {
-  return TreeParse.parse(data)
+  return indexNodes(data)
 }
 
 export const createAndAdd = (tree: TreeData, path: TreePath, data: NodeData) => {

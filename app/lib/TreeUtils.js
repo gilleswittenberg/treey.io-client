@@ -12,6 +12,8 @@ import type {
   NodeId
 } from '../../flow/tree'
 
+import { setPath } from './NodeModifiers'
+
 export const pathToNodesPath = (path: TreeIndexPath, nodesKey: string, appendNodesKey: boolean = false) : TreeNodesPath => {
   let nodesPath = path.reduce((prev, index) => prev.concat([nodesKey, index]), [])
   if (appendNodesKey) nodesPath.push(nodesKey)
@@ -38,6 +40,25 @@ export const getPathIndexes = (node: TreeData, path: TreePath, nodesKey: NodesKe
   return pathIndexes
 }
 
+// @TODO: flowtype for parseFn
+export const parseNode = (nodeData: any, parseFn: Function, parentPath: string[] = [], nodesKey: NodesKey, idKey: IdKey) => {
+  let node = parseFn(nodeData)
+  node = setPath(node, parentPath, idKey)
+  const nodesData = nodeData[nodesKey]
+  if (nodesData) {
+    const nodes = nodesData.map(data => parseNode(data, parseFn, node.path, nodesKey, idKey))
+    node.nodes = nodes
+  }
+  return node
+}
+
+// @TODO: flowtype for parseFn
+export const parse = (nodeData: any, parseFn: Function, nodesKey: NodesKey, idKey: IdKey) : TreeData => {
+  let node = parseNode(nodeData, parseFn, [], nodesKey, idKey)
+  return { nodes: [node] }
+}
+
+// @TODO: flowtype for search
 export const find = (node: TreeData, search: Function, nodesKey: NodesKey, idKey: IdKey) : ?TreeIndexPath => {
   if (search(node)) return [node[idKey]]
   let nodes = node[nodesKey]
@@ -52,6 +73,7 @@ export const find = (node: TreeData, search: Function, nodesKey: NodesKey, idKey
   return null
 }
 
+// @TODO: flowtype for filterFn
 export const filter = (node: TreeData, parent: ?TreeData, filterFn: Function, nodesKey: NodesKey, idKey: IdKey) : TreeData => {
   const filteredTree = { nodes: [] }
   const nodes = node[nodesKey]
@@ -74,6 +96,7 @@ export const flatten = (node: TreeData, nodesKey: NodesKey) : Nodes => {
   return flattenedTree
 }
 
+// @TODO: flowtype for mapFn
 export const map = (node: TreeData, mapFn: Function, nodesKey: NodesKey) : TreeData => {
   let nodes = node[nodesKey]
   if (Array.isArray(nodes)) {
