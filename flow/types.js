@@ -9,7 +9,7 @@ export type NodeMap = Map<string, any>
 export type NodesList = List<NodeMap>
 
 // @LINK: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-export type Lang = 'en'
+export type Lang = 'en' | 'nl'
 
 export type State = {
   nodes: NodesState,

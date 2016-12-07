@@ -2,7 +2,10 @@
 
 import en from '../i18n/en'
 
-const langs = { en }
+const langs = {
+  en,
+  nl: undefined // only for tests
+}
 
 import type { Lang } from '../../flow/types'
 

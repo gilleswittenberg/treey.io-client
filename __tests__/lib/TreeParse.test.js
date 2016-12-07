@@ -1,3 +1,10 @@
+/* @flow */
+
+// @TODO: clean up
+declare var describe: any
+declare var it: any
+declare var expect: any
+
 import TreeParse from '../../app/lib/TreeParse'
 import defaultUI from '../../app/lib/defaultUI'
 

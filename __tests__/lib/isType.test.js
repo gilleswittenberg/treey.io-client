@@ -1,3 +1,10 @@
+/* @flow */
+
+// @TODO: clean up
+declare var describe: any
+declare var it: any
+declare var expect: any
+
 import isType from '../../app/lib/isType'
 
 describe('isType', () => {
