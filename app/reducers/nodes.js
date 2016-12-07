@@ -1,7 +1,7 @@
 /* @flow */
 
 import * as types from '../actions/nodes'
-import { index, createAndAdd, update, remove, move, setUI } from '../lib/TreeActions2'
+import { index, createAndAdd, update, remove, move, setUI } from '../lib/TreeOperations'
 import { updateNodes, getNodeFromIndexPath } from '../lib/treeModifiers'
 import { find, filter, flatten, pathToNodesPath } from '../lib/TreeUtils'
 import { getNextCircular, getPrevCircular } from '../lib/ArrayUtils'
