@@ -59,7 +59,7 @@ export const parse = (nodeData: any, parseFn: Function, nodesKey: NodesKey, idKe
 }
 
 // @TODO: flowtype for search
-export const find = (node: TreeData, search: Function, nodesKey: NodesKey, idKey: IdKey) : ?TreeIndexPath => {
+export const find = (node: TreeData, search: Function, nodesKey: NodesKey, idKey: IdKey) : ?TreePath => {
   if (search(node)) return [node[idKey]]
   let nodes = node[nodesKey]
   let path = []

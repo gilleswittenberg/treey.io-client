@@ -1,10 +1,11 @@
 /* @flow */
 
 import * as types from '../actions/nodes'
-import { index, createAndAdd, update, remove, move, setUI } from '../lib/TreeOperations'
-import { updateNodes, getNodeFromIndexPath } from '../lib/treeModifiers'
-import { find, filter, flatten, pathToNodesPath } from '../lib/TreeUtils'
-import { getNextCircular, getPrevCircular } from '../lib/ArrayUtils'
+import { index, createAndAdd, update, remove, move, setUI, setUIActiveNode } from '../lib/TreeOperations'
+// @TODO: move next 3 lines to TreeOperations
+import { updateNodes/* , getNodeFromIndexPath */ } from '../lib/treeModifiers'
+// import { find, filter, flatten, pathToNodesPath } from '../lib/TreeUtils'
+// import { getNextCircular, getPrevCircular } from '../lib/ArrayUtils'
 
 import type { NodesState, NodesAction } from '../../flow/types'
 
@@ -16,6 +17,7 @@ export const defaultState: NodesState = {
 }
 
 export default function nodes (state: NodesState = defaultState, action: NodesAction) {
+
   let tree, userIsDragging
 
   // backend
@@ -27,13 +29,44 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
   case types.HAS_ERRORS:
     return { ...state, hasErrors: true }
 
-  // nodes tree
+  // nodes
   case types.INDEX_NODES:
     if (action.data.tree != null) {
       tree = index(action.data.tree)
       return { ...state, tree }
     }
     return state
+
+  case types.ADD_NODE:
+    // @TODO: change action.data.node.data to action.data.nodeData
+    if (state.tree != null && action.data.path != null && action.data.node != null && action.data.node.data != null) {
+      tree = createAndAdd(state.tree, action.data.path, action.data.node.data)
+      return { ...state, tree }
+    }
+    return state
+
+  case types.UPDATE_NODE:
+    // @TODO: change action.data.node.data to action.data.nodeData
+    if (state.tree != null && action.data.path != null && action.data.node != null && action.data.node.data != null) {
+      tree = update(state.tree, action.data.path, action.data.node.data)
+      return { ...state, tree }
+    }
+    return state
+
+  case types.REMOVE_NODE:
+    if (state.tree != null && action.data.path) {
+      tree = remove(state.tree, action.data.path)
+      return { ...state, tree }
+    }
+    return state
+
+  case types.MOVE_NODE:
+    if (state.tree != null && action.data.path != null && action.data.newPath != null && action.data.before != null) {
+      tree = move(state.tree, action.data.path, action.data.newPath, action.data.before)
+      return { ...state, tree }
+    }
+    return state
+
 
   // ui
   case types.CLEAR_NODE_UI:
@@ -53,17 +86,12 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
 
   case types.UPDATE_ACTIVE_NODE_UI:
     if (state.tree != null) {
-      const activeIndexPath = find(state.tree, node => node.ui && node.ui.active === true, 'nodes', 'uid')
-      if (activeIndexPath != null) {
-        const activeIndexNodesPath = pathToNodesPath(activeIndexPath, 'nodes')
-        if (state.tree != null) {
-          tree = update(state.tree, activeIndexNodesPath, { [action.data.key]: action.data.value })
-        }
-      }
+      tree = setUIActiveNode(state.tree, action.data.key, action.data.value)
       return { ...state, tree }
     }
     return state
 
+  /*
   case types.SET_NEXT_UI_ACTIVE:
   case types.SET_PREV_UI_ACTIVE:
     if (state.tree != null) {
@@ -97,35 +125,8 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
       return state
     }
     return { ...state, tree }
+  */
 
-  // nodes
-  case types.ADD_NODE:
-    if (state.tree != null && action.data.path != null && action.data.node != null && action.data.node.data != null) {
-      tree = createAndAdd(state.tree, action.data.path, action.data.node.data)
-      return { ...state, tree }
-    }
-    return state
-
-  case types.UPDATE_NODE:
-    if (state.tree != null && action.data.path != null && action.data.node != null && action.data.node.data != null) {
-      tree = update(state.tree, action.data.path, action.data.node.data)
-      return { ...state, tree }
-    }
-    return state
-
-  case types.REMOVE_NODE:
-    if (state.tree != null && action.data.path) {
-      tree = remove(state.tree, action.data.path)
-      return { ...state, tree }
-    }
-    return state
-
-  case types.MOVE_NODE:
-    if (state.tree != null && action.data.path != null && action.data.newPath != null && action.data.before != null) {
-      tree = move(state.tree, action.data.path, action.data.newPath, action.data.before)
-      return { ...state, tree }
-    }
-    return state
 
   default:
     return state

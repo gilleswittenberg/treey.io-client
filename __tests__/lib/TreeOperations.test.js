@@ -5,9 +5,12 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import { index, createAndAdd, update, remove, move, setUI, setUIUnique } from '../../app/lib/TreeOperations'
+import { index, createAndAdd, update, remove, move, setUI, setUIActiveNode, setUIUnique } from '../../app/lib/TreeOperations'
 
 describe('TreeOperations', () => {
+
+  const uid = '57bedc40e81b0620300d7690'
+  const uid1 = '57bedc40e81b0620300d7691'
 
   describe('index', () => {
 
@@ -131,6 +134,39 @@ describe('TreeOperations', () => {
       const updatedTree = setUI(tree, path, nodeUI)
       expect(updatedTree.nodes.length).toBe(1)
       expect(updatedTree.nodes[0].ui).toEqual({ editing: true })
+    })
+  })
+
+  describe('setUIActiveNode', () => {
+
+    it('setUIActiveNode', () => {
+
+      const tree = {
+        nodes: [{
+          uid,
+          data: {
+            title: 'Mr. Root'
+          },
+          ui: {
+            active: false
+          },
+          nodes: [
+            {
+              uid: uid1,
+              data: {
+                title: 'Active'
+              },
+              ui: {
+                active: true,
+                editing: false
+              },
+              nodes: []
+            }
+          ]
+        }]
+      }
+      const updatedTree = setUIActiveNode(tree, 'editing', true)
+      expect(updatedTree.nodes[0].nodes[0].ui).toEqual({ active: true, editing: true })
     })
   })
 

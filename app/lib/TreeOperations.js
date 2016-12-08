@@ -10,6 +10,7 @@ import type {
 
 import { create } from './NodeModifiers'
 import { getNode, indexNodes, addNode, updateNode, removeNode, updateNodes } from './TreeModifiers'
+import { find } from './TreeUtils'
 
 export const index = (data: TreeData) : TreeData => {
   return indexNodes(data)
@@ -48,5 +49,13 @@ export const setUIUnique = (tree: TreeData, path: TreePath, ui: NodeUI) : TreeDa
   Object.keys(ui).forEach(key => invertedUI[key] = !ui[key])
   tree = updateNodes(tree, undefined, invertedUI)
   tree = updateNode(tree, path, undefined, ui)
+  return tree
+}
+
+export const setUIActiveNode = (tree: TreeData, key: string, value: boolean) : TreeData  => {
+  const activeIndexPath = find(tree, node => node.ui && node.ui.active === true, 'nodes', 'uid')
+  if (activeIndexPath != null) {
+    tree = updateNode(tree, activeIndexPath, null, { [key]: value })
+  }
   return tree
 }
