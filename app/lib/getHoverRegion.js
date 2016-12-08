@@ -1,6 +1,8 @@
+/* @flow */
+
 import type { HoverRegion } from '../../flow/types'
 
-export default function getHoverRegion (monitor, element) : HoverRegion {
+export default function getHoverRegion (monitor: any, element: any) : HoverRegion {
   const clientOffset = monitor && monitor.getClientOffset()
   const yDrag = clientOffset ? clientOffset.y : 0
   const boundingClientRect = element && element.getBoundingClientRect()
