@@ -5,7 +5,17 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import { index, createAndAdd, update, remove, move, setUI, setUIActiveNode, setUIUnique } from '../../app/lib/TreeOperations'
+import {
+  index,
+  createAndAdd,
+  update,
+  remove,
+  move,
+  setUI,
+  setUIActiveNode,
+  setUIUnique,
+  selectActiveNode
+} from '../../app/lib/TreeOperations'
 
 describe('TreeOperations', () => {
 
@@ -196,6 +206,58 @@ describe('TreeOperations', () => {
       const updatedTree = setUIUnique(tree, path, nodeUI)
       expect(updatedTree.nodes[0].ui).toEqual({ editing: false })
       expect(updatedTree.nodes[0].nodes[0].ui).toEqual({ editing: true })
+    })
+  })
+
+  describe('selectActiveNode', () => {
+
+    it('next', () => {
+
+      const tree = {
+        nodes: [{
+          uid,
+          path: [uid],
+          ui: {
+            expanded: true,
+            active: true
+          },
+          nodes: [{
+            uid: uid1,
+            path: [uid, uid1],
+            nodes: [],
+            ui: {
+              active: false
+            }
+          }]
+        }]
+      }
+      const updatedTree = selectActiveNode(tree, 'NEXT')
+      expect(updatedTree.nodes[0].ui).toEqual({ expanded: true, active: false })
+      expect(updatedTree.nodes[0].nodes[0].ui).toEqual({ active: true })
+    })
+
+    it('prev', () => {
+
+      const tree = {
+        nodes: [{
+          uid,
+          path: [uid],
+          ui: {
+            expanded: true
+          },
+          nodes: [{
+            uid: uid1,
+            path: [uid, uid1],
+            nodes: [],
+            ui: {
+              active: true
+            }
+          }]
+        }]
+      }
+      const updatedTree = selectActiveNode(tree, 'PREV')
+      expect(updatedTree.nodes[0].ui).toEqual({ expanded: true, active: true })
+      expect(updatedTree.nodes[0].nodes[0].ui).toEqual({ active: false })
     })
   })
 })

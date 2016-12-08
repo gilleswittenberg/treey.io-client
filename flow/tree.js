@@ -40,3 +40,5 @@ export type NodeUI = {
   movingChild?: boolean,
   buttonsShown?: boolean
 }
+
+export type PrevOrNext = 'PREV' | 'NEXT'

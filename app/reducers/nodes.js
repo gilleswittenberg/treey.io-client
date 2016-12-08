@@ -1,13 +1,11 @@
 /* @flow */
 
-import * as types from '../actions/nodes'
-import { index, createAndAdd, update, remove, move, setUI, setUIActiveNode } from '../lib/TreeOperations'
-// @TODO: move next 3 lines to TreeOperations
-import { updateNodes/* , getNodeFromIndexPath */ } from '../lib/treeModifiers'
-// import { find, filter, flatten, pathToNodesPath } from '../lib/TreeUtils'
-// import { getNextCircular, getPrevCircular } from '../lib/ArrayUtils'
-
 import type { NodesState, NodesAction } from '../../flow/types'
+
+import * as types from '../actions/nodes'
+import { index, createAndAdd, update, remove, move, setUI, setUIActiveNode, selectActiveNode } from '../lib/TreeOperations'
+// @TODO: move to TreeOperations, clearUI method
+import { updateNodes } from '../lib/treeModifiers'
 
 export const defaultState: NodesState = {
   isSyncing: false,
@@ -91,42 +89,14 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     }
     return state
 
-  /*
   case types.SET_NEXT_UI_ACTIVE:
   case types.SET_PREV_UI_ACTIVE:
     if (state.tree != null) {
-      const activeIndexPath = find(state.tree, node => node.ui && node.ui.active === true, 'nodes', 'uid')
-      if (activeIndexPath != null && state.tree != null) {
-        const activeNode = getNodeFromIndexPath(state.tree, activeIndexPath)
-        if (activeNode != null && state.tree != null) {
-          const search = (node, parent) => {
-            const parentVisible = parent && parent.ui.expanded === true
-            const visible = node.ui && node.ui.expanded === true
-            return parentVisible || visible
-          }
-          const filteredTree = filter(state.tree, null, search, 'nodes', 'uid')
-          const flattenedTree = flatten(filteredTree, 'nodes')
-          const index = flattenedTree.findIndex(node => node.uid === activeNode.uid)
-          let next: any
-          if (action.type === types.SET_NEXT_UI_ACTIVE) {
-            next = getNextCircular(flattenedTree, index)
-          } else if (action.type === types.SET_PREV_UI_ACTIVE) {
-            next = getPrevCircular(flattenedTree, index)
-          }
-          if (state.tree != null) {
-            tree = updateNodes(state.tree, null, { active: false })
-          }
-          if (state.tree != null && next != null) {
-            tree = setUI(state.tree, next.path, { active: true })
-          }
-          return { ...state, tree }
-        }
-      }
-      return state
+      const selector = action.type === types.SET_PREV_UI_ACTIVE ? 'PREV' : 'NEXT'
+      tree = selectActiveNode(state.tree, selector)
+      return { ...state, tree }
     }
-    return { ...state, tree }
-  */
-
+    return state
 
   default:
     return state
