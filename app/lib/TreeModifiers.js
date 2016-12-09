@@ -3,7 +3,6 @@
 import type {
   TreeData,
   TreePath,
-  TreeIndexPath,
   Node,
   NodeId,
   NodeData,
@@ -18,18 +17,11 @@ const { parse: parseNode } = nodeModifiers
 import ID from '../settings/TREE_ID_KEY'
 import NODES from '../settings/TREE_NODES_KEY'
 
-// @TODO: Move to TreeUtils
+// @TODO: move to TreeUtils
 export const getNode = function (treeData: TreeData, path: TreePath) : ?Node {
   const pathIndexes = getPathIndexes(treeData, path, NODES, ID)
   if (pathIndexes == null) return null
   const nodesPath = pathToNodesPath(pathIndexes, NODES)
-  let tree = fromJS(treeData)
-  return tree.getIn(nodesPath).toJS()
-}
-
-// @TODO: Move to TreeUtils
-export const getNodeFromIndexPath = function (treeData: TreeData, indexPath: TreeIndexPath) : ?Node {
-  const nodesPath = pathToNodesPath(indexPath, NODES)
   let tree = fromJS(treeData)
   return tree.getIn(nodesPath).toJS()
 }
