@@ -47,11 +47,7 @@ export const setUI = (tree: TreeData, path: TreePath, ui: NodeUI) : TreeData  =>
 }
 
 export const setUIUnique = (tree: TreeData, path: TreePath, ui: NodeUI) : TreeData  => {
-
-  // @TODO: extract
-  const invertedUI = {}
-  Object.keys(ui).forEach(key => invertedUI[key] = !ui[key])
-  tree = updateNodes(tree, undefined, invertedUI)
+  tree = updateNodes(tree, undefined, invertedUI(ui))
   tree = updateNode(tree, path, undefined, ui)
   return tree
 }
@@ -84,5 +80,13 @@ export const selectActiveNode = (tree: TreeData, selector: PrevOrNext) : TreeDat
   return tree
 }
 
+// helper methods
 const isActive = node => node && node.ui && node.ui.active === true
+
 const isVisible = (node, parent) => (parent && parent.ui && parent.ui.expanded === true) || (node && node.ui && node.ui.expanded === true)
+
+const invertedUI = ui => {
+  const invertedUI = {}
+  Object.keys(ui).forEach(key => invertedUI[key] = !ui[key])
+  return invertedUI
+}

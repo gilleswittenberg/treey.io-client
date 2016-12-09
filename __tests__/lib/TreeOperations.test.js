@@ -188,13 +188,15 @@ describe('TreeOperations', () => {
         nodes: [{
           uid: '57bedc40e81b0620300d769a',
           ui: {
-            editing: true
+            editing: true,
+            expanded: true
           },
           nodes: [{
             uid: '57bedc40e81b0620300d769b',
             nodes: [],
             ui: {
-              editing: false
+              editing: false,
+              expanded: false
             }
           }]
         }]
@@ -204,8 +206,8 @@ describe('TreeOperations', () => {
         editing: true
       }
       const updatedTree = setUIUnique(tree, path, nodeUI)
-      expect(updatedTree.nodes[0].ui).toEqual({ editing: false })
-      expect(updatedTree.nodes[0].nodes[0].ui).toEqual({ editing: true })
+      expect(updatedTree.nodes[0].ui).toEqual({ editing: false, expanded: true })
+      expect(updatedTree.nodes[0].nodes[0].ui).toEqual({ editing: true, expanded: false })
     })
   })
 

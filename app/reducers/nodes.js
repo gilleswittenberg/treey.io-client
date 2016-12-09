@@ -3,7 +3,7 @@
 import type { NodesState, NodesAction } from '../../flow/types'
 
 import * as types from '../actions/nodes'
-import { index, createAndAdd, update, remove, move, setUI, setUIActiveNode, selectActiveNode } from '../lib/TreeOperations'
+import { index, createAndAdd, update, remove, move, setUI, setUIUnique, setUIActiveNode, selectActiveNode } from '../lib/TreeOperations'
 // @TODO: move to TreeOperations, clearUI method
 import { updateNodes } from '../lib/treeModifiers'
 
@@ -16,6 +16,7 @@ export const defaultState: NodesState = {
 
 export default function nodes (state: NodesState = defaultState, action: NodesAction) {
 
+  const uniqueUIKeys = ['editing', 'adding']
   let tree, userIsDragging
 
   // backend
@@ -76,9 +77,12 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     return state
 
   case types.UPDATE_NODE_UI:
-    if (state.tree != null && action.data.path != null && action.data.key != null) {
-      tree = setUI(state.tree, action.data.path, { [action.data.key]: action.data.value })
-      return { ...state, tree }
+    if (action.data.key != null) {
+      const operation = uniqueUIKeys.includes(action.data.key) ? setUIUnique : setUI
+      if (state.tree != null && action.data.path != null && action.data.key != null && action.data.value != null) {
+        tree = operation(state.tree, action.data.path, { [action.data.key]: action.data.value })
+        return { ...state, tree }
+      }
     }
     return state
 
