@@ -6,7 +6,7 @@ declare var it: any
 declare var expect: any
 
 import { createNode } from '../../app/lib/NodeModifiers'
-import { indexNodes, addNode, updateTreeNode, removeNode, updateNodes } from '../../app/lib/TreeModifiers'
+import { indexTreeNodes, addTreeNode, updateTreeNode, removeTreeNode, updateTreeNodes } from '../../app/lib/TreeModifiers'
 import defaultUI from '../../app/lib/defaultUI'
 
 describe('TreeModifiers', () => {
@@ -17,7 +17,7 @@ describe('TreeModifiers', () => {
   const uid3 = '57bedc40e81b0620300d7693'
   const uid4 = '57bedc40e81b0620300d7694'
 
-  describe('indexNodes', () => {
+  describe('indexTreeNodes', () => {
 
     it('parse', () => {
       const data = {
@@ -31,7 +31,7 @@ describe('TreeModifiers', () => {
           ] }
         ]
       }
-      const tree = indexNodes(data)
+      const tree = indexTreeNodes(data)
       expect(tree.nodes.length).toBe(1)
       expect(tree.nodes[0].nodes.length).toBe(2)
       expect(tree.nodes[0].nodes[1].nodes.length).toBe(2)
@@ -39,13 +39,13 @@ describe('TreeModifiers', () => {
   })
 
 
-  describe('addNode', () => {
+  describe('addTreeNode', () => {
 
     it('root', () => {
       const treeData = { nodes: [] }
       const node = createNode(null, { title: 'Mr. Foo' })
       const path = []
-      const tree = addNode(treeData, path, node)
+      const tree = addTreeNode(treeData, path, node)
       expect(Array.isArray(tree.nodes)).toBe(true)
       expect(tree.nodes.length).toBe(1)
       expect(tree.nodes[0].data).toEqual({ title: 'Mr. Foo' })
@@ -55,7 +55,7 @@ describe('TreeModifiers', () => {
       const treeData = { nodes: [createNode(uid, { title: 'root' })] }
       const path = [uid]
       const node = createNode(null, { title: 'Mr. Foo' })
-      const tree = addNode(treeData, path, node)
+      const tree = addTreeNode(treeData, path, node)
       expect(Array.isArray(tree.nodes[0].nodes)).toBe(true)
       expect(tree.nodes[0].nodes.length).toBe(1)
       expect(tree.nodes[0].nodes[0].data).toEqual({ title: 'Mr. Foo' })
@@ -65,7 +65,7 @@ describe('TreeModifiers', () => {
       const treeData = { nodes: [createNode(uid, { title: 'Root' })] }
       const path = []
       const node = createNode(null, { title: 'Mr. Foo' })
-      const tree = addNode(treeData, path, node, uid)
+      const tree = addTreeNode(treeData, path, node, uid)
       expect(tree.nodes.length).toBe(2)
       expect(tree.nodes[0].data).toEqual({ title: 'Mr. Foo' })
       expect(tree.nodes[1].data).toEqual({ title: 'Root' })
@@ -75,7 +75,7 @@ describe('TreeModifiers', () => {
       const treeData = { nodes: [{ uid, nodes: [createNode(uid1, { title: 'Mr. Foo' })] }] }
       const path = [uid]
       const node = createNode(null, { title: 'Created' })
-      const tree = addNode(treeData, path, node, uid1)
+      const tree = addTreeNode(treeData, path, node, uid1)
       expect(tree.nodes[0].nodes.length).toBe(2)
       expect(tree.nodes[0].nodes[0].data).toEqual({ title: 'Created' })
       expect(tree.nodes[0].nodes[1].data).toEqual({ title: 'Mr. Foo' })
@@ -128,12 +128,12 @@ describe('TreeModifiers', () => {
     })
   })
 
-  describe('removeNode', () => {
+  describe('removeTreeNode', () => {
 
     it('root', () => {
       const treeData = { nodes: [{ uid, nodes: [] }] }
       const path = [uid]
-      const tree = removeNode(treeData, path)
+      const tree = removeTreeNode(treeData, path)
       expect(tree.nodes.length).toBe(0)
     })
 
@@ -141,12 +141,12 @@ describe('TreeModifiers', () => {
 
       const treeData = { nodes: [{ uid, nodes: [{ uid: uid1, nodes: [] }] }] }
       const path = [uid, uid1]
-      const tree = removeNode(treeData, path)
+      const tree = removeTreeNode(treeData, path)
       expect(tree.nodes[0].nodes.length).toBe(0)
     })
   })
 
-  describe('updateNodes', () => {
+  describe('updateTreeNodes', () => {
 
     it('data', () => {
 
@@ -157,7 +157,7 @@ describe('TreeModifiers', () => {
         ] }
       ] }
       const data = { title: 'New title' }
-      const tree = updateNodes(treeData, data)
+      const tree = updateTreeNodes(treeData, data)
       expect(tree.nodes[0].data).toEqual(data)
       expect(tree.nodes[0].nodes[0].data).toEqual(data)
       expect(tree.nodes[0].nodes[1].data).toEqual(data)
@@ -173,7 +173,7 @@ describe('TreeModifiers', () => {
         ] }
       ] }
       const uiNonEditing = { ...defaultUI, editing: false }
-      const tree = updateNodes(treeData, null, uiNonEditing)
+      const tree = updateTreeNodes(treeData, null, uiNonEditing)
       expect(tree.nodes[0].ui).toEqual(uiNonEditing)
       expect(tree.nodes[0].nodes[0].ui).toEqual(uiNonEditing)
       expect(tree.nodes[0].nodes[1].ui).toEqual(uiNonEditing)
@@ -189,7 +189,7 @@ describe('TreeModifiers', () => {
         ] }
       ] }
       const uiNonEditing = { ...defaultUI, editing: false }
-      updateNodes(treeData, null, uiNonEditing)
+      updateTreeNodes(treeData, null, uiNonEditing)
       expect(treeData).toEqual({ nodes: [
         { uid, data: { title: 'Mr. Foo' }, ui: uiEditing, nodes: [
           { uid: uid1, ui: uiEditing, nodes: [] },

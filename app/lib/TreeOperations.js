@@ -10,19 +10,19 @@ import type {
 } from '../../flow/tree'
 
 import { createNode } from './NodeModifiers'
-import { indexNodes, addNode, updateTreeNode, removeNode, updateNodes } from './TreeModifiers'
+import { indexTreeNodes, addTreeNode, updateTreeNode, removeTreeNode, updateTreeNodes } from './TreeModifiers'
 import { getNode, find, filter, flatten } from './TreeUtils'
 import { getNextCircular, getPrevCircular } from './ArrayUtils'
 import ID from '../settings/TREE_ID_KEY'
 import NODES from '../settings/TREE_NODES_KEY'
 
 export const index = (data: TreeData) : TreeData => {
-  return indexNodes(data)
+  return indexTreeNodes(data)
 }
 
 export const createAndAdd = (tree: TreeData, path: TreePath, data: NodeData) : TreeData  => {
   const node = createNode(undefined, data)
-  return addNode(tree, path, node)
+  return addTreeNode(tree, path, node)
 }
 
 export const update = (tree: TreeData, path: TreePath, data: NodeData) : TreeData  => {
@@ -30,14 +30,14 @@ export const update = (tree: TreeData, path: TreePath, data: NodeData) : TreeDat
 }
 
 export const remove = (tree: TreeData, path: TreePath) : TreeData  => {
-  return removeNode(tree, path)
+  return removeTreeNode(tree, path)
 }
 
 export const move = (tree: TreeData, path: TreePath, newPath: TreePath, before: ?NodeId) : TreeData  => {
   const node = getNode(tree, path, NODES, ID)
   if (node != null) {
-    tree = removeNode(tree, path)
-    tree = addNode(tree, newPath, node, before)
+    tree = removeTreeNode(tree, path)
+    tree = addTreeNode(tree, newPath, node, before)
   }
   return tree
 }
@@ -46,7 +46,7 @@ export const clearUI = (tree: TreeData, keys: string[]) : TreeData  => {
   // @TODO: extract as falsyUI
   const ui = {}
   keys.forEach(key => ui[key] = false)
-  return updateNodes(tree, null, ui)
+  return updateTreeNodes(tree, null, ui)
 }
 
 export const setUI = (tree: TreeData, path: TreePath, ui: NodeUI) : TreeData  => {
@@ -54,7 +54,7 @@ export const setUI = (tree: TreeData, path: TreePath, ui: NodeUI) : TreeData  =>
 }
 
 export const setUIUnique = (tree: TreeData, path: TreePath, ui: NodeUI) : TreeData  => {
-  tree = updateNodes(tree, undefined, invertedUI(ui))
+  tree = updateTreeNodes(tree, undefined, invertedUI(ui))
   tree = updateTreeNode(tree, path, undefined, ui)
   return tree
 }
@@ -79,7 +79,7 @@ export const selectActiveNode = (tree: TreeData, selector: PrevOrNext) : TreeDat
       const index = flattenedTree.findIndex(isActive)
       const nextActive = selector === 'PREV' ? getPrevCircular(flattenedTree, index) : getNextCircular(flattenedTree, index)
       // unset active
-      tree = updateNodes(tree, null, { active: false })
+      tree = updateTreeNodes(tree, null, { active: false })
       // set active
       if (nextActive != null) {
         tree = setUI(tree, nextActive.path, { active: true })
