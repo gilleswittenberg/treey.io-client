@@ -42,6 +42,12 @@ export const move = (tree: TreeData, path: TreePath, newPath: TreePath, before: 
   return tree
 }
 
+export const clearUI = (tree: TreeData, keys: string[]) : TreeData  => {
+  const ui = {}
+  keys.forEach(key => ui[key] = false)
+  return updateNodes(tree, null, ui)
+}
+
 export const setUI = (tree: TreeData, path: TreePath, ui: NodeUI) : TreeData  => {
   return updateNode(tree, path, null, ui)
 }

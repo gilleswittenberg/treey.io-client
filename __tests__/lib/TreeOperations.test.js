@@ -11,6 +11,7 @@ import {
   update,
   remove,
   move,
+  clearUI,
   setUI,
   setUIActiveNode,
   setUIUnique,
@@ -123,6 +124,38 @@ describe('TreeOperations', () => {
       const updatedTree = move(tree, path, newPath)
       expect(updatedTree.nodes[0].nodes[0].nodes.length).toBe(0)
       expect(updatedTree.nodes[0].nodes[1].nodes.length).toBe(1)
+    })
+  })
+
+  describe('clearUI', () => {
+
+    it('clearUI', () => {
+
+      const tree = {
+        nodes: [{
+          uid,
+          data: {
+            title: 'Mr. Root'
+          },
+          ui: {
+            editing: false
+          },
+          nodes: [
+            {
+              uid: uid1,
+              data: {
+                title: 'Active'
+              },
+              ui: {
+                editing: true
+              },
+              nodes: []
+            }
+          ]
+        }]
+      }
+      const updatedTree = clearUI(tree, ['editing'])
+      expect(updatedTree.nodes[0].ui).toEqual({ editing: false })
     })
   })
 

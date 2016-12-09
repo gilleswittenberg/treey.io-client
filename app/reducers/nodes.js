@@ -3,9 +3,18 @@
 import type { NodesState, NodesAction } from '../../flow/types'
 
 import * as types from '../actions/nodes'
-import { index, createAndAdd, update, remove, move, setUI, setUIUnique, setUIActiveNode, selectActiveNode } from '../lib/TreeOperations'
-// @TODO: move to TreeOperations, clearUI method
-import { updateNodes } from '../lib/treeModifiers'
+import {
+  index,
+  createAndAdd,
+  update,
+  remove,
+  move,
+  clearUI,
+  setUI,
+  setUIUnique,
+  setUIActiveNode,
+  selectActiveNode
+} from '../lib/TreeOperations'
 
 export const defaultState: NodesState = {
   isSyncing: false,
@@ -70,7 +79,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
   // ui
   case types.CLEAR_NODE_UI:
     if (state.tree != null && action.data.key != null) {
-      tree = updateNodes(state.tree, null, { [action.data.key]: false })
+      tree = clearUI(state.tree, [action.data.key])
       userIsDragging = action.data.key === 'dragging' ? false : state.userIsDragging
       return { ...state, userIsDragging, tree }
     }
