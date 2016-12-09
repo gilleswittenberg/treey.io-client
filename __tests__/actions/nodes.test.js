@@ -1,3 +1,11 @@
+/* @flow */
+
+// @TODO: clean up
+declare var describe: any
+declare var it: any
+declare var expect: any
+declare var afterEach: any
+
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import nock from 'nock'
@@ -110,7 +118,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.postNode('57bedc40e81b0620300d769a'))
+      return store.dispatch(actions.postNode('57bedc40e81b0620300d769a', [], {}))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -126,7 +134,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.postNode('57bedc40e81b0620300d769a'))
+      return store.dispatch(actions.postNode('57bedc40e81b0620300d769a', [], {}))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -177,7 +185,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putNode('57bedc40e81b0620300d769a'))
+      return store.dispatch(actions.putNode('57bedc40e81b0620300d769a', [], {}))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -193,7 +201,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putNode('57bedc40e81b0620300d769a'))
+      return store.dispatch(actions.putNode('57bedc40e81b0620300d769a', [], {}))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -247,7 +255,8 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.deleteNode(parent, uid))
+      // @TODO: remove parent, uid arguments
+      return store.dispatch(actions.deleteNode([], parent, uid))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -264,7 +273,8 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.deleteNode(parent, uid))
+      // @TODO: remove parent, uid arguments
+      return store.dispatch(actions.deleteNode([], parent, uid))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')

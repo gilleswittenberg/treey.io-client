@@ -272,7 +272,7 @@ export function deleteNode (path: string[], parent: string, uid: string) {
 }
 
 export const MOVE_NODE = 'MOVE_NODE'
-export function moveNode (parent: string, uid: string, newParent: string, before: string) {
+export function moveNode (parent: string, uid: string, newParent: string, before?: string) {
   return {
     type: MOVE_NODE,
     data: {
@@ -285,7 +285,7 @@ export function moveNode (parent: string, uid: string, newParent: string, before
 }
 
 export const PUT_MOVE_NODE = 'PUT_MOVE_NODE'
-export function putMoveNode (parent: string, uid: string, newParent: string, before: string) {
+export function putMoveNode (parent: string, uid: string, newParent: string, before?: string) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
     dispatch(moveNode(parent, uid, newParent, before))
