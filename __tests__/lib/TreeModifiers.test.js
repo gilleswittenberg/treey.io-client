@@ -6,7 +6,7 @@ declare var it: any
 declare var expect: any
 
 import { create } from '../../app/lib/NodeModifiers'
-import { getNode, indexNodes, addNode, updateNode, removeNode, updateNodes } from '../../app/lib/TreeModifiers'
+import { indexNodes, addNode, updateNode, removeNode, updateNodes } from '../../app/lib/TreeModifiers'
 import defaultUI from '../../app/lib/defaultUI'
 
 describe('TreeModifiers', () => {
@@ -16,30 +16,6 @@ describe('TreeModifiers', () => {
   const uid2 = '57bedc40e81b0620300d7692'
   const uid3 = '57bedc40e81b0620300d7693'
   const uid4 = '57bedc40e81b0620300d7694'
-
-  describe('getNode', () => {
-
-    it('root', () => {
-      const node = create(uid)
-      const treeData = { nodes: [node] }
-      const path = [uid]
-      expect(getNode(treeData, path)).toEqual(node)
-    })
-
-    it('first generation', () => {
-      const node = create(uid1)
-      const treeData = { nodes: [
-        {
-          uid,
-          data: { title: '' },
-          ui: defaultUI,
-          nodes: [node]
-        }
-      ] }
-      const path = [uid, uid1]
-      expect(getNode(treeData, path)).toEqual(node)
-    })
-  })
 
   describe('indexNodes', () => {
 

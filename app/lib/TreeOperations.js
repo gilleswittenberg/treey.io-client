@@ -10,8 +10,8 @@ import type {
 } from '../../flow/tree'
 
 import { create } from './NodeModifiers'
-import { getNode, indexNodes, addNode, updateNode, removeNode, updateNodes } from './TreeModifiers'
-import { find, filter, flatten } from './TreeUtils'
+import { indexNodes, addNode, updateNode, removeNode, updateNodes } from './TreeModifiers'
+import { getNode, find, filter, flatten } from './TreeUtils'
 import { getNextCircular, getPrevCircular } from './ArrayUtils'
 import ID from '../settings/TREE_ID_KEY'
 import NODES from '../settings/TREE_NODES_KEY'
@@ -34,7 +34,7 @@ export const remove = (tree: TreeData, path: TreePath) : TreeData  => {
 }
 
 export const move = (tree: TreeData, path: TreePath, newPath: TreePath, before: ?NodeId) : TreeData  => {
-  const node = getNode(tree, path)
+  const node = getNode(tree, path, NODES, ID)
   if (node != null) {
     tree = removeNode(tree, path)
     tree = addNode(tree, newPath, node, before)
@@ -43,6 +43,7 @@ export const move = (tree: TreeData, path: TreePath, newPath: TreePath, before: 
 }
 
 export const clearUI = (tree: TreeData, keys: string[]) : TreeData  => {
+  // @TODO: extract as falsyUI
   const ui = {}
   keys.forEach(key => ui[key] = false)
   return updateNodes(tree, null, ui)
@@ -59,6 +60,8 @@ export const setUIUnique = (tree: TreeData, path: TreePath, ui: NodeUI) : TreeDa
 }
 
 export const setUIActiveNode = (tree: TreeData, key: string, value: boolean) : TreeData  => {
+  // @TODO: use isActive function
+  // @TODO: rename activeIndexPath => indexPath
   const activeIndexPath = find(tree, node => node.ui && node.ui.active === true, NODES, ID)
   if (activeIndexPath != null) {
     tree = updateNode(tree, activeIndexPath, null, { [key]: value })
@@ -69,7 +72,7 @@ export const setUIActiveNode = (tree: TreeData, key: string, value: boolean) : T
 export const selectActiveNode = (tree: TreeData, selector: PrevOrNext) : TreeData => {
   const activePath = find(tree, isActive, NODES, ID)
   if (activePath != null) {
-    const activeNode = getNode(tree, activePath)
+    const activeNode = getNode(tree, activePath, NODES, ID)
     if (activeNode != null) {
       const filteredTree = filter(tree, null, isVisible, NODES, ID)
       const flattenedTree = flatten(filteredTree, NODES)

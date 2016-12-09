@@ -3,7 +3,7 @@
 import type {
   TreeData,
   TreePath,
-  Node,
+  // Node,
   NodeId,
   NodeData,
   NodeUI
@@ -17,20 +17,12 @@ const { parse: parseNode } = nodeModifiers
 import ID from '../settings/TREE_ID_KEY'
 import NODES from '../settings/TREE_NODES_KEY'
 
-// @TODO: move to TreeUtils
-export const getNode = function (treeData: TreeData, path: TreePath) : ?Node {
-  const pathIndexes = getPathIndexes(treeData, path, NODES, ID)
-  if (pathIndexes == null) return null
-  const nodesPath = pathToNodesPath(pathIndexes, NODES)
-  let tree = fromJS(treeData)
-  return tree.getIn(nodesPath).toJS()
-}
-
 export const indexNodes = (data: {}) : TreeData => {
   return parse(data, parseNode, NODES, ID)
 }
 
-export const addNode = function (treeData: TreeData, path: TreePath, node: Node, before: ?NodeId) : TreeData {
+// @TODO: Flow type for node argument
+export const addNode = function (treeData: TreeData, path: TreePath, node: any, before: ?NodeId) : TreeData {
   const pathIndexes = getPathIndexes(treeData, path, NODES, ID)
   if (pathIndexes == null) return treeData
   let tree = fromJS(treeData)

@@ -12,6 +12,7 @@ import type {
   NodeId
 } from '../../flow/tree'
 
+import { fromJS } from 'immutable'
 import { setPath } from './NodeModifiers'
 
 export const pathToNodesPath = (path: TreeIndexPath, nodesKey: string, appendNodesKey: boolean = false) : TreeNodesPath => {
@@ -38,6 +39,16 @@ export const getPathIndexes = (node: TreeData, path: TreePath, nodesKey: NodesKe
     currentNodes = currentNodes[index][nodesKey]
   }
   return pathIndexes
+}
+
+export const getNode = function (treeData: TreeData, path: TreePath, nodesKey: NodesKey, idKey: IdKey) : ?Node {
+  const pathIndexes = getPathIndexes(treeData, path, nodesKey, idKey)
+  if (pathIndexes == null) return null
+  const nodesPath = pathToNodesPath(pathIndexes, nodesKey)
+  const tree = fromJS(treeData)
+  const node = tree.getIn(nodesPath)
+  if (node == null) return null
+  return node.toJS()
 }
 
 // @TODO: flowtype for parseFn

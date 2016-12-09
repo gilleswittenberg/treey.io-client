@@ -5,9 +5,9 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import { pathToNodesPath, getNodesIndex, getPathIndexes, parse, find, filter, flatten, map } from '../../app/lib/TreeUtils'
+import { pathToNodesPath, getNodesIndex, getPathIndexes, getNode, parse, find, filter, flatten, map } from '../../app/lib/TreeUtils'
 import * as nodeModifiers from '../../app/lib/NodeModifiers'
-const { parse: parseNode } = nodeModifiers
+const { create, parse: parseNode } = nodeModifiers
 import defaultUI from '../../app/lib/defaultUI'
 
 describe('TreeUtils', () => {
@@ -107,6 +107,30 @@ describe('TreeUtils', () => {
     it('2nd child', () => {
       const node = { nodes: [{ uid, nodes: [{ uid: uid1, nodes: [{ uid: uid2, nodes: [] }, { uid: uid3, nodes: [] }] }] }] }
       expect(getPathIndexes(node, [uid, uid1, uid3], 'nodes', 'uid')).toEqual([0, 0, 1])
+    })
+  })
+
+  describe('getNode', () => {
+
+    it('root', () => {
+      const node = create(uid)
+      const treeData = { nodes: [node] }
+      const path = [uid]
+      expect(getNode(treeData, path, 'nodes', 'uid')).toEqual(node)
+    })
+
+    it('first generation', () => {
+      const node = create(uid1)
+      const treeData = { nodes: [
+        {
+          uid,
+          data: { title: '' },
+          ui: defaultUI,
+          nodes: [node]
+        }
+      ] }
+      const path = [uid, uid1]
+      expect(getNode(treeData, path, 'nodes', 'uid')).toEqual(node)
     })
   })
 
