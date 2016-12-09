@@ -7,7 +7,7 @@ declare var expect: any
 
 import { pathToNodesPath, getNodesIndex, getPathIndexes, getNode, parse, find, filter, flatten, map } from '../../app/lib/TreeUtils'
 import * as nodeModifiers from '../../app/lib/NodeModifiers'
-const { create, parse: parseNode } = nodeModifiers
+const { createNode, parseNode } = nodeModifiers
 import defaultUI from '../../app/lib/defaultUI'
 
 describe('TreeUtils', () => {
@@ -113,14 +113,14 @@ describe('TreeUtils', () => {
   describe('getNode', () => {
 
     it('root', () => {
-      const node = create(uid)
+      const node = createNode(uid)
       const treeData = { nodes: [node] }
       const path = [uid]
       expect(getNode(treeData, path, 'nodes', 'uid')).toEqual(node)
     })
 
     it('first generation', () => {
-      const node = create(uid1)
+      const node = createNode(uid1)
       const treeData = { nodes: [
         {
           uid,

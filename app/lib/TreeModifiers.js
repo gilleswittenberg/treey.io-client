@@ -10,10 +10,9 @@ import type {
 } from '../../flow/tree'
 
 import { fromJS } from 'immutable'
-import { update } from './NodeModifiers'
+import { updateNode } from './NodeModifiers'
 import { getNodesIndex, getPathIndexes, pathToNodesPath, parse, map } from './TreeUtils'
-import * as nodeModifiers from '../../app/lib/NodeModifiers'
-const { parse: parseNode } = nodeModifiers
+import { parseNode } from '../../app/lib/NodeModifiers'
 import ID from '../settings/TREE_ID_KEY'
 import NODES from '../settings/TREE_NODES_KEY'
 
@@ -38,12 +37,12 @@ export const addNode = function (treeData: TreeData, path: TreePath, node: any, 
   return tree.toJS()
 }
 
-export const updateNode = function (treeData: TreeData, path: TreePath, data: ?NodeData, ui: ?NodeUI) : TreeData {
+export const updateTreeNode = function (treeData: TreeData, path: TreePath, data: ?NodeData, ui: ?NodeUI) : TreeData {
   const pathIndexes = getPathIndexes(treeData, path, NODES, ID)
   if (pathIndexes == null) return treeData
   const nodesPath = pathToNodesPath(pathIndexes, NODES)
   let tree = fromJS(treeData)
-  const node = update(tree.getIn(nodesPath).toJS(), undefined, data, ui)
+  const node = updateNode(tree.getIn(nodesPath).toJS(), undefined, data, ui)
   return tree.setIn(nodesPath, node).toJS()
 }
 
@@ -56,7 +55,7 @@ export const removeNode = function (treeData: TreeData, path: TreePath) : TreeDa
 }
 
 export const updateNodes = function (treeData: TreeData, data: ?NodeData, ui: ?NodeUI) : TreeData {
-  const mapFn = node => update(node, null, data, ui)
+  const mapFn = node => updateNode(node, null, data, ui)
   let tree = fromJS(treeData).toJS()
   return map(tree, mapFn, NODES)
 }

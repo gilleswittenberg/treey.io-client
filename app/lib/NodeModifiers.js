@@ -12,7 +12,7 @@ import { fromJS } from 'immutable'
 import defaultUI from '../../app/lib/defaultUI'
 import ID from '../settings/TREE_ID_KEY'
 
-export const create = (id: ?NodeId, data: ?NodeData, ui: ?NodeUI) : Node => {
+export const createNode = (id: ?NodeId, data: ?NodeData, ui: ?NodeUI) : Node => {
   id = id || null
   data = data || { title: '' }
   ui = ui || defaultUI
@@ -24,7 +24,7 @@ export const create = (id: ?NodeId, data: ?NodeData, ui: ?NodeUI) : Node => {
   }
 }
 
-export const update = (node: Node, id: ?NodeId, data: ?NodeData, ui: ?NodeUI) : Node => {
+export const updateNode = (node: Node, id: ?NodeId, data: ?NodeData, ui: ?NodeUI) : Node => {
   node = fromJS(node)
   if (id) node = node.set(ID, id)
   if (data) node = node.mergeIn(['data'], fromJS(data))
@@ -32,16 +32,16 @@ export const update = (node: Node, id: ?NodeId, data: ?NodeData, ui: ?NodeUI) : 
   return node.toJS()
 }
 
-export const parse = (obj: { uid: ?string, title: ?string }) : Node => {
+export const parseNode = (obj: { uid: ?string, title: ?string }) : Node => {
   const id = obj.uid
   const data = {}
   if (obj.title != null) {
     data.title = obj.title
   }
-  return create(id, data)
+  return createNode(id, data)
 }
 
-export const setPath = (node: Node, parentPath: TreePath = []) : Node => {
+export const setPathOnNode = (node: Node, parentPath: TreePath = []) : Node => {
   let path = parentPath
   if (node.uid != null) {
     path.push(node.uid)

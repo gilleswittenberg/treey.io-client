@@ -9,8 +9,8 @@ import type {
   PrevOrNext
 } from '../../flow/tree'
 
-import { create } from './NodeModifiers'
-import { indexNodes, addNode, updateNode, removeNode, updateNodes } from './TreeModifiers'
+import { createNode } from './NodeModifiers'
+import { indexNodes, addNode, updateTreeNode, removeNode, updateNodes } from './TreeModifiers'
 import { getNode, find, filter, flatten } from './TreeUtils'
 import { getNextCircular, getPrevCircular } from './ArrayUtils'
 import ID from '../settings/TREE_ID_KEY'
@@ -21,12 +21,12 @@ export const index = (data: TreeData) : TreeData => {
 }
 
 export const createAndAdd = (tree: TreeData, path: TreePath, data: NodeData) : TreeData  => {
-  const node = create(undefined, data)
+  const node = createNode(undefined, data)
   return addNode(tree, path, node)
 }
 
 export const update = (tree: TreeData, path: TreePath, data: NodeData) : TreeData  => {
-  return updateNode(tree, path, data)
+  return updateTreeNode(tree, path, data)
 }
 
 export const remove = (tree: TreeData, path: TreePath) : TreeData  => {
@@ -50,12 +50,12 @@ export const clearUI = (tree: TreeData, keys: string[]) : TreeData  => {
 }
 
 export const setUI = (tree: TreeData, path: TreePath, ui: NodeUI) : TreeData  => {
-  return updateNode(tree, path, null, ui)
+  return updateTreeNode(tree, path, null, ui)
 }
 
 export const setUIUnique = (tree: TreeData, path: TreePath, ui: NodeUI) : TreeData  => {
   tree = updateNodes(tree, undefined, invertedUI(ui))
-  tree = updateNode(tree, path, undefined, ui)
+  tree = updateTreeNode(tree, path, undefined, ui)
   return tree
 }
 
@@ -64,7 +64,7 @@ export const setUIActiveNode = (tree: TreeData, key: string, value: boolean) : T
   // @TODO: rename activeIndexPath => indexPath
   const activeIndexPath = find(tree, node => node.ui && node.ui.active === true, NODES, ID)
   if (activeIndexPath != null) {
-    tree = updateNode(tree, activeIndexPath, null, { [key]: value })
+    tree = updateTreeNode(tree, activeIndexPath, null, { [key]: value })
   }
   return tree
 }

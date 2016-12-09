@@ -13,7 +13,7 @@ import type {
 } from '../../flow/tree'
 
 import { fromJS } from 'immutable'
-import { setPath } from './NodeModifiers'
+import { setPathOnNode } from './NodeModifiers'
 
 export const pathToNodesPath = (path: TreeIndexPath, nodesKey: string, appendNodesKey: boolean = false) : TreeNodesPath => {
   let nodesPath = path.reduce((prev, index) => prev.concat([nodesKey, index]), [])
@@ -54,7 +54,7 @@ export const getNode = function (treeData: TreeData, path: TreePath, nodesKey: N
 // @TODO: flowtype for parseFn
 export const parseNode = (nodeData: any, parseFn: Function, parentPath: string[] = [], nodesKey: NodesKey, idKey: IdKey) => {
   let node = parseFn(nodeData)
-  node = setPath(node, parentPath, idKey)
+  node = setPathOnNode(node, parentPath, idKey)
   const nodesData = nodeData[nodesKey]
   if (nodesData) {
     const nodes = nodesData.map(data => parseNode(data, parseFn, node.path, nodesKey, idKey))
