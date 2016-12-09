@@ -1,3 +1,11 @@
+/* @flow */
+
+// @TODO: clean up
+declare var describe: any
+declare var it: any
+declare var expect: any
+declare var jest: any
+
 import NodeAdd from '../../app/components/NodeAdd'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'

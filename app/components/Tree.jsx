@@ -25,6 +25,9 @@ class Tree extends Component {
     tree: null
   }
 
+  // needed for Flowtype
+  static DecoratedComponent = null
+
   componentWillReceiveProps (nextProps: any) {
     const { tree, updateNodeUI } = this.props
     if (tree === null && nextProps.tree) {

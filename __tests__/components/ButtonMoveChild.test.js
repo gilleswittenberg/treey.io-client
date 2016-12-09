@@ -1,3 +1,11 @@
+/* @flow */
+
+// @TODO: clean up
+declare var describe: any
+declare var it: any
+declare var expect: any
+declare var jest: any
+
 import React, { Component } from 'react'
 import ButtonMoveChild from '../../app/components/ButtonMoveChild'
 import NodeDraggable from '../../app/components/NodeDraggable'
