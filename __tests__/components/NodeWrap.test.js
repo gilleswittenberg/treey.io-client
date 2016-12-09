@@ -10,12 +10,11 @@ import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import defaultUI from '../../app/lib/defaultUI'
+import { parent, uid } from '../uid'
 
 describe('NodeWrap', () => {
 
   const ui = defaultUI
-  const parent = '57bedc40e81b0620300d769a'
-  const uid = '57bedc40e81b0620300d769b'
 
   const defaultProps = {
     app: { enableDnD: false },

@@ -10,6 +10,7 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import nock from 'nock'
 import * as actions from '../../app/actions/nodes'
+import { uid, uid1, uid2, uid3, uid4, uid5 } from '../uid'
 
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
@@ -23,8 +24,6 @@ describe('nodes actions', () => {
   })
 
   describe('getNodes', () => {
-
-    const uid = '57bedc40e81b0620300d769a'
 
     it('INTERNAL_SERVER_ERROR', () => {
       nock(hostname)
@@ -79,16 +78,16 @@ describe('nodes actions', () => {
           {
             title: 'ToDo',
             nodes: [
-              { uid: '57ebc46eb0bf9b00106a3c5e', title: 'bring home the milk' },
-              { uid: '57ebc46eb0bf9b00106a3c5f', title: 'clean the house' }
+              { uid: uid1, title: 'bring home the milk' },
+              { uid: uid2, title: 'clean the house' }
             ]
           },
           {
             title: 'Movies',
             nodes: [
-              { uid: '57ebc46eb0bf9b00106a3c60', title: 'Star Wars: Episode IV - A New Hope (1977)' },
-              { uid: '57ebc46eb0bf9b00106a3c62', title: 'The Terminator (1984)' },
-              { uid: '57ebc46eb0bf9b00106a3c61', title: 'The Matrix (1999)' }
+              { uid: uid3, title: 'Star Wars: Episode IV - A New Hope (1977)' },
+              { uid: uid4, title: 'The Terminator (1984)' },
+              { uid: uid5, title: 'The Matrix (1999)' }
             ]
           }
         ]
@@ -113,12 +112,12 @@ describe('nodes actions', () => {
 
     it('INTERNAL_SERVER_ERROR', () => {
       nock(hostname)
-        .post('/node/57bedc40e81b0620300d769a')
+        .post(`/node/${ uid }`)
         .reply(500)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.postNode('57bedc40e81b0620300d769a', [], {}))
+      return store.dispatch(actions.postNode(uid, [], {}))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -129,12 +128,12 @@ describe('nodes actions', () => {
 
     it('BAD_REQUEST', () => {
       nock(hostname)
-        .post('/node/57bedc40e81b0620300d769a')
+        .post(`/node/${ uid }`)
         .reply(400)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.postNode('57bedc40e81b0620300d769a', [], {}))
+      return store.dispatch(actions.postNode(uid, [], {}))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -143,15 +142,15 @@ describe('nodes actions', () => {
 
     it('OK', () => {
 
-      const parent = '57bedc40e81b0620300d769a'
-      const path = ['57bedc40e81b0620300d769a']
+      const parent = uid
+      const path = [uid]
 
       const data = {
         title: 'New User'
       }
 
       const body = {
-        uid: '57bedc40e81b0620300d7691',
+        uid,
         title: 'New User'
       }
 
@@ -180,12 +179,12 @@ describe('nodes actions', () => {
 
     it('INTERNAL_SERVER_ERROR', () => {
       nock(hostname)
-        .put('/node/57bedc40e81b0620300d769a')
+        .put(`/node/${ uid }`)
         .reply(500)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putNode('57bedc40e81b0620300d769a', [], {}))
+      return store.dispatch(actions.putNode(uid, [], {}))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -196,12 +195,12 @@ describe('nodes actions', () => {
 
     it('BAD_REQUEST', () => {
       nock(hostname)
-        .put('/node/57bedc40e81b0620300d769a')
+        .put(`/node/${ uid }`)
         .reply(400)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putNode('57bedc40e81b0620300d769a', [], {}))
+      return store.dispatch(actions.putNode(uid, [], {}))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -210,8 +209,7 @@ describe('nodes actions', () => {
 
     it('OK', () => {
 
-      const uid = '57bedc40e81b0620300d769a'
-      const path = ['57bedc40e81b0620300d769a']
+      const path = [uid]
 
       const data = {
         title: 'New User'
@@ -244,13 +242,10 @@ describe('nodes actions', () => {
 
   describe('deleteNode', () => {
 
-    const parent = '57bedc40e81b0620300d769a'
-    const uid = '57bedc40e81b0620300d769b'
-
     it('INTERNAL_SERVER_ERROR', () => {
 
       nock(hostname)
-        .delete(`/node/${ parent }/${ uid }`)
+        .delete(`/node/${ uid }/${ uid1 }`)
         .reply(500)
 
       const store = mockStore({ nodes: null })
@@ -268,13 +263,13 @@ describe('nodes actions', () => {
     it('BAD_REQUEST', () => {
 
       nock(hostname)
-        .delete(`/node/${ parent }/${ uid }`)
+        .delete(`/node/${ uid }/${ uid1 }`)
         .reply(400)
 
       const store = mockStore({ nodes: null })
 
       // @TODO: remove parent, uid arguments
-      return store.dispatch(actions.deleteNode([], parent, uid))
+      return store.dispatch(actions.deleteNode([], uid, uid1))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -286,12 +281,13 @@ describe('nodes actions', () => {
       const path = []
 
       nock(hostname)
-        .delete(`/node/${ parent }/${ uid }`)
+        .delete(`/node/${ uid }/${ uid1 }`)
         .reply(200)
 
       const store = mockStore({ tree: null })
 
-      return store.dispatch(actions.deleteNode(path, parent, uid))
+      // @TODO: remove parent, uid arguments
+      return store.dispatch(actions.deleteNode([], uid, uid1))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('REMOVE_NODE')
@@ -302,19 +298,15 @@ describe('nodes actions', () => {
 
   describe('putMoveNode', () => {
 
-    const parent = '57bedc40e81b0620300d769a'
-    const uid = '57bedc40e81b0620300d769b'
-    const newParent = '57bedc40e81b0620300d769c'
-
     it('INTERNAL_SERVER_ERROR', () => {
 
       nock(hostname)
-        .put(`/node/move/${ parent }/${ uid }/${ newParent }/`)
+        .put(`/node/move/${ uid }/${ uid1 }/${ uid2 }/`)
         .reply(500)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putMoveNode(parent, uid, newParent))
+      return store.dispatch(actions.putMoveNode(uid, uid1, uid2))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -326,12 +318,12 @@ describe('nodes actions', () => {
     it('BAD_REQUEST', () => {
 
       nock(hostname)
-        .put(`/node/move/${ parent }/${ uid }/${ newParent }/`)
+        .put(`/node/move/${ uid }/${ uid1 }/${ uid2 }/`)
         .reply(400)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putMoveNode(parent, uid, newParent))
+      return store.dispatch(actions.putMoveNode(uid, uid1, uid2))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -341,18 +333,18 @@ describe('nodes actions', () => {
     it('OK', () => {
 
       nock(hostname)
-        .put(`/node/move/${ parent }/${ uid }/${ newParent }/`)
+        .put(`/node/move/${ uid }/${ uid1 }/${ uid2 }/`)
         .reply(200)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putMoveNode(parent, uid, newParent))
+      return store.dispatch(actions.putMoveNode(uid, uid1, uid2))
         .then(() => {
           const lastAction = store.getActions().pop()
           const secondLastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('STOP_SYNCING')
           expect(secondLastAction.type).toEqual('MOVE_NODE')
-          expect(secondLastAction.data).toEqual({ parent, uid, newParent })
+          expect(secondLastAction.data).toEqual({ parent: uid, uid: uid1, newParent: uid2 })
         })
     })
   })

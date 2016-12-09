@@ -12,14 +12,14 @@ import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import getMockEvent from '../getMockEvent'
 import defaultUI from '../../app/lib/defaultUI'
+import { uid, uid1 } from '../uid'
 
 describe('Node', () => {
 
   const app = { enableDnD: false }
   const lang = 'en'
   const ui = defaultUI
-  const parent = '57bedc40e81b0620300d769a'
-  const uid = '57bedc40e81b0620300d769b'
+  const parent = uid1
 
   const defaultProps = {
     app,

@@ -13,6 +13,7 @@ import TestBackend from 'react-dnd-test-backend'
 import { DragDropContext } from 'react-dnd'
 import { mount } from 'enzyme'
 import noop from '../noop'
+import { uid, uid1 } from '../uid'
 
 // Wraps a component into a DragDropContext that uses the TestBackend.
 function wrapInTestContext (DecoratedDraggableComponent, DecoratedButtonMoveChildComponent, propsDraggable, propsButtonMoveChild) {
@@ -32,17 +33,15 @@ function wrapInTestContext (DecoratedDraggableComponent, DecoratedButtonMoveChil
 
 describe('ButtonMoveChild', () => {
 
-  const uid1 = '57bedc40e81b0620300d7691'
-  const uid2 = '57bedc40e81b0620300d7692'
   const defaultPropsDraggable = {
     parent: null,
     isRoot: false,
-    uid: uid1,
+    uid,
     data: {
       title: 'node draggable'
     },
     ui: {},
-    siblings: [{ uid: uid1 }],
+    siblings: [{ uid }],
     index: 0,
     clearNodeUI: noop,
     updateNodeUI: noop,
@@ -53,7 +52,7 @@ describe('ButtonMoveChild', () => {
     lang: 'en',
     parent: null,
     isRoot: false,
-    uid: uid2,
+    uid: uid1,
     app: {},
     data: {
       title: 'node droppable'

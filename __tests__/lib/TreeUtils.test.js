@@ -9,16 +9,9 @@ import { treeIndexPathToTreeNodesPath, getNodesIndex, getTreeIndexPath, getTreeN
 import * as nodeModifiers from '../../app/lib/NodeModifiers'
 const { createNode, parseTreeNode } = nodeModifiers
 import defaultUI from '../../app/lib/defaultUI'
+import { uid, uid1, uid2, uid3, uid4, uid5, uid6 } from '../uid'
 
 describe('TreeUtils', () => {
-
-  const uid = '57bedc40e81b0620300d7690'
-  const uid1 = '57bedc40e81b0620300d7691'
-  const uid2 = '57bedc40e81b0620300d7692'
-  const uid3 = '57bedc40e81b0620300d7693'
-  const uid4 = '57bedc40e81b0620300d7694'
-  const uid5 = '57bedc40e81b0620300d7695'
-  const uid6 = '57bedc40e81b0620300d7696'
 
   describe('treeIndexPathToTreeNodesPath', () => {
 

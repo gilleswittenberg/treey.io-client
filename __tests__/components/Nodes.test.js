@@ -10,14 +10,12 @@ import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import defaultUI from '../../app/lib/defaultUI'
+import { parent, uid, uid1 } from '../uid'
 
 describe('Nodes', () => {
 
   const app = { enableDnD: false }
-  const parent = '57bedc40e81b0620300d769a'
   const ui = defaultUI
-  const uid1 = '57bedc40e81b0620300d769b'
-  const uid2 = '57bedc40e81b0620300d769c'
 
   const defaultProps = {
     app,
@@ -47,7 +45,7 @@ describe('Nodes', () => {
   describe('nodes', () => {
 
     it('nodes', () => {
-      const nodes = [{ uid: uid1, path: [uid1], ui }, { uid: uid2, path: [uid2], ui }]
+      const nodes = [{ uid, path: [uid], ui }, { uid: uid1, path: [uid1], ui }]
       const wrapper = shallow(getComponent({ nodes }))
       expect(wrapper.find('li').length).toBe(2)
     })

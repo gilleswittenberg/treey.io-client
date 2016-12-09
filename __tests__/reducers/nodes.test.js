@@ -7,6 +7,7 @@ declare var expect: any
 
 import reducer from '../../app/reducers/nodes'
 import { START_SYNCING, STOP_SYNCING, HAS_ERRORS, INDEX_NODES, ADD_NODE, UPDATE_NODE, REMOVE_NODE } from '../../app/actions/nodes'
+import { uid, uid1, uid2, uid3, uid4, uid5, uid6, uid7 } from '../uid'
 
 describe('nodes reducer', () => {
 
@@ -22,41 +23,41 @@ describe('nodes reducer', () => {
   it('NODES', () => {
 
     const tree = {
-      uid: '57bedc40e81b0620300d769a',
+      uid,
       title: 'John Doe',
       nodes: [
         {
-          uid: '57bedc40e81b0620300d769b',
+          uid: uid1,
           title: 'ToDo',
           nodes: [
             {
-              uid: '57ebc46eb0bf9b00106a3c5e',
+              uid: uid2,
               title: 'bring home the milk',
               nodes: []
             },
             {
-              uid: '57ebc46eb0bf9b00106a3c5f',
+              uid: uid3,
               title: 'clean the house',
               nodes: []
             }
           ]
         },
         {
-          uid: '57bedc40e81b0620300d769c',
+          uid: uid4,
           title: 'Movies',
           nodes: [
             {
-              uid: '57ebc46eb0bf9b00106a3c60',
+              uid: uid5,
               title: 'Star Wars: Episode IV - A New Hope (1977)',
               nodes: []
             },
             {
-              uid: '57ebc46eb0bf9b00106a3c62',
+              uid: uid6,
               title: 'The Terminator (1984)',
               nodes: []
             },
             {
-              uid: '57ebc46eb0bf9b00106a3c61',
+              uid: uid7,
               title: 'The Matrix (1999)',
               nodes: []
             }
@@ -87,7 +88,7 @@ describe('nodes reducer', () => {
     const state2 = reducer(state, {
       type: ADD_NODE,
       data: {
-        path: ['57bedc40e81b0620300d769a'],
+        path: [uid],
         node: {
           // @TODO: remove
           uid: null,
@@ -108,7 +109,7 @@ describe('nodes reducer', () => {
     const state3 = reducer(state2, {
       type: UPDATE_NODE,
       data: {
-        path: ['57bedc40e81b0620300d769a'],
+        path: [uid],
         node: {
           // @TODO: remove
           uid: null,
@@ -124,7 +125,7 @@ describe('nodes reducer', () => {
     const state4 = reducer(state3, {
       type: REMOVE_NODE,
       data: {
-        path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b', '57ebc46eb0bf9b00106a3c5e']
+        path: [uid, uid1, uid2]
       }
     })
     if (state4.tree != null) {

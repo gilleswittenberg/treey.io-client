@@ -14,6 +14,7 @@ import { DragDropContext } from 'react-dnd'
 import { mount } from 'enzyme'
 import defaultUI from '../../app/lib/defaultUI'
 import noop from '../noop'
+import { uid, uid1, uid2 } from '../uid'
 
 
 // Wraps a component into a DragDropContext that uses the TestBackend.
@@ -35,20 +36,17 @@ function wrapInTestContext (DecoratedDraggableComponent, DecoratedDroppableCompo
 describe('NodeDroppable', () => {
 
   const ui = defaultUI
-  const uid1 = '57bedc40e81b0620300d7691'
-  const uid2 = '57bedc40e81b0620300d7692'
-  const uid3 = '57bedc40e81b0620300d7693'
 
   const defaultPropsDraggable = {
     parent: null,
     isRoot: false,
-    uid: uid1,
-    path: [uid1],
+    uid,
+    path: [uid],
     data: {
       title: 'node draggable'
     },
     ui,
-    siblings: [{ uid: uid1 }],
+    siblings: [{ uid }],
     index: 0,
     clearNodeUI: noop,
     updateNodeUI: noop,
@@ -58,15 +56,15 @@ describe('NodeDroppable', () => {
   const defaultPropsDroppable = {
     parent: null,
     isRoot: false,
-    uid: uid2,
-    path: [uid2],
+    uid: uid1,
+    path: [uid1],
     app: {},
     data: {
       title: 'node droppable'
     },
     ui,
     hasNodes: false,
-    siblings: [{ uid: uid2 }],
+    siblings: [{ uid: uid1 }],
     index: 0,
     deleteNode: noop,
     putMoveNode: noop,
@@ -123,7 +121,7 @@ describe('NodeDroppable', () => {
     it('guard against isRoot', () => {
 
       const propsDraggable = { ...defaultPropsDraggable }
-      const propsDroppable = { ...defaultPropsDroppable, uid: uid1 }
+      const propsDroppable = { ...defaultPropsDroppable, uid }
       const Context = wrapInTestContext(NodeDraggable, NodeDroppable, propsDraggable, propsDroppable)
       const wrapper = mount(<Context />)
       const manager = wrapper.get(0).getManager()
@@ -148,7 +146,7 @@ describe('NodeDroppable', () => {
       it('last child', () => {
 
         const putMoveNode = jest.fn()
-        const siblings = [{ uid: uid2 }, { uid: uid1 }]
+        const siblings = [{ uid: uid1 }, { uid }]
         const propsDraggable = { ...defaultPropsDraggable, siblings, index: 1 }
         const propsDroppable = { ...defaultPropsDroppable, siblings, index: 0, hoverRegion: 'bottom', putMoveNode }
         const Context = wrapInTestContext(NodeDraggable, NodeDroppable, propsDraggable, propsDroppable)
@@ -172,7 +170,7 @@ describe('NodeDroppable', () => {
       it('before', () => {
 
         const putMoveNode = jest.fn()
-        const siblings = [{ uid: uid1 }, { uid: uid2 }]
+        const siblings = [{ uid }, { uid: uid1 }]
         const propsDraggable = { ...defaultPropsDraggable, siblings, index: 0 }
         const propsDroppable = { ...defaultPropsDroppable, siblings, index: 1, putMoveNode }
         const Context = wrapInTestContext(NodeDraggable, NodeDroppable, propsDraggable, propsDroppable)
@@ -195,8 +193,8 @@ describe('NodeDroppable', () => {
       it('last child different parent', () => {
 
         const putMoveNode = jest.fn()
-        const siblingsDraggable = [{ uid: uid1 }]
-        const siblingsDroppable = [{ uid: uid3 }, { uid: uid2 }]
+        const siblingsDraggable = [{ uid }]
+        const siblingsDroppable = [{ uid: uid2 }, { uid: uid1 }]
         const propsDraggable = { ...defaultPropsDraggable, siblingsDraggable, index: 0 }
         const propsDroppable = { ...defaultPropsDroppable, siblingsDroppable, index: 1, overMousePosition: 'bottom', putMoveNode }
         const Context = wrapInTestContext(NodeDraggable, NodeDroppable, propsDraggable, propsDroppable)

@@ -12,13 +12,12 @@ import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import { defaultActions } from '../../app/lib/actions'
 import defaultUI from '../../app/lib/defaultUI'
+import { uid, uid1, uid2, uid3, uid4, uid5, uid6, uid7 } from '../uid'
 
 describe('Tree', () => {
 
   const app = { lang: 'en', enableDnD: false }
   const ui = defaultUI
-  const uid1 = '57bedc40e81b0620300d7691'
-  const uid2 = '57bedc40e81b0620300d7692'
 
   const defaultProps = {
     app,
@@ -53,58 +52,58 @@ describe('Tree', () => {
 
     it('nodes deep', () => {
       const tree = {
-        uid: '57bedc40e81b0620300d769a',
-        path: ['57bedc40e81b0620300d769a'],
+        uid,
+        path: [uid],
         data: {
           title: 'John Doe'
         },
         ui,
         nodes: [
           {
-            uid: '57bedc40e81b0620300d769b',
-            path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b'],
+            uid: uid1,
+            path: [uid, uid1],
             data: {
               title: 'ToDo'
             },
             ui,
             nodes: [
               {
-                uid: '57ebc46eb0bf9b00106a3c5e',
-                path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b', '57ebc46eb0bf9b00106a3c5e'],
+                uid: uid2,
+                path: [uid, uid1, uid2],
                 data: { title: 'bring home the milk' },
                 ui
               },
               {
-                uid: '57ebc46eb0bf9b00106a3c5f',
-                path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b', '57ebc46eb0bf9b00106a3c5f'],
+                uid: uid3,
+                path: [uid, uid1, uid3],
                 data: { title: 'clean the house' },
                 ui
               }
             ]
           },
           {
-            uid: '57bedc40e81b0620300d769c',
-            path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c'],
+            uid: uid4,
+            path: [uid, uid4],
             data: {
               title: 'Movies'
             },
             ui,
             nodes: [
               {
-                uid: '57ebc46eb0bf9b00106a3c60',
-                path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c', '57ebc46eb0bf9b00106a3c60'],
+                uid: uid5,
+                path: [uid, uid4, uid5],
                 data: { title: 'Star Wars: Episode IV - A New Hope (1977)' },
                 ui
               },
               {
-                uid: '57ebc46eb0bf9b00106a3c62',
-                path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c', '57ebc46eb0bf9b00106a3c62'],
+                uid: uid6,
+                path: [uid, uid4, uid6],
                 data: { title: 'The Terminator (1984)' },
                 ui
               },
               {
-                uid: '57ebc46eb0bf9b00106a3c61',
-                path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769c', '57ebc46eb0bf9b00106a3c61'],
+                uid: uid7,
+                path: [uid, uid4, uid7],
                 data: { title: 'The Matrix (1999)' },
                 ui
               }

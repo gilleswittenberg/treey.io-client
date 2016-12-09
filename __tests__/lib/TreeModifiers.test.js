@@ -8,14 +8,9 @@ declare var expect: any
 import { createNode } from '../../app/lib/NodeModifiers'
 import { indexTreeNodes, addTreeNode, updateTreeNode, removeTreeNode, updateTreeNodes } from '../../app/lib/TreeModifiers'
 import defaultUI from '../../app/lib/defaultUI'
+import { uid, uid1, uid2, uid3, uid4 } from '../uid'
 
 describe('TreeModifiers', () => {
-
-  const uid = '57bedc40e81b0620300d7690'
-  const uid1 = '57bedc40e81b0620300d7691'
-  const uid2 = '57bedc40e81b0620300d7692'
-  const uid3 = '57bedc40e81b0620300d7693'
-  const uid4 = '57bedc40e81b0620300d7694'
 
   describe('indexTreeNodes', () => {
 

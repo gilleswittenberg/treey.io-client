@@ -11,12 +11,11 @@ import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import getMockEvent from '../getMockEvent'
+import { parent, uid } from '../uid'
 
 describe('NodeEdit', () => {
 
   const lang = 'en'
-  const parent = '57bedc40e81b0620300d769a'
-  const uid = '57bedc40e81b0620300d769b'
   const defaultProps = {
     lang,
     parent,

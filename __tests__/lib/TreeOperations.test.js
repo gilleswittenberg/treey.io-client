@@ -17,11 +17,9 @@ import {
   setUIUnique,
   selectActiveNode
 } from '../../app/lib/TreeOperations'
+import { uid, uid1, uid2, uid3 } from '../uid'
 
 describe('TreeOperations', () => {
-
-  const uid = '57bedc40e81b0620300d7690'
-  const uid1 = '57bedc40e81b0620300d7691'
 
   describe('index', () => {
 
@@ -29,7 +27,7 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid: '57bedc40e81b0620300d769b',
+          uid,
           nodes: []
         }]
       }
@@ -45,11 +43,11 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid: '57bedc40e81b0620300d769b',
+          uid,
           nodes: []
         }]
       }
-      const path = ['57bedc40e81b0620300d769b']
+      const path = [uid]
       const nodeData = {
         title: 'new'
       }
@@ -66,12 +64,12 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid: '57bedc40e81b0620300d769b',
+          uid,
           title: 'Mr. Root',
           nodes: []
         }]
       }
-      const path = ['57bedc40e81b0620300d769b']
+      const path = [uid]
       const nodeData = {
         title: 'new'
       }
@@ -87,14 +85,14 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid: '57bedc40e81b0620300d769a',
+          uid,
           nodes: [{
-            uid: '57bedc40e81b0620300d769b',
+            uid: uid1,
             nodes: []
           }]
         }]
       }
-      const path = ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b']
+      const path = [uid, uid1]
       const updatedTree = remove(tree, path)
       expect(updatedTree.nodes[0].nodes.length).toBe(0)
     })
@@ -106,21 +104,21 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid: '57bedc40e81b0620300d769a',
+          uid,
           nodes: [
             {
-              uid: '57bedc40e81b0620300d769b',
-              nodes: [{ uid: '57bedc40e81b0620300d769c', nodes: [] }]
+              uid: uid1,
+              nodes: [{ uid: uid2, nodes: [] }]
             },
             {
-              uid: '57bedc40e81b0620300d769d',
+              uid: uid3,
               nodes: []
             }
           ]
         }]
       }
-      const path = ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b', '57bedc40e81b0620300d769c']
-      const newPath = ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769d']
+      const path = [uid, uid1, uid2]
+      const newPath = [uid, uid3]
       const updatedTree = move(tree, path, newPath)
       expect(updatedTree.nodes[0].nodes[0].nodes.length).toBe(0)
       expect(updatedTree.nodes[0].nodes[1].nodes.length).toBe(1)
@@ -165,12 +163,12 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid: '57bedc40e81b0620300d769b',
+          uid,
           title: 'Mr. Root',
           nodes: []
         }]
       }
-      const path = ['57bedc40e81b0620300d769b']
+      const path = [uid]
       const nodeUI = {
         editing: true
       }
@@ -219,13 +217,13 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid: '57bedc40e81b0620300d769a',
+          uid,
           ui: {
             editing: true,
             expanded: true
           },
           nodes: [{
-            uid: '57bedc40e81b0620300d769b',
+            uid: uid1,
             nodes: [],
             ui: {
               editing: false,
@@ -234,7 +232,7 @@ describe('TreeOperations', () => {
           }]
         }]
       }
-      const path = ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b']
+      const path = [uid, uid1]
       const nodeUI = {
         editing: true
       }
