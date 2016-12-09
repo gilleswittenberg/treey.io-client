@@ -5,7 +5,7 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import { createNode, updateNode, parseNode, setPathOnNode } from '../../app/lib/NodeModifiers'
+import { createNode, updateNode, parseTreeNode, setPathOnNode } from '../../app/lib/NodeModifiers'
 import defaultUI from '../../app/lib/defaultUI'
 
 describe('TreeModifiers', () => {
@@ -92,11 +92,11 @@ describe('TreeModifiers', () => {
     })
   })
 
-  describe('parseNode', () => {
+  describe('parseTreeNode', () => {
 
     it('node', () => {
       const data = { uid, title: 'Mr. Foo' }
-      const node = parseNode(data)
+      const node = parseTreeNode(data)
       expect(node.uid).toBe(uid)
       expect(node.data).toEqual({ title: 'Mr. Foo' })
       expect(node.ui).not.toBe(null)

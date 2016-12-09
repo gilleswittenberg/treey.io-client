@@ -32,7 +32,7 @@ export const updateNode = (node: Node, id: ?NodeId, data: ?NodeData, ui: ?NodeUI
   return node.toJS()
 }
 
-export const parseNode = (obj: { uid: ?string, title: ?string }) : Node => {
+export const parseTreeNode = (obj: { uid: ?string, title: ?string }) : Node => {
   const id = obj.uid
   const data = {}
   if (obj.title != null) {

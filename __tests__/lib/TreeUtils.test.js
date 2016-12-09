@@ -5,9 +5,9 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import { pathToNodesPath, getNodesIndex, getPathIndexes, getNode, parse, find, filter, flatten, map } from '../../app/lib/TreeUtils'
+import { treeIndexPathToTreeNodesPath, getNodesIndex, getTreeIndexPath, getTreeNode, parseTree, findTreePath, filterTree, flattenTree, mapTree } from '../../app/lib/TreeUtils'
 import * as nodeModifiers from '../../app/lib/NodeModifiers'
-const { createNode, parseNode } = nodeModifiers
+const { createNode, parseTreeNode } = nodeModifiers
 import defaultUI from '../../app/lib/defaultUI'
 
 describe('TreeUtils', () => {
@@ -20,31 +20,31 @@ describe('TreeUtils', () => {
   const uid5 = '57bedc40e81b0620300d7695'
   const uid6 = '57bedc40e81b0620300d7696'
 
-  describe('pathToNodesPath', () => {
+  describe('treeIndexPathToTreeNodesPath', () => {
 
     it('empty', () => {
       const path = []
-      expect(pathToNodesPath(path, 'nodes')).toEqual([])
+      expect(treeIndexPathToTreeNodesPath(path, 'nodes')).toEqual([])
     })
 
     it('1 generation', () => {
       const path = [1]
-      expect(pathToNodesPath(path, 'nodes')).toEqual(['nodes', 1])
+      expect(treeIndexPathToTreeNodesPath(path, 'nodes')).toEqual(['nodes', 1])
     })
 
     it('2 generations', () => {
       const path = [4, 0]
-      expect(pathToNodesPath(path, 'nodes')).toEqual(['nodes', 4, 'nodes', 0])
+      expect(treeIndexPathToTreeNodesPath(path, 'nodes')).toEqual(['nodes', 4, 'nodes', 0])
     })
 
     it('append nodes key', () => {
       const path = [0]
-      expect(pathToNodesPath(path, 'nodes', true)).toEqual(['nodes', 0, 'nodes'])
+      expect(treeIndexPathToTreeNodesPath(path, 'nodes', true)).toEqual(['nodes', 0, 'nodes'])
     })
 
     it('immutable path', () => {
       const path = [1, 3]
-      pathToNodesPath(path, 'nodes', true)
+      treeIndexPathToTreeNodesPath(path, 'nodes', true)
       expect(path).toEqual([1, 3])
     })
   })
@@ -67,56 +67,56 @@ describe('TreeUtils', () => {
     })
   })
 
-  describe('getPathIndexes', () => {
+  describe('getTreeIndexPath', () => {
 
     it('empty root', () => {
       const node = { nodes: [] }
-      expect(getPathIndexes(node, [], 'nodes', 'uid')).toEqual([])
+      expect(getTreeIndexPath(node, [], 'nodes', 'uid')).toEqual([])
     })
 
     it('not in root nodes', () => {
       const node = { nodes: [{ uid, nodes: [] }] }
-      expect(getPathIndexes(node, [uid1], 'nodes', 'uid')).toBe(null)
+      expect(getTreeIndexPath(node, [uid1], 'nodes', 'uid')).toBe(null)
     })
 
     it('root nodes', () => {
       const node = { nodes: [{ uid, nodes: [] }] }
-      expect(getPathIndexes(node, [uid], 'nodes', 'uid')).toEqual([0])
+      expect(getTreeIndexPath(node, [uid], 'nodes', 'uid')).toEqual([0])
     })
 
     it('non 1st child', () => {
       const node = { nodes: [{ uid, nodes: [{ uid: uid1, nodes: [] }] }] }
-      expect(getPathIndexes(node, [uid, uid2], 'nodes', 'uid')).toBe(null)
+      expect(getTreeIndexPath(node, [uid, uid2], 'nodes', 'uid')).toBe(null)
     })
 
     it('1st child', () => {
       const node = { nodes: [{ uid, nodes: [{ uid: uid1, nodes: [] }, { uid: uid2, nodes: [] }] }] }
-      expect(getPathIndexes(node, [uid, uid2], 'nodes', 'uid')).toEqual([0, 1])
+      expect(getTreeIndexPath(node, [uid, uid2], 'nodes', 'uid')).toEqual([0, 1])
     })
 
     it('non nodes 2nd child', () => {
       const node = { nodes: [{ uid, nodes: [{ uid: uid1, nodes: [] }] }] }
-      expect(getPathIndexes(node, [uid, uid1, uid3], 'nodes', 'uid')).toBe(null)
+      expect(getTreeIndexPath(node, [uid, uid1, uid3], 'nodes', 'uid')).toBe(null)
     })
 
     it('non 2nd child', () => {
       const node = { nodes: [{ uid, nodes: [{ uid: uid1, nodes: [{ uid: uid2, nodes: [] }] }] }] }
-      expect(getPathIndexes(node, [uid, uid1, uid3], 'nodes', 'uid')).toBe(null)
+      expect(getTreeIndexPath(node, [uid, uid1, uid3], 'nodes', 'uid')).toBe(null)
     })
 
     it('2nd child', () => {
       const node = { nodes: [{ uid, nodes: [{ uid: uid1, nodes: [{ uid: uid2, nodes: [] }, { uid: uid3, nodes: [] }] }] }] }
-      expect(getPathIndexes(node, [uid, uid1, uid3], 'nodes', 'uid')).toEqual([0, 0, 1])
+      expect(getTreeIndexPath(node, [uid, uid1, uid3], 'nodes', 'uid')).toEqual([0, 0, 1])
     })
   })
 
-  describe('getNode', () => {
+  describe('getTreeNode', () => {
 
     it('root', () => {
       const node = createNode(uid)
       const treeData = { nodes: [node] }
       const path = [uid]
-      expect(getNode(treeData, path, 'nodes', 'uid')).toEqual(node)
+      expect(getTreeNode(treeData, path, 'nodes', 'uid')).toEqual(node)
     })
 
     it('first generation', () => {
@@ -130,15 +130,15 @@ describe('TreeUtils', () => {
         }
       ] }
       const path = [uid, uid1]
-      expect(getNode(treeData, path, 'nodes', 'uid')).toEqual(node)
+      expect(getTreeNode(treeData, path, 'nodes', 'uid')).toEqual(node)
     })
   })
 
-  describe('parse', () => {
+  describe('parseTree', () => {
 
     it('root', () => {
       const tree = { uid, title: 'Mr. Foo' }
-      const parsedTree = parse(tree, parseNode, 'nodes', 'uid')
+      const parsedTree = parseTree(tree, parseTreeNode, 'nodes', 'uid')
       expect(parsedTree.nodes.length).toBe(1)
       expect(parsedTree.nodes[0].uid).toBe(uid)
       expect(parsedTree.nodes[0].path).toEqual([uid])
@@ -149,7 +149,7 @@ describe('TreeUtils', () => {
     it('1st generation', () => {
       const nodes = [{ uid: uid1, title: 'First child' }, { uid: uid2, title: 'Second child' }]
       const tree = { uid, title: 'Mr. Foo', nodes }
-      const parsedTree = parse(tree, parseNode, 'nodes', 'uid')
+      const parsedTree = parseTree(tree, parseTreeNode, 'nodes', 'uid')
       expect(parsedTree.nodes[0].nodes.length).toBe(2)
       expect(parsedTree.nodes[0].nodes[0].uid).toBe(uid1)
       expect(parsedTree.nodes[0].nodes[0].data).toEqual({ title: 'First child' })
@@ -167,7 +167,7 @@ describe('TreeUtils', () => {
           { uid: uid1, title: 'Second child', nodes }
         ]
       }
-      const parsedTree = parse(tree, parseNode, 'nodes', 'uid')
+      const parsedTree = parseTree(tree, parseTreeNode, 'nodes', 'uid')
       expect(parsedTree.nodes[0].nodes[1].nodes.length).toBe(2)
       expect(parsedTree.nodes[0].nodes[1].nodes[0].uid).toBe(uid2)
       expect(parsedTree.nodes[0].nodes[1].nodes[0].data).toEqual({ title: 'First grandchild' })
@@ -176,51 +176,51 @@ describe('TreeUtils', () => {
     })
   })
 
-  describe('find', () => {
+  describe('findTreePath', () => {
 
     it('non existing', () => {
       const tree = { nodes: [] }
       const search = (node: any) => node.uid === uid
-      expect(find(tree, search, 'nodes', 'uid')).toBe(null)
+      expect(findTreePath(tree, search, 'nodes', 'uid')).toBe(null)
     })
 
     it('root', () => {
       const tree = { nodes: [{ uid, nodes: [] }] }
       const search = (node: any) => node.uid === uid
-      expect(find(tree, search, 'nodes', 'uid')).toEqual([uid])
+      expect(findTreePath(tree, search, 'nodes', 'uid')).toEqual([uid])
     })
 
     it('1st generation', () => {
       const tree = { nodes: [{ uid, nodes: [{ uid: uid1, nodes: [] }, { uid: uid2, nodes: [] }] }] }
       const search = (node: any) => node.uid === uid2
-      expect(find(tree, search, 'nodes', 'uid')).toEqual([uid, uid2])
+      expect(findTreePath(tree, search, 'nodes', 'uid')).toEqual([uid, uid2])
     })
 
     it('2nd generation', () => {
       const tree = { nodes: [{ uid, nodes: [{ uid: uid1, nodes: [{ uid: uid2, nodes: [] }, { uid: uid3, nodes: [] }] }] }] }
       const search = (node: any) => node.uid === uid3
-      expect(find(tree, search, 'nodes', 'uid')).toEqual([uid, uid1, uid3])
+      expect(findTreePath(tree, search, 'nodes', 'uid')).toEqual([uid, uid1, uid3])
     })
   })
 
-  describe('filter', () => {
+  describe('filterTree', () => {
 
     it('empty', () => {
       const tree = { nodes: [] }
       const search = () => false
-      expect(filter(tree, null, search, 'nodes', 'uid')).toEqual({ nodes: [] })
+      expect(filterTree(tree, null, search, 'nodes', 'uid')).toEqual({ nodes: [] })
     })
 
     it('non valid', () => {
       const tree = { nodes: [{ uid, nodes: [] }] }
       const search = () => false
-      expect(filter(tree, null, search, 'nodes', 'uid')).toEqual({ nodes: [] })
+      expect(filterTree(tree, null, search, 'nodes', 'uid')).toEqual({ nodes: [] })
     })
 
     it('valid', () => {
       const tree = { nodes: [{ uid, nodes: [] }] }
       const search = () => true
-      expect(filter(tree, null, search, 'nodes', 'uid')).toEqual({ nodes: [{ uid, nodes: [] }] })
+      expect(filterTree(tree, null, search, 'nodes', 'uid')).toEqual({ nodes: [{ uid, nodes: [] }] })
     })
 
     it('valid multiple', () => {
@@ -230,7 +230,7 @@ describe('TreeUtils', () => {
         { uid: uid3, nodes: [] }
       ] }
       const search = (node: any) => node.uid === uid1 || node.uid === uid3
-      expect(filter(tree, null, search, 'nodes', 'uid')).toEqual({ nodes: [
+      expect(filterTree(tree, null, search, 'nodes', 'uid')).toEqual({ nodes: [
         { uid: uid1, nodes: [] },
         { uid: uid3, nodes: [] }
       ] })
@@ -245,7 +245,7 @@ describe('TreeUtils', () => {
         ] }
       ] }
       const search = (node: any) => node.uid === uid || node.uid === uid1 || node.uid === uid3
-      expect(filter(tree, null, search, 'nodes', 'uid')).toEqual({ nodes: [
+      expect(filterTree(tree, null, search, 'nodes', 'uid')).toEqual({ nodes: [
         { uid, nodes: [
           { uid: uid1, nodes: [] },
           { uid: uid3, nodes: [] }
@@ -265,7 +265,7 @@ describe('TreeUtils', () => {
         ] }
       ] }
       const search = (node: any) => node.uid === uid || node.uid === uid1 || node.uid === uid3 || node.uid === uid5
-      expect(filter(tree, null, search, 'nodes', 'uid')).toEqual({ nodes: [
+      expect(filterTree(tree, null, search, 'nodes', 'uid')).toEqual({ nodes: [
         { uid, nodes: [
           { uid: uid1, nodes: [
             { uid: uid5, nodes: [] }
@@ -294,7 +294,7 @@ describe('TreeUtils', () => {
         if (node && node.ui && node.ui.expanded === true) return true
         return false
       }
-      expect(filter(tree, null, search, 'nodes', 'uid')).toEqual({ nodes: [
+      expect(filterTree(tree, null, search, 'nodes', 'uid')).toEqual({ nodes: [
         { uid, ui: uiExpanded, nodes: [
           { uid: uid1, ui: uiExpanded, nodes: [
             { uid: uid4, ui: uiExpanded, nodes: [] },
@@ -307,16 +307,16 @@ describe('TreeUtils', () => {
     })
   })
 
-  describe('flatten', () => {
+  describe('flattenTree', () => {
 
     it('empty', () => {
       const tree = { nodes: [] }
-      expect(flatten(tree, 'nodes')).toEqual([])
+      expect(flattenTree(tree, 'nodes')).toEqual([])
     })
 
     it('1 generation', () => {
       const tree = { nodes: [{ uid, nodes: [] }, { uid: uid2, nodes: [] }] }
-      expect(flatten(tree, 'nodes')).toEqual([{ uid, nodes: [] }, { uid: uid2, nodes: [] }])
+      expect(flattenTree(tree, 'nodes')).toEqual([{ uid, nodes: [] }, { uid: uid2, nodes: [] }])
     })
 
     it('2 generations', () => {
@@ -327,7 +327,7 @@ describe('TreeUtils', () => {
         ] },
         { uid: uid2, nodes: [] }
       ] }
-      expect(flatten(tree, 'nodes')).toEqual([
+      expect(flattenTree(tree, 'nodes')).toEqual([
         { uid, nodes: [
           { uid: uid3, nodes: [] },
           { uid: uid4, nodes: [] }
@@ -339,7 +339,7 @@ describe('TreeUtils', () => {
     })
   })
 
-  describe('map', () => {
+  describe('mapTree', () => {
 
     it('root', () => {
       const tree = { nodes: [{ uid, nodes: [], data: { title: 'Mr. Foo' } }] }
@@ -347,7 +347,7 @@ describe('TreeUtils', () => {
         node.data.title = 'new'
         return node
       }
-      const treeMapped = map(tree, mapFn, 'nodes')
+      const treeMapped = mapTree(tree, mapFn, 'nodes')
       expect(treeMapped.nodes[0].data).toEqual({ title: 'new' })
     })
 
@@ -364,13 +364,11 @@ describe('TreeUtils', () => {
         node.ui = { editing: true }
         return node
       }
-      const treeMapped = map(tree, mapFn, 'nodes')
+      const treeMapped = mapTree(tree, mapFn, 'nodes')
       expect(treeMapped.nodes[0].ui).toEqual({ editing: true })
       expect(treeMapped.nodes[0].nodes[0].ui).toEqual({ editing: true })
       expect(treeMapped.nodes[0].nodes[0].nodes[0].ui).toEqual({ editing: true })
       expect(treeMapped.nodes[0].nodes[0].nodes[1].ui).toEqual({ editing: true })
     })
   })
-
-
 })

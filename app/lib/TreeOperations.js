@@ -11,7 +11,7 @@ import type {
 
 import { createNode } from './NodeModifiers'
 import { indexTreeNodes, addTreeNode, updateTreeNode, removeTreeNode, updateTreeNodes } from './TreeModifiers'
-import { getNode, find, filter, flatten } from './TreeUtils'
+import { getTreeNode, findTreePath, filterTree, flattenTree } from './TreeUtils'
 import { getNextCircular, getPrevCircular } from './ArrayUtils'
 import ID from '../settings/TREE_ID_KEY'
 import NODES from '../settings/TREE_NODES_KEY'
@@ -34,7 +34,7 @@ export const remove = (tree: TreeData, path: TreePath) : TreeData  => {
 }
 
 export const move = (tree: TreeData, path: TreePath, newPath: TreePath, before: ?NodeId) : TreeData  => {
-  const node = getNode(tree, path, NODES, ID)
+  const node = getTreeNode(tree, path, NODES, ID)
   if (node != null) {
     tree = removeTreeNode(tree, path)
     tree = addTreeNode(tree, newPath, node, before)
@@ -62,7 +62,7 @@ export const setUIUnique = (tree: TreeData, path: TreePath, ui: NodeUI) : TreeDa
 export const setUIActiveNode = (tree: TreeData, key: string, value: boolean) : TreeData  => {
   // @TODO: use isActive function
   // @TODO: rename activeIndexPath => indexPath
-  const activeIndexPath = find(tree, node => node.ui && node.ui.active === true, NODES, ID)
+  const activeIndexPath = findTreePath(tree, node => node.ui && node.ui.active === true, NODES, ID)
   if (activeIndexPath != null) {
     tree = updateTreeNode(tree, activeIndexPath, null, { [key]: value })
   }
@@ -70,12 +70,12 @@ export const setUIActiveNode = (tree: TreeData, key: string, value: boolean) : T
 }
 
 export const selectActiveNode = (tree: TreeData, selector: PrevOrNext) : TreeData => {
-  const activePath = find(tree, isActive, NODES, ID)
+  const activePath = findTreePath(tree, isActive, NODES, ID)
   if (activePath != null) {
-    const activeNode = getNode(tree, activePath, NODES, ID)
+    const activeNode = getTreeNode(tree, activePath, NODES, ID)
     if (activeNode != null) {
-      const filteredTree = filter(tree, null, isVisible, NODES, ID)
-      const flattenedTree = flatten(filteredTree, NODES)
+      const filteredTree = filterTree(tree, null, isVisible, NODES, ID)
+      const flattenedTree = flattenTree(filteredTree, NODES)
       const index = flattenedTree.findIndex(isActive)
       const nextActive = selector === 'PREV' ? getPrevCircular(flattenedTree, index) : getNextCircular(flattenedTree, index)
       // unset active
