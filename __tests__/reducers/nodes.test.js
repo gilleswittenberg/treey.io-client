@@ -1,26 +1,26 @@
-import reducer, { defaultState } from '../../app/reducers/nodes'
+/* @flow */
+
+// @TODO: clean up
+declare var describe: any
+declare var it: any
+declare var expect: any
+
+import reducer from '../../app/reducers/nodes'
 import { START_SYNCING, STOP_SYNCING, HAS_ERRORS, INDEX_NODES, ADD_NODE, UPDATE_NODE, REMOVE_NODE } from '../../app/actions/nodes'
 
 describe('nodes reducer', () => {
 
-  it('returns initial state', () => {
-    expect(reducer(undefined, {})).toEqual(defaultState)
-  })
-
   it('SYNCING', () => {
-    const state = reducer(undefined, {})
-    expect(reducer(state, { type: START_SYNCING }).isSyncing).toBe(true)
-    expect(reducer(state, { type: STOP_SYNCING }).isSyncing).toBe(false)
+    expect(reducer(undefined, { type: START_SYNCING, data: {} }).isSyncing).toBe(true)
+    expect(reducer(undefined, { type: STOP_SYNCING, data: {} }).isSyncing).toBe(false)
   })
 
   it('HAS_ERRORS', () => {
-    const state = reducer(undefined, {})
-    expect(reducer(state, { type: HAS_ERRORS }).hasErrors).toBe(true)
+    expect(reducer(undefined, { type: HAS_ERRORS, data: {} }).hasErrors).toBe(true)
   })
 
   it('NODES', () => {
 
-    const state = reducer(undefined, {})
     const tree = {
       uid: '57bedc40e81b0620300d769a',
       title: 'John Doe',
@@ -29,64 +29,106 @@ describe('nodes reducer', () => {
           uid: '57bedc40e81b0620300d769b',
           title: 'ToDo',
           nodes: [
-            { uid: '57ebc46eb0bf9b00106a3c5e', title: 'bring home the milk' },
-            { uid: '57ebc46eb0bf9b00106a3c5f', title: 'clean the house' }
+            {
+              uid: '57ebc46eb0bf9b00106a3c5e',
+              title: 'bring home the milk',
+              nodes: []
+            },
+            {
+              uid: '57ebc46eb0bf9b00106a3c5f',
+              title: 'clean the house',
+              nodes: []
+            }
           ]
         },
         {
           uid: '57bedc40e81b0620300d769c',
           title: 'Movies',
           nodes: [
-            { uid: '57ebc46eb0bf9b00106a3c60', title: 'Star Wars: Episode IV - A New Hope (1977)' },
-            { uid: '57ebc46eb0bf9b00106a3c62', title: 'The Terminator (1984)' },
-            { uid: '57ebc46eb0bf9b00106a3c61', title: 'The Matrix (1999)' }
+            {
+              uid: '57ebc46eb0bf9b00106a3c60',
+              title: 'Star Wars: Episode IV - A New Hope (1977)',
+              nodes: []
+            },
+            {
+              uid: '57ebc46eb0bf9b00106a3c62',
+              title: 'The Terminator (1984)',
+              nodes: []
+            },
+            {
+              uid: '57ebc46eb0bf9b00106a3c61',
+              title: 'The Matrix (1999)',
+              nodes: []
+            }
           ]
         }
       ]
     }
-    
-    const state2 = reducer(state, { type: INDEX_NODES, data: { tree } })
+
+    const state = reducer(undefined, { type: INDEX_NODES, data: { tree } })
     // parsed Tree
-    expect(state2.tree.nodes[0].path).not.toBe(null)
-    expect(state2.tree.nodes[0].ui).not.toBe(null)
-    state2.tree.nodes[0].nodes.forEach(function (node) {
-      expect(node.path).not.toBe(null)
-      expect(node.ui).not.toBe(null)
-      node.nodes.forEach(node => {
+    if (state.tree != null) {
+      expect(state.tree.nodes[0].path).not.toBe(null)
+    }
+    if (state.tree != null) {
+      expect(state.tree.nodes[0].ui).not.toBe(null)
+    }
+    if (state.tree != null) {
+      state.tree.nodes[0].nodes.forEach(function (node) {
         expect(node.path).not.toBe(null)
         expect(node.ui).not.toBe(null)
+        node.nodes.forEach(node => {
+          expect(node.path).not.toBe(null)
+          expect(node.ui).not.toBe(null)
+        })
       })
-    })
+    }
 
-    const state3 = reducer(state2, {
+    const state2 = reducer(state, {
       type: ADD_NODE,
       data: {
         path: ['57bedc40e81b0620300d769a'],
         node: {
-          data: { title: 'new' }
+          // @TODO: remove
+          uid: null,
+          data: { title: 'new' },
+          nodes: []
         }
       }
     })
-    expect(state3.tree.nodes[0].nodes.length).toBe(3)
-    expect(state3.tree.nodes[0].nodes[2].data.title).toBe('new')
+    // @TODO: remove
+    if (state2.tree != null) {
+      expect(state2.tree.nodes[0].nodes.length).toBe(3)
+    }
+    // @TODO: remove
+    if (state2.tree != null) {
+      expect(state2.tree.nodes[0].nodes[2].data).toEqual({ title: 'new' })
+    }
 
-    const state4 = reducer(state3, {
+    const state3 = reducer(state2, {
       type: UPDATE_NODE,
       data: {
         path: ['57bedc40e81b0620300d769a'],
         node: {
-          data: { title: 'John Doe Sr.' }
+          // @TODO: remove
+          uid: null,
+          data: { title: 'John Doe Sr.' },
+          nodes: []
         }
       }
     })
-    expect(state4.tree.nodes[0].data.title).toBe('John Doe Sr.')
+    if (state3.tree != null) {
+      expect(state3.tree.nodes[0].data).toEqual({ title: 'John Doe Sr.' })
+    }
 
-    const state5 = reducer(state4, {
+    const state4 = reducer(state3, {
       type: REMOVE_NODE,
       data: {
         path: ['57bedc40e81b0620300d769a', '57bedc40e81b0620300d769b', '57ebc46eb0bf9b00106a3c5e']
       }
     })
-    expect(state5.tree.nodes[0].nodes[0].nodes.length).toBe(1)
+    if (state4.tree != null) {
+      expect(state4.tree.nodes[0].nodes[0].nodes.length).toBe(1)
+    }
   })
 })
