@@ -2,7 +2,7 @@
 
 import type {
   NodeId,
-  TreeData,
+  Tree,
   TreePath,
   NodeData,
   NodeUI,
@@ -10,30 +10,32 @@ import type {
 } from '../../flow/tree'
 
 import { createNode } from './NodeModifiers'
+import { createTreeNode } from './TreeNodeModifiers'
 import { indexTreeNodes, addTreeNode, updateTreeNode, removeTreeNode, updateTreeNodes } from './TreeModifiers'
 import { getTreeNode, findTreePath, filterTree, flattenTree } from './TreeUtils'
 import { getNextCircular, getPrevCircular } from './ArrayUtils'
 import ID from '../settings/TREE_ID_KEY'
 import NODES from '../settings/TREE_NODES_KEY'
 
-export const index = (data: TreeData) : TreeData => {
+export const index = (data: any) : Tree => {
   return indexTreeNodes(data)
 }
 
-export const createAndAdd = (tree: TreeData, path: TreePath, data: NodeData) : TreeData  => {
+export const createAndAdd = (tree: Tree, path: TreePath, data: NodeData) : Tree  => {
   const node = createNode(undefined, data)
-  return addTreeNode(tree, path, node)
+  const treeNode = createTreeNode(node)
+  return addTreeNode(tree, path, treeNode)
 }
 
-export const update = (tree: TreeData, path: TreePath, data: NodeData) : TreeData  => {
+export const update = (tree: Tree, path: TreePath, data: NodeData) : Tree  => {
   return updateTreeNode(tree, path, data)
 }
 
-export const remove = (tree: TreeData, path: TreePath) : TreeData  => {
+export const remove = (tree: Tree, path: TreePath) : Tree  => {
   return removeTreeNode(tree, path)
 }
 
-export const move = (tree: TreeData, path: TreePath, newPath: TreePath, before: ?NodeId) : TreeData  => {
+export const move = (tree: Tree, path: TreePath, newPath: TreePath, before?: NodeId) : Tree  => {
   const node = getTreeNode(tree, path, NODES, ID)
   if (node != null) {
     tree = removeTreeNode(tree, path)
@@ -42,44 +44,39 @@ export const move = (tree: TreeData, path: TreePath, newPath: TreePath, before: 
   return tree
 }
 
-export const clearUI = (tree: TreeData, keys: string[]) : TreeData  => {
-  // @TODO: extract as falsyUI
-  const ui = {}
-  keys.forEach(key => ui[key] = false)
-  return updateTreeNodes(tree, null, ui)
+export const clearUI = (tree: Tree, keys: string[]) : Tree  => {
+  return updateTreeNodes(tree, undefined, falsyUI(keys))
 }
 
-export const setUI = (tree: TreeData, path: TreePath, ui: NodeUI) : TreeData  => {
-  return updateTreeNode(tree, path, null, ui)
+export const setUI = (tree: Tree, path: TreePath, ui: NodeUI) : Tree  => {
+  return updateTreeNode(tree, path, undefined, ui)
 }
 
-export const setUIUnique = (tree: TreeData, path: TreePath, ui: NodeUI) : TreeData  => {
+export const setUIUnique = (tree: Tree, path: TreePath, ui: NodeUI) : Tree  => {
   tree = updateTreeNodes(tree, undefined, invertedUI(ui))
   tree = updateTreeNode(tree, path, undefined, ui)
   return tree
 }
 
-export const setUIActiveNode = (tree: TreeData, key: string, value: boolean) : TreeData  => {
-  // @TODO: use isActive function
-  // @TODO: rename activeIndexPath => indexPath
-  const activeIndexPath = findTreePath(tree, node => node.ui && node.ui.active === true, NODES, ID)
-  if (activeIndexPath != null) {
-    tree = updateTreeNode(tree, activeIndexPath, null, { [key]: value })
+export const setUIActiveNode = (tree: Tree, key: string, value: boolean) : Tree  => {
+  const activePath = findTreePath(tree, isActive, NODES, ID)
+  if (activePath != null) {
+    tree = updateTreeNode(tree, activePath, undefined, { [key]: value })
   }
   return tree
 }
 
-export const selectActiveNode = (tree: TreeData, selector: PrevOrNext) : TreeData => {
+export const selectActiveNode = (tree: Tree, selector: PrevOrNext) : Tree => {
   const activePath = findTreePath(tree, isActive, NODES, ID)
   if (activePath != null) {
     const activeNode = getTreeNode(tree, activePath, NODES, ID)
     if (activeNode != null) {
-      const filteredTree = filterTree(tree, null, isVisible, NODES, ID)
+      const filteredTree = filterTree(tree, undefined, isVisible, NODES, ID)
       const flattenedTree = flattenTree(filteredTree, NODES)
       const index = flattenedTree.findIndex(isActive)
       const nextActive = selector === 'PREV' ? getPrevCircular(flattenedTree, index) : getNextCircular(flattenedTree, index)
       // unset active
-      tree = updateTreeNodes(tree, null, { active: false })
+      tree = updateTreeNodes(tree, undefined, { active: false })
       // set active
       if (nextActive != null) {
         tree = setUI(tree, nextActive.path, { active: true })
@@ -90,12 +87,18 @@ export const selectActiveNode = (tree: TreeData, selector: PrevOrNext) : TreeDat
 }
 
 // helper methods
-const isActive = node => node && node.ui && node.ui.active === true
+const isActive = node => (node && node.node && node.node.ui && node.node.ui.active === true) || false
 
-const isVisible = (node, parent) => (parent && parent.ui && parent.ui.expanded === true) || (node && node.ui && node.ui.expanded === true)
+const isVisible = (node, parent) => (parent && parent.node && parent.node.ui && parent.node.ui.expanded === true) || (node && node.node && node.node.ui && node.node.ui.expanded === true) || false
 
 const invertedUI = ui => {
   const invertedUI = {}
   Object.keys(ui).forEach(key => invertedUI[key] = !ui[key])
   return invertedUI
+}
+
+const falsyUI = keys => {
+  const ui = {}
+  keys.forEach(key => ui[key] = false)
+  return ui
 }

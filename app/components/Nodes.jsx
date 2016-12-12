@@ -33,7 +33,7 @@ export default class Nodes extends Component {
     const {
       nodes,
       hasNodes,
-      // @TODO: check is this works
+      // @TODO: check if this works
       ui: { adding, movingChild }
     } = this.props
 

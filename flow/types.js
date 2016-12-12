@@ -1,12 +1,8 @@
 /* @flow */
 
-import { Map, List } from 'immutable'
-import type { TreeData, TreePath, NodeId, Node } from './tree'
+import type { Tree, TreePath, NodeId, NodeData } from './tree'
 
 export type Type = 'boolean' | 'number' | 'string' | '[]' | 'boolean[]' | 'string[]' | 'number[]'
-
-export type NodeMap = Map<string, any>
-export type NodesList = List<NodeMap>
 
 // @LINK: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 export type Lang = 'en' | 'nl'
@@ -19,7 +15,7 @@ export type State = {
 export type NodesState = {
   isSyncing: boolean,
   hasErrors: boolean,
-  tree: ?TreeData,
+  tree: ?Tree,
   userIsDragging: boolean
 }
 
@@ -42,8 +38,8 @@ type NodesActionType =
 export type NodesAction = {
   type: NodesActionType,
   data: {
-    node?: Node,
-    tree?: TreeData,
+    nodeData?: NodeData,
+    tree?: any,
     path?: TreePath,
     newPath?: TreePath,
     before?: NodeId,

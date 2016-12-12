@@ -18,6 +18,7 @@ import {
   selectActiveNode
 } from '../../app/lib/TreeOperations'
 import { uid, uid1, uid2, uid3 } from '../uid'
+import defaultUI from '../../app/lib/defaultUI'
 
 describe('TreeOperations', () => {
 
@@ -43,7 +44,8 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid,
+          node: { uid, data: { title: '' }, ui: defaultUI },
+          path: [uid],
           nodes: []
         }]
       }
@@ -53,8 +55,8 @@ describe('TreeOperations', () => {
       }
       const updatedTree = createAndAdd(tree, path, nodeData)
       expect(updatedTree.nodes[0].nodes.length).toBe(1)
-      expect(updatedTree.nodes[0].nodes[0].data).toEqual({ title: 'new' })
-      expect(updatedTree.nodes[0].nodes[0].ui).not.toBe(null)
+      expect(updatedTree.nodes[0].nodes[0].node.data).toEqual({ title: 'new' })
+      expect(updatedTree.nodes[0].nodes[0].node.ui).not.toBe(null)
     })
   })
 
@@ -64,8 +66,8 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid,
-          title: 'Mr. Root',
+          node: { uid, data: { title: 'Mr. Root' }, ui: defaultUI },
+          path: [uid],
           nodes: []
         }]
       }
@@ -75,7 +77,7 @@ describe('TreeOperations', () => {
       }
       const updatedTree = update(tree, path, nodeData)
       expect(updatedTree.nodes.length).toBe(1)
-      expect(updatedTree.nodes[0].data).toEqual({ title: 'new' })
+      expect(updatedTree.nodes[0].node.data).toEqual({ title: 'new' })
     })
   })
 
@@ -85,9 +87,11 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid,
+          node: { uid, data: { title: '' }, ui: defaultUI },
+          path: [uid],
           nodes: [{
-            uid: uid1,
+            node: { uid: uid1, data: { title: '' }, ui: defaultUI },
+            path: [uid, uid1],
             nodes: []
           }]
         }]
@@ -104,14 +108,21 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid,
+          node: { uid, data: { title: '' }, ui: defaultUI },
+          path: [uid],
           nodes: [
             {
-              uid: uid1,
-              nodes: [{ uid: uid2, nodes: [] }]
+              node: { uid: uid1, data: { title: '' }, ui: defaultUI },
+              path: [uid, uid1],
+              nodes: [{
+                node: { uid: uid2, data: { title: '' }, ui: defaultUI },
+                path: [uid, uid1, uid2],
+                nodes: []
+              }]
             },
             {
-              uid: uid3,
+              node: { uid: uid3, data: { title: '' }, ui: defaultUI },
+              path: [uid, uid3],
               nodes: []
             }
           ]
@@ -131,29 +142,35 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid,
-          data: {
-            title: 'Mr. Root'
+          node: {
+            uid,
+            data: {
+              title: 'Mr. Root'
+            },
+            ui: {
+              editing: false
+            }
           },
-          ui: {
-            editing: false
-          },
+          path: [uid],
           nodes: [
             {
-              uid: uid1,
-              data: {
-                title: 'Active'
+              node: {
+                uid: uid1,
+                data: {
+                  title: 'Active'
+                },
+                ui: {
+                  editing: true
+                }
               },
-              ui: {
-                editing: true
-              },
+              path: [uid, uid1],
               nodes: []
             }
           ]
         }]
       }
       const updatedTree = clearUI(tree, ['editing'])
-      expect(updatedTree.nodes[0].ui).toEqual({ editing: false })
+      expect(updatedTree.nodes[0].node.ui).toEqual({ editing: false })
     })
   })
 
@@ -163,8 +180,13 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid,
-          title: 'Mr. Root',
+          node: {
+            uid,
+            data: { title: 'Mr. Root' },
+            ui: defaultUI,
+            nodes: []
+          },
+          path: [uid],
           nodes: []
         }]
       }
@@ -174,7 +196,7 @@ describe('TreeOperations', () => {
       }
       const updatedTree = setUI(tree, path, nodeUI)
       expect(updatedTree.nodes.length).toBe(1)
-      expect(updatedTree.nodes[0].ui).toEqual({ editing: true })
+      expect(updatedTree.nodes[0].node.ui.editing).toBe(true)
     })
   })
 
@@ -184,30 +206,36 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid,
-          data: {
-            title: 'Mr. Root'
+          node: {
+            uid,
+            data: {
+              title: 'Mr. Root'
+            },
+            ui: {
+              active: false
+            }
           },
-          ui: {
-            active: false
-          },
+          path: [uid],
           nodes: [
             {
-              uid: uid1,
-              data: {
-                title: 'Active'
+              node: {
+                uid: uid1,
+                data: {
+                  title: 'Active'
+                },
+                ui: {
+                  active: true,
+                  editing: false
+                }
               },
-              ui: {
-                active: true,
-                editing: false
-              },
+              path: [uid, uid1],
               nodes: []
             }
           ]
         }]
       }
       const updatedTree = setUIActiveNode(tree, 'editing', true)
-      expect(updatedTree.nodes[0].nodes[0].ui).toEqual({ active: true, editing: true })
+      expect(updatedTree.nodes[0].nodes[0].node.ui).toEqual({ active: true, editing: true })
     })
   })
 
@@ -217,28 +245,20 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid,
-          ui: {
-            editing: true,
-            expanded: true
-          },
+          node: { uid, data: { title: '' }, ui: { ...defaultUI, editing: true, expanded: true } },
+          path: [uid],
           nodes: [{
-            uid: uid1,
-            nodes: [],
-            ui: {
-              editing: false,
-              expanded: false
-            }
+            node: { uid: uid1, data: { title: '' }, ui: { ...defaultUI, editing: false, expanded: false } },
+            path: [uid, uid1],
+            nodes: []
           }]
         }]
       }
       const path = [uid, uid1]
-      const nodeUI = {
-        editing: true
-      }
+      const nodeUI = { editing: true }
       const updatedTree = setUIUnique(tree, path, nodeUI)
-      expect(updatedTree.nodes[0].ui).toEqual({ editing: false, expanded: true })
-      expect(updatedTree.nodes[0].nodes[0].ui).toEqual({ editing: true, expanded: false })
+      expect(updatedTree.nodes[0].node.ui.editing).toBe(false)
+      expect(updatedTree.nodes[0].nodes[0].node.ui.editing).toBe(true)
     })
   })
 
@@ -248,49 +268,36 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          uid,
+          node: { uid, data: { title: '' }, ui: { ...defaultUI, expanded: true, active: true } },
           path: [uid],
-          ui: {
-            expanded: true,
-            active: true
-          },
           nodes: [{
-            uid: uid1,
+            node: { uid: uid1, data: { title: '' }, ui: { ...defaultUI, active: false } },
             path: [uid, uid1],
-            nodes: [],
-            ui: {
-              active: false
-            }
+            nodes: []
           }]
         }]
       }
       const updatedTree = selectActiveNode(tree, 'NEXT')
-      expect(updatedTree.nodes[0].ui).toEqual({ expanded: true, active: false })
-      expect(updatedTree.nodes[0].nodes[0].ui).toEqual({ active: true })
+      expect(updatedTree.nodes[0].node.ui.active).toBe(false)
+      expect(updatedTree.nodes[0].nodes[0].node.ui.active).toEqual(true)
     })
 
     it('prev', () => {
 
       const tree = {
         nodes: [{
-          uid,
+          node: { uid, data: { title: '' }, ui: { ...defaultUI, expanded: true } },
           path: [uid],
-          ui: {
-            expanded: true
-          },
           nodes: [{
-            uid: uid1,
+            node: { uid: uid1, data: { title: '' }, ui: { ...defaultUI, active: true } },
             path: [uid, uid1],
-            nodes: [],
-            ui: {
-              active: true
-            }
+            nodes: []
           }]
         }]
       }
       const updatedTree = selectActiveNode(tree, 'PREV')
-      expect(updatedTree.nodes[0].ui).toEqual({ expanded: true, active: true })
-      expect(updatedTree.nodes[0].nodes[0].ui).toEqual({ active: false })
+      expect(updatedTree.nodes[0].node.ui.active).toBe(true)
+      expect(updatedTree.nodes[0].nodes[0].node.ui.active).toBe(false)
     })
   })
 })

@@ -117,7 +117,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.postNode(uid, [], {}))
+      return store.dispatch(actions.postNode(uid, [], { title: '' }))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -133,7 +133,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.postNode(uid, [], {}))
+      return store.dispatch(actions.postNode(uid, [], { title: '' }))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -184,7 +184,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putNode(uid, [], {}))
+      return store.dispatch(actions.putNode(uid, [], { title: '' }))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -200,7 +200,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putNode(uid, [], {}))
+      return store.dispatch(actions.putNode(uid, [], { title: '' }))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')

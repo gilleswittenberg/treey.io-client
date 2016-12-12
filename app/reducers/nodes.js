@@ -46,17 +46,15 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     return state
 
   case types.ADD_NODE:
-    // @TODO: change action.data.node.data to action.data.nodeData
-    if (state.tree != null && action.data.path != null && action.data.node != null && action.data.node.data != null) {
-      tree = createAndAdd(state.tree, action.data.path, action.data.node.data)
+    if (state.tree != null && action.data.path != null && action.data.nodeData != null) {
+      tree = createAndAdd(state.tree, action.data.path, action.data.nodeData)
       return { ...state, tree }
     }
     return state
 
   case types.UPDATE_NODE:
-    // @TODO: change action.data.node.data to action.data.nodeData
-    if (state.tree != null && action.data.path != null && action.data.node != null && action.data.node.data != null) {
-      tree = update(state.tree, action.data.path, action.data.node.data)
+    if (state.tree != null && action.data.path != null && action.data.nodeData != null) {
+      tree = update(state.tree, action.data.path, action.data.nodeData)
       return { ...state, tree }
     }
     return state

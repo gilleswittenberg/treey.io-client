@@ -4,48 +4,33 @@ import type {
   Node,
   NodeId,
   NodeData,
-  NodeUI,
-  TreePath
+  NodeUI
 } from '../../flow/tree'
 
 import { fromJS } from 'immutable'
 import defaultUI from '../../app/lib/defaultUI'
-import ID from '../settings/TREE_ID_KEY'
 
-export const createNode = (id: ?NodeId, data: ?NodeData, ui: ?NodeUI) : Node => {
-  id = id || null
+export const createNode = (id?: NodeId, data?: NodeData, ui?: NodeUI) : Node => {
+  const uid = id != null ? id : null
   data = data || { title: '' }
   ui = ui || defaultUI
   return {
-    uid: id,
+    uid,
     data,
-    ui,
-    nodes: []
+    ui
   }
 }
 
-export const updateNode = (node: Node, id: ?NodeId, data: ?NodeData, ui: ?NodeUI) : Node => {
-  node = fromJS(node)
-  if (id) node = node.set(ID, id)
-  if (data) node = node.mergeIn(['data'], fromJS(data))
-  if (ui) node = node.mergeIn(['ui'], fromJS(ui))
-  return node.toJS()
+export const updateNode = (node: Node, id?: NodeId, data?: NodeData, ui?: NodeUI) : Node => {
+  let nodeMap = fromJS(node)
+  if (id != null) nodeMap = nodeMap.set('uid', id)
+  if (data != null) nodeMap = nodeMap.mergeIn(['data'], fromJS(data))
+  if (ui != null) nodeMap = nodeMap.mergeIn(['ui'], fromJS(ui))
+  return nodeMap.toJS()
 }
 
-export const parseTreeNode = (obj: { uid: ?string, title: ?string }) : Node => {
-  const id = obj.uid
-  const data = {}
-  if (obj.title != null) {
-    data.title = obj.title
-  }
+export const parseNode = (obj: { uid?: string, title?: string }) : Node => {
+  const id = obj.uid != null ? obj.uid : undefined
+  const data = obj.title != null ? { title: obj.title } : undefined
   return createNode(id, data)
-}
-
-export const setPathOnNode = (node: Node, parentPath: TreePath = []) : Node => {
-  let path = parentPath
-  if (node.uid != null) {
-    path.push(node.uid)
-  }
-  node.path = path
-  return node
 }

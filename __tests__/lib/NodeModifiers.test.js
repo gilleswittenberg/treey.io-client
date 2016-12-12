@@ -5,7 +5,7 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import { createNode, updateNode, parseTreeNode, setPathOnNode } from '../../app/lib/NodeModifiers'
+import { createNode, updateNode, parseNode } from '../../app/lib/NodeModifiers'
 import defaultUI from '../../app/lib/defaultUI'
 import { uid, uid1 } from '../uid'
 
@@ -17,16 +17,14 @@ describe('TreeModifiers', () => {
       const node = createNode()
       expect(node.uid).toBe(null)
       expect(node.data).toEqual({ title: '' })
-      expect(node.ui).not.toBe(null)
-      expect(node.nodes).toEqual([])
+      expect(node.ui).toEqual(defaultUI)
     })
 
-    it('null arguments', () => {
-      const node = createNode(null, null, null, null)
+    it('undefined arguments', () => {
+      const node = createNode(undefined, undefined, undefined)
       expect(node.uid).toBe(null)
       expect(node.data).toEqual({ title: '' })
-      expect(node.ui).not.toBe(null)
-      expect(node.nodes).toEqual([])
+      expect(node.ui).toEqual(defaultUI)
     })
 
     it('uid', () => {
@@ -36,15 +34,13 @@ describe('TreeModifiers', () => {
 
     it('data', () => {
       const data = { title: 'Mr. Foo' }
-      const node = createNode(null, data)
-      expect(node.uid).toBe(null)
+      const node = createNode(undefined, data)
       expect(node.data).toEqual(data)
     })
 
     it('ui', () => {
       const ui = { ...defaultUI, editing: true }
-      const node = createNode(null, null, ui)
-      expect(node.uid).toBe(null)
+      const node = createNode(undefined, undefined, ui)
       expect(node.ui).toEqual(ui)
     })
   })
@@ -53,28 +49,28 @@ describe('TreeModifiers', () => {
 
     it('id', () => {
       const data = { title: 'Mr. Foo' }
-      const node = createNode(null, data)
+      const node = createNode(undefined, data)
       const node2 = updateNode(node, uid)
       expect(node2.uid).toBe(uid)
       expect(node2.data).toEqual({ title: 'Mr. Foo' })
-      expect(node2.ui).not.toBe(null)
+      expect(node2.ui).toEqual(defaultUI)
     })
 
     it('data', () => {
       const data = { title: 'Mr. Foo' }
-      const node = createNode(null, data)
-      const node2 = updateNode(node, null, { title: 'New title' })
+      const node = createNode(undefined, data)
+      const node2 = updateNode(node, undefined, { title: 'New title' })
       expect(node2.uid).toBe(null)
       expect(node2.data).toEqual({ title: 'New title' })
-      expect(node2.ui).not.toBe(null)
+      expect(node2.ui).toEqual(defaultUI)
     })
 
     it('ui', () => {
       const node = createNode()
       const ui = { ...defaultUI, editing: true }
-      const node2 = updateNode(node, null, null, ui)
+      const node2 = updateNode(node, undefined, undefined, ui)
       expect(node2.uid).toBe(null)
-      expect(node2.ui).not.toBe(null)
+      expect(node2.data).toEqual({ title: '' })
       expect(node2.ui).toEqual(ui)
     })
 
@@ -83,36 +79,38 @@ describe('TreeModifiers', () => {
       const data = { title: 'New title' }
       const ui = { ...defaultUI, editing: true }
       const node2 = updateNode(node, uid1, data, ui)
+      expect(node.uid).toEqual(uid)
+      expect(node.data).toEqual({ title: '' })
+      expect(node.ui).toEqual(defaultUI)
       expect(node2.uid).toBe(uid1)
-      expect(node2.data).not.toBe(ui)
+      expect(node2.data).toEqual({ title: 'New title' })
       expect(node2.ui).toEqual(ui)
-      expect(node).toEqual(node)
     })
   })
 
-  describe('parseTreeNode', () => {
+  describe('parseNode', () => {
 
     it('node', () => {
       const data = { uid, title: 'Mr. Foo' }
-      const node = parseTreeNode(data)
+      const node = parseNode(data)
       expect(node.uid).toBe(uid)
       expect(node.data).toEqual({ title: 'Mr. Foo' })
-      expect(node.ui).not.toBe(null)
-    })
-  })
-
-  describe('setPathOnNode', () => {
-
-    it('root', () => {
-      let node = createNode(uid)
-      node = setPathOnNode(node, [])
-      expect(node.path).toEqual([uid])
+      expect(node.ui).toEqual(defaultUI)
     })
 
-    it('parent path', () => {
-      let node = createNode(uid1)
-      node = setPathOnNode(node, [uid])
-      expect(node.path).toEqual([uid, uid1])
+    it('uid null', () => {
+      const data = { title: 'Mr. Foo' }
+      const node = parseNode(data)
+      expect(node.uid).toBe(null)
+      expect(node.data).toEqual({ title: 'Mr. Foo' })
+      expect(node.ui).toEqual(defaultUI)
+    })
+
+    it('title null', () => {
+      const node = parseNode({})
+      expect(node.uid).toBe(null)
+      expect(node.data).toEqual({ title: '' })
+      expect(node.ui).toEqual(defaultUI)
     })
   })
 })

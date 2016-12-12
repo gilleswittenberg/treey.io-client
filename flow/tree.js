@@ -1,36 +1,40 @@
 /* @flow */
 
-export type NodesKey = string
-export type IdKey = string
-export type NodeId = string
-
 // @TODO: allow for settings NodesKey dynamically
-export type TreeData = {
-  nodes: Nodes
-}
+export type NodesKey = string
 // @TODO: allow for settings IdKey dynamically
+export type IdKey = string
+export type NodeId = ?string
 
-export type TreePath = string[]
-export type TreeIndexPath = number[]
+export type TreePath = NodeId[]
+export type TreeNodesIndex = number
+export type TreeIndexPath = TreeNodesIndex[]
 export type TreeNodesPath = []
 
-export type Nodes = Node[]
-export type NodesIndex = number
+export type TreeNode = {
+  path: TreePath,
+  nodes: TreeNodes,
+  node: Node
+}
 
+export type TreeNodes = TreeNode[]
 
-// @TODO: allow for settings IdKey dynamically
-// @TODO: allow for settings NodesKey dynamically
+export type Tree = {
+  nodes: TreeNodes
+}
+
 export type Node = {
   uid: ?NodeId,
-  path?: TreePath,
-  data?: NodeData,
-  ui?: NodeUI,
-  nodes: Nodes
+  data: NodeData,
+  ui: NodeUI
 }
 
+export type Nodes = Node[]
+
 export type NodeData = {
-  title?: string
+  title: string
 }
+// @TODO: non-optional keys
 export type NodeUI = {
   active?: boolean,
   expanded?: boolean,

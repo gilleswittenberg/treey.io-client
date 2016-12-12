@@ -143,6 +143,7 @@ export function addNode (path: string[], json: any) {
 }
 
 export const POST_NODE = 'POST_NODE'
+// @TODO: remove parent argument
 export function postNode (parent: string, path: string[], data: NodeData) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
@@ -194,6 +195,7 @@ export function updateNode (path: string[], json: any) {
 }
 
 export const PUT_NODE = 'PUT_NODE'
+// @TODO: remove uid argument
 export function putNode (uid: string, path: string[], data: NodeData) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
@@ -272,6 +274,7 @@ export function deleteNode (path: string[], parent: string, uid: string) {
 }
 
 export const MOVE_NODE = 'MOVE_NODE'
+// @TODO: use path, newPath argument
 export function moveNode (parent: string, uid: string, newParent: string, before?: string) {
   return {
     type: MOVE_NODE,
@@ -285,6 +288,7 @@ export function moveNode (parent: string, uid: string, newParent: string, before
 }
 
 export const PUT_MOVE_NODE = 'PUT_MOVE_NODE'
+// @TODO: use path argument
 export function putMoveNode (parent: string, uid: string, newParent: string, before?: string) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())

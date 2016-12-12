@@ -72,15 +72,15 @@ describe('nodes reducer', () => {
       expect(state.tree.nodes[0].path).not.toBe(null)
     }
     if (state.tree != null) {
-      expect(state.tree.nodes[0].ui).not.toBe(null)
+      expect(state.tree.nodes[0].node.ui).not.toBe(null)
     }
     if (state.tree != null) {
       state.tree.nodes[0].nodes.forEach(function (node) {
         expect(node.path).not.toBe(null)
-        expect(node.ui).not.toBe(null)
+        expect(node.node.ui).not.toBe(null)
         node.nodes.forEach(node => {
           expect(node.path).not.toBe(null)
-          expect(node.ui).not.toBe(null)
+          expect(node.node.ui).not.toBe(null)
         })
       })
     }
@@ -89,12 +89,7 @@ describe('nodes reducer', () => {
       type: ADD_NODE,
       data: {
         path: [uid],
-        node: {
-          // @TODO: remove
-          uid: null,
-          data: { title: 'new' },
-          nodes: []
-        }
+        nodeData: { title: 'new' }
       }
     })
     // @TODO: remove
@@ -103,23 +98,18 @@ describe('nodes reducer', () => {
     }
     // @TODO: remove
     if (state2.tree != null) {
-      expect(state2.tree.nodes[0].nodes[2].data).toEqual({ title: 'new' })
+      expect(state2.tree.nodes[0].nodes[2].node.data).toEqual({ title: 'new' })
     }
 
     const state3 = reducer(state2, {
       type: UPDATE_NODE,
       data: {
         path: [uid],
-        node: {
-          // @TODO: remove
-          uid: null,
-          data: { title: 'John Doe Sr.' },
-          nodes: []
-        }
+        nodeData: { title: 'John Doe Sr.' }
       }
     })
     if (state3.tree != null) {
-      expect(state3.tree.nodes[0].data).toEqual({ title: 'John Doe Sr.' })
+      expect(state3.tree.nodes[0].node.data).toEqual({ title: 'John Doe Sr.' })
     }
 
     const state4 = reducer(state3, {
