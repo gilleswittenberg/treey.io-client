@@ -51,66 +51,87 @@ describe('Tree', () => {
     })
 
     it('nodes deep', () => {
-      const tree = {
-        uid,
-        path: [uid],
-        data: {
-          title: 'John Doe'
+      const tree = { nodes: [{
+        node: {
+          uid,
+          data: {
+            title: 'John Doe'
+          },
+          ui
         },
-        ui,
+        path: [uid],
         nodes: [
           {
-            uid: uid1,
-            path: [uid, uid1],
-            data: {
-              title: 'ToDo'
+            node: {
+              uid: uid1,
+              data: {
+                title: 'ToDo'
+              },
+              ui
             },
-            ui,
+            path: [uid, uid1],
             nodes: [
               {
-                uid: uid2,
+                node: {
+                  uid: uid2,
+                  data: { title: 'bring home the milk' },
+                  ui
+                },
                 path: [uid, uid1, uid2],
-                data: { title: 'bring home the milk' },
-                ui
+                nodes: []
               },
               {
-                uid: uid3,
+                node: {
+                  uid: uid3,
+                  data: { title: 'clean the house' },
+                  ui
+                },
                 path: [uid, uid1, uid3],
-                data: { title: 'clean the house' },
-                ui
+                nodes: []
               }
             ]
           },
           {
-            uid: uid4,
-            path: [uid, uid4],
-            data: {
-              title: 'Movies'
+            node: {
+              uid: uid4,
+              data: {
+                title: 'Movies'
+              },
+              ui
             },
-            ui,
+            path: [uid, uid4],
             nodes: [
               {
-                uid: uid5,
+                node: {
+                  uid: uid5,
+                  data: { title: 'Star Wars: Episode IV - A New Hope (1977)' },
+                  ui
+                },
                 path: [uid, uid4, uid5],
-                data: { title: 'Star Wars: Episode IV - A New Hope (1977)' },
-                ui
+                nodes: []
               },
               {
-                uid: uid6,
+                node: {
+                  uid: uid6,
+                  data: { title: 'The Terminator (1984)' },
+                  ui
+                },
                 path: [uid, uid4, uid6],
-                data: { title: 'The Terminator (1984)' },
-                ui
+                nodes: []
               },
               {
-                uid: uid7,
+                node: {
+                  uid: uid7,
+                  data: { title: 'The Matrix (1999)' },
+                  ui
+                },
                 path: [uid, uid4, uid7],
-                data: { title: 'The Matrix (1999)' },
-                ui
+                nodes: []
               }
             ]
           }
         ]
-      }
+      }] }
       const wrapper = render(getComponent({ tree }))
       // deepest child nodes 3 + 2
       expect(wrapper.find('ul ul ul ul').length).toBe(3 + 2)

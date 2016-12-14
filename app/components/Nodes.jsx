@@ -50,13 +50,13 @@ export default class Nodes extends Component {
       <ul>
 
         { nodes.map((node, index) =>
-          <li key={ node.uid }>
+          <li key={ node.node.uid }>
             <NodeWrap
               { ...nodeWrapProps }
-              uid={ node.uid }
+              uid={ node.node.uid }
               path={ node.path }
-              data={ node.data }
-              ui={ node.ui }
+              data={ node.node.data }
+              ui={ node.node.ui }
               nodes={ node.nodes }
               siblings={ nodes }
               index={ index }

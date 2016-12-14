@@ -45,7 +45,23 @@ describe('Nodes', () => {
   describe('nodes', () => {
 
     it('nodes', () => {
-      const nodes = [{ uid, path: [uid], ui }, { uid: uid1, path: [uid1], ui }]
+      const nodes = [{
+        node: {
+          uid,
+          data: { title: '' },
+          ui
+        },
+        path: [uid],
+        nodes: []
+      }, {
+        node: {
+          uid: uid1,
+          data: { title: '' },
+          ui
+        },
+        path: [uid1],
+        nodes: []
+      }]
       const wrapper = shallow(getComponent({ nodes }))
       expect(wrapper.find('li').length).toBe(2)
     })
