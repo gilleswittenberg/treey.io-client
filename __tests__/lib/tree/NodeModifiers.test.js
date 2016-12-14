@@ -5,9 +5,9 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import { createNode, updateNode, parseNode } from '../../app/lib/NodeModifiers'
-import defaultUI from '../../app/lib/defaultUI'
-import { uid, uid1 } from '../uid'
+import { createNode, updateNode, parseNode } from '../../../app/lib/tree/NodeModifiers'
+import defaultUI from '../../../app/lib/ui/defaultUI'
+import { uid, uid1 } from '../../uid'
 
 describe('TreeModifiers', () => {
 

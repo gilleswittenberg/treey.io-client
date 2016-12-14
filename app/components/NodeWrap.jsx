@@ -5,7 +5,7 @@ import classNames from 'classnames'
 import NodeDroppable from '../components/NodeDroppable'
 import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
-import propTypeShapeUI from '../lib/propTypeShapeUI'
+import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
 
 export default class NodeWrap extends Component {
 

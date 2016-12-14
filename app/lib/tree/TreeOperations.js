@@ -7,15 +7,15 @@ import type {
   NodeData,
   NodeUI,
   PrevOrNext
-} from '../../flow/tree'
+} from '../../../flow/tree'
 
 import { createNode } from './NodeModifiers'
 import { createTreeNode } from './TreeNodeModifiers'
 import { indexTreeNodes, addTreeNode, updateTreeNode, removeTreeNode, updateTreeNodes } from './TreeModifiers'
 import { getTreeNode, findTreePath, filterTree, flattenTree } from './TreeUtils'
-import { getNextCircular, getPrevCircular } from './ArrayUtils'
-import ID from '../settings/TREE_ID_KEY'
-import NODES from '../settings/TREE_NODES_KEY'
+import { getNextCircular, getPrevCircular } from '../utils/ArrayUtils'
+import ID from '../../settings/TREE_ID_KEY'
+import NODES from '../../settings/TREE_NODES_KEY'
 
 export const index = (data: any) : Tree => {
   return indexTreeNodes(data)

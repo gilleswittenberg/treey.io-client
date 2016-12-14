@@ -2,7 +2,7 @@
 
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
-import getActions from '../lib/actions'
+import getActions from '../lib/ui/actions'
 import ServerStatus from '../components/ServerStatus'
 import Tree from '../components/Tree'
 

@@ -10,8 +10,8 @@ import Tree from '../../app/components/Tree'
 import { shallow, render } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
-import { defaultActions } from '../../app/lib/actions'
-import defaultUI from '../../app/lib/defaultUI'
+import { defaultActions } from '../../app/lib/ui/actions'
+import defaultUI from '../../app/lib/ui/defaultUI'
 import { uid, uid1, uid2, uid3, uid4, uid5, uid6, uid7 } from '../uid'
 
 describe('Tree', () => {

@@ -11,7 +11,7 @@ import type {
   NodesKey,
   IdKey,
   NodeId
-} from '../../flow/tree'
+} from '../../../flow/tree'
 
 import { fromJS } from 'immutable'
 import { parseTreeNode } from './TreeNodeModifiers'

@@ -5,7 +5,7 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import isType from '../../app/lib/isType'
+import isType from '../../../app/lib/utils/isType'
 
 describe('isType', () => {
 

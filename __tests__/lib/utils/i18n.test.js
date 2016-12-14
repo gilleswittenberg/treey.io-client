@@ -5,7 +5,7 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import __ from '../../app/lib/i18n'
+import __ from '../../../app/lib/utils/i18n'
 
 describe('i18n', () => {
 

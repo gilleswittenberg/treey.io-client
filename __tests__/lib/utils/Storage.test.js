@@ -7,9 +7,9 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import Storage from '../../app/lib/Storage'
+import Storage from '../../../app/lib/utils/Storage'
 
-jest.genMockFromModule('../../__mocks__/localStorage')
+jest.genMockFromModule('../../../__mocks__/localStorage')
 
 describe('Storage', () => {
 

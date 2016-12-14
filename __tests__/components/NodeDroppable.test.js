@@ -12,7 +12,7 @@ import NodeDraggable from '../../app/components/NodeDraggable'
 import TestBackend from 'react-dnd-test-backend'
 import { DragDropContext } from 'react-dnd'
 import { mount } from 'enzyme'
-import defaultUI from '../../app/lib/defaultUI'
+import defaultUI from '../../app/lib/ui/defaultUI'
 import noop from '../noop'
 import { uid, uid1, uid2 } from '../uid'
 

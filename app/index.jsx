@@ -4,7 +4,7 @@ import Root from './containers/Root.jsx'
 import configureStore from './store/configureStore'
 import { getNodes } from './actions/nodes'
 // @TODO: fix expanded
-// import Storage from './lib/Storage'
+// import Storage from './lib/utils/Storage'
 // import EXPANDED_KEY from './settings/EXPANDED_KEY'
 import ROOT_UID from './settings/ROOT_UID'
 

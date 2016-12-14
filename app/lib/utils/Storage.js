@@ -1,7 +1,7 @@
 /* @flow */
 
-import isType from '../../app/lib/isType'
-import type { Type } from '../../flow/types'
+import isType from '../../../app/lib/utils/isType'
+import type { Type } from '../../../flow/types'
 
 const Storage = {
 

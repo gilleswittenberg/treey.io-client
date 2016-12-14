@@ -1,6 +1,6 @@
 /* @flow */
 
-import type { Type } from '../../flow/types'
+import type { Type } from '../../../flow/types'
 
 export default function isType (type: Type, value: any) {
   switch (type) {

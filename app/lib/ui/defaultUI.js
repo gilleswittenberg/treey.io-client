@@ -1,6 +1,6 @@
 /* @flow */
 
-import type { NodeUI } from '../../flow/tree'
+import type { NodeUI } from '../../../flow/tree'
 
 const defaultUI: NodeUI = {
   active: false,

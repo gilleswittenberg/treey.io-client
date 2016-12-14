@@ -14,7 +14,7 @@ import {
   setUIUnique,
   setUIActiveNode,
   selectActiveNode
-} from '../lib/TreeOperations'
+} from '../lib/tree/TreeOperations'
 
 export const defaultState: NodesState = {
   isSyncing: false,

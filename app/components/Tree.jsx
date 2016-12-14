@@ -6,8 +6,8 @@ import CustomDragLayer from '../components/CustomDragLayer'
 import autobind from 'autobind-decorator'
 import { DragDropContext } from 'react-dnd'
 import TouchBackend from 'react-dnd-touch-backend'
-import delay from '../lib/delay'
-import defaultUI from '../lib/defaultUI'
+import delay from '../lib/utils/delay'
+import defaultUI from '../lib/ui/defaultUI'
 
 class Tree extends Component {
 

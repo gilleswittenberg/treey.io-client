@@ -16,9 +16,9 @@ import {
   setUIActiveNode,
   setUIUnique,
   selectActiveNode
-} from '../../app/lib/TreeOperations'
-import { uid, uid1, uid2, uid3 } from '../uid'
-import defaultUI from '../../app/lib/defaultUI'
+} from '../../../app/lib/tree/TreeOperations'
+import { uid, uid1, uid2, uid3 } from '../../uid'
+import defaultUI from '../../../app/lib/ui/defaultUI'
 
 describe('TreeOperations', () => {
 

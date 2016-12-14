@@ -5,7 +5,7 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import { getNextCircular, getPrevCircular } from '../../app/lib/ArrayUtils'
+import { getNextCircular, getPrevCircular } from '../../../app/lib/utils/ArrayUtils'
 
 describe('ArrayUtils', () => {
 

@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
-import __ from '../lib/i18n'
+import __ from '../lib/utils/i18n'
 
 const typesData = {
   ADD: { iconClass: 'fa-plus-square-o' },

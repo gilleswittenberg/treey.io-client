@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react'
 import NodeWrap from './NodeWrap'
 import NodeAdd from './NodeAdd'
 import NodeOver from './NodeOver'
-import propTypeShapeUI from '../lib/propTypeShapeUI'
+import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
 
 export default class Nodes extends Component {
 

@@ -9,7 +9,7 @@ import Nodes from '../../app/components/Nodes'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
-import defaultUI from '../../app/lib/defaultUI'
+import defaultUI from '../../app/lib/ui/defaultUI'
 import { parent, uid, uid1 } from '../uid'
 
 describe('Nodes', () => {

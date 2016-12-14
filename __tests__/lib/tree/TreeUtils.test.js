@@ -5,13 +5,23 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import type { TreeNode } from '../../flow/tree'
+import type { TreeNode } from '../../../flow/tree'
 
-import { treeIndexPathToTreeNodesPath, getNodesIndex, getTreeIndexPath, getTreeNode, parseTree, findTreePath, filterTree, flattenTree, mapTree } from '../../app/lib/TreeUtils'
-import { createNode } from '../../app/lib/NodeModifiers'
-import { createTreeNode } from '../../app/lib/TreeNodeModifiers'
-import defaultUI from '../../app/lib/defaultUI'
-import { uid, uid1, uid2, uid3, uid4, uid5, uid6 } from '../uid'
+import {
+  treeIndexPathToTreeNodesPath,
+  getNodesIndex,
+  getTreeIndexPath,
+  getTreeNode,
+  parseTree,
+  findTreePath,
+  filterTree,
+  flattenTree,
+  mapTree
+} from '../../../app/lib/tree/TreeUtils'
+import { createNode } from '../../../app/lib/tree/NodeModifiers'
+import { createTreeNode } from '../../../app/lib/tree/TreeNodeModifiers'
+import defaultUI from '../../../app/lib/ui/defaultUI'
+import { uid, uid1, uid2, uid3, uid4, uid5, uid6 } from '../../uid'
 
 describe('TreeUtils', () => {
 

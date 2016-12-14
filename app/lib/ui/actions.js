@@ -1,6 +1,6 @@
 /* @flow */
 
-import noop from './noop'
+import noop from '../utils/noop'
 
 export const defaultActions = {
   postNode: noop,
@@ -25,7 +25,7 @@ import {
   updateActiveNodeUI,
   setNextUIActive,
   setPrevUIActive
-} from '../actions/nodes'
+} from '../../actions/nodes'
 
 let nodesActions = {
   postNode,

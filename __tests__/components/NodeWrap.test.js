@@ -9,7 +9,7 @@ import NodeWrap from '../../app/components/NodeWrap'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
-import defaultUI from '../../app/lib/defaultUI'
+import defaultUI from '../../app/lib/ui/defaultUI'
 import { parent, uid } from '../uid'
 
 describe('NodeWrap', () => {

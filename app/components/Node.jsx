@@ -7,7 +7,7 @@ import ButtonIcon from './ButtonIcon'
 import ButtonMoveChild from './ButtonMoveChild'
 import NodeDraggable from './NodeDraggable'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
-import propTypeShapeUI from '../lib/propTypeShapeUI'
+import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
 
 export default class Node extends Component {
 

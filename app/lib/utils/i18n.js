@@ -1,13 +1,13 @@
 /* @flow */
 
-import en from '../i18n/en'
+import en from '../../i18n/en'
 
 const langs = {
   en,
   nl: undefined // only for tests
 }
 
-import type { Lang } from '../../flow/types'
+import type { Lang } from '../../../flow/types'
 
 export default function (code: Lang, key: string) : string {
 

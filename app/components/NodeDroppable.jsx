@@ -5,9 +5,9 @@ import Node from './Node'
 import NodeOver from './NodeOver'
 import DND_TYPE from '../settings/DND_TYPE'
 import { DropTarget } from 'react-dnd'
-import getHoverRegion from '../lib/getHoverRegion'
-import getNextSibling from '../lib/getNextSibling'
-import propTypeShapeUI from '../lib/propTypeShapeUI'
+import getHoverRegion from '../lib/ui/getHoverRegion'
+import getNextSibling from '../lib/ui/getNextSibling'
+import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
 
 const DropSpec = {
 

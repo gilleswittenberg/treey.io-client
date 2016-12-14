@@ -1,14 +1,9 @@
 /* @flow */
 
-import type {
-  Node,
-  NodeId,
-  NodeData,
-  NodeUI
-} from '../../flow/tree'
+import type { Node, NodeId, NodeData, NodeUI } from '../../../flow/tree'
 
 import { fromJS } from 'immutable'
-import defaultUI from '../../app/lib/defaultUI'
+import defaultUI from '../ui/defaultUI'
 
 export const createNode = (id?: NodeId, data?: NodeData, ui?: NodeUI) : Node => {
   const uid = id != null ? id : null

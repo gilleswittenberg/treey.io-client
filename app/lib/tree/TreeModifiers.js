@@ -7,13 +7,13 @@ import type {
   NodeId,
   NodeData,
   NodeUI
-} from '../../flow/tree'
+} from '../../../flow/tree'
 
 import { fromJS } from 'immutable'
 import { parseTreeNode, updateTreeNode as updateNode } from './TreeNodeModifiers'
 import { getNodesIndex, getTreeIndexPath, treeIndexPathToTreeNodesPath, parseTree, mapTree } from './TreeUtils'
-import ID from '../settings/TREE_ID_KEY'
-import NODES from '../settings/TREE_NODES_KEY'
+import ID from '../../settings/TREE_ID_KEY'
+import NODES from '../../settings/TREE_NODES_KEY'
 
 export const indexTreeNodes = (data: {}) : Tree => {
   return parseTree(data, parseTreeNode, NODES, ID)

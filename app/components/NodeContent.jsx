@@ -1,7 +1,7 @@
 /* @flow */
 
 import React, { Component, PropTypes } from 'react'
-import isURL from '../lib/isURL'
+import isURL from '../lib/utils/isURL'
 import ButtonIcon from './ButtonIcon'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 

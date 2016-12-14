@@ -8,7 +8,7 @@ import type {
   NodeId,
   NodeData,
   NodeUI
-} from '../../flow/tree'
+} from '../../../flow/tree'
 
 import { fromJS } from 'immutable'
 import { updateNode, parseNode } from './NodeModifiers'

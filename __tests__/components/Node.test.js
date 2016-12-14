@@ -11,7 +11,7 @@ import { mount } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import getMockEvent from '../getMockEvent'
-import defaultUI from '../../app/lib/defaultUI'
+import defaultUI from '../../app/lib/ui/defaultUI'
 import { uid, uid1 } from '../uid'
 
 describe('Node', () => {
