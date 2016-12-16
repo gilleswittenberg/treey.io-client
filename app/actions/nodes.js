@@ -58,16 +58,6 @@ export function clearNodeUI (key: string) {
 }
 
 export const UPDATE_NODE_UI = 'UPDATE_NODE_UI'
-export function updateNodeUI (path: string[], key: string, value: boolean) {
-  return {
-    type: UPDATE_NODE_UI,
-    data: {
-      path,
-      key,
-      value
-    }
-  }
-}
 
 export const CLEAR_UI_EDITING = 'CLEAR_UI_EDITING'
 export function clearUIEditing () {

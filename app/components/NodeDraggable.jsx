@@ -33,7 +33,6 @@ export class NodeDraggable extends Component {
     clearUIEditing: PropTypes.func.isRequired,
     setUIDragging: PropTypes.func.isRequired,
     clearNodeUI: PropTypes.func.isRequired,
-    updateNodeUI: PropTypes.func.isRequired,
     // Injected by React DnD DragSource
     connectDragSource: PropTypes.func,
     isDragging: PropTypes.bool,

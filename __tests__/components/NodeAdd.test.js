@@ -28,7 +28,6 @@ describe('NodeAdd', () => {
     setUIAdding: noop,
     setUIExpanded: noop,
     clearNodeUI: noop,
-    updateNodeUI: noop,
     postNode: noop
   }
   const getComponent = getComponentHOF(NodeAdd, defaultProps)
@@ -92,9 +91,8 @@ describe('NodeAdd', () => {
 
         const clearUIEditing = jest.fn()
         const postNode = jest.fn()
-        const updateNodeUI = jest.fn()
         const setUIExpanded = jest.fn()
-        const wrapper = shallow(getComponent({ ui: { adding: true }, clearUIEditing, postNode, updateNodeUI, setUIExpanded }))
+        const wrapper = shallow(getComponent({ ui: { adding: true }, clearUIEditing, postNode, setUIExpanded }))
 
         wrapper.setState({ title: 'user input' })
         const mockEvent = getMockEvent()
@@ -110,8 +108,8 @@ describe('NodeAdd', () => {
 
         const clearUIEditing = jest.fn()
         const postNode = jest.fn()
-        const updateNodeUI = jest.fn()
-        const wrapper = shallow(getComponent({ ui: { adding: true }, clearUIEditing, postNode }))
+        const setUIExpanded = jest.fn()
+        const wrapper = shallow(getComponent({ ui: { adding: true }, clearUIEditing, setUIExpanded, postNode }))
 
         wrapper.setState({ title: ' ' })
         const mockEvent = getMockEvent()
@@ -119,7 +117,7 @@ describe('NodeAdd', () => {
         // @TODO: test arguments
         expect(clearUIEditing.mock.calls.length).toBe(1)
         expect(postNode.mock.calls.length).toBe(0)
-        expect(updateNodeUI.mock.calls.length).toBe(0)
+        expect(setUIExpanded.mock.calls.length).toBe(0)
       })
     })
   })

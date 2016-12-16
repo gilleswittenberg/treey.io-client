@@ -43,7 +43,6 @@ describe('Node', () => {
     setUIDragging: noop,
     setUIButtonsShown: noop,
     clearNodeUI: noop,
-    updateNodeUI: noop,
     deleteNode: noop
   }
   const getComponent = getComponentHOF(Node, defaultProps)
@@ -60,16 +59,16 @@ describe('Node', () => {
     })
 
     it('canExpand', () => {
-      const updateNodeUI = jest.fn()
+      const setUIExpanded = jest.fn()
       const clearUIEditing = noop
       // @TODO: use mount / shallow
-      const node = new Node({ clearUIEditing, updateNodeUI, ui })
+      const node = new Node({ clearUIEditing, setUIExpanded, ui })
       const mockEvent = getMockEvent()
       node.handleClick(mockEvent)
-      expect(updateNodeUI.mock.calls.length).toBe(0)
+      expect(setUIExpanded.mock.calls.length).toBe(0)
     })
 
-    it('updateNodeUI', () => {
+    it('setUIExpanded', () => {
       const setUIExpanded = jest.fn()
       const clearUIEditing = noop
       // @TODO: use mount / shallow

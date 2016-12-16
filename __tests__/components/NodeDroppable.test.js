@@ -54,7 +54,6 @@ describe('NodeDroppable', () => {
     setUIMovingChild: noop,
     setUIDragging: noop,
     clearNodeUI: noop,
-    updateNodeUI: noop,
     handleClick: noop,
     handleClickMore: noop
   }
@@ -81,7 +80,6 @@ describe('NodeDroppable', () => {
     setUIButtonsShown: noop,
     clearUIEditing: noop,
     clearNodeUI: noop,
-    updateNodeUI: noop,
     andleClick: noop,
     handleClickMore: noop
   }

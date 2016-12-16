@@ -46,7 +46,6 @@ describe('ButtonMoveChild', () => {
     clearUIEditing: noop,
     setUIDragging: noop,
     clearNodeUI: noop,
-    updateNodeUI: noop,
     handleClick: noop,
     handleClickMore: noop
   }
@@ -64,7 +63,6 @@ describe('ButtonMoveChild', () => {
     deleteNode: noop,
     putMoveNode: noop,
     clearNodeUI: noop,
-    updateNodeUI: noop,
     setUIExpanded: noop,
     setUIMovingChild: noop,
     setUIDragging: noop
@@ -72,7 +70,7 @@ describe('ButtonMoveChild', () => {
 
   describe('hover', () => {
 
-    it('updateNodeUI', () => {
+    it('setUIMovingChild', () => {
 
       const setUIMovingChild = jest.fn()
       const propsDraggable = { ...defaultPropsDraggable }
@@ -111,7 +109,7 @@ describe('ButtonMoveChild', () => {
 
   describe('drop', () => {
 
-    it('putMoveNode, updateNodeUI', () => {
+    it('putMoveNode, setUIExpanded', () => {
 
       const putMoveNode = jest.fn()
       const setUIExpanded = jest.fn()

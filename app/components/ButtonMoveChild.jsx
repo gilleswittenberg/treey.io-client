@@ -29,7 +29,6 @@ class ButtonMoveChild extends Component {
 
   static propTypes = {
     lang: PropTypes.string,
-    updateNodeUI: PropTypes.func.isRequired,
     clearNodeUI: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
     setUIMovingChild: PropTypes.func.isRequired,

@@ -24,7 +24,6 @@ export default class Node extends Component {
     hasNodes: PropTypes.bool.isRequired,
     isOver: PropTypes.bool,
     clearNodeUI: PropTypes.func.isRequired,
-    updateNodeUI: PropTypes.func.isRequired,
     clearUIEditing: PropTypes.func.isRequired,
     setUIEditing: PropTypes.func.isRequired,
     setUIAdding: PropTypes.func.isRequired,
