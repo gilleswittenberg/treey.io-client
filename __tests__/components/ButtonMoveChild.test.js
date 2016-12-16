@@ -44,6 +44,7 @@ describe('ButtonMoveChild', () => {
     siblings: [{ uid }],
     index: 0,
     clearUIEditing: noop,
+    setUIDragging: noop,
     clearNodeUI: noop,
     updateNodeUI: noop,
     handleClick: noop,
@@ -65,7 +66,8 @@ describe('ButtonMoveChild', () => {
     clearNodeUI: noop,
     updateNodeUI: noop,
     setUIExpanded: noop,
-    setUIMovingChild: noop
+    setUIMovingChild: noop,
+    setUIDragging: noop
   }
 
   describe('hover', () => {

@@ -118,6 +118,17 @@ export function setUIMovingChild (path: TreePath, value: boolean = true) {
   }
 }
 
+export function setUIDragging (path: TreePath, value: boolean = true) {
+  return {
+    type: UPDATE_NODE_UI,
+    data: {
+      path,
+      key: 'dragging',
+      value
+    }
+  }
+}
+
 export const UPDATE_ACTIVE_NODE_UI = 'UPDATE_ACTIVE_NODE_UI'
 export function updateActiveNodeUI (key: string, value: boolean) {
   return {

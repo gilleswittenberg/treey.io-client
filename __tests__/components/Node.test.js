@@ -40,6 +40,7 @@ describe('Node', () => {
     setUIAdding: noop,
     setUIExpanded: noop,
     setUIMovingChild: noop,
+    setUIDragging: noop,
     clearNodeUI: noop,
     updateNodeUI: noop,
     deleteNode: noop

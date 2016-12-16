@@ -40,7 +40,8 @@ describe('NodeDraggable', () => {
     clearNodeUI: noop,
     updateNodeUI: noop,
     handleClick: noop,
-    handleClickMore: noop
+    handleClickMore: noop,
+    setUIDragging: noop
   }
 
   it('canDrag', () => {
@@ -60,9 +61,9 @@ describe('NodeDraggable', () => {
 
   it('beginDrag updateNodeUI', () => {
 
-    const updateNodeUI = jest.fn()
+    const setUIDragging = jest.fn()
 
-    const props = { ...defaultProps, updateNodeUI, isRoot: false }
+    const props = { ...defaultProps, setUIDragging, isRoot: false }
     const Context = wrapInTestContext(NodeDraggable, props)
     const wrapper = mount(<Context />)
     const manager = wrapper.get(0).getManager()
@@ -70,7 +71,7 @@ describe('NodeDraggable', () => {
     const nodeDraggable = wrapper.find(NodeDraggable).get(0)
     const sourceId = nodeDraggable.getHandlerId()
     backend.simulateBeginDrag([sourceId])
-    expect(updateNodeUI.mock.calls.length).toBe(1)
+    expect(setUIDragging.mock.calls.length).toBe(1)
   })
 
   it('endDrag clearNodeUI', () => {
