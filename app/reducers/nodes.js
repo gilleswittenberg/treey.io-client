@@ -82,11 +82,22 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     }
     return state
 
+  // @TODO: combine SET_UI_EDITING, SET_UI_ADDING
   case types.SET_UI_EDITING:
     if (state.tree != null && action.data.path != null) {
       tree = clearUI(state.tree, ['editing', 'adding'])
       if (action.data.path != null) {
         tree = setUI(tree, action.data.path, { editing: true })
+      }
+      return { ...state, tree }
+    }
+    return state
+
+  case types.SET_UI_ADDING:
+    if (state.tree != null && action.data.path != null) {
+      tree = clearUI(state.tree, ['editing', 'adding'])
+      if (action.data.path != null) {
+        tree = setUI(tree, action.data.path, { adding: true })
       }
       return { ...state, tree }
     }

@@ -86,6 +86,16 @@ export function setUIEditing (path: TreePath) {
   }
 }
 
+export const SET_UI_ADDING = 'SET_UI_ADDING'
+export function setUIAdding (path: TreePath) {
+  return {
+    type: SET_UI_ADDING,
+    data: {
+      path
+    }
+  }
+}
+
 export const UPDATE_ACTIVE_NODE_UI = 'UPDATE_ACTIVE_NODE_UI'
 export function updateActiveNodeUI (key: string, value: boolean) {
   return {

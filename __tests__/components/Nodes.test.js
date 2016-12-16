@@ -24,6 +24,7 @@ describe('Nodes', () => {
     nodes: [],
     ui,
     clearUIEditing: noop,
+    setUIAdding: noop,
     clearNodeUI: noop,
     updateNodeUI: noop,
     postNode: noop

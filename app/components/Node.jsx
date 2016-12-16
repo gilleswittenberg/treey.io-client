@@ -27,6 +27,7 @@ export default class Node extends Component {
     updateNodeUI: PropTypes.func.isRequired,
     clearUIEditing: PropTypes.func.isRequired,
     setUIEditing: PropTypes.func.isRequired,
+    setUIAdding: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired
   }
 
@@ -61,8 +62,8 @@ export default class Node extends Component {
   @autobind
   handleClickAdd (event: Event) {
     event.stopPropagation()
-    const { parent: { path }, updateNodeUI } = this.props
-    updateNodeUI(path, 'adding', true)
+    const { parent: { path }, setUIAdding } = this.props
+    setUIAdding(path)
   }
 
   @autobind

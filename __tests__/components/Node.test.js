@@ -35,8 +35,9 @@ describe('Node', () => {
     hasNodes: false,
     siblings: [{ uid, ui }],
     index: 0,
-    setUIEditing: noop,
     clearUIEditing: noop,
+    setUIEditing: noop,
+    setUIAdding: noop,
     clearNodeUI: noop,
     updateNodeUI: noop,
     deleteNode: noop
@@ -85,11 +86,10 @@ describe('Node', () => {
     })
 
     it('handleClickAdd', () => {
-      const updateNodeUI = jest.fn()
-      const wrapper = mount(getComponent({ updateNodeUI, showAddButton: true }))
+      const setUIAdding = jest.fn()
+      const wrapper = mount(getComponent({ setUIAdding, showAddButton: true }))
       wrapper.find('.button-icon-add').simulate('click')
-      expect(updateNodeUI.mock.calls.length).toBe(1)
-      expect(updateNodeUI.mock.calls[0][1]).toEqual('adding')
+      expect(setUIAdding.mock.calls.length).toBe(1)
     })
   })
 

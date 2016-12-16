@@ -23,8 +23,9 @@ describe('NodeAdd', () => {
     parent,
     path: [],
     ui: {},
-    setUIEditing: noop,
     clearUIEditing: noop,
+    setUIEditing: noop,
+    setUIAdding: noop,
     clearNodeUI: noop,
     updateNodeUI: noop,
     postNode: noop
