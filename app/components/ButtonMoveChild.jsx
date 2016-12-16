@@ -9,8 +9,8 @@ import classNames from 'classnames'
 const DropSpec = {
 
   hover (props) {
-    const { path, updateNodeUI } = props
-    updateNodeUI(path, 'movingChild', true)
+    const { path, setUIMovingChild } = props
+    setUIMovingChild(path)
   },
 
   drop (props, monitor) {
@@ -32,6 +32,7 @@ class ButtonMoveChild extends Component {
     updateNodeUI: PropTypes.func.isRequired,
     clearNodeUI: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
+    setUIMovingChild: PropTypes.func.isRequired,
     // Injected by React DnD DropTarget
     connectDropTarget: PropTypes.func,
     isOver: PropTypes.bool

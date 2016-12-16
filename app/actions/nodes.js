@@ -107,6 +107,17 @@ export function setUIExpanded (path: TreePath, value: boolean = true) {
   }
 }
 
+export function setUIMovingChild (path: TreePath, value: boolean = true) {
+  return {
+    type: UPDATE_NODE_UI,
+    data: {
+      path,
+      key: 'movingChild',
+      value
+    }
+  }
+}
+
 export const UPDATE_ACTIVE_NODE_UI = 'UPDATE_ACTIVE_NODE_UI'
 export function updateActiveNodeUI (key: string, value: boolean) {
   return {
