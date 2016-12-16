@@ -14,7 +14,7 @@ export default class NodeEdit extends Component {
     title: PropTypes.string.isRequired,
 
     clearUIEditing: PropTypes.func.isRequired,
-    clearNodeUI: PropTypes.func.isRequired,
+    
     putNode: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired
   }

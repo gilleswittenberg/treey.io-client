@@ -45,7 +45,6 @@ describe('Node', () => {
     setUIDragging: noop,
     clearUIDragging: noop,
     setUIButtonsShown: noop,
-    clearNodeUI: noop,
     deleteNode: noop
   }
   const getComponent = getComponentHOF(Node, defaultProps)

@@ -23,7 +23,7 @@ export default class Node extends Component {
     ui: PropTypes.shape(propTypeShapeUI),
     hasNodes: PropTypes.bool.isRequired,
     isOver: PropTypes.bool,
-    clearNodeUI: PropTypes.func.isRequired,
+    
     clearUIEditing: PropTypes.func.isRequired,
     clearUIButtonsShown: PropTypes.func.isRequired,
     setUIEditing: PropTypes.func.isRequired,

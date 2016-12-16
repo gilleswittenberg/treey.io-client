@@ -48,15 +48,6 @@ export function indexNodes (tree: any) {
 }
 
 export const CLEAR_NODE_UI = 'CLEAR_NODE_UI'
-export function clearNodeUI (key: string) {
-  return {
-    type: CLEAR_NODE_UI,
-    data: {
-      key
-    }
-  }
-}
-
 export const UPDATE_NODE_UI = 'UPDATE_NODE_UI'
 
 export const CLEAR_UI_EDITING = 'CLEAR_UI_EDITING'

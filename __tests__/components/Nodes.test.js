@@ -26,7 +26,6 @@ describe('Nodes', () => {
     clearUIEditing: noop,
     setUIAdding: noop,
     setUIExpanded: noop,
-    clearNodeUI: noop,
     postNode: noop
   }
   const getComponent = getComponentHOF(Nodes, defaultProps)

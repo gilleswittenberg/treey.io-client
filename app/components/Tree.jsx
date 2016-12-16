@@ -16,7 +16,7 @@ class Tree extends Component {
     tree: PropTypes.object,
     clearUIEditing: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
-    clearNodeUI: PropTypes.func.isRequired,
+    
     setUIActive: PropTypes.func.isRequired,
     setNextUIActive: PropTypes.func.isRequired,
     setPrevUIActive: PropTypes.func.isRequired

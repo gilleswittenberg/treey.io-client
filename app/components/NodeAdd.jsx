@@ -14,7 +14,7 @@ export default class NodeAdd extends Component {
     path: PropTypes.array.isRequired,
     ui: PropTypes.object.isRequired,
     clearUIEditing: PropTypes.func.isRequired,
-    clearNodeUI: PropTypes.func.isRequired,
+    
     setUIAdding: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
     postNode: PropTypes.func.isRequired

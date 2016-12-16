@@ -38,7 +38,6 @@ describe('NodeDraggable', () => {
     index: 0,
     clearUIEditing: noop,
     clearUIDragging: noop,
-    clearNodeUI: noop,
     handleClick: noop,
     handleClickMore: noop,
     setUIDragging: noop
@@ -74,7 +73,7 @@ describe('NodeDraggable', () => {
     expect(setUIDragging.mock.calls.length).toBe(1)
   })
 
-  it('endDrag clearNodeUI', () => {
+  it('endDrag clearUIEditing', () => {
 
     const clearUIEditing = jest.fn()
 

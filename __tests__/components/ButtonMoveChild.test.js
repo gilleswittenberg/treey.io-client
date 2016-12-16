@@ -46,7 +46,6 @@ describe('ButtonMoveChild', () => {
     clearUIEditing: noop,
     setUIDragging: noop,
     clearUIDragging: noop,
-    clearNodeUI: noop,
     handleClick: noop,
     handleClickMore: noop
   }
@@ -63,7 +62,6 @@ describe('ButtonMoveChild', () => {
     hasNodes: false,
     deleteNode: noop,
     putMoveNode: noop,
-    clearNodeUI: noop,
     setUIExpanded: noop,
     setUIMovingChild: noop,
     clearUIMovingChild: noop,

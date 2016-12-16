@@ -22,7 +22,6 @@ describe('NodeEdit', () => {
     uid,
     title: '',
     clearUIEditing: noop,
-    clearNodeUI: noop,
     putNode: noop,
     deleteNode: noop
   }
