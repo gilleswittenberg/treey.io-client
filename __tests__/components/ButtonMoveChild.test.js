@@ -43,6 +43,7 @@ describe('ButtonMoveChild', () => {
     ui: {},
     siblings: [{ uid }],
     index: 0,
+    clearUIEditing: noop,
     clearNodeUI: noop,
     updateNodeUI: noop,
     handleClick: noop,

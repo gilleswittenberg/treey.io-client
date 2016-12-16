@@ -21,6 +21,7 @@ describe('NodeEdit', () => {
     parent,
     uid,
     title: '',
+    clearUIEditing: noop,
     clearNodeUI: noop,
     putNode: noop,
     deleteNode: noop
@@ -48,25 +49,25 @@ describe('NodeEdit', () => {
   describe('sumbit', () => {
 
     it('deleteNode', () => {
-      const clearNodeUI = jest.fn()
+      const clearUIEditing = jest.fn()
       const deleteNode = jest.fn()
-      const wrapper = shallow(getComponent({ clearNodeUI, deleteNode }))
+      const wrapper = shallow(getComponent({ clearUIEditing, deleteNode }))
       const mockEvent = getMockEvent()
       wrapper.find('form').simulate('submit', mockEvent)
       // @TODO: test arguments
-      expect(clearNodeUI.mock.calls.length).toBe(2)
+      expect(clearUIEditing.mock.calls.length).toBe(1)
       expect(deleteNode.mock.calls.length).toBe(1)
     })
 
     it('putNode', () => {
-      const clearNodeUI = jest.fn()
+      const clearUIEditing = jest.fn()
       const putNode = jest.fn()
-      const wrapper = shallow(getComponent({ clearNodeUI, putNode }))
+      const wrapper = shallow(getComponent({ clearUIEditing, putNode }))
       wrapper.setState({ title: 'user input' })
       const mockEvent = getMockEvent()
       wrapper.find('form').simulate('submit', mockEvent)
       // @TODO: test arguments
-      expect(clearNodeUI.mock.calls.length).toBe(2)
+      expect(clearUIEditing.mock.calls.length).toBe(1)
       expect(putNode.mock.calls.length).toBe(1)
       expect(putNode.mock.calls[0][2]).toEqual({ title: 'user input' })
     })

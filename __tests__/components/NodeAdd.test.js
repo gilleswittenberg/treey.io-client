@@ -23,6 +23,8 @@ describe('NodeAdd', () => {
     parent,
     path: [],
     ui: {},
+    setUIEditing: noop,
+    clearUIEditing: noop,
     clearNodeUI: noop,
     updateNodeUI: noop,
     postNode: noop
@@ -86,16 +88,16 @@ describe('NodeAdd', () => {
 
       it('input', () => {
 
-        const clearNodeUI = jest.fn()
+        const clearUIEditing = jest.fn()
         const postNode = jest.fn()
         const updateNodeUI = jest.fn()
-        const wrapper = shallow(getComponent({ ui: { adding: true }, clearNodeUI, postNode, updateNodeUI }))
+        const wrapper = shallow(getComponent({ ui: { adding: true }, clearUIEditing, postNode, updateNodeUI }))
 
         wrapper.setState({ title: 'user input' })
         const mockEvent = getMockEvent()
         wrapper.find('form').simulate('submit', mockEvent)
         // @TODO: test arguments
-        expect(clearNodeUI.mock.calls.length).toBe(2)
+        expect(clearUIEditing.mock.calls.length).toBe(1)
         expect(postNode.mock.calls.length).toBe(1)
         expect(postNode.mock.calls[0][2]).toEqual({ title: 'user input' })
         expect(updateNodeUI.mock.calls.length).toBe(1)
@@ -103,16 +105,16 @@ describe('NodeAdd', () => {
 
       it('empty (whitespace) input', () => {
 
-        const clearNodeUI = jest.fn()
+        const clearUIEditing = jest.fn()
         const postNode = jest.fn()
         const updateNodeUI = jest.fn()
-        const wrapper = shallow(getComponent({ ui: { adding: true }, clearNodeUI, postNode }))
+        const wrapper = shallow(getComponent({ ui: { adding: true }, clearUIEditing, postNode }))
 
         wrapper.setState({ title: ' ' })
         const mockEvent = getMockEvent()
         wrapper.find('form').simulate('submit', mockEvent)
         // @TODO: test arguments
-        expect(clearNodeUI.mock.calls.length).toBe(2)
+        expect(clearUIEditing.mock.calls.length).toBe(1)
         expect(postNode.mock.calls.length).toBe(0)
         expect(updateNodeUI.mock.calls.length).toBe(0)
       })

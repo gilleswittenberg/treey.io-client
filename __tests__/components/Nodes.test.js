@@ -23,6 +23,7 @@ describe('Nodes', () => {
     path: [],
     nodes: [],
     ui,
+    clearUIEditing: noop,
     clearNodeUI: noop,
     updateNodeUI: noop,
     postNode: noop

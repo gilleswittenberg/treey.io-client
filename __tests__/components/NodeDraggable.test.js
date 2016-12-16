@@ -36,6 +36,7 @@ describe('NodeDraggable', () => {
     },
     siblings: [{ uid }],
     index: 0,
+    clearUIEditing: noop,
     clearNodeUI: noop,
     updateNodeUI: noop,
     handleClick: noop,
@@ -74,9 +75,9 @@ describe('NodeDraggable', () => {
 
   it('endDrag clearNodeUI', () => {
 
-    const clearNodeUI = jest.fn()
+    const clearUIEditing = jest.fn()
 
-    const props = { ...defaultProps, clearNodeUI, isRoot: false }
+    const props = { ...defaultProps, clearUIEditing, isRoot: false }
     const Context = wrapInTestContext(NodeDraggable, props)
     const wrapper = mount(<Context />)
     const manager = wrapper.get(0).getManager()
@@ -85,7 +86,6 @@ describe('NodeDraggable', () => {
     const sourceId = nodeDraggable.getHandlerId()
     backend.simulateBeginDrag([sourceId])
     backend.simulateEndDrag([sourceId])
-    // @TODO: test arguments
-    expect(clearNodeUI.mock.calls.length).toBe(3)
+    expect(clearUIEditing.mock.calls.length).toBe(1)
   })
 })

@@ -29,6 +29,7 @@ describe('NodeWrap', () => {
     nodes: [],
     siblings: [],
     index: 0,
+    clearUIEditing: noop,
     clearNodeUI: noop,
     updateNodeUI: noop,
     putNode: noop,

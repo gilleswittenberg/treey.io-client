@@ -75,6 +75,23 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
 
 
   // ui
+  case types.CLEAR_UI_EDITING:
+    if (state.tree != null) {
+      tree = clearUI(state.tree, ['editing', 'adding'])
+      return { ...state, tree }
+    }
+    return state
+
+  case types.SET_UI_EDITING:
+    if (state.tree != null && action.data.path != null) {
+      tree = clearUI(state.tree, ['editing', 'adding'])
+      if (action.data.path != null) {
+        tree = setUI(tree, action.data.path, { editing: true })
+      }
+      return { ...state, tree }
+    }
+    return state
+
   case types.CLEAR_NODE_UI:
     if (state.tree != null && action.data.key != null) {
       tree = clearUI(state.tree, [action.data.key])

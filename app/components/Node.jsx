@@ -25,6 +25,8 @@ export default class Node extends Component {
     isOver: PropTypes.bool,
     clearNodeUI: PropTypes.func.isRequired,
     updateNodeUI: PropTypes.func.isRequired,
+    clearUIEditing: PropTypes.func.isRequired,
+    setUIEditing: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired
   }
 
@@ -41,15 +43,13 @@ export default class Node extends Component {
 
     // alt key to edit
     if (event.altKey) {
-      const { updateNodeUI, path } = this.props
-      updateNodeUI(path, 'editing', true)
+      const { setUIEditing, path } = this.props
+      setUIEditing(path)
     }
     // regular click to collapse or expand
     else {
-      const { clearNodeUI, updateNodeUI, ui: { expanded }, path } = this.props
-      // @TODO: combine
-      clearNodeUI('adding')
-      clearNodeUI('editing')
+      const { clearUIEditing, updateNodeUI, ui: { expanded }, path } = this.props
+      clearUIEditing()
       // guard
       if (!this.canExpand()) {
         return
@@ -68,8 +68,8 @@ export default class Node extends Component {
   @autobind
   handleClickEdit (event: Event) {
     event.stopPropagation()
-    const { path, updateNodeUI } = this.props
-    updateNodeUI(path, 'editing', true)
+    const { path, setUIEditing } = this.props
+    setUIEditing(path)
   }
 
   @autobind

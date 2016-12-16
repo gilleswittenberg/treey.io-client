@@ -35,6 +35,8 @@ describe('Node', () => {
     hasNodes: false,
     siblings: [{ uid, ui }],
     index: 0,
+    setUIEditing: noop,
+    clearUIEditing: noop,
     clearNodeUI: noop,
     updateNodeUI: noop,
     deleteNode: noop
@@ -44,19 +46,19 @@ describe('Node', () => {
   describe('handleClick', () => {
 
     it('altKey', () => {
-      const updateNodeUI = jest.fn()
+      const setUIEditing = jest.fn()
       // @TODO: use mount / shallow
-      const node = new Node({ updateNodeUI, ui })
+      const node = new Node({ setUIEditing, ui })
       const mockEvent = getMockEvent({ altKey: true })
       node.handleClick(mockEvent)
-      expect(updateNodeUI.mock.calls.length).toBe(1)
+      expect(setUIEditing.mock.calls.length).toBe(1)
     })
 
     it('canExpand', () => {
       const updateNodeUI = jest.fn()
-      const clearNodeUI = noop
+      const clearUIEditing = noop
       // @TODO: use mount / shallow
-      const node = new Node({ clearNodeUI, updateNodeUI, ui })
+      const node = new Node({ clearUIEditing, updateNodeUI, ui })
       const mockEvent = getMockEvent()
       node.handleClick(mockEvent)
       expect(updateNodeUI.mock.calls.length).toBe(0)
@@ -64,9 +66,9 @@ describe('Node', () => {
 
     it('updateNodeUI', () => {
       const updateNodeUI = jest.fn()
-      const clearNodeUI = noop
+      const clearUIEditing = noop
       // @TODO: use mount / shallow
-      const node = new Node({ hasNodes: true, clearNodeUI, updateNodeUI, ui })
+      const node = new Node({ hasNodes: true, clearUIEditing, updateNodeUI, ui })
       const mockEvent = getMockEvent()
       node.handleClick(mockEvent)
       expect(updateNodeUI.mock.calls.length).toBe(1)
@@ -76,10 +78,10 @@ describe('Node', () => {
   describe('startIsEditing', () => {
 
     it('handleClickEdit', () => {
-      const updateNodeUI = jest.fn()
-      const wrapper = mount(getComponent({ updateNodeUI }))
+      const setUIEditing = jest.fn()
+      const wrapper = mount(getComponent({ setUIEditing }))
       wrapper.find('.button-icon-edit').simulate('click')
-      expect(updateNodeUI.mock.calls.length).toBe(1)
+      expect(setUIEditing.mock.calls.length).toBe(1)
     })
 
     it('handleClickAdd', () => {

@@ -1,7 +1,7 @@
 /* @flow */
 
 import fetch from 'isomorphic-fetch'
-import type { NodeData } from '../../flow/tree'
+import type { NodeData, TreePath } from '../../flow/tree'
 
 let host
 switch (process.env.NODE_ENV) {
@@ -65,6 +65,23 @@ export function updateNodeUI (path: string[], key: string, value: boolean) {
       path,
       key,
       value
+    }
+  }
+}
+
+export const CLEAR_UI_EDITING = 'CLEAR_UI_EDITING'
+export function clearUIEditing () {
+  return {
+    type: CLEAR_UI_EDITING
+  }
+}
+
+export const SET_UI_EDITING = 'SET_UI_EDITING'
+export function setUIEditing (path: TreePath) {
+  return {
+    type: SET_UI_EDITING,
+    data: {
+      path
     }
   }
 }

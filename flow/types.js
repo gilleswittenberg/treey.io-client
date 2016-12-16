@@ -24,6 +24,8 @@ type NodesActionType =
   'STOP_SYNCING' |
   'HAS_ERRORS' |
   'INDEX_NODES' |
+  'CLEAR_UI_EDITING' |
+  'SET_UI_EDITING' |
   'UPDATE_NODE_UI' |
   'GET_NODES' |
   'ADD_NODE' |

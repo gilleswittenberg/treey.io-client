@@ -9,6 +9,8 @@ export const defaultActions = {
   putMoveNode: noop,
   clearNodeUI: noop,
   updateNodeUI: noop,
+  clearUIEditing: noop,
+  setUIEditing: noop,
   updateActiveNodeUI: noop,
   setNextUIActive: noop,
   setPrevUIActive: noop
@@ -22,6 +24,8 @@ import {
   putMoveNode,
   clearNodeUI,
   updateNodeUI,
+  clearUIEditing,
+  setUIEditing,
   updateActiveNodeUI,
   setNextUIActive,
   setPrevUIActive
@@ -34,6 +38,8 @@ let nodesActions = {
   putMoveNode,
   clearNodeUI,
   updateNodeUI,
+  clearUIEditing,
+  setUIEditing,
   updateActiveNodeUI,
   setNextUIActive,
   setPrevUIActive
