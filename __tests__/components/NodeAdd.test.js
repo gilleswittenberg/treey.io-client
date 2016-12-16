@@ -26,6 +26,7 @@ describe('NodeAdd', () => {
     clearUIEditing: noop,
     setUIEditing: noop,
     setUIAdding: noop,
+    setUIExpanded: noop,
     clearNodeUI: noop,
     updateNodeUI: noop,
     postNode: noop
@@ -92,7 +93,8 @@ describe('NodeAdd', () => {
         const clearUIEditing = jest.fn()
         const postNode = jest.fn()
         const updateNodeUI = jest.fn()
-        const wrapper = shallow(getComponent({ ui: { adding: true }, clearUIEditing, postNode, updateNodeUI }))
+        const setUIExpanded = jest.fn()
+        const wrapper = shallow(getComponent({ ui: { adding: true }, clearUIEditing, postNode, updateNodeUI, setUIExpanded }))
 
         wrapper.setState({ title: 'user input' })
         const mockEvent = getMockEvent()
@@ -101,7 +103,7 @@ describe('NodeAdd', () => {
         expect(clearUIEditing.mock.calls.length).toBe(1)
         expect(postNode.mock.calls.length).toBe(1)
         expect(postNode.mock.calls[0][2]).toEqual({ title: 'user input' })
-        expect(updateNodeUI.mock.calls.length).toBe(1)
+        expect(setUIExpanded.mock.calls.length).toBe(1)
       })
 
       it('empty (whitespace) input', () => {

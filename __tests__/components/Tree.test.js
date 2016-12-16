@@ -139,12 +139,11 @@ describe('Tree', () => {
 
     it('componentWillReceiveProps', () => {
 
-      const updateNodeUI = jest.fn()
-      const wrapper = shallow(getComponent({ updateNodeUI }))
+      const setUIExpanded = jest.fn()
+      const wrapper = shallow(getComponent({ setUIExpanded }))
       const tree = { uid: uid1, ui }
       wrapper.setProps({ tree })
-      // @TODO: Add tests for arguments updateNodeUI
-      expect(updateNodeUI.mock.calls.length).toBe(2)
+      expect(setUIExpanded.mock.calls.length).toBe(1)
     })
   })
 })

@@ -38,6 +38,7 @@ describe('Node', () => {
     clearUIEditing: noop,
     setUIEditing: noop,
     setUIAdding: noop,
+    setUIExpanded: noop,
     clearNodeUI: noop,
     updateNodeUI: noop,
     deleteNode: noop
@@ -66,13 +67,14 @@ describe('Node', () => {
     })
 
     it('updateNodeUI', () => {
-      const updateNodeUI = jest.fn()
+      const setUIExpanded = jest.fn()
       const clearUIEditing = noop
       // @TODO: use mount / shallow
-      const node = new Node({ hasNodes: true, clearUIEditing, updateNodeUI, ui })
+      const node = new Node({ hasNodes: true, clearUIEditing, setUIExpanded, ui })
       const mockEvent = getMockEvent()
       node.handleClick(mockEvent)
-      expect(updateNodeUI.mock.calls.length).toBe(1)
+      expect(setUIExpanded.mock.calls.length).toBe(1)
+      expect(setUIExpanded.mock.calls[0][1]).toBe(true)
     })
   })
 

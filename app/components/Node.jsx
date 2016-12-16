@@ -28,6 +28,7 @@ export default class Node extends Component {
     clearUIEditing: PropTypes.func.isRequired,
     setUIEditing: PropTypes.func.isRequired,
     setUIAdding: PropTypes.func.isRequired,
+    setUIExpanded: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired
   }
 
@@ -49,13 +50,11 @@ export default class Node extends Component {
     }
     // regular click to collapse or expand
     else {
-      const { clearUIEditing, updateNodeUI, ui: { expanded }, path } = this.props
+      const { clearUIEditing, setUIExpanded, ui: { expanded }, path } = this.props
       clearUIEditing()
       // guard
-      if (!this.canExpand()) {
-        return
-      }
-      updateNodeUI(path, 'expanded', !expanded)
+      if (!this.canExpand()) { return }
+      setUIExpanded(path, !expanded)
     }
   }
 

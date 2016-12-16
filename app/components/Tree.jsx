@@ -15,6 +15,7 @@ class Tree extends Component {
     enableDnD: PropTypes.bool,
     tree: PropTypes.object,
     clearUIEditing: PropTypes.func.isRequired,
+    setUIExpanded: PropTypes.func.isRequired,
     clearNodeUI: PropTypes.func.isRequired,
     updateNodeUI: PropTypes.func.isRequired,
     setNextUIActive: PropTypes.func.isRequired,
@@ -30,11 +31,11 @@ class Tree extends Component {
   static DecoratedComponent = null
 
   componentWillReceiveProps (nextProps: any) {
-    const { tree, updateNodeUI } = this.props
+    const { tree, updateNodeUI, setUIExpanded } = this.props
     if (tree === null && nextProps.tree) {
       const { tree: { path } } = nextProps
       updateNodeUI(path, 'active', true)
-      updateNodeUI(path, 'expanded', true)
+      setUIExpanded(path)
     }
   }
 

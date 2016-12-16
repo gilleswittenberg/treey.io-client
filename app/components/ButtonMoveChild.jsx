@@ -19,9 +19,9 @@ const DropSpec = {
       parent: parentDraggable,
       uid: uidDraggable
     } = item
-    const { uid, path, putMoveNode, updateNodeUI } = props // NodeDroppable props
+    const { uid, path, putMoveNode, setUIExpanded } = props // NodeDroppable props
     putMoveNode(parentDraggable, uidDraggable, uid)
-    updateNodeUI(path, 'expanded', true)
+    setUIExpanded(path)
   }
 }
 
@@ -31,6 +31,7 @@ class ButtonMoveChild extends Component {
     lang: PropTypes.string,
     updateNodeUI: PropTypes.func.isRequired,
     clearNodeUI: PropTypes.func.isRequired,
+    setUIExpanded: PropTypes.func.isRequired,
     // Injected by React DnD DropTarget
     connectDropTarget: PropTypes.func,
     isOver: PropTypes.bool
