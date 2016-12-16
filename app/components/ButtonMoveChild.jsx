@@ -32,6 +32,7 @@ class ButtonMoveChild extends Component {
     clearNodeUI: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
     setUIMovingChild: PropTypes.func.isRequired,
+    clearUIMovingChild: PropTypes.func.isRequired,
     // Injected by React DnD DropTarget
     connectDropTarget: PropTypes.func,
     isOver: PropTypes.bool
@@ -43,9 +44,9 @@ class ButtonMoveChild extends Component {
 
   // logic for hover out
   componentWillReceiveProps (nextProps: any) {
-    const { isOver, clearNodeUI } = this.props
+    const { isOver, clearUIMovingChild } = this.props
     if (nextProps.isOver === false && isOver === true) {
-      clearNodeUI('movingChild')
+      clearUIMovingChild()
     }
   }
 

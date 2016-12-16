@@ -37,6 +37,7 @@ describe('NodeDraggable', () => {
     siblings: [{ uid }],
     index: 0,
     clearUIEditing: noop,
+    clearUIDragging: noop,
     clearNodeUI: noop,
     handleClick: noop,
     handleClickMore: noop,

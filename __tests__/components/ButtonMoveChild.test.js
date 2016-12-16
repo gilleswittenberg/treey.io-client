@@ -45,6 +45,7 @@ describe('ButtonMoveChild', () => {
     index: 0,
     clearUIEditing: noop,
     setUIDragging: noop,
+    clearUIDragging: noop,
     clearNodeUI: noop,
     handleClick: noop,
     handleClickMore: noop
@@ -65,7 +66,9 @@ describe('ButtonMoveChild', () => {
     clearNodeUI: noop,
     setUIExpanded: noop,
     setUIMovingChild: noop,
-    setUIDragging: noop
+    clearUIMovingChild: noop,
+    setUIDragging: noop,
+    clearUIDragging: noop
   }
 
   describe('hover', () => {
@@ -88,10 +91,10 @@ describe('ButtonMoveChild', () => {
       expect(setUIMovingChild.mock.calls.length).toBe(1)
     })
 
-    it('clearNodeUI', () => {
-      const clearNodeUI = jest.fn()
+    it('clearUIMovingChild', () => {
+      const clearUIMovingChild = jest.fn()
       const propsDraggable = { ...defaultPropsDraggable }
-      const propsButtonMoveChild = { ...defaultPropsButtonMoveChild, clearNodeUI }
+      const propsButtonMoveChild = { ...defaultPropsButtonMoveChild, clearUIMovingChild }
       const Context = wrapInTestContext(NodeDraggable, ButtonMoveChild, propsDraggable, propsButtonMoveChild)
       const wrapper = mount(<Context />)
       const manager = wrapper.get(0).getManager()
@@ -103,7 +106,7 @@ describe('ButtonMoveChild', () => {
       backend.simulateBeginDrag([sourceIdNodeDraggable])
       backend.simulateHover([sourceIdButtonMoveChild])
       backend.simulateEndDrag()
-      expect(clearNodeUI.mock.calls.length).toBe(1)
+      expect(clearUIMovingChild.mock.calls.length).toBe(1)
     })
   })
 

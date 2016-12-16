@@ -25,6 +25,7 @@ export default class Node extends Component {
     isOver: PropTypes.bool,
     clearNodeUI: PropTypes.func.isRequired,
     clearUIEditing: PropTypes.func.isRequired,
+    clearUIButtonsShown: PropTypes.func.isRequired,
     setUIEditing: PropTypes.func.isRequired,
     setUIAdding: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
@@ -82,8 +83,8 @@ export default class Node extends Component {
   @autobind
   handleClickShowButtons (event: Event) {
     event.stopPropagation()
-    const { path, clearNodeUI, setUIButtonsShown } = this.props
-    clearNodeUI('buttonsShown')
+    const { path, clearUIButtonsShown, setUIButtonsShown } = this.props
+    clearUIButtonsShown()
     setUIButtonsShown(path)
   }
 

@@ -97,6 +97,33 @@ export function setUIExpanded (path: TreePath, value: boolean = true) {
   }
 }
 
+export function clearUIMovingChild () {
+  return {
+    type: CLEAR_NODE_UI,
+    data: {
+      key: 'movingChild'
+    }
+  }
+}
+
+export function clearUIButtonsShown () {
+  return {
+    type: CLEAR_NODE_UI,
+    data: {
+      key: 'buttonsShown'
+    }
+  }
+}
+
+export function clearUIDragging () {
+  return {
+    type: CLEAR_NODE_UI,
+    data: {
+      key: 'dragging'
+    }
+  }
+}
+
 export function setUIMovingChild (path: TreePath, value: boolean = true) {
   return {
     type: UPDATE_NODE_UI,
