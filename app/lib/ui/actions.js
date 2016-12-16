@@ -14,7 +14,9 @@ export const defaultActions = {
   setUIAdding: noop,
   setUIExpanded: noop,
   setUIDragging: noop,
+  setUIActive: noop,
   setUIMovingChild: noop,
+  setUIButtonsShown: noop,
   updateActiveNodeUI: noop,
   setNextUIActive: noop,
   setPrevUIActive: noop
@@ -34,6 +36,8 @@ import {
   setUIExpanded,
   setUIDragging,
   setUIMovingChild,
+  setUIActive,
+  setUIButtonsShown,
   updateActiveNodeUI,
   setNextUIActive,
   setPrevUIActive
@@ -52,6 +56,8 @@ let nodesActions = {
   setUIExpanded,
   setUIDragging,
   setUIMovingChild,
+  setUIActive,
+  setUIButtonsShown,
   updateActiveNodeUI,
   setNextUIActive,
   setPrevUIActive

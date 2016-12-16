@@ -29,6 +29,7 @@ export default class Node extends Component {
     setUIEditing: PropTypes.func.isRequired,
     setUIAdding: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
+    setUIButtonsShown: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired
   }
 
@@ -82,9 +83,9 @@ export default class Node extends Component {
   @autobind
   handleClickShowButtons (event: Event) {
     event.stopPropagation()
-    const { path, clearNodeUI, updateNodeUI } = this.props
+    const { path, clearNodeUI, setUIButtonsShown } = this.props
     clearNodeUI('buttonsShown')
-    updateNodeUI(path)
+    setUIButtonsShown(path)
   }
 
   canExpand () : bool {

@@ -41,6 +41,7 @@ describe('Node', () => {
     setUIExpanded: noop,
     setUIMovingChild: noop,
     setUIDragging: noop,
+    setUIButtonsShown: noop,
     clearNodeUI: noop,
     updateNodeUI: noop,
     deleteNode: noop
@@ -117,11 +118,11 @@ describe('Node', () => {
   describe('handleClickShowButtons', () => {
 
     it('click', () => {
-      const updateNodeUI = jest.fn()
-      const wrapper = mount(getComponent({ updateNodeUI }))
+      const setUIButtonsShown = jest.fn()
+      const wrapper = mount(getComponent({ setUIButtonsShown }))
       const mockEvent =  getMockEvent()
       wrapper.find('.button-icon-more').simulate('click', mockEvent)
-      expect(updateNodeUI.mock.calls.length).toBe(1)
+      expect(setUIButtonsShown.mock.calls.length).toBe(1)
     })
   })
 })

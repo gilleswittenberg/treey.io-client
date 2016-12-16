@@ -18,6 +18,7 @@ class Tree extends Component {
     setUIExpanded: PropTypes.func.isRequired,
     clearNodeUI: PropTypes.func.isRequired,
     updateNodeUI: PropTypes.func.isRequired,
+    setUIActive: PropTypes.func.isRequired,
     setNextUIActive: PropTypes.func.isRequired,
     setPrevUIActive: PropTypes.func.isRequired
   }
@@ -31,10 +32,10 @@ class Tree extends Component {
   static DecoratedComponent = null
 
   componentWillReceiveProps (nextProps: any) {
-    const { tree, updateNodeUI, setUIExpanded } = this.props
+    const { tree, setUIActive, setUIExpanded } = this.props
     if (tree === null && nextProps.tree) {
       const { tree: { path } } = nextProps
-      updateNodeUI(path, 'active', true)
+      setUIActive(path)
       setUIExpanded(path)
     }
   }
