@@ -174,7 +174,7 @@ export function setUIButtonsShown (path: TreePath, value: boolean = true) {
 }
 
 export const UPDATE_ACTIVE_NODE_UI = 'UPDATE_ACTIVE_NODE_UI'
-export function updateActiveNodeUI (key: string, value: boolean) {
+export function updateActiveNodeUI (key: string, value: boolean = true) {
   return {
     type: UPDATE_ACTIVE_NODE_UI,
     data: {
