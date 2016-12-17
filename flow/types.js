@@ -1,6 +1,6 @@
 /* @flow */
 
-import type { Tree, TreePath, NodeId, NodeData } from './tree'
+import type { Tree, TreePath, NodeId, NodeData, NodeUIKey } from './tree'
 
 export type Type = 'boolean' | 'number' | 'string' | '[]' | 'boolean[]' | 'string[]' | 'number[]'
 
@@ -46,8 +46,8 @@ export type NodesAction = {
     path?: TreePath,
     newPath?: TreePath,
     before?: NodeId,
-    key?: string,
-    keys?: [string],
+    key?: NodeUIKey,
+    keys?: NodeUIKey[],
     value?: boolean
   }
 }

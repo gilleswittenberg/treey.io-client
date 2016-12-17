@@ -34,6 +34,8 @@ export type Nodes = Node[]
 export type NodeData = {
   title: string
 }
+
+export type NodeUIKey = 'active' | 'expanded' | 'adding' | 'editing' | 'dragging' | 'movingChild' | 'buttonsShown'
 // @TODO: non-optional keys
 export type NodeUI = {
   active?: boolean,
