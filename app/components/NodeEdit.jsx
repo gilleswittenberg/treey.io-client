@@ -9,12 +9,10 @@ export default class NodeEdit extends Component {
 
   static propTypes = {
     lang: PropTypes.string,
-    parent: PropTypes.string.isRequired,
+    parent: PropTypes.string,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-
     clearUIEditingAdding: PropTypes.func.isRequired,
-
     putNode: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired
   }
@@ -52,7 +50,8 @@ export default class NodeEdit extends Component {
     const { parent, uid, path, title, deleteNode, putNode, clearUIEditingAdding } = this.props
     const { title: newTitle } = this.state
     const newTitleTrimmed = newTitle.trim()
-    if (newTitleTrimmed === '') {
+    // @TODO: what to do for parent && newTitleTrimmed == ''?
+    if (parent != null && newTitleTrimmed === '') {
       deleteNode(parent, uid)
     } else if (title !== newTitleTrimmed) {
       // @TOOD: remove uid
