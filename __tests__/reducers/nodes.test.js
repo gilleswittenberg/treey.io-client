@@ -1,6 +1,6 @@
 /* @flow */
 
-// @TODO: clean up
+// required for Flow type
 declare var describe: any
 declare var it: any
 declare var expect: any
@@ -16,7 +16,7 @@ import {
   REMOVE_NODE,
   CLEAR_NODE_UI,
   UPDATE_NODE_UI,
-  UPDATE_ACTIVE_NODE_UI,
+  UPDATE_ACTIVE_NODE_UI
 } from '../../app/actions/nodes'
 import { uid, uid1, uid2, uid3, uid4, uid5, uid6, uid7 } from '../uid'
 import defaultUI from '../../app/lib/ui/defaultUI'

@@ -1,6 +1,6 @@
 /* @flow */
 
-// @TODO: clean up
+// required for Flow type
 declare var describe: any
 declare var it: any
 declare var expect: any
@@ -96,7 +96,6 @@ describe('NodeAdd', () => {
         wrapper.setState({ title: 'user input' })
         const mockEvent = getMockEvent()
         wrapper.find('form').simulate('submit', mockEvent)
-        // @TODO: test arguments
         expect(clearUIEditingAdding.mock.calls.length).toBe(1)
         expect(postNode.mock.calls.length).toBe(1)
         expect(postNode.mock.calls[0][2]).toEqual({ title: 'user input' })
@@ -113,7 +112,6 @@ describe('NodeAdd', () => {
         wrapper.setState({ title: ' ' })
         const mockEvent = getMockEvent()
         wrapper.find('form').simulate('submit', mockEvent)
-        // @TODO: test arguments
         expect(clearUIEditingAdding.mock.calls.length).toBe(1)
         expect(postNode.mock.calls.length).toBe(0)
         expect(setUIExpanded.mock.calls.length).toBe(0)

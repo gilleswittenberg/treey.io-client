@@ -78,6 +78,7 @@ export const selectActiveNode = (tree: Tree, selector: PrevOrNext) : Tree => {
       }
     }
   }
+  // @TODO: select first when none is active
   return tree
 }
 
@@ -85,12 +86,6 @@ export const selectActiveNode = (tree: Tree, selector: PrevOrNext) : Tree => {
 const isActive = node => (node && node.node && node.node.ui && node.node.ui.active === true) || false
 
 const isVisible = (node, parent) => (parent && parent.node && parent.node.ui && parent.node.ui.expanded === true) || (node && node.node && node.node.ui && node.node.ui.expanded === true) || false
-
-const invertedUI = ui => {
-  const invertedUI = {}
-  Object.keys(ui).forEach(key => invertedUI[key] = !ui[key])
-  return invertedUI
-}
 
 const falsyUI = keys => {
   const ui = {}

@@ -247,7 +247,7 @@ export function addNode (path: TreePath, json: any) {
 }
 
 export const POST_NODE = 'POST_NODE'
-// @TODO: remove parent argument
+// @TODO: remove parent, extract parent from path
 export function postNode (parent: NodeId, path: TreePath, data: NodeData) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
@@ -299,7 +299,7 @@ export function updateNode (path: TreePath, json: any) {
 }
 
 export const PUT_NODE = 'PUT_NODE'
-// @TODO: remove uid argument
+// @TODO: remove uid arguments, extract uid from path
 export function putNode (uid: NodeId, path: TreePath, data: NodeData) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
@@ -345,7 +345,7 @@ export function removeNode (path: TreePath) {
 }
 
 export const DELETE_NODE = 'DELETE_NODE'
-// @TODO: remove parent, uid arguments
+// @TODO: remove parent, uid arguments, extract parent, uid from path
 export function deleteNode (path: TreePath, parent: NodeId, uid: NodeId) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
@@ -379,6 +379,7 @@ export function deleteNode (path: TreePath, parent: NodeId, uid: NodeId) {
 
 export const MOVE_NODE = 'MOVE_NODE'
 // @TODO: use path, newPath argument
+// @TODO: remove parent, uid arguments, extract parent, uid from path
 export function moveNode (parent: NodeId, uid: NodeId, newParent: NodeId, before?: NodeId) {
   return {
     type: MOVE_NODE,
@@ -392,7 +393,7 @@ export function moveNode (parent: NodeId, uid: NodeId, newParent: NodeId, before
 }
 
 export const PUT_MOVE_NODE = 'PUT_MOVE_NODE'
-// @TODO: use path argument
+// @TODO: remove parent, uid arguments, extract parent, uid from path
 export function putMoveNode (parent: NodeId, uid: NodeId, newParent: NodeId, before?: NodeId) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())

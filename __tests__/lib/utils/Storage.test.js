@@ -1,6 +1,6 @@
 /* @flow */
 
-// @TODO: clean up
+// required for Flow type
 declare var jest: any
 declare var beforeEach: any
 declare var describe: any
