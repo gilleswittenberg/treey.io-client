@@ -16,7 +16,7 @@ class Tree extends Component {
     tree: PropTypes.object,
     clearUIEditingAdding: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
-    
+
     setUIActive: PropTypes.func.isRequired,
     setNextUIActive: PropTypes.func.isRequired,
     setPrevUIActive: PropTypes.func.isRequired
@@ -32,41 +32,62 @@ class Tree extends Component {
 
   componentWillReceiveProps (nextProps: any) {
     const { tree, setUIActive, setUIExpanded } = this.props
-    if (tree === null && nextProps.tree) {
-      const { tree: { path } } = nextProps
+    if (tree === null && nextProps.tree && nextProps.tree.nodes && nextProps.tree.nodes.length > 0) {
+      const path = nextProps.tree.nodes[0].path
       setUIActive(path)
       setUIExpanded(path)
     }
   }
 
   componentDidMount () {
-    window.addEventListener('keydown', this.handleKeyPress)
+    window.addEventListener('keyup', this.handleKeyUp)
+    window.addEventListener('keydown', this.handleKeyDown)
     window.addEventListener('click', this.handleWindowClick)
   }
 
   @autobind
-  handleKeyPress (event: KeyboardEvent) {
-    // @TODO: Use switch
-    // @TODO: move esc to keyup
+  handleKeyUp (event: KeyboardEvent) {
     if (event.keyCode === 27) { // esc
       const { clearUIEditingAdding } = this.props
       clearUIEditingAdding()
-    } else if (event.keyCode === 40) { // down arrow
+    }
+  }
+
+  @autobind
+  handleKeyDown (event: KeyboardEvent) {
+
+    const { setNextUIActive, setPrevUIActive, updateActiveNodeUI } = this.props
+    let action
+
+    switch (event.keyCode) {
+    case 40: // down arrow
       event.preventDefault()
-      const { setNextUIActive } = this.props
       setNextUIActive()
-    } else if (event.keyCode === 38) { // up arrow
+      break
+    case 38: // up arrow
       event.preventDefault()
-      const { setPrevUIActive } = this.props
       setPrevUIActive()
-    } else if (event.keyCode === 37) { // left arrow
+      break
+    case 9: // tab
       event.preventDefault()
-      const { updateActiveNodeUI } = this.props
+      action = event.shiftKey ? setPrevUIActive : setNextUIActive
+      action()
+      break
+    case 37: // left arrow
+      event.preventDefault()
       updateActiveNodeUI('expanded', false)
-    } else if (event.keyCode === 39) { // right arrow
+      break
+    case 39: // right arrow
       event.preventDefault()
-      const { updateActiveNodeUI } = this.props
       updateActiveNodeUI('expanded', true)
+      break
+    case 13: // enter
+      event.preventDefault()
+      updateActiveNodeUI('editing', true)
+      break
+    case 187: // +
+      event.preventDefault()
+      updateActiveNodeUI('adding', true)
     }
   }
 

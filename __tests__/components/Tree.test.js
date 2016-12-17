@@ -141,7 +141,13 @@ describe('Tree', () => {
 
       const setUIExpanded = jest.fn()
       const wrapper = shallow(getComponent({ setUIExpanded }))
-      const tree = { uid: uid1, ui }
+      const tree = {
+        nodes: [{ node: {
+          uid: uid1,
+          data: { title: '' },
+          ui: defaultUI
+        } }]
+      }
       wrapper.setProps({ tree })
       expect(setUIExpanded.mock.calls.length).toBe(1)
     })
