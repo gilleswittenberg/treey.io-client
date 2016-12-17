@@ -24,10 +24,6 @@ type NodesActionType =
   'STOP_SYNCING' |
   'HAS_ERRORS' |
   'INDEX_NODES' |
-  'CLEAR_UI_EDITING_ADDING' |
-  'SET_UI_EDITING' |
-  'SET_UI_ADDING' |
-  'UPDATE_NODE_UI' |
   'GET_NODES' |
   'ADD_NODE' |
   'POST_NODE' |
@@ -36,7 +32,12 @@ type NodesActionType =
   'REMOVE_NODE' |
   'DELETE_NODE' |
   'MOVE_NODE' |
-  'PUT_MOVE_NODE'
+  'PUT_MOVE_NODE' |
+  'CLEAR_NODE_UI' |
+  'UPDATE_NODE_UI' |
+  'UPDATE_ACTIVE_NODE_UI' |
+  'SET_NEXT_UI_ACTIVE' |
+  'SET_PREV_UI_ACTIVE'
 
 export type NodesAction = {
   type: NodesActionType,

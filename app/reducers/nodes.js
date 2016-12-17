@@ -76,7 +76,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
   case types.CLEAR_NODE_UI:
     if (state.tree != null && action.data.keys != null) {
       tree = clearUI(state.tree, action.data.keys)
-      userIsDragging = action.data.keys.includes('dragging') ? false : state.userIsDragging
+      userIsDragging = action.data.keys != null && action.data.keys.includes('dragging') ? false : state.userIsDragging
       return { ...state, userIsDragging, tree }
     }
     return state
@@ -92,7 +92,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     return state
 
   case types.UPDATE_ACTIVE_NODE_UI:
-    if (state.tree != null) {
+    if (state.tree != null && action.data.key != null && action.data.value != null) {
       tree = setUIActiveNode(state.tree, action.data.key, action.data.value)
       return { ...state, tree }
     }

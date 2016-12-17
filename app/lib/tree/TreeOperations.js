@@ -6,6 +6,7 @@ import type {
   TreePath,
   NodeData,
   NodeUI,
+  NodeUIKey,
   PrevOrNext
 } from '../../../flow/tree'
 
@@ -44,7 +45,7 @@ export const move = (tree: Tree, path: TreePath, newPath: TreePath, before?: Nod
   return tree
 }
 
-export const clearUI = (tree: Tree, keys: string[]) : Tree  => {
+export const clearUI = (tree: Tree, keys: NodeUIKey[]) : Tree  => {
   return updateTreeNodes(tree, undefined, falsyUI(keys))
 }
 
@@ -52,7 +53,7 @@ export const setUI = (tree: Tree, path: TreePath, ui: NodeUI) : Tree  => {
   return updateTreeNode(tree, path, undefined, ui)
 }
 
-export const setUIActiveNode = (tree: Tree, key: string, value: boolean) : Tree  => {
+export const setUIActiveNode = (tree: Tree, key: NodeUIKey, value: boolean) : Tree  => {
   const activePath = findTreePath(tree, isActive, NODES, ID)
   if (activePath != null) {
     tree = updateTreeNode(tree, activePath, undefined, { [key]: value })

@@ -6,8 +6,21 @@ declare var it: any
 declare var expect: any
 
 import reducer from '../../app/reducers/nodes'
-import { START_SYNCING, STOP_SYNCING, HAS_ERRORS, INDEX_NODES, ADD_NODE, UPDATE_NODE, REMOVE_NODE } from '../../app/actions/nodes'
+import {
+  START_SYNCING,
+  STOP_SYNCING,
+  HAS_ERRORS,
+  INDEX_NODES,
+  ADD_NODE,
+  UPDATE_NODE,
+  REMOVE_NODE,
+  CLEAR_NODE_UI,
+  UPDATE_NODE_UI,
+  UPDATE_ACTIVE_NODE_UI,
+} from '../../app/actions/nodes'
 import { uid, uid1, uid2, uid3, uid4, uid5, uid6, uid7 } from '../uid'
+import defaultUI from '../../app/lib/ui/defaultUI'
+import { defaultState } from '../../app/reducers/nodes'
 
 describe('nodes reducer', () => {
 
@@ -20,7 +33,7 @@ describe('nodes reducer', () => {
     expect(reducer(undefined, { type: HAS_ERRORS, data: {} }).hasErrors).toBe(true)
   })
 
-  it('NODES', () => {
+  it('nodes', () => {
 
     const tree = {
       uid,
@@ -121,5 +134,105 @@ describe('nodes reducer', () => {
     if (state4.tree != null) {
       expect(state4.tree.nodes[0].nodes[0].nodes.length).toBe(1)
     }
+  })
+
+  describe('ui', () => {
+
+    it('CLEAR_NODE_UI', () => {
+      const tree = { nodes: [
+        {
+          node: {
+            uid,
+            data: { title: '' },
+            ui: { ...defaultUI, editing: true }
+          },
+          path: [uid],
+          nodes: []
+        }
+      ] }
+      const state = reducer({ ...defaultState, tree }, { type: CLEAR_NODE_UI, data: { keys: ['editing'] } })
+      expect(state.tree).not.toBe(null)
+      if (state.tree != null) {
+        expect (state.tree.nodes[0].node.ui.editing).toBe(false)
+      }
+    })
+
+    it('CLEAR_NODE_UI userIsDragging', () => {
+      const tree = { nodes: [
+        {
+          node: {
+            uid,
+            data: { title: '' },
+            ui: { ...defaultUI, dragging: true }
+          },
+          path: [uid],
+          nodes: []
+        }
+      ] }
+      const state = reducer({ ...defaultState, tree, userIsDragging: true }, { type: CLEAR_NODE_UI, data: { keys: ['dragging'] } })
+      expect(state.tree).not.toBe(null)
+      if (state.tree != null) {
+        expect (state.tree.nodes[0].node.ui.dragging).toBe(false)
+      }
+      expect (state.userIsDragging).toBe(false)
+    })
+
+    it('UPDATE_NODE_UI', () => {
+      const tree = { nodes: [
+        {
+          node: {
+            uid,
+            data: { title: '' },
+            ui: { ...defaultUI }
+          },
+          path: [uid],
+          nodes: []
+        }
+      ] }
+      const state = reducer({ ...defaultState, tree }, { type: UPDATE_NODE_UI, data: { path: [uid], key: 'editing', value: true } })
+      expect(state.tree).not.toBe(null)
+      if (state.tree != null) {
+        expect (state.tree.nodes[0].node.ui.editing).toBe(true)
+      }
+    })
+
+    it('UPDATE_NODE_UI dragging', () => {
+      const tree = { nodes: [
+        {
+          node: {
+            uid,
+            data: { title: '' },
+            ui: { ...defaultUI }
+          },
+          path: [uid],
+          nodes: []
+        }
+      ] }
+      const state = reducer({ ...defaultState, tree }, { type: UPDATE_NODE_UI, data: { path: [uid], key: 'dragging', value: true } })
+      expect(state.tree).not.toBe(null)
+      if (state.tree != null) {
+        expect (state.tree.nodes[0].node.ui.dragging).toBe(true)
+      }
+      expect (state.userIsDragging).toBe(true)
+    })
+
+    it('UPDATE_ACTIVE_NODE_UI', () => {
+      const tree = { nodes: [
+        {
+          node: {
+            uid,
+            data: { title: '' },
+            ui: { ...defaultUI, active: true }
+          },
+          path: [uid],
+          nodes: []
+        }
+      ] }
+      const state = reducer({ ...defaultState, tree }, { type: UPDATE_ACTIVE_NODE_UI, data: { key: 'editing', value: true } })
+      expect(state.tree).not.toBe(null)
+      if (state.tree != null) {
+        expect (state.tree.nodes[0].node.ui.editing).toBe(true)
+      }
+    })
   })
 })
