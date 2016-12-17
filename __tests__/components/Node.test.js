@@ -35,7 +35,7 @@ describe('Node', () => {
     hasNodes: false,
     siblings: [{ uid, ui }],
     index: 0,
-    clearUIEditing: noop,
+    clearUIEditingAdding: noop,
     setUIEditing: noop,
     setUIAdding: noop,
     setUIExpanded: noop,
@@ -62,9 +62,9 @@ describe('Node', () => {
 
     it('canExpand', () => {
       const setUIExpanded = jest.fn()
-      const clearUIEditing = noop
+      const clearUIEditingAdding = noop
       // @TODO: use mount / shallow
-      const node = new Node({ clearUIEditing, setUIExpanded, ui })
+      const node = new Node({ clearUIEditingAdding, setUIExpanded, ui })
       const mockEvent = getMockEvent()
       node.handleClick(mockEvent)
       expect(setUIExpanded.mock.calls.length).toBe(0)
@@ -72,9 +72,9 @@ describe('Node', () => {
 
     it('setUIExpanded', () => {
       const setUIExpanded = jest.fn()
-      const clearUIEditing = noop
+      const clearUIEditingAdding = noop
       // @TODO: use mount / shallow
-      const node = new Node({ hasNodes: true, clearUIEditing, setUIExpanded, ui })
+      const node = new Node({ hasNodes: true, clearUIEditingAdding, setUIExpanded, ui })
       const mockEvent = getMockEvent()
       node.handleClick(mockEvent)
       expect(setUIExpanded.mock.calls.length).toBe(1)

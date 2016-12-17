@@ -13,7 +13,7 @@ export default class NodeAdd extends Component {
     parent: PropTypes.string.isRequired,
     path: PropTypes.array.isRequired,
     ui: PropTypes.object.isRequired,
-    clearUIEditing: PropTypes.func.isRequired,
+    clearUIEditingAdding: PropTypes.func.isRequired,
     
     setUIAdding: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
@@ -56,11 +56,11 @@ export default class NodeAdd extends Component {
 
     event.preventDefault()
 
-    const { parent, path, postNode, clearUIEditing, setUIExpanded } = this.props
+    const { parent, path, postNode, clearUIEditingAdding, setUIExpanded } = this.props
     const { title } = this.state
     const titleTrimmed = title.trim()
 
-    clearUIEditing()
+    clearUIEditingAdding()
 
     // guard: do not save empty string
     if (titleTrimmed === '') {

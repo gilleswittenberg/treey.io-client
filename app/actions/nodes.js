@@ -52,30 +52,42 @@ export function indexNodes (tree: any) {
 export const CLEAR_NODE_UI = 'CLEAR_NODE_UI'
 export const UPDATE_NODE_UI = 'UPDATE_NODE_UI'
 
-export const CLEAR_UI_EDITING = 'CLEAR_UI_EDITING'
-export function clearUIEditing () {
+export function clearUIEditingAdding () {
   return {
-    type: CLEAR_UI_EDITING
+    type: CLEAR_NODE_UI,
+    data: {
+      keys: ['editing', 'adding']
+    }
   }
 }
 
 export const SET_UI_EDITING = 'SET_UI_EDITING'
-export function setUIEditing (path: TreePath) {
-  return {
-    type: SET_UI_EDITING,
-    data: {
-      path
-    }
+export function setUIEditing (path: TreePath, value: boolean = true) {
+  return function (dispatch: any) {
+    dispatch(clearUIEditingAdding)
+    dispatch({
+      type: UPDATE_NODE_UI,
+      data: {
+        path,
+        key: 'editing',
+        value
+      }
+    })
   }
 }
 
 export const SET_UI_ADDING = 'SET_UI_ADDING'
-export function setUIAdding (path: TreePath) {
-  return {
-    type: SET_UI_ADDING,
-    data: {
-      path
-    }
+export function setUIAdding (path: TreePath, value: boolean = true) {
+  return function (dispatch: any) {
+    dispatch(clearUIEditingAdding)
+    dispatch({
+      type: UPDATE_NODE_UI,
+      data: {
+        path,
+        key: 'adding',
+        value
+      }
+    })
   }
 }
 
@@ -94,7 +106,7 @@ export function clearUIMovingChild () {
   return {
     type: CLEAR_NODE_UI,
     data: {
-      key: 'movingChild'
+      keys: ['movingChild']
     }
   }
 }
@@ -103,7 +115,7 @@ export function clearUIButtonsShown () {
   return {
     type: CLEAR_NODE_UI,
     data: {
-      key: 'buttonsShown'
+      keys: ['buttonsShown']
     }
   }
 }
@@ -112,7 +124,7 @@ export function clearUIDragging () {
   return {
     type: CLEAR_NODE_UI,
     data: {
-      key: 'dragging'
+      keys: ['dragging']
     }
   }
 }

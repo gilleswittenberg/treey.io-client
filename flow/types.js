@@ -24,7 +24,7 @@ type NodesActionType =
   'STOP_SYNCING' |
   'HAS_ERRORS' |
   'INDEX_NODES' |
-  'CLEAR_UI_EDITING' |
+  'CLEAR_UI_EDITING_ADDING' |
   'SET_UI_EDITING' |
   'SET_UI_ADDING' |
   'UPDATE_NODE_UI' |
@@ -47,6 +47,7 @@ export type NodesAction = {
     newPath?: TreePath,
     before?: NodeId,
     key?: string,
+    keys?: [string],
     value?: boolean
   }
 }

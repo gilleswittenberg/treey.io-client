@@ -23,7 +23,7 @@ describe('NodeAdd', () => {
     parent,
     path: [],
     ui: {},
-    clearUIEditing: noop,
+    clearUIEditingAdding: noop,
     setUIEditing: noop,
     setUIAdding: noop,
     setUIExpanded: noop,
@@ -88,16 +88,16 @@ describe('NodeAdd', () => {
 
       it('input', () => {
 
-        const clearUIEditing = jest.fn()
+        const clearUIEditingAdding = jest.fn()
         const postNode = jest.fn()
         const setUIExpanded = jest.fn()
-        const wrapper = shallow(getComponent({ ui: { adding: true }, clearUIEditing, postNode, setUIExpanded }))
+        const wrapper = shallow(getComponent({ ui: { adding: true }, clearUIEditingAdding, postNode, setUIExpanded }))
 
         wrapper.setState({ title: 'user input' })
         const mockEvent = getMockEvent()
         wrapper.find('form').simulate('submit', mockEvent)
         // @TODO: test arguments
-        expect(clearUIEditing.mock.calls.length).toBe(1)
+        expect(clearUIEditingAdding.mock.calls.length).toBe(1)
         expect(postNode.mock.calls.length).toBe(1)
         expect(postNode.mock.calls[0][2]).toEqual({ title: 'user input' })
         expect(setUIExpanded.mock.calls.length).toBe(1)
@@ -105,16 +105,16 @@ describe('NodeAdd', () => {
 
       it('empty (whitespace) input', () => {
 
-        const clearUIEditing = jest.fn()
+        const clearUIEditingAdding = jest.fn()
         const postNode = jest.fn()
         const setUIExpanded = jest.fn()
-        const wrapper = shallow(getComponent({ ui: { adding: true }, clearUIEditing, setUIExpanded, postNode }))
+        const wrapper = shallow(getComponent({ ui: { adding: true }, clearUIEditingAdding, setUIExpanded, postNode }))
 
         wrapper.setState({ title: ' ' })
         const mockEvent = getMockEvent()
         wrapper.find('form').simulate('submit', mockEvent)
         // @TODO: test arguments
-        expect(clearUIEditing.mock.calls.length).toBe(1)
+        expect(clearUIEditingAdding.mock.calls.length).toBe(1)
         expect(postNode.mock.calls.length).toBe(0)
         expect(setUIExpanded.mock.calls.length).toBe(0)
       })

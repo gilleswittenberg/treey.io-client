@@ -14,7 +14,6 @@ import {
   clearUI,
   setUI,
   setUIActiveNode,
-  setUIUnique,
   selectActiveNode
 } from '../../../app/lib/tree/TreeOperations'
 import { uid, uid1, uid2, uid3 } from '../../uid'
@@ -236,29 +235,6 @@ describe('TreeOperations', () => {
       }
       const updatedTree = setUIActiveNode(tree, 'editing', true)
       expect(updatedTree.nodes[0].nodes[0].node.ui).toEqual({ active: true, editing: true })
-    })
-  })
-
-  describe('setUIUnique', () => {
-
-    it('setUI', () => {
-
-      const tree = {
-        nodes: [{
-          node: { uid, data: { title: '' }, ui: { ...defaultUI, editing: true, expanded: true } },
-          path: [uid],
-          nodes: [{
-            node: { uid: uid1, data: { title: '' }, ui: { ...defaultUI, editing: false, expanded: false } },
-            path: [uid, uid1],
-            nodes: []
-          }]
-        }]
-      }
-      const path = [uid, uid1]
-      const nodeUI = { editing: true }
-      const updatedTree = setUIUnique(tree, path, nodeUI)
-      expect(updatedTree.nodes[0].node.ui.editing).toBe(false)
-      expect(updatedTree.nodes[0].nodes[0].node.ui.editing).toBe(true)
     })
   })
 

@@ -14,7 +14,7 @@ class Tree extends Component {
   static propTypes = {
     enableDnD: PropTypes.bool,
     tree: PropTypes.object,
-    clearUIEditing: PropTypes.func.isRequired,
+    clearUIEditingAdding: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
     
     setUIActive: PropTypes.func.isRequired,
@@ -49,8 +49,8 @@ class Tree extends Component {
     // @TODO: Use switch
     // @TODO: move esc to keyup
     if (event.keyCode === 27) { // esc
-      const { clearUIEditing } = this.props
-      clearUIEditing()
+      const { clearUIEditingAdding } = this.props
+      clearUIEditingAdding()
     } else if (event.keyCode === 40) { // down arrow
       event.preventDefault()
       const { setNextUIActive } = this.props
@@ -72,9 +72,9 @@ class Tree extends Component {
 
   @autobind
   handleWindowClick () {
-    const { clearUIEditing } = this.props
+    const { clearUIEditingAdding } = this.props
     // this needs to be delayed to be called after a possible submit event
-    delay(() => clearUIEditing())
+    delay(() => clearUIEditingAdding())
   }
 
   render () {

@@ -52,12 +52,6 @@ export const setUI = (tree: Tree, path: TreePath, ui: NodeUI) : Tree  => {
   return updateTreeNode(tree, path, undefined, ui)
 }
 
-export const setUIUnique = (tree: Tree, path: TreePath, ui: NodeUI) : Tree  => {
-  tree = updateTreeNodes(tree, undefined, invertedUI(ui))
-  tree = updateTreeNode(tree, path, undefined, ui)
-  return tree
-}
-
 export const setUIActiveNode = (tree: Tree, key: string, value: boolean) : Tree  => {
   const activePath = findTreePath(tree, isActive, NODES, ID)
   if (activePath != null) {

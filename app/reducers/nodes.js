@@ -11,7 +11,6 @@ import {
   move,
   clearUI,
   setUI,
-  setUIUnique,
   setUIActiveNode,
   selectActiveNode
 } from '../lib/tree/TreeOperations'
@@ -25,7 +24,6 @@ export const defaultState: NodesState = {
 
 export default function nodes (state: NodesState = defaultState, action: NodesAction) {
 
-  const uniqueUIKeys = ['editing', 'adding']
   let tree, userIsDragging
 
   // backend
@@ -75,48 +73,20 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
 
 
   // ui
-  case types.CLEAR_UI_EDITING:
-    if (state.tree != null) {
-      tree = clearUI(state.tree, ['editing', 'adding'])
-      return { ...state, tree }
-    }
-    return state
-
-  // @TODO: combine SET_UI_EDITING, SET_UI_ADDING
-  case types.SET_UI_EDITING:
-    if (state.tree != null && action.data.path != null) {
-      tree = clearUI(state.tree, ['editing', 'adding'])
-      if (action.data.path != null) {
-        tree = setUI(tree, action.data.path, { editing: true })
-      }
-      return { ...state, tree }
-    }
-    return state
-
-  case types.SET_UI_ADDING:
-    if (state.tree != null && action.data.path != null) {
-      tree = clearUI(state.tree, ['editing', 'adding'])
-      if (action.data.path != null) {
-        tree = setUI(tree, action.data.path, { adding: true })
-      }
-      return { ...state, tree }
-    }
-    return state
-
   case types.CLEAR_NODE_UI:
-    if (state.tree != null && action.data.key != null) {
-      tree = clearUI(state.tree, [action.data.key])
-      userIsDragging = action.data.key === 'dragging' ? false : state.userIsDragging
+    if (state.tree != null && action.data.keys != null) {
+      tree = clearUI(state.tree, action.data.keys)
+      userIsDragging = action.data.keys.includes('dragging') ? false : state.userIsDragging
       return { ...state, userIsDragging, tree }
     }
     return state
 
   case types.UPDATE_NODE_UI:
     if (action.data.key != null) {
-      const operation = uniqueUIKeys.includes(action.data.key) ? setUIUnique : setUI
       if (state.tree != null && action.data.path != null && action.data.key != null && action.data.value != null) {
-        tree = operation(state.tree, action.data.path, { [action.data.key]: action.data.value })
-        return { ...state, tree }
+        tree = setUI(state.tree, action.data.path, { [action.data.key]: action.data.value })
+        userIsDragging = action.data.key === 'dragging' ? action.data.value : state.userIsDragging
+        return { ...state, userIsDragging, tree }
       }
     }
     return state

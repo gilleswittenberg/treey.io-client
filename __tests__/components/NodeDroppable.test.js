@@ -49,7 +49,7 @@ describe('NodeDroppable', () => {
     siblings: [{ uid }],
     index: 0,
     setUIEditing: noop,
-    clearUIEditing: noop,
+    clearUIEditingAdding: noop,
     setUIExpanded: noop,
     setUIMovingChild: noop,
     clearUIMovingChild: noop,
@@ -82,7 +82,7 @@ describe('NodeDroppable', () => {
     setUIDragging: noop,
     clearUIDragging: noop,
     setUIButtonsShown: noop,
-    clearUIEditing: noop,
+    clearUIEditingAdding: noop,
     andleClick: noop,
     handleClickMore: noop
   }
