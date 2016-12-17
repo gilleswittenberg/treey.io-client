@@ -14,7 +14,7 @@ export default class NodeEdit extends Component {
     title: PropTypes.string.isRequired,
 
     clearUIEditingAdding: PropTypes.func.isRequired,
-    
+
     putNode: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired
   }
@@ -61,6 +61,10 @@ export default class NodeEdit extends Component {
     clearUIEditingAdding()
   }
 
+  handleClick (event: Event) {
+    event.stopPropagation()
+  }
+
   render () {
 
     const { lang } = this.props
@@ -77,6 +81,7 @@ export default class NodeEdit extends Component {
               ref={ input => { if (input) input.focus() } }
               value={ value }
               onChange={ this.handleChange }
+              onClick={ this.handleClick }
             />
           </div>
         </form>
