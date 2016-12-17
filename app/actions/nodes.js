@@ -1,7 +1,7 @@
 /* @flow */
 
 import fetch from 'isomorphic-fetch'
-import type { NodeData, TreePath } from '../../flow/tree'
+import type { TreePath, NodeId, NodeData } from '../../flow/tree'
 
 let host
 switch (process.env.NODE_ENV) {
@@ -16,6 +16,7 @@ default:
   host = `http://${ window.location.hostname }:8081`
 }
 
+// backend
 export const START_SYNCING = 'START_SYNCING'
 export function startSyncing () {
   return {
@@ -47,6 +48,7 @@ export function indexNodes (tree: any) {
   }
 }
 
+// ui
 export const CLEAR_NODE_UI = 'CLEAR_NODE_UI'
 export const UPDATE_NODE_UI = 'UPDATE_NODE_UI'
 
@@ -184,7 +186,7 @@ export function setPrevUIActive () {
 }
 
 export const GET_NODES = 'GET_NODES'
-export function getNodes (uid: string) {
+export function getNodes (uid: NodeId) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
     const url = `${ host }/node/${ uid }`
@@ -217,7 +219,7 @@ export function getNodes (uid: string) {
 }
 
 export const ADD_NODE = 'ADD_NODE'
-export function addNode (path: string[], json: any) {
+export function addNode (path: TreePath, json: any) {
   const node = {
     data: {
       title: json.title
@@ -234,7 +236,7 @@ export function addNode (path: string[], json: any) {
 
 export const POST_NODE = 'POST_NODE'
 // @TODO: remove parent argument
-export function postNode (parent: string, path: string[], data: NodeData) {
+export function postNode (parent: NodeId, path: TreePath, data: NodeData) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
     const url = `${ host }/node/${ parent }`
@@ -269,7 +271,7 @@ export function postNode (parent: string, path: string[], data: NodeData) {
 }
 
 export const UPDATE_NODE = 'UPDATE_NODE'
-export function updateNode (path: string[], json: any) {
+export function updateNode (path: TreePath, json: any) {
   const node = {
     data: {
       title: json.title
@@ -286,7 +288,7 @@ export function updateNode (path: string[], json: any) {
 
 export const PUT_NODE = 'PUT_NODE'
 // @TODO: remove uid argument
-export function putNode (uid: string, path: string[], data: NodeData) {
+export function putNode (uid: NodeId, path: TreePath, data: NodeData) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
     const url = `${ host }/node/${ uid }`
@@ -321,7 +323,7 @@ export function putNode (uid: string, path: string[], data: NodeData) {
 }
 
 export const REMOVE_NODE = 'REMOVE_NODE'
-export function removeNode (path: string[]) {
+export function removeNode (path: TreePath) {
   return {
     type: REMOVE_NODE,
     data: {
@@ -332,7 +334,7 @@ export function removeNode (path: string[]) {
 
 export const DELETE_NODE = 'DELETE_NODE'
 // @TODO: remove parent, uid arguments
-export function deleteNode (path: string[], parent: string, uid: string) {
+export function deleteNode (path: TreePath, parent: NodeId, uid: NodeId) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
     const url = `${ host }/node/${ parent }/${ uid }`
@@ -365,7 +367,7 @@ export function deleteNode (path: string[], parent: string, uid: string) {
 
 export const MOVE_NODE = 'MOVE_NODE'
 // @TODO: use path, newPath argument
-export function moveNode (parent: string, uid: string, newParent: string, before?: string) {
+export function moveNode (parent: NodeId, uid: NodeId, newParent: NodeId, before?: NodeId) {
   return {
     type: MOVE_NODE,
     data: {
@@ -379,7 +381,7 @@ export function moveNode (parent: string, uid: string, newParent: string, before
 
 export const PUT_MOVE_NODE = 'PUT_MOVE_NODE'
 // @TODO: use path argument
-export function putMoveNode (parent: string, uid: string, newParent: string, before?: string) {
+export function putMoveNode (parent: NodeId, uid: NodeId, newParent: NodeId, before?: NodeId) {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
     dispatch(moveNode(parent, uid, newParent, before))
