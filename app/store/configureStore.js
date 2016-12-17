@@ -1,9 +1,10 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
+import multi from 'redux-multi'
 import rootReducer from '../reducers'
 
 const createStoreWithMiddleware = compose(
-  applyMiddleware(thunk),
+  applyMiddleware(thunk, multi),
   window.devToolsExtension ? window.devToolsExtension() : f => f
 )(createStore)
 

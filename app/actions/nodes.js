@@ -63,32 +63,32 @@ export function clearUIEditingAdding () {
 
 export const SET_UI_EDITING = 'SET_UI_EDITING'
 export function setUIEditing (path: TreePath, value: boolean = true) {
-  return function (dispatch: any) {
-    dispatch(clearUIEditingAdding)
-    dispatch({
+  return [
+    clearUIEditingAdding(),
+    {
       type: UPDATE_NODE_UI,
       data: {
         path,
         key: 'editing',
         value
       }
-    })
-  }
+    }
+  ]
 }
 
 export const SET_UI_ADDING = 'SET_UI_ADDING'
 export function setUIAdding (path: TreePath, value: boolean = true) {
-  return function (dispatch: any) {
-    dispatch(clearUIEditingAdding)
-    dispatch({
+  return [
+    clearUIEditingAdding(),
+    {
       type: UPDATE_NODE_UI,
       data: {
         path,
         key: 'adding',
         value
       }
-    })
-  }
+    }
+  ]
 }
 
 export function setUIExpanded (path: TreePath, value: boolean = true) {
