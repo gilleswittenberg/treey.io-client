@@ -42,13 +42,13 @@ export const getTreeIndexPath = (node: Tree, path: TreePath, nodesKey: NodesKey,
   return pathIndexes
 }
 
-export const getUidFromPath = (arr: ?NodeId[]) : ?NodeId => {
+export const getUidFromPath = (arr: ?TreePath) : ?NodeId => {
   if (arr == null) return null
   if (arr.length === 0) return null
   return arr[arr.length - 1]
 }
 
-export const getParentFromPath = (arr: ?NodeId[]) : ?NodeId => {
+export const getParentFromPath = (arr: ?TreePath) : ?NodeId => {
   if (arr == null) return null
   if (arr.length < 2) return null
   return arr[arr.length - 2]
