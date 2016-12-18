@@ -48,6 +48,12 @@ export const getUidFromPath = (arr: ?NodeId[]) : ?NodeId => {
   return arr[arr.length - 1]
 }
 
+export const getParentFromPath = (arr: ?NodeId[]) : ?NodeId => {
+  if (arr == null) return null
+  if (arr.length < 2) return null
+  return arr[arr.length - 2]
+}
+
 export const getTreeNode = function (treeData: Tree, path: TreePath, nodesKey: NodesKey, idKey: IdKey) : ?TreeNode {
   const pathIndexes = getTreeIndexPath(treeData, path, nodesKey, idKey)
   if (pathIndexes == null) return null

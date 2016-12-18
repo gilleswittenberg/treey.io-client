@@ -12,6 +12,7 @@ import {
   getNodesIndex,
   getTreeIndexPath,
   getUidFromPath,
+  getParentFromPath,
   getTreeNode,
   parseTree,
   findTreePath,
@@ -212,6 +213,25 @@ describe('TreeUtils', () => {
 
     it('array', () => {
       expect(getUidFromPath([uid, uid1, uid2])).toEqual(uid2)
+    })
+  })
+
+  describe('getParentFromPath', () => {
+
+    it('null', () => {
+      expect(getParentFromPath(null)).toEqual(null)
+    })
+
+    it('empty array', () => {
+      expect(getParentFromPath([])).toEqual(null)
+    })
+
+    it('array length 1', () => {
+      expect(getParentFromPath([uid])).toEqual(null)
+    })
+
+    it('array', () => {
+      expect(getParentFromPath([uid, uid1, uid2])).toEqual(uid1)
     })
   })
 
