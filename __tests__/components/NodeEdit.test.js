@@ -53,7 +53,6 @@ describe('NodeEdit', () => {
       const wrapper = shallow(getComponent({ clearUIEditingAdding, deleteNode }))
       const mockEvent = getMockEvent()
       wrapper.find('form').simulate('submit', mockEvent)
-      // @TODO: test arguments
       expect(clearUIEditingAdding.mock.calls.length).toBe(1)
       expect(deleteNode.mock.calls.length).toBe(1)
     })
@@ -65,7 +64,6 @@ describe('NodeEdit', () => {
       wrapper.setState({ title: 'user input' })
       const mockEvent = getMockEvent()
       wrapper.find('form').simulate('submit', mockEvent)
-      // @TODO: test arguments
       expect(clearUIEditingAdding.mock.calls.length).toBe(1)
       expect(putNode.mock.calls.length).toBe(1)
       expect(putNode.mock.calls[0][1]).toEqual({ title: 'user input' })

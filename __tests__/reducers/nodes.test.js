@@ -105,11 +105,11 @@ describe('nodes reducer', () => {
         nodeData: { title: 'new' }
       }
     })
-    // @TODO: remove
+    // @TODO: Type for Tree / Node
     if (state2.tree != null) {
       expect(state2.tree.nodes[0].nodes.length).toBe(3)
     }
-    // @TODO: remove
+    // @TODO: Type for Tree / Node
     if (state2.tree != null) {
       expect(state2.tree.nodes[0].nodes[2].node.data).toEqual({ title: 'new' })
     }

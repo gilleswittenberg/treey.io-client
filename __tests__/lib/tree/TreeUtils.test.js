@@ -21,9 +21,10 @@ import {
   mapTree
 } from '../../../app/lib/tree/TreeUtils'
 import { createNode } from '../../../app/lib/tree/NodeModifiers'
-import { createTreeNode } from '../../../app/lib/tree/TreeNodeModifiers'
+import { createTreeNode, updateTreeNode } from '../../../app/lib/tree/TreeNodeModifiers'
 import defaultUI from '../../../app/lib/ui/defaultUI'
 import { uid, uid1, uid2, uid3, uid4, uid5, uid6 } from '../../uid'
+import { isVisible } from '../../../app/lib/tree/TreeOperations'
 
 describe('TreeUtils', () => {
 
@@ -512,13 +513,7 @@ describe('TreeUtils', () => {
           nodes: []
         }] }
       ] }
-      // @TODO: Use isVisible
-      const search = (node: any, parent: any) => {
-        if (parent && parent.node && parent.node.ui && parent.node.ui.expanded === true) return true
-        if (node && node.node && node.node.ui && node.node.ui.expanded === true) return true
-        return false
-      }
-      const filteredTree = filterTree(tree, undefined, search, 'nodes', 'uid')
+      const filteredTree = filterTree(tree, undefined, isVisible, 'nodes', 'uid')
       expect(filteredTree.nodes.length).toBe(1)
       expect(filteredTree.nodes[0].nodes.length).toBe(3)
       expect(filteredTree.nodes[0].nodes[0].nodes.length).toBe(2)
@@ -610,12 +605,8 @@ describe('TreeUtils', () => {
           }]
         }]
       }] }
-      // @TODO: Use NodeUpdate
-      const mapFn = node => {
-        node.node.ui.editing = true
-        return node
-      }
-      const treeMapped = mapTree(tree, mapFn, 'nodes')
+      const mapFunc = node => updateTreeNode(node, undefined, undefined, { editing: true })
+      const treeMapped = mapTree(tree, mapFunc, 'nodes')
       expect(treeMapped.nodes[0].node.ui.editing).toBe(true)
       expect(treeMapped.nodes[0].nodes[0].node.ui.editing).toBe(true)
       expect(treeMapped.nodes[0].nodes[0].nodes[0].node.ui.editing).toBe(true)

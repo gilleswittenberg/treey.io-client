@@ -262,7 +262,6 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      // @TODO: remove parent, uid arguments
       return store.dispatch(actions.deleteNode([uid, uid1]))
         .then(
           () => {
@@ -280,7 +279,6 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      // @TODO: remove parent, uid arguments
       return store.dispatch(actions.deleteNode([uid, uid1]))
         .then(() => {
           const lastAction = store.getActions().pop()
@@ -298,7 +296,6 @@ describe('nodes actions', () => {
 
       const store = mockStore({ tree: null })
 
-      // @TODO: remove parent, uid arguments
       return store.dispatch(actions.deleteNode(path))
         .then(() => {
           const lastAction = store.getActions().pop()

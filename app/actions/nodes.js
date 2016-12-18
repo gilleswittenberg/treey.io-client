@@ -406,8 +406,6 @@ export function deleteNode (path: TreePath) {
 }
 
 export const MOVE_NODE = 'MOVE_NODE'
-// @TODO: use path, newPath argument
-// @TODO: remove parent, uid arguments, extract parent, uid from path
 export function moveNode (path: TreePath, newPath: TreePath, before?: NodeId) {
 
   return {
