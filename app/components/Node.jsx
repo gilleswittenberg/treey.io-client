@@ -23,7 +23,7 @@ export default class Node extends Component {
     ui: PropTypes.shape(propTypeShapeUI),
     hasNodes: PropTypes.bool.isRequired,
     isOver: PropTypes.bool,
-    
+
     clearUIEditingAdding: PropTypes.func.isRequired,
     clearUIButtonsShown: PropTypes.func.isRequired,
     setUIEditing: PropTypes.func.isRequired,
@@ -38,6 +38,8 @@ export default class Node extends Component {
     enableDnD: false,
     isOver: false
   }
+
+  listeners = []
 
   @autobind
   handleClick (event: Event) {
@@ -86,6 +88,47 @@ export default class Node extends Component {
     const { path, clearUIButtonsShown, setUIButtonsShown } = this.props
     clearUIButtonsShown()
     setUIButtonsShown(path)
+  }
+
+  componentDidMount () {
+    window.addEventListener('keydown', this.handleKeyDown)
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('keydown', this.handleKeyDown)
+  }
+
+  @autobind
+  handleKeyDown (event: KeyboardEvent) {
+
+    const { ui: { active, editing, adding }, path, parent, uid, setUIExpanded, setUIEditing, setUIAdding, deleteNode } = this.props
+
+    // guard
+    if (active !== true || editing === true || adding === true) { return }
+
+    switch (event.keyCode) {
+    case 37: // left arrow
+      event.preventDefault()
+      setUIExpanded(path, false)
+      break
+    case 39: // right arrow
+      event.preventDefault()
+      setUIExpanded(path)
+      break
+    case 13: // enter
+      event.preventDefault()
+      setUIEditing(path)
+      break
+    case 68: // d
+      if (event.shiftKey) {
+        deleteNode(path, parent, uid)
+      }
+      break
+    case 187: // +
+      event.preventDefault()
+      setUIAdding(path)
+      break
+    }
   }
 
   canExpand () : bool {

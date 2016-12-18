@@ -45,6 +45,12 @@ class Tree extends Component {
     window.addEventListener('click', this.handleWindowClick)
   }
 
+  componentWillUnmount () {
+    window.removeEventListener('keyup', this.handleKeyUp)
+    window.removeEventListener('keydown', this.handleKeyDown)
+    window.removeEventListener('click', this.handleWindowClick)
+  }
+
   @autobind
   handleKeyUp (event: KeyboardEvent) {
     if (event.keyCode === 27) { // esc
@@ -56,7 +62,7 @@ class Tree extends Component {
   @autobind
   handleKeyDown (event: KeyboardEvent) {
 
-    const { setNextUIActive, setPrevUIActive, updateActiveNodeUI } = this.props
+    const { setNextUIActive, setPrevUIActive } = this.props
     let action
 
     switch (event.keyCode) {
@@ -73,21 +79,6 @@ class Tree extends Component {
       action = event.shiftKey ? setPrevUIActive : setNextUIActive
       action()
       break
-    case 37: // left arrow
-      event.preventDefault()
-      updateActiveNodeUI('expanded', false)
-      break
-    case 39: // right arrow
-      event.preventDefault()
-      updateActiveNodeUI('expanded', true)
-      break
-    case 13: // enter
-      event.preventDefault()
-      updateActiveNodeUI('editing', true)
-      break
-    case 187: // +
-      event.preventDefault()
-      updateActiveNodeUI('adding', true)
     }
   }
 
