@@ -318,7 +318,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putMoveNode(uid, uid1, uid2))
+      return store.dispatch(actions.putMoveNode([uid, uid1], [uid2]))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -335,7 +335,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putMoveNode(uid, uid1, uid2))
+      return store.dispatch(actions.putMoveNode([uid, uid1], [uid2]))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -344,19 +344,22 @@ describe('nodes actions', () => {
 
     it('OK', () => {
 
+      const path = [uid, uid1]
+      const newPath = [uid2]
+
       nock(hostname)
         .put(`/node/move/${ uid }/${ uid1 }/${ uid2 }/`)
         .reply(200)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putMoveNode(uid, uid1, uid2))
+      return store.dispatch(actions.putMoveNode([uid, uid1], [uid2]))
         .then(() => {
           const lastAction = store.getActions().pop()
           const secondLastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('STOP_SYNCING')
           expect(secondLastAction.type).toEqual('MOVE_NODE')
-          expect(secondLastAction.data).toEqual({ parent: uid, uid: uid1, newParent: uid2 })
+          expect(secondLastAction.data).toEqual({ path, newPath })
         })
     })
   })

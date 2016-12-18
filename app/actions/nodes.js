@@ -408,13 +408,13 @@ export function deleteNode (path: TreePath) {
 export const MOVE_NODE = 'MOVE_NODE'
 // @TODO: use path, newPath argument
 // @TODO: remove parent, uid arguments, extract parent, uid from path
-export function moveNode (parent: NodeId, uid: NodeId, newParent: NodeId, before?: NodeId) {
+export function moveNode (path: TreePath, newPath: TreePath, before?: NodeId) {
+
   return {
     type: MOVE_NODE,
     data: {
-      parent,
-      uid,
-      newParent,
+      path,
+      newPath,
       before
     }
   }
@@ -422,10 +422,18 @@ export function moveNode (parent: NodeId, uid: NodeId, newParent: NodeId, before
 
 export const PUT_MOVE_NODE = 'PUT_MOVE_NODE'
 // @TODO: remove parent, uid arguments, extract parent, uid from path
-export function putMoveNode (parent: NodeId, uid: NodeId, newParent: NodeId, before?: NodeId) {
+export function putMoveNode (path: TreePath, newPath: TreePath, before?: NodeId) {
+
+  const parent = getParentFromPath(path)
+  const uid = getUidFromPath(path)
+  const newParent = getUidFromPath(newPath)
+
+  // guard
+  if (parent == null || uid == null || newParent == null) { return }
+
   return function (dispatch: () => void) {
     dispatch(startSyncing())
-    dispatch(moveNode(parent, uid, newParent, before))
+    dispatch(moveNode(path, newPath, before))
     before = before || ''
     const url = `${ host }/node/move/${ parent }/${ uid }/${ newParent }/${ before }`
     const options = {

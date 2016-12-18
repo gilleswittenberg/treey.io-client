@@ -31,23 +31,26 @@ const DropSpec = {
 
     const item = monitor.getItem() // NodeDraggable props
     const {
-      parent: parentDraggable,
+      path,
       uid: uidDraggable,
       siblings: siblingsDraggable,
       index: indexDraggable
     } = item
-    const { parent, uid, siblings, index } = props // NodeDroppable props
+
+    const { path: pathDroppable, uid, siblings, index, putMoveNode } = props // NodeDroppable props
     const overPosition = component.getHoverRegion(monitor, component.element)
     const nextSiblingDroppable = getNextSibling(siblings, index) // next uid: ?string after NodeDroppable
     const nextSiblingDraggable = getNextSibling(siblingsDraggable, indexDraggable) // next uid: ?string after NodeDraggable
     const before = overPosition === 'top' ? uid : nextSiblingDroppable
+
     // guard: do not put when dropped on original position
     if (overPosition === 'top' && before === nextSiblingDraggable) return
     if (overPosition === 'bottom' && before === uidDraggable) return
 
+    const newPath = pathDroppable && pathDroppable.length > 1 ? pathDroppable.slice(0, -1) : pathDroppable
+
     // save
-    const { putMoveNode } = props
-    putMoveNode(parentDraggable, uidDraggable, parent, before)
+    putMoveNode(path, newPath, before)
   }
 }
 

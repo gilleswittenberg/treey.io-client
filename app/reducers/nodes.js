@@ -65,7 +65,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     return state
 
   case types.MOVE_NODE:
-    if (state.tree != null && action.data.path != null && action.data.newPath != null && action.data.before != null) {
+    if (state.tree != null && action.data.path != null && action.data.newPath != null) {
       tree = move(state.tree, action.data.path, action.data.newPath, action.data.before)
       return { ...state, tree }
     }
