@@ -91,6 +91,25 @@ export function setUIAdding (path: TreePath, value: boolean = true) {
   ]
 }
 
+export function setUIActive (path: TreePath, value: boolean = true) {
+  return [
+    {
+      type: CLEAR_NODE_UI,
+      data: {
+        keys: ['active']
+      }
+    },
+    {
+      type: UPDATE_NODE_UI,
+      data: {
+        path,
+        key: 'active',
+        value
+      }
+    }
+  ]
+}
+
 export function setUIExpanded (path: TreePath, value: boolean = true) {
   return {
     type: UPDATE_NODE_UI,
@@ -151,16 +170,7 @@ export function setUIDragging (path: TreePath, value: boolean = true) {
   }
 }
 
-export function setUIActive (path: TreePath, value: boolean = true) {
-  return {
-    type: UPDATE_NODE_UI,
-    data: {
-      path,
-      key: 'active',
-      value
-    }
-  }
-}
+
 
 export function setUIButtonsShown (path: TreePath, value: boolean = true) {
   return {

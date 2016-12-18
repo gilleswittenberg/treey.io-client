@@ -480,9 +480,12 @@ describe('nodes actions', () => {
 
         store.dispatch(actions.setUIActive([]))
         const lastAction = store.getActions().pop()
+        const secondLastAction = store.getActions().pop()
         expect(lastAction.type).toEqual('UPDATE_NODE_UI')
         expect(lastAction.data.key).toBe('active')
         expect(lastAction.data.value).toBe(true)
+        expect(secondLastAction.type).toEqual('CLEAR_NODE_UI')
+        expect(secondLastAction.data.keys).toEqual(['active'])
       })
     })
 

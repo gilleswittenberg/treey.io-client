@@ -38,6 +38,7 @@ describe('Node', () => {
     clearUIEditingAdding: noop,
     setUIEditing: noop,
     setUIAdding: noop,
+    setUIActive: noop,
     setUIExpanded: noop,
     setUIMovingChild: noop,
     clearUIMovingChild: noop,
@@ -53,32 +54,32 @@ describe('Node', () => {
 
     it('altKey', () => {
       const setUIEditing = jest.fn()
-      // @TODO: use mount / shallow
-      const node = new Node({ setUIEditing, ui })
       const mockEvent = getMockEvent({ altKey: true })
-      node.handleClick(mockEvent)
+      const wrapper = mount(getComponent({ setUIEditing }))
+      wrapper.find('.node-content').simulate('click', mockEvent)
       expect(setUIEditing.mock.calls.length).toBe(1)
     })
 
     it('canExpand', () => {
       const setUIExpanded = jest.fn()
-      const clearUIEditingAdding = noop
-      // @TODO: use mount / shallow
-      const node = new Node({ clearUIEditingAdding, setUIExpanded, ui })
-      const mockEvent = getMockEvent()
-      node.handleClick(mockEvent)
+      const wrapper = mount(getComponent({ setUIExpanded }))
+      wrapper.find('.node-content').simulate('click')
       expect(setUIExpanded.mock.calls.length).toBe(0)
     })
 
     it('setUIExpanded', () => {
       const setUIExpanded = jest.fn()
-      const clearUIEditingAdding = noop
-      // @TODO: use mount / shallow
-      const node = new Node({ hasNodes: true, clearUIEditingAdding, setUIExpanded, ui })
-      const mockEvent = getMockEvent()
-      node.handleClick(mockEvent)
+      const wrapper = mount(getComponent({ setUIExpanded, hasNodes: true }))
+      wrapper.find('.node-content').simulate('click')
       expect(setUIExpanded.mock.calls.length).toBe(1)
       expect(setUIExpanded.mock.calls[0][1]).toBe(true)
+    })
+
+    it('setUIActive', () => {
+      const setUIActive = jest.fn()
+      const wrapper = mount(getComponent({ setUIActive }))
+      wrapper.find('.node-content').simulate('click')
+      expect(setUIActive.mock.calls.length).toBe(1)
     })
   })
 

@@ -29,6 +29,7 @@ export default class Node extends Component {
     setUIEditing: PropTypes.func.isRequired,
     setUIAdding: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
+    setUIActive: PropTypes.func.isRequired,
     setUIButtonsShown: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired
   }
@@ -46,19 +47,21 @@ export default class Node extends Component {
 
     event.stopPropagation()
 
+    const { clearUIEditingAdding, setUIEditing, setUIExpanded, setUIActive, ui: { expanded }, path } = this.props
+
     // alt key to edit
     if (event.altKey) {
-      const { setUIEditing, path } = this.props
       setUIEditing(path)
     }
     // regular click to collapse or expand
     else {
-      const { clearUIEditingAdding, setUIExpanded, ui: { expanded }, path } = this.props
       clearUIEditingAdding()
-      // guard
-      if (!this.canExpand()) { return }
-      setUIExpanded(path, !expanded)
+      if (this.canExpand()) {
+        setUIExpanded(path, !expanded)
+      }
     }
+
+    setUIActive(path)
   }
 
   @autobind
