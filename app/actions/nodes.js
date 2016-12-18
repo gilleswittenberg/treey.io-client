@@ -316,7 +316,6 @@ export function updateNode (path: TreePath, json: any) {
 }
 
 export const PUT_NODE = 'PUT_NODE'
-// @TODO: remove uid arguments, extract uid from path
 export function putNode (path: TreePath, data: NodeData) {
 
   const uid = getUidFromPath(path)
@@ -368,7 +367,6 @@ export function removeNode (path: TreePath) {
 }
 
 export const DELETE_NODE = 'DELETE_NODE'
-// @TODO: remove parent, uid arguments, extract parent, uid from path
 export function deleteNode (path: TreePath) {
 
   const parent = getParentFromPath(path)

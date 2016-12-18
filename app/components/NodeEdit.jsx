@@ -47,15 +47,16 @@ export default class NodeEdit extends Component {
   @autobind
   handleSubmit (event: Event) {
     event.preventDefault()
-    const { parent, uid, path, title, deleteNode, putNode, clearUIEditingAdding } = this.props
+    const { parent, path, title, deleteNode, putNode, clearUIEditingAdding } = this.props
     const { title: newTitle } = this.state
     const newTitleTrimmed = newTitle.trim()
     // @TODO: what to do for parent && newTitleTrimmed == ''?
+    // @TODO: use !isRoot vs parent != null
     if (parent != null && newTitleTrimmed === '') {
-      deleteNode(parent, uid)
+      deleteNode(path)
     } else if (title !== newTitleTrimmed) {
       // @TOOD: remove uid
-      putNode(uid, path, { title: newTitleTrimmed })
+      putNode(path, { title: newTitleTrimmed })
     }
     clearUIEditingAdding()
   }

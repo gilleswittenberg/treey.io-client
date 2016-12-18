@@ -68,7 +68,7 @@ describe('NodeEdit', () => {
       // @TODO: test arguments
       expect(clearUIEditingAdding.mock.calls.length).toBe(1)
       expect(putNode.mock.calls.length).toBe(1)
-      expect(putNode.mock.calls[0][2]).toEqual({ title: 'user input' })
+      expect(putNode.mock.calls[0][1]).toEqual({ title: 'user input' })
     })
   })
 })

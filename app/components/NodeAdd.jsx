@@ -14,7 +14,7 @@ export default class NodeAdd extends Component {
     path: PropTypes.array.isRequired,
     ui: PropTypes.object.isRequired,
     clearUIEditingAdding: PropTypes.func.isRequired,
-    
+
     setUIAdding: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
     postNode: PropTypes.func.isRequired
@@ -56,7 +56,7 @@ export default class NodeAdd extends Component {
 
     event.preventDefault()
 
-    const { parent, path, postNode, clearUIEditingAdding, setUIExpanded } = this.props
+    const { path, postNode, clearUIEditingAdding, setUIExpanded } = this.props
     const { title } = this.state
     const titleTrimmed = title.trim()
 
@@ -68,7 +68,7 @@ export default class NodeAdd extends Component {
     }
 
     const data = { title: titleTrimmed }
-    postNode(parent, path, data)
+    postNode(path, data)
 
     // expand to open node that had no children before
     setUIExpanded(path)

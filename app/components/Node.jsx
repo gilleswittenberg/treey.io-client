@@ -80,9 +80,8 @@ export default class Node extends Component {
 
   @autobind
   handleClickDelete () {
-    // @TODO: remove parent, uid
-    const { path, parent, uid, deleteNode } = this.props
-    deleteNode(path, parent, uid)
+    const { path, deleteNode } = this.props
+    deleteNode(path)
   }
 
   @autobind
@@ -104,7 +103,7 @@ export default class Node extends Component {
   @autobind
   handleKeyDown (event: KeyboardEvent) {
 
-    const { ui: { active, editing, adding }, path, parent, uid, setUIExpanded, setUIEditing, setUIAdding, deleteNode } = this.props
+    const { ui: { active, editing, adding }, path, setUIExpanded, setUIEditing, setUIAdding, deleteNode } = this.props
 
     // guard
     if (active !== true || editing === true || adding === true) { return }
@@ -124,7 +123,7 @@ export default class Node extends Component {
       break
     case 68: // d
       if (event.shiftKey) {
-        deleteNode(path, parent, uid)
+        deleteNode(path)
       }
       break
     case 187: // +

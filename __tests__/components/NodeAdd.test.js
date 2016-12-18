@@ -98,7 +98,7 @@ describe('NodeAdd', () => {
         wrapper.find('form').simulate('submit', mockEvent)
         expect(clearUIEditingAdding.mock.calls.length).toBe(1)
         expect(postNode.mock.calls.length).toBe(1)
-        expect(postNode.mock.calls[0][2]).toEqual({ title: 'user input' })
+        expect(postNode.mock.calls[0][1]).toEqual({ title: 'user input' })
         expect(setUIExpanded.mock.calls.length).toBe(1)
       })
 
