@@ -88,7 +88,5 @@ const isActive = node => (node && node.node && node.node.ui && node.node.ui.acti
 const isVisible = (node, parent) => (parent && parent.node && parent.node.ui && parent.node.ui.expanded === true) || (node && node.node && node.node.ui && node.node.ui.expanded === true) || false
 
 const falsyUI = keys => {
-  const ui = {}
-  keys.forEach(key => ui[key] = false)
-  return ui
+  return keys.reduce((prev, key) => { prev[key] = false; return prev }, {})
 }
