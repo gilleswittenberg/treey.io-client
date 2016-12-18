@@ -181,6 +181,10 @@ describe('nodes actions', () => {
 
   describe('putNode', () => {
 
+    it('null path', () => {
+      expect(actions.putNode([], { title: '' })).toBe(undefined)
+    })
+
     it('INTERNAL_SERVER_ERROR', () => {
       nock(hostname)
         .put(`/node/${ uid }`)
@@ -245,6 +249,10 @@ describe('nodes actions', () => {
   })
 
   describe('deleteNode', () => {
+
+    it('null path', () => {
+      expect(actions.deleteNode([], { title: '' })).toBe(undefined)
+    })
 
     it('INTERNAL_SERVER_ERROR', () => {
 
