@@ -255,7 +255,7 @@ describe('nodes actions', () => {
       const store = mockStore({ nodes: null })
 
       // @TODO: remove parent, uid arguments
-      return store.dispatch(actions.deleteNode([], parent, uid))
+      return store.dispatch(actions.deleteNode([uid, uid1]))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -273,7 +273,7 @@ describe('nodes actions', () => {
       const store = mockStore({ nodes: null })
 
       // @TODO: remove parent, uid arguments
-      return store.dispatch(actions.deleteNode([], uid, uid1))
+      return store.dispatch(actions.deleteNode([uid, uid1]))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -282,7 +282,7 @@ describe('nodes actions', () => {
 
     it('OK', () => {
 
-      const path = []
+      const path = [uid, uid1]
 
       nock(hostname)
         .delete(`/node/${ uid }/${ uid1 }`)
@@ -291,7 +291,7 @@ describe('nodes actions', () => {
       const store = mockStore({ tree: null })
 
       // @TODO: remove parent, uid arguments
-      return store.dispatch(actions.deleteNode([], uid, uid1))
+      return store.dispatch(actions.deleteNode(path))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('REMOVE_NODE')

@@ -2,7 +2,7 @@
 
 import fetch from 'isomorphic-fetch'
 import type { TreePath, NodeId, NodeData } from '../../flow/tree'
-import { getUidFromPath } from '../../app/lib/tree/TreeUtils'
+import { getParentFromPath, getUidFromPath } from '../../app/lib/tree/TreeUtils'
 
 let host
 switch (process.env.NODE_ENV) {
@@ -369,7 +369,14 @@ export function removeNode (path: TreePath) {
 
 export const DELETE_NODE = 'DELETE_NODE'
 // @TODO: remove parent, uid arguments, extract parent, uid from path
-export function deleteNode (path: TreePath, parent: NodeId, uid: NodeId) {
+export function deleteNode (path: TreePath) {
+
+  const parent = getParentFromPath(path)
+  const uid = getUidFromPath(path)
+
+  // guard
+  if (parent == null || uid == null) { return }
+
   return function (dispatch: () => void) {
     dispatch(startSyncing())
     const url = `${ host }/node/${ parent }/${ uid }`
