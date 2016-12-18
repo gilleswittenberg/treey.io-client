@@ -85,8 +85,10 @@ export const selectActiveNode = (tree: Tree, selector: PrevOrNext) : Tree => {
 // helper methods
 const isActive = node => (node && node.node && node.node.ui && node.node.ui.active === true) || false
 
-const isVisible = (node, parent) => (parent && parent.node && parent.node.ui && parent.node.ui.expanded === true) || (node && node.node && node.node.ui && node.node.ui.expanded === true) || false
-
-const falsyUI = keys => {
-  return keys.reduce((prev, key) => { prev[key] = false; return prev }, {})
+const isVisible = (node, parent) => {
+  const isRoot = parent && parent.node == null
+  const parentIsExpanded = parent && parent.node && parent.node.ui && parent.node.ui.expanded === true
+  return isRoot || parentIsExpanded
 }
+
+const falsyUI = keys => keys.reduce((prev, key) => { prev[key] = false; return prev }, {})

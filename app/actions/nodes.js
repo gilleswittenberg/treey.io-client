@@ -148,6 +148,7 @@ export function clearUIDragging () {
   }
 }
 
+// @TODO: movingChild is unique, so CLEAR_NODE_UI
 export function setUIMovingChild (path: TreePath, value: boolean = true) {
   return {
     type: UPDATE_NODE_UI,
@@ -159,6 +160,7 @@ export function setUIMovingChild (path: TreePath, value: boolean = true) {
   }
 }
 
+// @TODO: dragging is unique, so CLEAR_NODE_UI
 export function setUIDragging (path: TreePath, value: boolean = true) {
   return {
     type: UPDATE_NODE_UI,
@@ -170,8 +172,7 @@ export function setUIDragging (path: TreePath, value: boolean = true) {
   }
 }
 
-
-
+// @TODO: buttonsShown is unique, so CLEAR_NODE_UI
 export function setUIButtonsShown (path: TreePath, value: boolean = true) {
   return {
     type: UPDATE_NODE_UI,
