@@ -2,6 +2,7 @@
 
 import fetch from 'isomorphic-fetch'
 import type { TreePath, NodeId, NodeData } from '../../flow/tree'
+import { getUidFromPath } from '../../app/lib/tree/TreeUtils'
 
 let host
 switch (process.env.NODE_ENV) {
@@ -258,8 +259,13 @@ export function addNode (path: TreePath, json: any) {
 }
 
 export const POST_NODE = 'POST_NODE'
-// @TODO: remove parent, extract parent from path
-export function postNode (parent: NodeId, path: TreePath, data: NodeData) {
+export function postNode (path: TreePath, data: NodeData) {
+
+  const parent = getUidFromPath(path)
+
+  // guard
+  if (parent == null) { return }
+
   return function (dispatch: () => void) {
     dispatch(startSyncing())
     const url = `${ host }/node/${ parent }`

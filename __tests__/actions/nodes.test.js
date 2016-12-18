@@ -111,6 +111,10 @@ describe('nodes actions', () => {
 
   describe('postNode', () => {
 
+    it('null path', () => {
+      expect(actions.postNode([], { title: '' })).toBe(undefined)
+    })
+
     it('INTERNAL_SERVER_ERROR', () => {
       nock(hostname)
         .post(`/node/${ uid }`)
@@ -118,7 +122,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.postNode(uid, [], { title: '' }))
+      return store.dispatch(actions.postNode([uid], { title: '' }))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -134,7 +138,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.postNode(uid, [], { title: '' }))
+      return store.dispatch(actions.postNode([uid], { title: '' }))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -143,7 +147,6 @@ describe('nodes actions', () => {
 
     it('OK', () => {
 
-      const parent = uid
       const path = [uid]
 
       const data = {
@@ -162,12 +165,12 @@ describe('nodes actions', () => {
       }
 
       nock(hostname)
-        .post(`/node/${ parent }`, data)
+        .post(`/node/${ uid }`, data)
         .reply(200, body)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.postNode(parent, path, data))
+      return store.dispatch(actions.postNode(path, data))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('ADD_NODE')
