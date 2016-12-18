@@ -317,7 +317,13 @@ export function updateNode (path: TreePath, json: any) {
 
 export const PUT_NODE = 'PUT_NODE'
 // @TODO: remove uid arguments, extract uid from path
-export function putNode (uid: NodeId, path: TreePath, data: NodeData) {
+export function putNode (path: TreePath, data: NodeData) {
+
+  const uid = getUidFromPath(path)
+
+  // guard
+  if (uid == null) { return }
+
   return function (dispatch: () => void) {
     dispatch(startSyncing())
     const url = `${ host }/node/${ uid }`

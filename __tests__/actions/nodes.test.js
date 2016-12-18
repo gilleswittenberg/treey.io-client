@@ -188,7 +188,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putNode(uid, [], { title: '' }))
+      return store.dispatch(actions.putNode([uid], { title: '' }))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -204,7 +204,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putNode(uid, [], { title: '' }))
+      return store.dispatch(actions.putNode([uid], { title: '' }))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -235,7 +235,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.putNode(uid, path, data))
+      return store.dispatch(actions.putNode(path, data))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('UPDATE_NODE')
