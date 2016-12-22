@@ -69,15 +69,22 @@ export const parseTree = (nodeData: {}) : Tree => {
   return { nodes: [node] }
 }
 
-// @TODO: Flow type for node (Tree, TreeNode)
-// @TODO: Flow type for search
-export const findTreePath = (node: any, search: (node: any) => boolean, nodesKey: NodesKey, idKey: IdKey) : ?TreePath => {
-  if (search(node)) return [node.node[idKey]]
-  let nodes = node[nodesKey]
+export const findTreePath = (tree?: Tree, node?: TreeNode, searchFunc: (node: TreeNode) => boolean, nodesKey: NodesKey, idKey: IdKey) : ?TreePath => {
+  if (node != null) {
+    if (searchFunc(node)) return [node.node[idKey]]
+  }
+  let nodes
+  if (tree != null) {
+    nodes = tree[nodesKey]
+  } else if (node != null){
+    nodes = node[nodesKey]
+  } else {
+    return null
+  }
   let path = []
   if (node && node.node && node.node[idKey]) path.push(node.node[idKey])
   for (let i = 0, l = nodes.length; i < l; i++) {
-    const childPath = findTreePath(nodes[i], search, nodesKey, idKey)
+    const childPath = findTreePath(undefined, nodes[i], searchFunc, nodesKey, idKey)
     if (childPath != null) {
       return path.concat(childPath)
     }
@@ -85,14 +92,20 @@ export const findTreePath = (node: any, search: (node: any) => boolean, nodesKey
   return null
 }
 
-// @TODO: Flow type for node (Tree, TreeNode)
-// @TODO: flowtype for filterFunc (Tree, TreeNode)
-export const filterTree = (node: Tree, parent?: Tree, filterFunc: Function, nodesKey: NodesKey, idKey: IdKey) : Tree => {
+export const filterTree = (tree?: Tree, node?: TreeNode, parent?: TreeNode, filterFunc: (treeNode: TreeNode, parent?: TreeNode) => boolean, nodesKey: NodesKey, idKey: IdKey) : Tree => {
   const filteredTree = { nodes: [] }
-  const nodes = node[nodesKey]
+  let nodes
+  if (tree != null) {
+    nodes = tree[nodesKey]
+  } else if (node != null) {
+    nodes = node[nodesKey]
+  } else {
+    return filteredTree
+  }
   for (let i = 0, l = nodes.length; i < l; i++) {
-    if (filterFunc(nodes[i], node)) {
-      const filteredNode = filterTree(nodes[i], node, filterFunc, nodesKey, idKey)
+    const parent = tree != null ? undefined : node
+    if (filterFunc(nodes[i], parent)) {
+      const filteredNode = filterTree(undefined, nodes[i], parent, filterFunc, nodesKey, idKey)
       filteredTree.nodes.push({ ...nodes[i], nodes: filteredNode.nodes })
     }
   }
@@ -109,8 +122,7 @@ export const flattenTree = (node: Tree, nodesKey: NodesKey) : TreeNodes => {
   return flattenedTree
 }
 
-// @TODO: flowtype for mapFunc
-export const mapTree = (node: Tree, mapFunc: Function, nodesKey: NodesKey) : Tree => {
+export const mapTree = (node: Tree, mapFunc: (node: TreeNode) => TreeNode, nodesKey: NodesKey) : Tree => {
   let nodes = node[nodesKey]
   if (Array.isArray(nodes)) {
     for (let i = 0, l = nodes.length; i < l; i++) {

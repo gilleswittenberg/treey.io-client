@@ -317,7 +317,7 @@ describe('TreeUtils', () => {
     it('non existing', () => {
       const tree = { nodes: [] }
       const search = (node: TreeNode) => (node && node.node && node.node.uid === uid) || false
-      expect(findTreePath(tree, search, 'nodes', 'uid')).toBe(null)
+      expect(findTreePath(tree, undefined, search, 'nodes', 'uid')).toBe(null)
     })
 
     it('root', () => {
@@ -327,7 +327,7 @@ describe('TreeUtils', () => {
         nodes: []
       }] }
       const search = (node: TreeNode) => (node && node.node && node.node.uid === uid) || false
-      expect(findTreePath(tree, search, 'nodes', 'uid')).toEqual([uid])
+      expect(findTreePath(tree, undefined, search, 'nodes', 'uid')).toEqual([uid])
     })
 
     it('1st generation', () => {
@@ -345,7 +345,7 @@ describe('TreeUtils', () => {
         }]
       }] }
       const search = (node: TreeNode) => (node && node.node && node.node.uid === uid2) || false
-      expect(findTreePath(tree, search, 'nodes', 'uid')).toEqual([uid, uid2])
+      expect(findTreePath(tree, undefined, search, 'nodes', 'uid')).toEqual([uid, uid2])
     })
 
     it('2nd generation', () => {
@@ -367,7 +367,7 @@ describe('TreeUtils', () => {
         }]
       }] }
       const search = (node: TreeNode) => (node && node.node && node.node.uid === uid3) || false
-      expect(findTreePath(tree, search, 'nodes', 'uid')).toEqual([uid, uid1, uid3])
+      expect(findTreePath(tree, undefined, search, 'nodes', 'uid')).toEqual([uid, uid1, uid3])
     })
   })
 
@@ -376,7 +376,7 @@ describe('TreeUtils', () => {
     it('empty', () => {
       const tree = { nodes: [] }
       const search = () => false
-      expect(filterTree(tree, undefined, search, 'nodes', 'uid')).toEqual({ nodes: [] })
+      expect(filterTree(tree, undefined, undefined, search, 'nodes', 'uid')).toEqual({ nodes: [] })
     })
 
     it('non valid', () => {
@@ -386,7 +386,7 @@ describe('TreeUtils', () => {
         nodes: []
       }] }
       const search = () => false
-      expect(filterTree(tree, undefined, search, 'nodes', 'uid')).toEqual({ nodes: [] })
+      expect(filterTree(tree, undefined, undefined, search, 'nodes', 'uid')).toEqual({ nodes: [] })
     })
 
     it('valid', () => {
@@ -396,7 +396,7 @@ describe('TreeUtils', () => {
         nodes: []
       }] }
       const search = () => true
-      const filteredTree = filterTree(tree, undefined, search, 'nodes', 'uid')
+      const filteredTree = filterTree(tree, undefined, undefined, search, 'nodes', 'uid')
       expect(filteredTree.nodes[0].node.uid).toBe(uid)
       expect(filteredTree.nodes[0].node.data.title).toBe('Mr. Foo')
       expect(filteredTree.nodes[0].node.ui).toEqual(defaultUI)
@@ -417,7 +417,7 @@ describe('TreeUtils', () => {
         nodes: []
       }] }
       const search = (node: any) => node.node.uid === uid1 || node.node.uid === uid3
-      const filteredTree = filterTree(tree, undefined, search, 'nodes', 'uid')
+      const filteredTree = filterTree(tree, undefined, undefined, search, 'nodes', 'uid')
       expect(filteredTree.nodes.length).toBe(2)
       expect(filteredTree.nodes[0].node.uid).toBe(uid1)
       expect(filteredTree.nodes[1].node.uid).toBe(uid3)
@@ -442,7 +442,7 @@ describe('TreeUtils', () => {
         }] }
       ] }
       const search = (node: any) => node.node.uid === uid || node.node.uid === uid1 || node.node.uid === uid3
-      const filteredTree = filterTree(tree, undefined, search, 'nodes', 'uid')
+      const filteredTree = filterTree(tree, undefined, undefined, search, 'nodes', 'uid')
       expect(filteredTree.nodes[0].node.uid).toBe(uid)
       expect(filteredTree.nodes[0].nodes[0].node.uid).toBe(uid1)
       expect(filteredTree.nodes[0].nodes[1].node.uid).toBe(uid3)
@@ -475,7 +475,7 @@ describe('TreeUtils', () => {
         }] }
       ] }
       const search = (node: any) => node.node.uid === uid || node.node.uid === uid1 || node.node.uid === uid3 || node.node.uid === uid5
-      const filteredTree = filterTree(tree, undefined, search, 'nodes', 'uid')
+      const filteredTree = filterTree(tree, undefined, undefined, search, 'nodes', 'uid')
       expect(filteredTree.nodes.length).toBe(1)
       expect(filteredTree.nodes[0].nodes.length).toBe(2)
       expect(filteredTree.nodes[0].nodes[0].nodes.length).toBe(1)
@@ -513,7 +513,7 @@ describe('TreeUtils', () => {
           nodes: []
         }] }
       ] }
-      const filteredTree = filterTree(tree, undefined, isVisible, 'nodes', 'uid')
+      const filteredTree = filterTree(tree, undefined, undefined, isVisible, 'nodes', 'uid')
       expect(filteredTree.nodes.length).toBe(1)
       expect(filteredTree.nodes[0].nodes.length).toBe(3)
       expect(filteredTree.nodes[0].nodes[0].nodes.length).toBe(2)

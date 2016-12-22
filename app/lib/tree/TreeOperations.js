@@ -3,6 +3,7 @@
 import type {
   NodeId,
   Tree,
+  TreeNode,
   TreePath,
   NodeData,
   NodeUI,
@@ -54,7 +55,7 @@ export const setUI = (tree: Tree, path: TreePath, ui: NodeUI) : Tree  => {
 }
 
 export const setUIActiveNode = (tree: Tree, key: NodeUIKey, value: boolean) : Tree  => {
-  const activePath = findTreePath(tree, isActive, NODES, ID)
+  const activePath = findTreePath(tree, undefined, isActive, NODES, ID)
   if (activePath != null) {
     tree = updateTreeNode(tree, activePath, undefined, { [key]: value })
   }
@@ -62,11 +63,11 @@ export const setUIActiveNode = (tree: Tree, key: NodeUIKey, value: boolean) : Tr
 }
 
 export const selectActiveNode = (tree: Tree, selector: PrevOrNext) : Tree => {
-  const activePath = findTreePath(tree, isActive, NODES, ID)
+  const activePath = findTreePath(tree, undefined, isActive, NODES, ID)
   if (activePath != null) {
     const activeNode = getTreeNode(tree, activePath, NODES, ID)
     if (activeNode != null) {
-      const filteredTree = filterTree(tree, undefined, isVisible, NODES, ID)
+      const filteredTree = filterTree(tree, undefined, undefined, isVisible, NODES, ID)
       const flattenedTree = flattenTree(filteredTree, NODES)
       const index = flattenedTree.findIndex(isActive)
       const nextActive = selector === 'PREV' ? getPrevCircular(flattenedTree, index) : getNextCircular(flattenedTree, index)
@@ -83,13 +84,11 @@ export const selectActiveNode = (tree: Tree, selector: PrevOrNext) : Tree => {
 }
 
 // helper methods
-// @TODO: Type for Node / Tree
-export const isActive = (node: any) : boolean => (node && node.node && node.node.ui && node.node.ui.active === true) || false
+export const isActive = (node: TreeNode) : boolean => (node && node.node && node.node.ui && node.node.ui.active === true) || false
 
-// @TODO: Type for Node / Tree
-export const isVisible = (node: any, parent: any) : boolean => {
-  const isRoot = parent && parent.node == null
-  const parentIsExpanded = parent && parent.node && parent.node.ui && parent.node.ui.expanded === true
+export const isVisible = (treeNode?: TreeNode, parent?: TreeNode) : boolean => {
+  const isRoot = parent == null
+  const parentIsExpanded = parent != null && parent.node && parent.node.ui && parent.node.ui.expanded === true
   return isRoot || parentIsExpanded
 }
 
