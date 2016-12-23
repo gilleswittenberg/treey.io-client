@@ -45,31 +45,36 @@ describe('TreeModifiers', () => {
 
     it('root', () => {
       const treeData = { nodes: [] }
-      const node = createNode(undefined, { title: 'Mr. Foo' })
+      const node = createNode(uid, { title: 'Mr. Foo' })
       const treeNode = createTreeNode(node, [])
       const tree = addTreeNode(treeData, [], treeNode)
       expect(tree.nodes.length).toBe(1)
       expect(tree.nodes[0].node.data).toEqual({ title: 'Mr. Foo' })
+      expect(tree.nodes[0].node.uid).toBe(uid)
+      expect(tree.nodes[0].path).toEqual([uid])
     })
 
     it('first generation', () => {
       const treeData = { nodes: [createTreeNode(createNode(uid, { title: 'root' }))] }
-      const node = createNode(undefined, { title: 'Mr. Foo' })
+      const node = createNode(uid1, { title: 'Mr. Foo' })
       const treeNode = createTreeNode(node)
       const tree = addTreeNode(treeData, [uid], treeNode)
       expect(tree.nodes[0].nodes.length).toBe(1)
       expect(tree.nodes[0].nodes[0].node.data).toEqual({ title: 'Mr. Foo' })
+      expect(tree.nodes[0].nodes[0].path).toEqual([uid, uid1])
     })
 
     it('root before', () => {
       const treeData = { nodes: [createTreeNode(createNode(uid, { title: 'Root' }))] }
       const path = []
-      const node = createNode(undefined, { title: 'Mr. Foo' })
+      const node = createNode(uid1, { title: 'Mr. Foo' })
       const treeNode = createTreeNode(node)
       const tree = addTreeNode(treeData, path, treeNode, uid)
       expect(tree.nodes.length).toBe(2)
       expect(tree.nodes[0].node.data).toEqual({ title: 'Mr. Foo' })
+      expect(tree.nodes[0].path).toEqual([uid1])
       expect(tree.nodes[1].node.data).toEqual({ title: 'Root' })
+      expect(tree.nodes[1].path).toEqual([uid])
     })
 
     it('first generation before', () => {
@@ -83,12 +88,14 @@ describe('TreeModifiers', () => {
         }]
       }] }
       const path = [uid]
-      const node = createNode(undefined, { title: 'Created' })
+      const node = createNode(uid2, { title: 'Created' })
       const treeNode = createTreeNode(node)
       const tree = addTreeNode(treeData, path, treeNode, uid1)
       expect(tree.nodes[0].nodes.length).toBe(2)
       expect(tree.nodes[0].nodes[0].node.data).toEqual({ title: 'Created' })
+      expect(tree.nodes[0].nodes[0].path).toEqual([uid, uid2])
       expect(tree.nodes[0].nodes[1].node.data).toEqual({ title: 'Mr. Foo' })
+      expect(tree.nodes[0].nodes[1].path).toEqual([uid, uid1])
     })
   })
 

@@ -148,6 +148,7 @@ describe('TreeOperations', () => {
       const updatedTree = move(tree, path, newPath)
       expect(updatedTree.nodes[0].nodes[0].nodes.length).toBe(0)
       expect(updatedTree.nodes[0].nodes[1].nodes.length).toBe(1)
+      expect(updatedTree.nodes[0].nodes[1].nodes[0].path).toEqual([uid, uid3, uid2])
     })
   })
 

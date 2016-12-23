@@ -22,6 +22,10 @@ export const indexTreeNodes = (data: {}) : Tree => {
 export const addTreeNode = function (treeData: Tree, path: TreePath, node: TreeNode, before?: NodeId) : Tree {
   const pathIndexes = getTreeIndexPath(treeData, path, NODES, ID)
   if (pathIndexes == null) return treeData
+  // set new path on node
+  // @TODO: move to TreeNodeModifiers
+  node.path = node.node.uid != null ? path.concat(node.node.uid) : path
+  // add node to nodes
   let tree = fromJS(treeData)
   const nodesPath = treeIndexPathToTreeNodesPath(pathIndexes, NODES, true)
   let nodes = tree.getIn(nodesPath)
