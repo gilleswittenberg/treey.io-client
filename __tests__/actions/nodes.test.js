@@ -168,7 +168,7 @@ describe('nodes actions', () => {
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('ADD_NODE')
-          expect(lastAction.data).toEqual({ path, nodeData: body })
+          expect(lastAction.data).toEqual({ path, nodeData: data, uid })
         })
     })
   })
@@ -237,7 +237,7 @@ describe('nodes actions', () => {
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('UPDATE_NODE')
-          expect(lastAction.data).toEqual({ path, node: actionData })
+          expect(lastAction.data).toEqual({ path, nodeData: body })
         })
     })
   })

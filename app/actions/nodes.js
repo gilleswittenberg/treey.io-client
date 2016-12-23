@@ -307,16 +307,14 @@ export const postNode = (path: TreePath, data: NodeData) => {
 
 export const UPDATE_NODE = 'UPDATE_NODE'
 export const updateNode = (path: TreePath, json: any) => {
-  const node = {
-    data: {
-      title: json.title
-    }
+  const nodeData = {
+    title: json.title
   }
   return {
     type: UPDATE_NODE,
     data: {
       path,
-      node
+      nodeData
     }
   }
 }
