@@ -158,12 +158,6 @@ describe('nodes actions', () => {
         title: 'New User'
       }
 
-      const actionData = {
-        data: {
-          title: 'New User'
-        }
-      }
-
       nock(hostname)
         .post(`/node/${ uid }`, data)
         .reply(200, body)
@@ -174,7 +168,7 @@ describe('nodes actions', () => {
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('ADD_NODE')
-          expect(lastAction.data).toEqual({ path, node: actionData })
+          expect(lastAction.data).toEqual({ path, nodeData: body })
         })
     })
   })

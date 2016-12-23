@@ -250,16 +250,15 @@ export const getNodes = (uid: NodeId) => {
 
 export const ADD_NODE = 'ADD_NODE'
 export const addNode = (path: TreePath, json: any) => {
-  const node = {
-    data: {
-      title: json.title
-    }
+  const nodeData = {
+    uid: json.uid,
+    title: json.title
   }
   return {
     type: ADD_NODE,
     data: {
       path,
-      node
+      nodeData
     }
   }
 }
