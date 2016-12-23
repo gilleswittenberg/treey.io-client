@@ -221,12 +221,6 @@ describe('nodes actions', () => {
         title: 'New User'
       }
 
-      const actionData = {
-        data: {
-          title: 'New User'
-        }
-      }
-
       nock(hostname)
         .put(`/node/${ uid }`, data)
         .reply(200, body)
