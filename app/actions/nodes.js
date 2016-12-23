@@ -149,40 +149,46 @@ export function clearUIDragging () {
   }
 }
 
-// @TODO: movingChild is unique, so CLEAR_NODE_UI
 export function setUIMovingChild (path: TreePath, value: boolean = true) {
-  return {
-    type: UPDATE_NODE_UI,
-    data: {
-      path,
-      key: 'movingChild',
-      value
+  return [
+    clearUIMovingChild(),
+    {
+      type: UPDATE_NODE_UI,
+      data: {
+        path,
+        key: 'movingChild',
+        value
+      }
     }
-  }
+  ]
 }
 
-// @TODO: dragging is unique, so CLEAR_NODE_UI
 export function setUIDragging (path: TreePath, value: boolean = true) {
-  return {
-    type: UPDATE_NODE_UI,
-    data: {
-      path,
-      key: 'dragging',
-      value
+  return [
+    clearUIDragging(),
+    {
+      type: UPDATE_NODE_UI,
+      data: {
+        path,
+        key: 'dragging',
+        value
+      }
     }
-  }
+  ]
 }
 
-// @TODO: buttonsShown is unique, so CLEAR_NODE_UI
 export function setUIButtonsShown (path: TreePath, value: boolean = true) {
-  return {
-    type: UPDATE_NODE_UI,
-    data: {
-      path,
-      key: 'buttonsShown',
-      value
+  return [
+    clearUIButtonsShown(),
+    {
+      type: UPDATE_NODE_UI,
+      data: {
+        path,
+        key: 'buttonsShown',
+        value
+      }
     }
-  }
+  ]
 }
 
 export const UPDATE_ACTIVE_NODE_UI = 'UPDATE_ACTIVE_NODE_UI'
