@@ -70,7 +70,7 @@ export default class NodeAdd extends Component {
     const data = { title: titleTrimmed }
     postNode(path, data)
 
-    // expand to open node that had no children before
+    // expand to open parent
     setUIExpanded(path)
   }
 

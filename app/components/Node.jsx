@@ -67,7 +67,7 @@ export default class Node extends Component {
   @autobind
   handleClickAdd (event: Event) {
     event.stopPropagation()
-    const { parent: { path }, setUIAdding } = this.props
+    const { path, setUIAdding } = this.props
     setUIAdding(path)
   }
 

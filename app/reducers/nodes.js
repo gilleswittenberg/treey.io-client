@@ -44,8 +44,8 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     return state
 
   case types.ADD_NODE:
-    if (state.tree != null && action.data.path != null && action.data.nodeData != null) {
-      tree = createAndAdd(state.tree, action.data.path, action.data.nodeData)
+    if (state.tree != null && action.data.path != null) {
+      tree = createAndAdd(state.tree, action.data.path, action.data.uid, action.data.nodeData)
       return { ...state, tree }
     }
     return state

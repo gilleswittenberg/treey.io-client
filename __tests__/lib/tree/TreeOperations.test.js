@@ -39,7 +39,7 @@ describe('TreeOperations', () => {
 
   describe('createAndAdd', () => {
 
-    it('createAndAdd', () => {
+    it('data, ui', () => {
 
       const tree = {
         nodes: [{
@@ -52,10 +52,26 @@ describe('TreeOperations', () => {
       const nodeData = {
         title: 'new'
       }
-      const updatedTree = createAndAdd(tree, path, nodeData)
+      const updatedTree = createAndAdd(tree, path, undefined, nodeData)
       expect(updatedTree.nodes[0].nodes.length).toBe(1)
+      expect(updatedTree.nodes[0].nodes[0].node.uid).toBe(null)
       expect(updatedTree.nodes[0].nodes[0].node.data).toEqual({ title: 'new' })
       expect(updatedTree.nodes[0].nodes[0].node.ui).not.toBe(null)
+    })
+
+    it('uid', () => {
+
+      const tree = {
+        nodes: [{
+          node: { uid, data: { title: '' }, ui: defaultUI },
+          path: [uid],
+          nodes: []
+        }]
+      }
+      const path = [uid]
+      const updatedTree = createAndAdd(tree, path, uid)
+      expect(updatedTree.nodes[0].nodes.length).toBe(1)
+      expect(updatedTree.nodes[0].nodes[0].node.uid).toBe(uid)
     })
   })
 

@@ -46,6 +46,7 @@ export type NodesAction = {
     tree?: any,
     path?: TreePath,
     newPath?: TreePath,
+    uid?: NodeId,
     before?: NodeId,
     key?: NodeUIKey,
     keys?: NodeUIKey[],
