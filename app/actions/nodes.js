@@ -419,7 +419,6 @@ export function moveNode (path: TreePath, newPath: TreePath, before?: NodeId) {
 }
 
 export const PUT_MOVE_NODE = 'PUT_MOVE_NODE'
-// @TODO: remove parent, uid arguments, extract parent, uid from path
 export function putMoveNode (path: TreePath, newPath: TreePath, before?: NodeId) {
 
   const parent = getParentFromPath(path)
