@@ -19,28 +19,28 @@ default:
 
 // backend
 export const START_SYNCING = 'START_SYNCING'
-export function startSyncing () {
+export const startSyncing = () => {
   return {
     type: START_SYNCING
   }
 }
 
 export const STOP_SYNCING = 'STOP_SYNCING'
-export function stopSyncing () {
+export const stopSyncing = () => {
   return {
     type: STOP_SYNCING
   }
 }
 
 export const HAS_ERRORS = 'HAS_ERRORS'
-export function hasErrors () {
+export const hasErrors = () => {
   return {
     type: HAS_ERRORS
   }
 }
 
 export const INDEX_NODES = 'INDEX_NODES'
-export function indexNodes (tree: any) {
+export const indexNodes = (tree: any) => {
   return {
     type: INDEX_NODES,
     data: {
@@ -53,7 +53,7 @@ export function indexNodes (tree: any) {
 export const CLEAR_NODE_UI = 'CLEAR_NODE_UI'
 export const UPDATE_NODE_UI = 'UPDATE_NODE_UI'
 
-export function clearUIEditingAdding () {
+export const clearUIEditingAdding = () => {
   return {
     type: CLEAR_NODE_UI,
     data: {
@@ -63,7 +63,7 @@ export function clearUIEditingAdding () {
 }
 
 export const SET_UI_EDITING = 'SET_UI_EDITING'
-export function setUIEditing (path: TreePath, value: boolean = true) {
+export const setUIEditing = (path: TreePath, value: boolean = true) => {
   return [
     clearUIEditingAdding(),
     {
@@ -78,7 +78,7 @@ export function setUIEditing (path: TreePath, value: boolean = true) {
 }
 
 export const SET_UI_ADDING = 'SET_UI_ADDING'
-export function setUIAdding (path: TreePath, value: boolean = true) {
+export const setUIAdding = (path: TreePath, value: boolean = true) => {
   return [
     clearUIEditingAdding(),
     {
@@ -92,7 +92,7 @@ export function setUIAdding (path: TreePath, value: boolean = true) {
   ]
 }
 
-export function setUIActive (path: TreePath, value: boolean = true) {
+export const setUIActive = (path: TreePath, value: boolean = true) => {
   return [
     {
       type: CLEAR_NODE_UI,
@@ -111,7 +111,7 @@ export function setUIActive (path: TreePath, value: boolean = true) {
   ]
 }
 
-export function setUIExpanded (path: TreePath, value: boolean = true) {
+export const setUIExpanded = (path: TreePath, value: boolean = true) => {
   return {
     type: UPDATE_NODE_UI,
     data: {
@@ -122,7 +122,7 @@ export function setUIExpanded (path: TreePath, value: boolean = true) {
   }
 }
 
-export function clearUIMovingChild () {
+export const clearUIMovingChild = () => {
   return {
     type: CLEAR_NODE_UI,
     data: {
@@ -131,7 +131,7 @@ export function clearUIMovingChild () {
   }
 }
 
-export function clearUIButtonsShown () {
+export const clearUIButtonsShown = () => {
   return {
     type: CLEAR_NODE_UI,
     data: {
@@ -140,7 +140,7 @@ export function clearUIButtonsShown () {
   }
 }
 
-export function clearUIDragging () {
+export const clearUIDragging = () => {
   return {
     type: CLEAR_NODE_UI,
     data: {
@@ -149,7 +149,7 @@ export function clearUIDragging () {
   }
 }
 
-export function setUIMovingChild (path: TreePath, value: boolean = true) {
+export const setUIMovingChild = (path: TreePath, value: boolean = true) => {
   return [
     clearUIMovingChild(),
     {
@@ -163,7 +163,7 @@ export function setUIMovingChild (path: TreePath, value: boolean = true) {
   ]
 }
 
-export function setUIDragging (path: TreePath, value: boolean = true) {
+export const setUIDragging = (path: TreePath, value: boolean = true) => {
   return [
     clearUIDragging(),
     {
@@ -177,7 +177,7 @@ export function setUIDragging (path: TreePath, value: boolean = true) {
   ]
 }
 
-export function setUIButtonsShown (path: TreePath, value: boolean = true) {
+export const setUIButtonsShown = (path: TreePath, value: boolean = true) => {
   return [
     clearUIButtonsShown(),
     {
@@ -192,7 +192,7 @@ export function setUIButtonsShown (path: TreePath, value: boolean = true) {
 }
 
 export const UPDATE_ACTIVE_NODE_UI = 'UPDATE_ACTIVE_NODE_UI'
-export function updateActiveNodeUI (key: string, value: boolean = true) {
+export const updateActiveNodeUI = (key: string, value: boolean = true) => {
   return {
     type: UPDATE_ACTIVE_NODE_UI,
     data: {
@@ -203,20 +203,20 @@ export function updateActiveNodeUI (key: string, value: boolean = true) {
 }
 
 export const SET_NEXT_UI_ACTIVE = 'SET_NEXT_UI_ACTIVE'
-export function setNextUIActive () {
+export const setNextUIActive = () => {
   return {
     type: SET_NEXT_UI_ACTIVE
   }
 }
 export const SET_PREV_UI_ACTIVE = 'SET_PREV_UI_ACTIVE'
-export function setPrevUIActive () {
+export const setPrevUIActive = () => {
   return {
     type: SET_PREV_UI_ACTIVE
   }
 }
 
 export const GET_NODES = 'GET_NODES'
-export function getNodes (uid: NodeId) {
+export const getNodes = (uid: NodeId) => {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
     const url = `${ host }/node/${ uid }`
@@ -249,7 +249,7 @@ export function getNodes (uid: NodeId) {
 }
 
 export const ADD_NODE = 'ADD_NODE'
-export function addNode (path: TreePath, json: any) {
+export const addNode = (path: TreePath, json: any) => {
   const node = {
     data: {
       title: json.title
@@ -265,7 +265,7 @@ export function addNode (path: TreePath, json: any) {
 }
 
 export const POST_NODE = 'POST_NODE'
-export function postNode (path: TreePath, data: NodeData) {
+export const postNode = (path: TreePath, data: NodeData) => {
 
   const parent = getUidFromPath(path)
 
@@ -306,7 +306,7 @@ export function postNode (path: TreePath, data: NodeData) {
 }
 
 export const UPDATE_NODE = 'UPDATE_NODE'
-export function updateNode (path: TreePath, json: any) {
+export const updateNode = (path: TreePath, json: any) => {
   const node = {
     data: {
       title: json.title
@@ -322,7 +322,7 @@ export function updateNode (path: TreePath, json: any) {
 }
 
 export const PUT_NODE = 'PUT_NODE'
-export function putNode (path: TreePath, data: NodeData) {
+export const putNode = (path: TreePath, data: NodeData) => {
 
   const uid = getUidFromPath(path)
 
@@ -363,7 +363,7 @@ export function putNode (path: TreePath, data: NodeData) {
 }
 
 export const REMOVE_NODE = 'REMOVE_NODE'
-export function removeNode (path: TreePath) {
+export const removeNode = (path: TreePath) => {
   return {
     type: REMOVE_NODE,
     data: {
@@ -373,7 +373,7 @@ export function removeNode (path: TreePath) {
 }
 
 export const DELETE_NODE = 'DELETE_NODE'
-export function deleteNode (path: TreePath) {
+export const deleteNode = (path: TreePath) => {
 
   const parent = getParentFromPath(path)
   const uid = getUidFromPath(path)
@@ -412,7 +412,7 @@ export function deleteNode (path: TreePath) {
 }
 
 export const MOVE_NODE = 'MOVE_NODE'
-export function moveNode (path: TreePath, newPath: TreePath, before?: NodeId) {
+export const moveNode = (path: TreePath, newPath: TreePath, before?: NodeId) => {
 
   return {
     type: MOVE_NODE,
@@ -425,7 +425,7 @@ export function moveNode (path: TreePath, newPath: TreePath, before?: NodeId) {
 }
 
 export const PUT_MOVE_NODE = 'PUT_MOVE_NODE'
-export function putMoveNode (path: TreePath, newPath: TreePath, before?: NodeId) {
+export const putMoveNode = (path: TreePath, newPath: TreePath, before?: NodeId) => {
 
   const parent = getParentFromPath(path)
   const uid = getUidFromPath(path)
