@@ -35,7 +35,7 @@ describe('nodes reducer', () => {
 
   it('nodes', () => {
 
-    const tree = {
+    const tree = { nodes: [{
       uid,
       title: 'John Doe',
       nodes: [
@@ -77,7 +77,7 @@ describe('nodes reducer', () => {
           ]
         }
       ]
-    }
+    } ] }
 
     const state = reducer(undefined, { type: INDEX_NODES, data: { tree } })
     // parsed Tree

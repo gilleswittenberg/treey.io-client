@@ -40,7 +40,7 @@ export const hasErrors = () => {
 }
 
 export const INDEX_NODES = 'INDEX_NODES'
-export const indexNodes = (tree: any) => {
+export const indexNodes = (tree: {}) => {
   return {
     type: INDEX_NODES,
     data: {

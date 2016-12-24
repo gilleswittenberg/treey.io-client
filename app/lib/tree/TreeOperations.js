@@ -19,8 +19,8 @@ import { getNextCircular, getPrevCircular } from '../utils/ArrayUtils'
 import ID from '../../settings/TREE_ID_KEY'
 import NODES from '../../settings/TREE_NODES_KEY'
 
-export const index = (data: any) : Tree => {
-  return indexTreeNodes(data)
+export const index = (data: { nodes: [] }) : Tree => {
+  return indexTreeNodes(data.nodes[0])
 }
 
 export const createAndAdd = (tree: Tree, path: TreePath, uid?: NodeId, data?: NodeData) : Tree  => {
