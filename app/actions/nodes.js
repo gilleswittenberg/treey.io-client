@@ -1,6 +1,7 @@
 /* @flow */
 
 import fetch from 'isomorphic-fetch'
+import type { State } from '../../flow/types'
 import type { TreePath, NodeId, NodeData } from '../../flow/tree'
 import { getParentFromPath, getUidFromPath } from '../../app/lib/tree/TreeUtils'
 
@@ -216,10 +217,11 @@ export const setPrevUIActive = () => {
 }
 
 export const GET_NODES = 'GET_NODES'
-export const getNodes = (uid: NodeId) => {
-  return function (dispatch: () => void) {
+export const getNodes = () => {
+  return function (dispatch: () => void, getState: () => State) {
     dispatch(startSyncing())
-    const url = `${ host }/node/${ uid }`
+    const rootId = getState().user.rootId
+    const url = `${ host }/node/${ rootId }`
     const options = {
       method: 'GET',
       headers: {

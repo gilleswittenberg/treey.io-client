@@ -16,7 +16,7 @@ const store = configureStore()
 // @TODO: fix merging tree for expanded key from localStorage
 // const expanded = Storage.get(EXPANDED_KEY, 'string[]')
 
-store.dispatch(getNodes(ROOT_UID))
+store.dispatch(getNodes())
 
 ReactDOM.render(
   <Root store={ store } />,

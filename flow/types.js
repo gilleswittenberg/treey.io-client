@@ -8,8 +8,9 @@ export type Type = 'boolean' | 'number' | 'string' | '[]' | 'boolean[]' | 'strin
 export type Lang = 'en' | 'nl'
 
 export type State = {
+  app: AppState,
   nodes: NodesState,
-  app: AppState
+  user: UserState
 }
 
 export type NodesState = {
@@ -64,6 +65,11 @@ export type AppAction = {
 export type AppState = {
   lang: Lang,
   enableDnD: boolean
+}
+
+export type UserState = {
+  username: string,
+  rootId: NodeID
 }
 
 export type HoverRegion = 'top' | 'bottom'
