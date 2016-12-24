@@ -91,23 +91,23 @@ describe('TreeModifiers', () => {
   describe('parseNode', () => {
 
     it('node', () => {
-      const data = { uid, title: 'Mr. Foo' }
+      const data = { uid, data: { title: 'Mr. Foo' } }
       const node = parseNode(data)
       expect(node.uid).toBe(uid)
       expect(node.data).toEqual({ title: 'Mr. Foo' })
       expect(node.ui).toEqual(defaultUI)
     })
 
-    it('uid null', () => {
-      const data = { title: 'Mr. Foo' }
+    it('uid undefined', () => {
+      const data = { data: { title: 'Mr. Foo' } }
       const node = parseNode(data)
       expect(node.uid).toBe(null)
       expect(node.data).toEqual({ title: 'Mr. Foo' })
       expect(node.ui).toEqual(defaultUI)
     })
 
-    it('title null', () => {
-      const node = parseNode({})
+    it('title undefined', () => {
+      const node = parseNode({ data: undefined })
       expect(node.uid).toBe(null)
       expect(node.data).toEqual({ title: '' })
       expect(node.ui).toEqual(defaultUI)

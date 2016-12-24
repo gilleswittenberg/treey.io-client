@@ -74,21 +74,21 @@ describe('nodes actions', () => {
 
       const body = {
         uid,
-        title: 'John Doe',
+        data: { title: 'John Doe' },
         nodes: [
           {
-            title: 'ToDo',
+            data: { title: 'ToDo' },
             nodes: [
               { uid: uid1, title: 'bring home the milk' },
               { uid: uid2, title: 'clean the house' }
             ]
           },
           {
-            title: 'Movies',
+            data: { title: 'Movies' },
             nodes: [
-              { uid: uid3, title: 'Star Wars: Episode IV - A New Hope (1977)' },
-              { uid: uid4, title: 'The Terminator (1984)' },
-              { uid: uid5, title: 'The Matrix (1999)' }
+              { uid: uid3, data: { title: 'Star Wars: Episode IV - A New Hope (1977)' } },
+              { uid: uid4, data: { title: 'The Terminator (1984)' } },
+              { uid: uid5, data: { title: 'The Matrix (1999)' } }
             ]
           }
         ]
@@ -155,11 +155,13 @@ describe('nodes actions', () => {
 
       const body = {
         uid,
-        title: 'New User'
+        data: {
+          title: 'New User'
+        }
       }
 
       nock(hostname)
-        .post(`/node/${ uid }`, data)
+        .post(`/node/${ uid }`, { data })
         .reply(200, body)
 
       const store = mockStore({ nodes: null })
@@ -218,11 +220,14 @@ describe('nodes actions', () => {
       }
 
       const body = {
-        title: 'New User'
+        uid,
+        data: {
+          title: 'New User'
+        }
       }
 
       nock(hostname)
-        .put(`/node/${ uid }`, data)
+        .put(`/node/${ uid }`, { data })
         .reply(200, body)
 
       const store = mockStore({ nodes: null })
@@ -231,7 +236,7 @@ describe('nodes actions', () => {
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('UPDATE_NODE')
-          expect(lastAction.data).toEqual({ path, nodeData: body })
+          expect(lastAction.data).toEqual({ path, nodeData: data })
         })
     })
   })

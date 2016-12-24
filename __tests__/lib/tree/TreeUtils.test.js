@@ -268,7 +268,7 @@ describe('TreeUtils', () => {
   describe('parseTree', () => {
 
     it('root', () => {
-      const tree = { uid, title: 'Mr. Foo' }
+      const tree = { uid, data: { title: 'Mr. Foo' } }
       const parsedTree = parseTree(tree)
       expect(parsedTree.nodes.length).toBe(1)
       expect(parsedTree.nodes[0].path).toEqual([uid])
@@ -278,7 +278,13 @@ describe('TreeUtils', () => {
     })
 
     it('1st generation', () => {
-      const nodes = [{ uid: uid1, title: 'First child' }, { uid: uid2, title: 'Second child' }]
+      const nodes = [{
+        uid: uid1,
+        data: { title: 'First child' }
+      }, {
+        uid: uid2,
+        data: { title: 'Second child' }
+      }]
       const tree = { uid, title: 'Mr. Foo', nodes }
       const parsedTree = parseTree(tree)
       expect(parsedTree.nodes[0].nodes.length).toBe(2)
@@ -291,7 +297,13 @@ describe('TreeUtils', () => {
     })
 
     it('2nd generation', () => {
-      const nodes = [{ uid: uid2, title: 'First grandchild' }, { uid: uid3, title: 'Second grandchild' }]
+      const nodes = [{
+        uid: uid2,
+        data: { title: 'First grandchild' }
+      }, {
+        uid: uid3,
+        data: { title: 'Second grandchild' }
+      }]
       const tree = {
         uid,
         title: 'Mr. Foo',

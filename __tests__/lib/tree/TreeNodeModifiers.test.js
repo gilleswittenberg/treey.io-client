@@ -70,7 +70,7 @@ describe('TreeNodeModifiers', () => {
   describe('parseTreeNode', () => {
 
     it('node', () => {
-      const nodeData = { uid, title: 'Mr. Foo' }
+      const nodeData = { uid, data: { title: 'Mr. Foo' } }
       const treeNode = parseTreeNode(nodeData)
       expect(treeNode.path).toEqual([uid])
       expect(treeNode.nodes).toEqual([])
@@ -79,9 +79,9 @@ describe('TreeNodeModifiers', () => {
     })
 
     it('nodes', () => {
-      const nodeData = { uid, title: 'Mr. Foo', nodes: [
-        { uid: uid1, title: 'First child' },
-        { uid: uid2, title: 'Second child' }
+      const nodeData = { uid, data: { title: 'Mr. Foo' }, nodes: [
+        { uid: uid1, data: { title: 'First child' } },
+        { uid: uid2, data: { title: 'Second child' } }
       ] }
       const treeNode = parseTreeNode(nodeData)
       expect(treeNode.nodes.length).toEqual(2)

@@ -251,9 +251,7 @@ export const getNodes = (uid: NodeId) => {
 export const ADD_NODE = 'ADD_NODE'
 export const addNode = (path: TreePath, json: any) => {
   const uid = json.uid
-  const nodeData = {
-    title: json.title
-  }
+  const nodeData = json.data
   return {
     type: ADD_NODE,
     data: {
@@ -281,7 +279,7 @@ export const postNode = (path: TreePath, data: NodeData) => {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify({ data })
     }
     return fetch(url, options)
       .then(
@@ -307,9 +305,7 @@ export const postNode = (path: TreePath, data: NodeData) => {
 
 export const UPDATE_NODE = 'UPDATE_NODE'
 export const updateNode = (path: TreePath, json: any) => {
-  const nodeData = {
-    title: json.title
-  }
+  const nodeData = json.data
   return {
     type: UPDATE_NODE,
     data: {
@@ -336,7 +332,7 @@ export const putNode = (path: TreePath, data: NodeData) => {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify({ data })
     }
     return fetch(url, options)
       .then(
