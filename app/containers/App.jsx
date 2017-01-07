@@ -3,6 +3,7 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import getActions from '../lib/ui/actions'
+import LoginForm from '../components/LoginForm'
 import ServerStatus from '../components/ServerStatus'
 import Tree from '../components/Tree'
 
@@ -11,6 +12,7 @@ class App extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     nodes: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     app: PropTypes.object.isRequired
   }
 
@@ -20,21 +22,38 @@ class App extends React.Component {
       dispatch,
       app,
       app: { lang, enableDnD },
+      user: { loggedIn, authenticationFailed },
       nodes: { tree, isSyncing, hasErrors }
     } = this.props
 
     const actions = getActions(dispatch)
 
+    const loginFormProps = {
+      postAuthenticate: actions.postAuthenticate,
+      authenticationFailed,
+      lang
+    }
     const serverStatusProps = { lang, hasErrors, isSyncing }
 
     // $FlowIssue Flow does not recognize Tree.DecoratedComponent
     const TreeComponent = enableDnD ? Tree : Tree.DecoratedComponent
     const treeProps = { lang, enableDnD, app, tree, ...actions }
 
+    const showLoginForm = loggedIn === false
+    const showTree = loggedIn === true
+    const showServerStatus = showTree
+
     return (
       <div className="wrap">
-        <ServerStatus { ...serverStatusProps } />
-        <TreeComponent { ...treeProps } />
+        { showLoginForm &&
+          <LoginForm { ...loginFormProps } />
+        }
+        { showServerStatus &&
+          <ServerStatus { ...serverStatusProps } />
+        }
+        { showTree &&
+          <TreeComponent { ...treeProps } />
+        }
       </div>
     )
   }

@@ -1,22 +1,10 @@
 /* @flow */
 
 import fetch from 'isomorphic-fetch'
-import type { State } from '../../flow/types'
 import type { TreePath, NodeId, NodeData } from '../../flow/tree'
 import { getParentFromPath, getUidFromPath } from '../../app/lib/tree/TreeUtils'
 
-let host
-switch (process.env.NODE_ENV) {
-case 'production':
-  host = 'http://api.kee.plus:8081'
-  break
-case 'test':
-  host = 'http://test.api.treey.io'
-  break
-case 'development':
-default:
-  host = `http://${ window.location.hostname }:8081`
-}
+import host from '../settings/host'
 
 // backend
 export const START_SYNCING = 'START_SYNCING'
@@ -217,16 +205,16 @@ export const setPrevUIActive = () => {
 }
 
 export const GET_NODES = 'GET_NODES'
-export const getNodes = () => {
-  return function (dispatch: () => void, getState: () => State) {
+export const getNodes = (rootId: NodeId) => {
+  return function (dispatch: () => void) {
     dispatch(startSyncing())
-    const rootId = getState().user.rootId
     const url = `${ host }/node/${ rootId }`
     const options = {
       method: 'GET',
       headers: {
         Accept: 'application/json'
-      }
+      },
+      credentials: 'include'
     }
     return fetch(url, options)
       .then(
@@ -281,6 +269,7 @@ export const postNode = (path: TreePath, data: NodeData) => {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify({ data })
     }
     return fetch(url, options)
@@ -334,6 +323,7 @@ export const putNode = (path: TreePath, data: NodeData) => {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
+      credentials: 'include',
       body: JSON.stringify({ data })
     }
     return fetch(url, options)
@@ -384,7 +374,8 @@ export const deleteNode = (path: TreePath) => {
       method: 'DELETE',
       headers: {
         Accept: 'application/json'
-      }
+      },
+      credentials: 'include'
     }
     return fetch(url, options)
       .then(
@@ -439,7 +430,8 @@ export const putMoveNode = (path: TreePath, newPath: TreePath, before?: NodeId) 
       method: 'PUT',
       headers: {
         Accept: 'application/json'
-      }
+      },
+      credentials: 'include'
     }
     return fetch(url, options)
       .then(

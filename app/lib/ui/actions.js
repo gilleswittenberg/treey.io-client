@@ -3,6 +3,8 @@
 import noop from '../utils/noop'
 
 export const defaultActions = {
+  postAuthenticate: noop,
+  getNodes: noop,
   postNode: noop,
   putNode: noop,
   deleteNode: noop,
@@ -25,6 +27,10 @@ export const defaultActions = {
 
 import { bindActionCreators } from 'redux'
 import {
+  postAuthenticate
+} from '../../actions/user'
+import {
+  getNodes,
   postNode,
   putNode,
   deleteNode,
@@ -45,7 +51,9 @@ import {
   setPrevUIActive
 } from '../../actions/nodes'
 
-let nodesActions = {
+let actions = {
+  postAuthenticate,
+  getNodes,
   postNode,
   putNode,
   deleteNode,
@@ -68,6 +76,6 @@ let nodesActions = {
 
 export default function (dispatch: any) {
 
-  const nodesActionsBound = bindActionCreators(nodesActions, dispatch)
-  return { ...nodesActionsBound }
+  const actionsBound = bindActionCreators(actions, dispatch)
+  return { ...actionsBound }
 }

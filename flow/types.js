@@ -69,7 +69,17 @@ export type AppState = {
 
 export type UserState = {
   username: string,
-  rootId: NodeID
+  loggedIn: ?boolean,
+  rootId: ?NodeId
+}
+
+type UserActionType = 'AUTHENTICATE' | 'UNAUTHENTICATED' | 'AUTHENTICATION_FAILED'
+export type UserAction = {
+  type: UserActionType,
+  data: {
+    username: string,
+    rootId: NodeId
+  }
 }
 
 export type HoverRegion = 'top' | 'bottom'
