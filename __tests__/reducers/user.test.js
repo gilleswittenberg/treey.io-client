@@ -12,7 +12,6 @@ import {
   AUTHENTICATION_FAILED
 } from '../../app/actions/user'
 import { uid } from '../uid'
-import { defaultState } from '../../app/reducers/user'
 
 describe('user reducer', () => {
 
@@ -29,5 +28,14 @@ describe('user reducer', () => {
 
   it('AUTHENTICATION_FAILED', () => {
     expect(reducer(undefined, { type: AUTHENTICATION_FAILED, data: {} }).authenticationFailed).toBe(true)
+  })
+
+  it('sign out', () => {
+    const data = { username: 'gilleswittenberg', rootId: uid }
+    const state = reducer(undefined, { type: AUTHENTICATE, data })
+    const state2 = reducer(state, { type: UNAUTHENTICATED, data: {} })
+    expect(state2.username).toBe(null)
+    expect(state2.rootId).toBe(null)
+    expect(state2.loggedIn).toBe(false)
   })
 })

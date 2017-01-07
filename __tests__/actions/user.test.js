@@ -72,7 +72,7 @@ describe('user actions', () => {
 
       const store = mockStore()
 
-      return store.dispatch(actions.postAuthenticate())
+      return store.dispatch(actions.postAuthenticate('gilleswittenberg', 'incorrect'))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -92,12 +92,47 @@ describe('user actions', () => {
 
       const store = mockStore()
 
-      return store.dispatch(actions.postAuthenticate())
+      return store.dispatch(actions.postAuthenticate('gilleswittenberg', 'hardcoded'))
+        .then(
+          () => {
+            store.getActions().pop()
+            const secondLastAction = store.getActions().pop()
+            expect(secondLastAction.type).toEqual('AUTHENTICATE')
+          }
+        )
+    })
+  })
+
+  describe('postSignOut', () => {
+
+    it('ERROR', () => {
+      nock(hostname)
+        .post('/user/signout')
+        .reply(500)
+
+      const store = mockStore()
+
+      return store.dispatch(actions.postSignOut())
         .then(
           () => {
             const lastAction = store.getActions().pop()
-            const secondLastAction = store.getActions().pop()
-            expect(secondLastAction.type).toEqual('AUTHENTICATE')
+            expect(lastAction).toBe(undefined)
+          }
+        )
+    })
+
+    it('OK', () => {
+      nock(hostname)
+        .post('/user/signout')
+        .reply(200)
+
+      const store = mockStore()
+
+      return store.dispatch(actions.postSignOut())
+        .then(
+          () => {
+            const lastAction = store.getActions().pop()
+            expect(lastAction.type).toEqual('UNAUTHENTICATED')
           }
         )
     })

@@ -4,6 +4,7 @@ import noop from '../utils/noop'
 
 export const defaultActions = {
   postAuthenticate: noop,
+  postSignOut: noop,
   getNodes: noop,
   postNode: noop,
   putNode: noop,
@@ -27,7 +28,8 @@ export const defaultActions = {
 
 import { bindActionCreators } from 'redux'
 import {
-  postAuthenticate
+  postAuthenticate,
+  postSignOut
 } from '../../actions/user'
 import {
   getNodes,
@@ -53,6 +55,7 @@ import {
 
 let actions = {
   postAuthenticate,
+  postSignOut,
   getNodes,
   postNode,
   putNode,

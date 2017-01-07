@@ -13,7 +13,7 @@ export const defaultState: UserState = {
 export default function user (state: UserState = defaultState, action: UserAction) {
   switch (action.type) {
   case types.UNAUTHENTICATED:
-    return { ...state, loggedIn: false }
+    return { ...state, loggedIn: false, username: null, rootId: null }
   case types.AUTHENTICATE:
     return { ...state, loggedIn: true, username: action.data.username, rootId: action.data.rootId }
   case types.AUTHENTICATION_FAILED:

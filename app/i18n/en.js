@@ -10,5 +10,6 @@ export default {
   MOVE_CHILD: 'move child',
   PASSWORD: 'password',
   SAVE: 'save',
+  SIGN_OUT: 'sign out',
   USERNAME: 'username'
 }

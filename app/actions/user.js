@@ -102,3 +102,37 @@ export const postAuthenticate = (username: string, password: string) => {
       )
   }
 }
+
+export const postSignOut = () => {
+
+  return function (dispatch: () => void) {
+
+    const url = `${ host }/user/signout`
+    const options = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    }
+
+    return fetch(url, options)
+      .then(
+        response => {
+          if (response.ok === false) {
+            return Promise.reject(new Error(response.statusText))
+          }
+        }
+      )
+      .then(
+        () => {
+          dispatch(unauthenticated())
+        },
+        () => {
+          // @TODO: implement
+          // dispatch(signOutFailed())
+        }
+      )
+  }
+}

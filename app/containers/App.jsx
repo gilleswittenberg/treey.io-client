@@ -4,6 +4,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import getActions from '../lib/ui/actions'
 import LoginForm from '../components/LoginForm'
+import SignOutButton from '../components/SignOutButton'
 import ServerStatus from '../components/ServerStatus'
 import Tree from '../components/Tree'
 
@@ -33,6 +34,7 @@ class App extends React.Component {
       authenticationFailed,
       lang
     }
+    const signOutButtonProps = { lang, postSignOut: actions.postSignOut }
     const serverStatusProps = { lang, hasErrors, isSyncing }
 
     // $FlowIssue Flow does not recognize Tree.DecoratedComponent
@@ -42,11 +44,15 @@ class App extends React.Component {
     const showLoginForm = loggedIn === false
     const showTree = loggedIn === true
     const showServerStatus = showTree
+    const showSignOutButton = showTree
 
     return (
       <div className="wrap">
         { showLoginForm &&
           <LoginForm { ...loginFormProps } />
+        }
+        { showSignOutButton &&
+          <SignOutButton { ...signOutButtonProps }/>
         }
         { showServerStatus &&
           <ServerStatus { ...serverStatusProps } />

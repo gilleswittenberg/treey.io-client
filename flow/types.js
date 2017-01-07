@@ -68,7 +68,8 @@ export type AppState = {
 }
 
 export type UserState = {
-  username: string,
+  username: ?string,
+  authenticationFailed: boolean,
   loggedIn: ?boolean,
   rootId: ?NodeId
 }
@@ -77,8 +78,8 @@ type UserActionType = 'AUTHENTICATE' | 'UNAUTHENTICATED' | 'AUTHENTICATION_FAILE
 export type UserAction = {
   type: UserActionType,
   data: {
-    username: string,
-    rootId: NodeId
+    username?: string,
+    rootId?: NodeId
   }
 }
 
