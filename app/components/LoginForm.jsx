@@ -42,12 +42,14 @@ export default class LoginForm extends Component {
     const loginText = __(lang, 'LOGIN')
 
     return (
-      <form onSubmit={ this.handleSubmit }>
-        { authenticationFailed && <p>{ authenticationFailedMessage }</p> }
-        <input type="text" name="username" onChange={ this.handleChange } placeholder={ usernameText } />
-        <input type="password" name="password" onChange={ this.handleChange } placeholder={ passwordText } />
-        <input type="submit" value={ loginText } />
-      </form>
+      <div className="login-form-wrap">
+        <form onSubmit={ this.handleSubmit }>
+          <input type="text" name="username" onChange={ this.handleChange } placeholder={ usernameText } />
+          <input type="password" name="password" onChange={ this.handleChange } placeholder={ passwordText } />
+          { authenticationFailed && <p>{ authenticationFailedMessage }</p> }
+          <input type="submit" value={ loginText } />
+        </form>
+      </div>
     )
   }
 }
