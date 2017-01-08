@@ -7,7 +7,8 @@ import __ from '../lib/utils/i18n'
 export default class SignOutButton extends Component {
 
   static propTypes = {
-    lang: PropTypes.string,
+    lang: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
     postSignOut: PropTypes.func.isRequired
   }
 
@@ -19,11 +20,14 @@ export default class SignOutButton extends Component {
 
   render () {
 
-    const { lang } = this.props
+    const { lang, username } = this.props
     const signOutText = __(lang, 'SIGN_OUT')
 
     return (
-      <button className="sign-out-button" onClick={ this.handleClick }>{ signOutText }</button>
+      <div className="sign-out-button-wrap">
+        <p>{ username }</p>
+        <button className="sign-out-button" onClick={ this.handleClick }>{ signOutText }</button>
+      </div>
     )
   }
 }

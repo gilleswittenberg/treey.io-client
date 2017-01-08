@@ -23,7 +23,7 @@ class App extends React.Component {
       dispatch,
       app,
       app: { lang, enableDnD },
-      user: { loggedIn, authenticationFailed },
+      user: { loggedIn, username, authenticationFailed },
       nodes: { tree, isSyncing, hasErrors }
     } = this.props
 
@@ -34,7 +34,7 @@ class App extends React.Component {
       authenticationFailed,
       lang
     }
-    const signOutButtonProps = { lang, postSignOut: actions.postSignOut }
+    const signOutButtonProps = { lang, username, postSignOut: actions.postSignOut }
     const serverStatusProps = { lang, hasErrors, isSyncing }
 
     // $FlowIssue Flow does not recognize Tree.DecoratedComponent
