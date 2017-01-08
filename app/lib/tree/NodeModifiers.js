@@ -26,6 +26,5 @@ export const updateNode = (node: Node, id?: NodeId, data?: NodeData, ui?: NodeUI
 
 export const parseNode = (obj: { uid?: NodeId, data?: NodeData }) : Node => {
   const id = obj.uid != null ? obj.uid : undefined
-  // const data = obj.title != null ? { title: obj.title } : undefined
   return createNode(id, obj.data)
 }
