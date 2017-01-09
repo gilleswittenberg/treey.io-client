@@ -35,8 +35,13 @@ describe('TreeModifiers', () => {
       }
       const tree = indexTreeNodes(data)
       expect(tree.nodes.length).toBe(1)
+      expect(tree.nodes[0].path).toEqual([uid])
       expect(tree.nodes[0].nodes.length).toBe(2)
+      expect(tree.nodes[0].nodes[0].path).toEqual([uid, uid1])
+      expect(tree.nodes[0].nodes[1].path).toEqual([uid, uid2])
       expect(tree.nodes[0].nodes[1].nodes.length).toBe(2)
+      expect(tree.nodes[0].nodes[1].nodes[0].path).toEqual([uid, uid2, uid3])
+      expect(tree.nodes[0].nodes[1].nodes[1].path).toEqual([uid, uid2, uid4])
     })
   })
 

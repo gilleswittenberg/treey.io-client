@@ -33,13 +33,13 @@ describe('TreeOperations', () => {
       }
       const indexedTree = index(tree)
       expect(indexedTree.nodes.length).toBe(1)
-      expect(indexedTree.nodes[0].path).not.toBe(null)
+      expect(indexedTree.nodes[0].path).toEqual([uid])
     })
   })
 
   describe('createAndAdd', () => {
 
-    it('data, ui', () => {
+    it('uid, path, data, ui', () => {
 
       const tree = {
         nodes: [{
@@ -52,26 +52,12 @@ describe('TreeOperations', () => {
       const nodeData = {
         title: 'new'
       }
-      const updatedTree = createAndAdd(tree, path, undefined, nodeData)
+      const updatedTree = createAndAdd(tree, path, uid1, nodeData)
       expect(updatedTree.nodes[0].nodes.length).toBe(1)
-      expect(updatedTree.nodes[0].nodes[0].node.uid).toBe(null)
+      expect(updatedTree.nodes[0].nodes[0].node.uid).toBe(uid1)
+      expect(updatedTree.nodes[0].nodes[0].path).toEqual([uid, uid1])
       expect(updatedTree.nodes[0].nodes[0].node.data).toEqual({ title: 'new' })
       expect(updatedTree.nodes[0].nodes[0].node.ui).not.toBe(null)
-    })
-
-    it('uid', () => {
-
-      const tree = {
-        nodes: [{
-          node: { uid, user: null, data: { title: '' }, ui: defaultUI },
-          path: [uid],
-          nodes: []
-        }]
-      }
-      const path = [uid]
-      const updatedTree = createAndAdd(tree, path, uid)
-      expect(updatedTree.nodes[0].nodes.length).toBe(1)
-      expect(updatedTree.nodes[0].nodes[0].node.uid).toBe(uid)
     })
   })
 
