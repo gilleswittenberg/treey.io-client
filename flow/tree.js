@@ -5,6 +5,7 @@ export type NodesKey = string
 // @TODO: allow for settings IdKey dynamically
 export type IdKey = string
 export type NodeId = string
+export type NodeUser = string
 
 export type TreePath = NodeId[]
 export type TreeNodesIndex = number
@@ -25,6 +26,7 @@ export type Tree = {
 
 export type Node = {
   uid: ?NodeId,
+  user: ?NodeUser,
   data: NodeData,
   ui: NodeUI
 }

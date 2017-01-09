@@ -24,7 +24,7 @@ export const index = (data: { nodes: [] }) : Tree => {
 }
 
 export const createAndAdd = (tree: Tree, path: TreePath, uid?: NodeId, data?: NodeData) : Tree  => {
-  const node = createNode(uid, data)
+  const node = createNode(uid, undefined, data)
   const treeNode = createTreeNode(node, path)
   return addTreeNode(tree, path, treeNode)
 }

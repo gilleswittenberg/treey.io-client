@@ -141,6 +141,7 @@ describe('nodes reducer', () => {
         {
           node: {
             uid,
+            user: null,
             data: { title: '' },
             ui: { ...defaultUI, editing: true }
           },
@@ -160,6 +161,7 @@ describe('nodes reducer', () => {
         {
           node: {
             uid,
+            user: null,
             data: { title: '' },
             ui: { ...defaultUI, dragging: true }
           },
@@ -180,6 +182,7 @@ describe('nodes reducer', () => {
         {
           node: {
             uid,
+            user: null,
             data: { title: '' },
             ui: { ...defaultUI }
           },
@@ -199,6 +202,7 @@ describe('nodes reducer', () => {
         {
           node: {
             uid,
+            user: null,
             data: { title: '' },
             ui: { ...defaultUI }
           },
@@ -219,6 +223,7 @@ describe('nodes reducer', () => {
         {
           node: {
             uid,
+            user: null,
             data: { title: '' },
             ui: { ...defaultUI, active: true }
           },

@@ -9,13 +9,14 @@ import { createNode, updateNode, parseNode } from '../../../app/lib/tree/NodeMod
 import defaultUI from '../../../app/lib/ui/defaultUI'
 import { uid, uid1 } from '../../uid'
 
-describe('TreeModifiers', () => {
+describe('NodeModifiers', () => {
 
   describe('createNode', () => {
 
     it('undefined arguments', () => {
       const node = createNode()
       expect(node.uid).toBe(null)
+      expect(node.user).toBe(null)
       expect(node.data).toEqual({ title: '' })
       expect(node.ui).toEqual(defaultUI)
     })
@@ -23,6 +24,7 @@ describe('TreeModifiers', () => {
     it('undefined arguments', () => {
       const node = createNode(undefined, undefined, undefined)
       expect(node.uid).toBe(null)
+      expect(node.user).toBe(null)
       expect(node.data).toEqual({ title: '' })
       expect(node.ui).toEqual(defaultUI)
     })
@@ -32,15 +34,20 @@ describe('TreeModifiers', () => {
       expect(node.uid).toBe(uid)
     })
 
+    it('user', () => {
+      const node = createNode(undefined, 'johndoe')
+      expect(node.user).toBe('johndoe')
+    })
+
     it('data', () => {
       const data = { title: 'Mr. Foo' }
-      const node = createNode(undefined, data)
+      const node = createNode(undefined, undefined, data)
       expect(node.data).toEqual(data)
     })
 
     it('ui', () => {
       const ui = { ...defaultUI, editing: true }
-      const node = createNode(undefined, undefined, ui)
+      const node = createNode(undefined, undefined, undefined, ui)
       expect(node.ui).toEqual(ui)
     })
   })
@@ -49,7 +56,7 @@ describe('TreeModifiers', () => {
 
     it('id', () => {
       const data = { title: 'Mr. Foo' }
-      const node = createNode(undefined, data)
+      const node = createNode(undefined, undefined, data)
       const node2 = updateNode(node, uid)
       expect(node2.uid).toBe(uid)
       expect(node2.data).toEqual({ title: 'Mr. Foo' })
@@ -58,7 +65,7 @@ describe('TreeModifiers', () => {
 
     it('data', () => {
       const data = { title: 'Mr. Foo' }
-      const node = createNode(undefined, data)
+      const node = createNode(undefined, undefined, data)
       const node2 = updateNode(node, undefined, { title: 'New title' })
       expect(node2.uid).toBe(null)
       expect(node2.data).toEqual({ title: 'New title' })

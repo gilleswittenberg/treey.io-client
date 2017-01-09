@@ -45,7 +45,7 @@ describe('TreeModifiers', () => {
 
     it('root', () => {
       const treeData = { nodes: [] }
-      const node = createNode(uid, { title: 'Mr. Foo' })
+      const node = createNode(uid, undefined, { title: 'Mr. Foo' })
       const treeNode = createTreeNode(node, [])
       const tree = addTreeNode(treeData, [], treeNode)
       expect(tree.nodes.length).toBe(1)
@@ -55,8 +55,8 @@ describe('TreeModifiers', () => {
     })
 
     it('first generation', () => {
-      const treeData = { nodes: [createTreeNode(createNode(uid, { title: 'root' }))] }
-      const node = createNode(uid1, { title: 'Mr. Foo' })
+      const treeData = { nodes: [createTreeNode(createNode(uid, undefined, { title: 'root' }))] }
+      const node = createNode(uid1, undefined, { title: 'Mr. Foo' })
       const treeNode = createTreeNode(node)
       const tree = addTreeNode(treeData, [uid], treeNode)
       expect(tree.nodes[0].nodes.length).toBe(1)
@@ -65,9 +65,9 @@ describe('TreeModifiers', () => {
     })
 
     it('root before', () => {
-      const treeData = { nodes: [createTreeNode(createNode(uid, { title: 'Root' }))] }
+      const treeData = { nodes: [createTreeNode(createNode(uid, undefined, { title: 'Root' }))] }
       const path = []
-      const node = createNode(uid1, { title: 'Mr. Foo' })
+      const node = createNode(uid1, undefined, { title: 'Mr. Foo' })
       const treeNode = createTreeNode(node)
       const tree = addTreeNode(treeData, path, treeNode, uid)
       expect(tree.nodes.length).toBe(2)
@@ -79,16 +79,16 @@ describe('TreeModifiers', () => {
 
     it('first generation before', () => {
       const treeData = { nodes: [{
-        node: { uid, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
         path: [uid],
         nodes: [{
-          node: { uid: uid1, data: { title: 'Mr. Foo' }, ui: defaultUI },
+          node: { uid: uid1, user: null, data: { title: 'Mr. Foo' }, ui: defaultUI },
           path: [uid, uid1],
           nodes: []
         }]
       }] }
       const path = [uid]
-      const node = createNode(uid2, { title: 'Created' })
+      const node = createNode(uid2, undefined, { title: 'Created' })
       const treeNode = createTreeNode(node)
       const tree = addTreeNode(treeData, path, treeNode, uid1)
       expect(tree.nodes[0].nodes.length).toBe(2)
@@ -103,7 +103,7 @@ describe('TreeModifiers', () => {
 
     it('root data', () => {
 
-      const treeData = { nodes: [{ node: { uid, data: { title: 'Mr. Foo' }, ui: defaultUI }, path: [uid], nodes: [] }] }
+      const treeData = { nodes: [{ node: { uid, user: null, data: { title: 'Mr. Foo' }, ui: defaultUI }, path: [uid], nodes: [] }] }
       const path = [uid]
       const tree = updateTreeNode(treeData, path, { title: 'New title' })
       expect(tree.nodes.length).toBe(1)
@@ -115,10 +115,10 @@ describe('TreeModifiers', () => {
 
       const treeData = {
         nodes: [{
-          node: { uid, data: { title: 'Mr. Foo' }, ui: defaultUI },
+          node: { uid, user: null, data: { title: 'Mr. Foo' }, ui: defaultUI },
           path: [uid],
           nodes: [{
-            node: { uid: uid1, data: { title: '1st child' }, ui: defaultUI },
+            node: { uid: uid1, user: null, data: { title: '1st child' }, ui: defaultUI },
             path: [uid, uid1],
             nodes: []
           }]
@@ -135,10 +135,10 @@ describe('TreeModifiers', () => {
 
       const treeData = {
         nodes: [{
-          node: { uid, data: { title: 'Mr. Foo' }, ui: defaultUI },
+          node: { uid, user: null, data: { title: 'Mr. Foo' }, ui: defaultUI },
           path: [uid],
           nodes: [{
-            node: { uid: uid1, data: { title: '1st child' }, ui: defaultUI },
+            node: { uid: uid1, user: null, data: { title: '1st child' }, ui: defaultUI },
             path: [uid, uid1],
             nodes: []
           }]
@@ -156,7 +156,7 @@ describe('TreeModifiers', () => {
 
     it('root', () => {
       const treeData = { nodes: [{
-        node: { uid, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
         path: [uid],
         nodes: []
       }] }
@@ -168,10 +168,10 @@ describe('TreeModifiers', () => {
     it('1st generation', () => {
 
       const treeData = { nodes: [{
-        node: { uid, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
         path: [uid],
         nodes: [{
-          node: { uid: uid1, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI },
           path: [uid, uid1],
           nodes: []
         }]
@@ -187,14 +187,14 @@ describe('TreeModifiers', () => {
     it('data', () => {
 
       const treeData = { nodes: [{
-        node: { uid, data: { title: 'Mr. Foo' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: 'Mr. Foo' }, ui: defaultUI },
         path: [uid],
         nodes: [{
-          node: { uid: uid1, data: { title: 'Mr. Foo jr.' }, ui: defaultUI },
+          node: { uid: uid1, user: null, data: { title: 'Mr. Foo jr.' }, ui: defaultUI },
           path: [uid, uid1],
           nodes: []
         }, {
-          node: { uid: uid2, data: { title: 'Mr. Foo jr. 2' }, ui: defaultUI },
+          node: { uid: uid2, user: null, data: { title: 'Mr. Foo jr. 2' }, ui: defaultUI },
           path: [uid, uid2],
           nodes: []
         }]
@@ -211,14 +211,14 @@ describe('TreeModifiers', () => {
       const uiEditing = { ...defaultUI, editing: true }
       const treeData = {
         nodes: [{
-          node: { uid, data: { title: 'Mr. Foo' }, ui: uiEditing },
+          node: { uid, user: null, data: { title: 'Mr. Foo' }, ui: uiEditing },
           path: [uid],
           nodes: [{
-            node: { uid: uid1, data: { title: '' }, ui: uiEditing },
+            node: { uid: uid1, user: null, data: { title: '' }, ui: uiEditing },
             path: [uid, uid1],
             nodes: []
           }, {
-            node: { uid: uid2, data: { title: '' }, ui: uiEditing },
+            node: { uid: uid2, user: null, data: { title: '' }, ui: uiEditing },
             path: [uid, uid2],
             nodes: []
           }
@@ -235,14 +235,14 @@ describe('TreeModifiers', () => {
 
       const uiEditing = { ...defaultUI, editing: true }
       const treeData = { nodes: [{
-        node: { uid, data: { title: 'Mr. Foo' }, ui: uiEditing },
+        node: { uid, user: null, data: { title: 'Mr. Foo' }, ui: uiEditing },
         path: [uid],
         nodes: [{
-          node: { uid: uid1, data: { title: '' }, ui: uiEditing },
+          node: { uid: uid1, user: null, data: { title: '' }, ui: uiEditing },
           path: [uid, uid1],
           nodes: []
         }, {
-          node: { uid: uid2, data: { title: '' }, ui: uiEditing },
+          node: { uid: uid2, user: null, data: { title: '' }, ui: uiEditing },
           path: [uid, uid2],
           nodes: []
         } ] }
