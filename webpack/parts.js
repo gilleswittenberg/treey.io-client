@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 
-exports.devServer = function(options) {
+exports.devServer = function (options) {
   return {
     devServer: {
       // Enable history API fallback so HTML5 History API based
@@ -36,7 +36,7 @@ exports.devServer = function(options) {
   }
 }
 
-exports.setupCSS = function(paths) {
+exports.setupCSS = function (paths) {
   return {
     module: {
       loaders: [

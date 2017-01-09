@@ -560,18 +560,20 @@ describe('TreeUtils', () => {
     })
 
     it('2 generations', () => {
-      const tree = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
-        path: [uid],
-        nodes: [{
-          node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI },
-          path: [uid, uid3],
-          nodes: []
-        }, {
-          node: { uid: uid4, user: null, data: { title: '' }, ui: defaultUI },
-          path: [uid, uid4],
-          nodes: []
-        }] },
+      const tree = { nodes: [
+        {
+          node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+          path: [uid],
+          nodes: [{
+            node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI },
+            path: [uid, uid3],
+            nodes: []
+          }, {
+            node: { uid: uid4, user: null, data: { title: '' }, ui: defaultUI },
+            path: [uid, uid4],
+            nodes: []
+          }]
+        },
         {
           node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI },
           path: [uid2],

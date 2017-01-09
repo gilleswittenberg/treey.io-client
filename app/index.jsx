@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Root from './containers/Root.jsx'
 import configureStore from './store/configureStore'
-import { getNodes } from './actions/nodes'
 import { getUser } from './actions/user'
 // @TODO: fix merging tree for expanded key from localStorage
 // import Storage from './lib/utils/Storage'

@@ -247,9 +247,9 @@ describe('TreeModifiers', () => {
             node: { uid: uid2, user: null, data: { title: '' }, ui: uiEditing },
             path: [uid, uid2],
             nodes: []
-          }
-        ] }
-      ] }
+          }] }
+        ]
+      }
       const uiNonEditing = { ...defaultUI, editing: false }
       const tree = updateTreeNodes(treeData, undefined, uiNonEditing)
       expect(tree.nodes[0].node.ui).toEqual(uiNonEditing)

@@ -20,10 +20,10 @@ describe('TreeNodeModifiers', () => {
       const treeNodes = [createTreeNode(createNode(uid2), [uid1]), createTreeNode(createNode(uid3), [uid1], treeNodesGrandChildren)]
       const treeNode = createTreeNode(node, [uid], treeNodes)
       const updatedTreeNode = updatePath(treeNode, [uid])
-      expect(treeNode.path).toEqual([uid, uid1])
-      expect(treeNode.nodes[0].path).toEqual([uid, uid1, uid2])
-      expect(treeNode.nodes[1].path).toEqual([uid, uid1, uid3])
-      expect(treeNode.nodes[1].nodes[0].path).toEqual([uid, uid1, uid3, uid4])
+      expect(updatedTreeNode.path).toEqual([uid, uid1])
+      expect(updatedTreeNode.nodes[0].path).toEqual([uid, uid1, uid2])
+      expect(updatedTreeNode.nodes[1].path).toEqual([uid, uid1, uid3])
+      expect(updatedTreeNode.nodes[1].nodes[0].path).toEqual([uid, uid1, uid3, uid4])
     })
   })
 
