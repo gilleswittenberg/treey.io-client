@@ -27,7 +27,7 @@ const setNodes = (treeNode: any, nodes?: TreeNodes = []) : any => {
   return treeNode
 }
 
-const parseNodes = (treeNode: TreeNode, nodes: []) : TreeNode => {
+const parseNodes = (treeNode: TreeNode, nodes: TreeNodes) : TreeNode => {
   let treeNodes = nodes != null ? nodes.map(data => parseTreeNode(data, treeNode.path)) : undefined
   return setNodes(treeNode, treeNodes)
 }
@@ -46,7 +46,7 @@ export const createTreeNode = (node: Node, parentPath?: TreePath = [], nodes?: T
   let treeNode = {}
   treeNode.node = node
   treeNode = setPath(treeNode, parentPath, node.uid)
-  treeNode.nodes = nodes
+  treeNode = setNodes(treeNode, nodes)
   return treeNode
 }
 
