@@ -13,6 +13,7 @@ import type {
 import { fromJS } from 'immutable'
 import { updateNode, parseNode } from './NodeModifiers'
 
+// @TODO: Use Flow type TreeNode instead of any
 const setPath = (treeNode: any, parentPath?: TreePath = [], id?: ?NodeId) : any => {
   let path = parentPath
   if (id != null) path = path.concat(id)
@@ -20,6 +21,7 @@ const setPath = (treeNode: any, parentPath?: TreePath = [], id?: ?NodeId) : any 
   return treeNode
 }
 
+// @TODO: Use Flow type TreeNode instead of any
 const setNodes = (treeNode: any, nodes?: TreeNodes = []) : any => {
   treeNode.nodes = nodes
   return treeNode
@@ -28,6 +30,16 @@ const setNodes = (treeNode: any, nodes?: TreeNodes = []) : any => {
 const parseNodes = (treeNode: TreeNode, nodes: []) : TreeNode => {
   let treeNodes = nodes != null ? nodes.map(data => parseTreeNode(data, treeNode.path)) : undefined
   return setNodes(treeNode, treeNodes)
+}
+
+export const updatePath = (treeNode: TreeNode, parentPath: TreePath = []) : TreeNode => {
+  const uid = treeNode.node.uid
+  const path = uid != null ? parentPath.concat(uid) : parentPath
+  treeNode.path = path
+  for (let i = 0, l = treeNode.nodes.length; i < l; i++) {
+    treeNode.nodes[i] = updatePath(treeNode.nodes[i], treeNode.path)
+  }
+  return treeNode
 }
 
 export const createTreeNode = (node: Node, parentPath?: TreePath = [], nodes?: TreeNodes = []) : TreeNode => {

@@ -102,6 +102,27 @@ describe('TreeModifiers', () => {
       expect(tree.nodes[0].nodes[1].node.data).toEqual({ title: 'Mr. Foo' })
       expect(tree.nodes[0].nodes[1].path).toEqual([uid, uid1])
     })
+
+    it('update path recursively', () => {
+      const treeData = { nodes: [{
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        path: [uid],
+        nodes: [{
+          node: { uid: uid1, user: null, data: { title: 'Mr. Foo' }, ui: defaultUI },
+          path: [uid, uid1],
+          nodes: []
+        }]
+      }] }
+      const path = [uid]
+      const node = createNode(uid2, undefined, { title: 'Created' })
+      const treeNodes = [createTreeNode(createNode(uid3)), createTreeNode(createNode(uid4))]
+      const treeNode = createTreeNode(node, undefined, treeNodes)
+      const tree = addTreeNode(treeData, path, treeNode)
+      expect(tree.nodes[0].nodes[0].path).toEqual([uid, uid1])
+      expect(tree.nodes[0].nodes[1].path).toEqual([uid, uid2])
+      expect(tree.nodes[0].nodes[1].nodes[0].path).toEqual([uid, uid2, uid3])
+      expect(tree.nodes[0].nodes[1].nodes[1].path).toEqual([uid, uid2, uid4])
+    })
   })
 
   describe('updateTreeNode', () => {

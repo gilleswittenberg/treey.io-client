@@ -6,11 +6,26 @@ declare var it: any
 declare var expect: any
 
 import { createNode } from '../../../app/lib/tree/NodeModifiers'
-import { createTreeNode, updateTreeNode, parseTreeNode } from '../../../app/lib/tree/TreeNodeModifiers'
-import { uid, uid1, uid2 } from '../../uid'
+import { updatePath, createTreeNode, updateTreeNode, parseTreeNode } from '../../../app/lib/tree/TreeNodeModifiers'
+import { uid, uid1, uid2, uid3, uid4 } from '../../uid'
 import defaultUI from '../../../app/lib/ui/defaultUI'
 
 describe('TreeNodeModifiers', () => {
+
+  describe('updatePath', () => {
+
+    it('treeNode nodes deep', () => {
+      const node = createNode(uid1)
+      const treeNodesGrandChildren = [createTreeNode(createNode(uid4), [uid1, uid3])]
+      const treeNodes = [createTreeNode(createNode(uid2), [uid1]), createTreeNode(createNode(uid3), [uid1], treeNodesGrandChildren)]
+      const treeNode = createTreeNode(node, [uid], treeNodes)
+      const updatedTreeNode = updatePath(treeNode, [uid])
+      expect(treeNode.path).toEqual([uid, uid1])
+      expect(treeNode.nodes[0].path).toEqual([uid, uid1, uid2])
+      expect(treeNode.nodes[1].path).toEqual([uid, uid1, uid3])
+      expect(treeNode.nodes[1].nodes[0].path).toEqual([uid, uid1, uid3, uid4])
+    })
+  })
 
   describe('createTreeNode', () => {
 
@@ -40,30 +55,27 @@ describe('TreeNodeModifiers', () => {
     })
   })
 
-  describe('TreeNodeModifiers', () => {
+  describe('updateTreeNode', () => {
 
-    describe('updateTreeNode', () => {
+    it('id, data, ui, immutable', () => {
+      const node = createNode(uid)
+      const treeNode = createTreeNode(node)
+      const ui = { ...defaultUI, editing: true }
+      const updatedTreeNode = updateTreeNode(treeNode, uid1, { title: 'New title' }, ui)
+      expect(updatedTreeNode.node.uid).toEqual(uid1)
+      expect(updatedTreeNode.node.data).toEqual({ title: 'New title' })
+      expect(updatedTreeNode.node.ui).toEqual(ui)
+      expect(node.uid).toEqual(uid)
+      expect(node.data).toEqual({ title: '' })
+      expect(node.ui).toEqual(defaultUI)
+    })
 
-      it('id, data, ui, immutable', () => {
-        const node = createNode(uid)
-        const treeNode = createTreeNode(node)
-        const ui = { ...defaultUI, editing: true }
-        const updatedTreeNode = updateTreeNode(treeNode, uid1, { title: 'New title' }, ui)
-        expect(updatedTreeNode.node.uid).toEqual(uid1)
-        expect(updatedTreeNode.node.data).toEqual({ title: 'New title' })
-        expect(updatedTreeNode.node.ui).toEqual(ui)
-        expect(node.uid).toEqual(uid)
-        expect(node.data).toEqual({ title: '' })
-        expect(node.ui).toEqual(defaultUI)
-      })
-
-      it('id, path', () => {
-        const node = createNode()
-        const treeNode = createTreeNode(node)
-        const updatedTreeNode = updateTreeNode(treeNode, uid)
-        expect(updatedTreeNode.node.uid).toBe(uid)
-        expect(updatedTreeNode.path).toEqual([uid])
-      })
+    it('id, path', () => {
+      const node = createNode()
+      const treeNode = createTreeNode(node)
+      const updatedTreeNode = updateTreeNode(treeNode, uid)
+      expect(updatedTreeNode.node.uid).toBe(uid)
+      expect(updatedTreeNode.path).toEqual([uid])
     })
   })
 

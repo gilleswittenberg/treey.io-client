@@ -40,6 +40,7 @@ export const remove = (tree: Tree, path: TreePath) : Tree  => {
 export const move = (tree: Tree, path: TreePath, newPath: TreePath, before?: NodeId) : Tree  => {
   const node = getTreeNode(tree, path, NODES, ID)
   if (node != null) {
+    // @TODO: Combine in an atomic transaction
     tree = removeTreeNode(tree, path)
     tree = addTreeNode(tree, newPath, node, before)
   }

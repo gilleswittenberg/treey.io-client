@@ -10,7 +10,7 @@ import type {
 } from '../../../flow/tree'
 
 import { fromJS } from 'immutable'
-import { parseTreeNode, updateTreeNode as updateNode } from './TreeNodeModifiers'
+import { updatePath, parseTreeNode, updateTreeNode as updateNode } from './TreeNodeModifiers'
 import { getNodesIndex, getTreeIndexPath, treeIndexPathToTreeNodesPath, parseTree, mapTree } from './TreeUtils'
 import ID from '../../settings/TREE_ID_KEY'
 import NODES from '../../settings/TREE_NODES_KEY'
@@ -23,8 +23,7 @@ export const addTreeNode = function (treeData: Tree, path: TreePath, node: TreeN
   const pathIndexes = getTreeIndexPath(treeData, path, NODES, ID)
   if (pathIndexes == null) return treeData
   // set new path on node
-  // @TODO: move to TreeNodeModifiers
-  node.path = node.node.uid != null ? path.concat(node.node.uid) : path
+  node = updatePath(node, path)
   // add node to nodes
   let tree = fromJS(treeData)
   const nodesPath = treeIndexPathToTreeNodesPath(pathIndexes, NODES, true)

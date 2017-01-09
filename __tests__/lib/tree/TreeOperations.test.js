@@ -16,7 +16,7 @@ import {
   setUIActiveNode,
   selectActiveNode
 } from '../../../app/lib/tree/TreeOperations'
-import { uid, uid1, uid2, uid3 } from '../../uid'
+import { uid, uid1, uid2, uid3, uid4 } from '../../uid'
 import defaultUI from '../../../app/lib/ui/defaultUI'
 
 describe('TreeOperations', () => {
@@ -118,7 +118,11 @@ describe('TreeOperations', () => {
               nodes: [{
                 node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI },
                 path: [uid, uid1, uid2],
-                nodes: []
+                nodes: [{
+                  node: { uid: uid4, user: null, data: { title: '' }, ui: defaultUI },
+                  path: [uid, uid1, uid4],
+                  nodes: []
+                }]
               }]
             },
             {
@@ -135,6 +139,7 @@ describe('TreeOperations', () => {
       expect(updatedTree.nodes[0].nodes[0].nodes.length).toBe(0)
       expect(updatedTree.nodes[0].nodes[1].nodes.length).toBe(1)
       expect(updatedTree.nodes[0].nodes[1].nodes[0].path).toEqual([uid, uid3, uid2])
+      expect(updatedTree.nodes[0].nodes[1].nodes[0].nodes[0].path).toEqual([uid, uid3, uid2, uid4])
     })
   })
 
