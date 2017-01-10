@@ -17,6 +17,7 @@ describe('SignOutButton', () => {
   const lang = 'en'
   const defaultProps = {
     lang,
+    username: '',
     postSignOut: noop,
     signOutFailed: false
   }

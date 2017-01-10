@@ -18,7 +18,7 @@ describe('LoginForm', () => {
   const defaultProps = {
     lang,
     postAuthenticate: noop,
-    authenticationFailed: noop
+    authenticationFailed: false
   }
   const getComponent = getComponentHOF(LoginForm, defaultProps)
 
