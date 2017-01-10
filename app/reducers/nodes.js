@@ -11,7 +11,6 @@ import {
   move,
   clearUI,
   setUI,
-  setUIActiveNode,
   selectActiveNode
 } from '../lib/tree/TreeOperations'
 
@@ -19,11 +18,13 @@ export const defaultState: NodesState = {
   isSyncing: false,
   hasErrors: false,
   tree: null,
-  userIsDragging: false
+  userIsDragging: false,
+  activePath: null
 }
 
 export default function nodes (state: NodesState = defaultState, action: NodesAction) {
 
+  // @TODO: Remove and use const in if blocks
   let tree, userIsDragging
 
   // backend
@@ -86,24 +87,27 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
       if (state.tree != null && action.data.path != null && action.data.key != null && action.data.value != null) {
         tree = setUI(state.tree, action.data.path, { [action.data.key]: action.data.value })
         userIsDragging = action.data.key === 'dragging' ? action.data.value : state.userIsDragging
-        return { ...state, userIsDragging, tree }
+        const activePath = action.data.key === 'active' ? action.data.path : state.activePath
+        return { ...state, tree, userIsDragging, activePath }
       }
     }
     return state
 
   case types.UPDATE_ACTIVE_NODE_UI:
-    if (state.tree != null && action.data.key != null && action.data.value != null) {
-      tree = setUIActiveNode(state.tree, action.data.key, action.data.value)
+    if (state.tree != null && state.activePath != null && action.data.key != null && action.data.value != null) {
+      tree = setUI(state.tree, state.activePath, { [action.data.key]: action.data.value })
       return { ...state, tree }
     }
     return state
 
   case types.SET_NEXT_UI_ACTIVE:
   case types.SET_PREV_UI_ACTIVE:
-    if (state.tree != null) {
+    if (state.tree != null && state.activePath) {
       const selector = action.type === types.SET_PREV_UI_ACTIVE ? 'PREV' : 'NEXT'
-      tree = selectActiveNode(state.tree, selector)
-      return { ...state, tree }
+      const tuple = selectActiveNode(state.tree, state.activePath, selector)
+      const tree = tuple[0]
+      const activePath = tuple[1]
+      return { ...state, tree, activePath }
     }
     return state
 

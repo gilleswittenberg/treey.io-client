@@ -231,7 +231,8 @@ describe('nodes reducer', () => {
           nodes: []
         }
       ] }
-      const state = reducer({ ...defaultState, tree }, { type: UPDATE_ACTIVE_NODE_UI, data: { key: 'editing', value: true } })
+      const activePath = [uid]
+      const state = reducer({ ...defaultState, tree, activePath }, { type: UPDATE_ACTIVE_NODE_UI, data: { key: 'editing', value: true } })
       expect(state.tree).not.toBe(null)
       if (state.tree != null) {
         expect (state.tree.nodes[0].node.ui.editing).toBe(true)

@@ -14,7 +14,7 @@ import type {
 import { createNode } from './NodeModifiers'
 import { createTreeNode } from './TreeNodeModifiers'
 import { indexTreeNodes, addTreeNode, updateTreeNode, removeTreeNode, updateTreeNodes } from './TreeModifiers'
-import { getTreeNode, findTreePath, filterTree, flattenTree } from './TreeUtils'
+import { getTreeNode, filterTree, flattenTree } from './TreeUtils'
 import { getNextCircular, getPrevCircular } from '../utils/ArrayUtils'
 import ID from '../../settings/TREE_ID_KEY'
 import NODES from '../../settings/TREE_NODES_KEY'
@@ -55,16 +55,7 @@ export const setUI = (tree: Tree, path: TreePath, ui: NodeUI) : Tree  => {
   return updateTreeNode(tree, path, undefined, ui)
 }
 
-export const setUIActiveNode = (tree: Tree, key: NodeUIKey, value: boolean) : Tree  => {
-  const activePath = findTreePath(tree, undefined, isActive, NODES, ID)
-  if (activePath != null) {
-    tree = updateTreeNode(tree, activePath, undefined, { [key]: value })
-  }
-  return tree
-}
-
-export const selectActiveNode = (tree: Tree, selector: PrevOrNext) : Tree => {
-  const activePath = findTreePath(tree, undefined, isActive, NODES, ID)
+export const selectActiveNode = (tree: Tree, activePath: TreePath, selector: PrevOrNext) : [Tree, ?TreePath] => {
   if (activePath != null) {
     const activeNode = getTreeNode(tree, activePath, NODES, ID)
     if (activeNode != null) {
@@ -77,11 +68,12 @@ export const selectActiveNode = (tree: Tree, selector: PrevOrNext) : Tree => {
       // set active
       if (nextActive != null) {
         tree = setUI(tree, nextActive.path, { active: true })
+        return [tree, nextActive.path]
       }
     }
   }
   // @TODO: select first when none is active
-  return tree
+  return [tree, null]
 }
 
 // helper methods

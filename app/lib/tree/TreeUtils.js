@@ -69,6 +69,7 @@ export const parseTree = (nodeData: {}) : Tree => {
   return { nodes: [node] }
 }
 
+// @TODO: Remove
 export const findTreePath = (tree?: Tree, node?: TreeNode, searchFunc: (node: TreeNode) => boolean, nodesKey: NodesKey, idKey: IdKey) : ?TreePath => {
   if (node != null) {
     if (searchFunc(node)) return [node.node[idKey]]

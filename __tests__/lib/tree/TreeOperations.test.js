@@ -13,7 +13,6 @@ import {
   move,
   clearUI,
   setUI,
-  setUIActiveNode,
   selectActiveNode
 } from '../../../app/lib/tree/TreeOperations'
 import { uid, uid1, uid2, uid3, uid4 } from '../../uid'
@@ -210,47 +209,6 @@ describe('TreeOperations', () => {
     })
   })
 
-  describe('setUIActiveNode', () => {
-
-    it('setUIActiveNode', () => {
-
-      const tree = {
-        nodes: [{
-          node: {
-            uid,
-            user: null,
-            data: {
-              title: 'Mr. Root'
-            },
-            ui: {
-              active: false
-            }
-          },
-          path: [uid],
-          nodes: [
-            {
-              node: {
-                uid: uid1,
-                user: null,
-                data: {
-                  title: 'Active'
-                },
-                ui: {
-                  active: true,
-                  editing: false
-                }
-              },
-              path: [uid, uid1],
-              nodes: []
-            }
-          ]
-        }]
-      }
-      const updatedTree = setUIActiveNode(tree, 'editing', true)
-      expect(updatedTree.nodes[0].nodes[0].node.ui).toEqual({ active: true, editing: true })
-    })
-  })
-
   describe('selectActiveNode', () => {
 
     it('next', () => {
@@ -266,9 +224,12 @@ describe('TreeOperations', () => {
           }]
         }]
       }
-      const updatedTree = selectActiveNode(tree, 'NEXT')
+      const tuple = selectActiveNode(tree, [uid], 'NEXT')
+      const updatedTree = tuple[0]
+      const activePath = tuple[1]
       expect(updatedTree.nodes[0].node.ui.active).toBe(false)
       expect(updatedTree.nodes[0].nodes[0].node.ui.active).toEqual(true)
+      expect(activePath).toEqual([uid, uid1])
     })
 
     it('prev', () => {
@@ -284,9 +245,12 @@ describe('TreeOperations', () => {
           }]
         }]
       }
-      const updatedTree = selectActiveNode(tree, 'PREV')
+      const tuple = selectActiveNode(tree, [uid, uid1], 'PREV')
+      const updatedTree = tuple[0]
+      const activePath = tuple[1]
       expect(updatedTree.nodes[0].node.ui.active).toBe(true)
       expect(updatedTree.nodes[0].nodes[0].node.ui.active).toBe(false)
+      expect(activePath).toEqual([uid])
     })
   })
 })

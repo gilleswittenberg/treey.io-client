@@ -17,7 +17,8 @@ export type NodesState = {
   isSyncing: boolean,
   hasErrors: boolean,
   tree: ?Tree,
-  userIsDragging: boolean
+  userIsDragging: boolean,
+  activePath: ?TreePath
 }
 
 type NodesActionType =
