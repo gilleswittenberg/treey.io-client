@@ -24,9 +24,6 @@ export const defaultState: NodesState = {
 
 export default function nodes (state: NodesState = defaultState, action: NodesAction) {
 
-  // @TODO: Remove and use const in if blocks
-  let tree, userIsDragging
-
   // backend
   switch (action.type) {
   case types.START_SYNCING:
@@ -39,35 +36,35 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
   // nodes
   case types.INDEX_NODES:
     if (action.data.tree != null) {
-      tree = index(action.data.tree)
+      const tree = index(action.data.tree)
       return { ...state, tree }
     }
     return state
 
   case types.ADD_NODE:
     if (state.tree != null && action.data.path != null) {
-      tree = createAndAdd(state.tree, action.data.path, action.data.uid, action.data.nodeData)
+      const tree = createAndAdd(state.tree, action.data.path, action.data.uid, action.data.nodeData)
       return { ...state, tree }
     }
     return state
 
   case types.UPDATE_NODE:
     if (state.tree != null && action.data.path != null && action.data.nodeData != null) {
-      tree = update(state.tree, action.data.path, action.data.nodeData)
+      const tree = update(state.tree, action.data.path, action.data.nodeData)
       return { ...state, tree }
     }
     return state
 
   case types.REMOVE_NODE:
     if (state.tree != null && action.data.path) {
-      tree = remove(state.tree, action.data.path)
+      const tree = remove(state.tree, action.data.path)
       return { ...state, tree }
     }
     return state
 
   case types.MOVE_NODE:
     if (state.tree != null && action.data.path != null && action.data.newPath != null) {
-      tree = move(state.tree, action.data.path, action.data.newPath, action.data.before)
+      const tree = move(state.tree, action.data.path, action.data.newPath, action.data.before)
       return { ...state, tree }
     }
     return state
@@ -76,8 +73,8 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
   // ui
   case types.CLEAR_NODE_UI:
     if (state.tree != null && action.data.keys != null) {
-      tree = clearUI(state.tree, action.data.keys)
-      userIsDragging = action.data.keys != null && action.data.keys.includes('dragging') ? false : state.userIsDragging
+      const tree = clearUI(state.tree, action.data.keys)
+      const userIsDragging = action.data.keys != null && action.data.keys.includes('dragging') ? false : state.userIsDragging
       return { ...state, userIsDragging, tree }
     }
     return state
@@ -85,8 +82,8 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
   case types.UPDATE_NODE_UI:
     if (action.data.key != null) {
       if (state.tree != null && action.data.path != null && action.data.key != null && action.data.value != null) {
-        tree = setUI(state.tree, action.data.path, { [action.data.key]: action.data.value })
-        userIsDragging = action.data.key === 'dragging' ? action.data.value : state.userIsDragging
+        const tree = setUI(state.tree, action.data.path, { [action.data.key]: action.data.value })
+        const userIsDragging = action.data.key === 'dragging' ? action.data.value : state.userIsDragging
         const activePath = action.data.key === 'active' ? action.data.path : state.activePath
         return { ...state, tree, userIsDragging, activePath }
       }
@@ -95,7 +92,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
 
   case types.UPDATE_ACTIVE_NODE_UI:
     if (state.tree != null && state.activePath != null && action.data.key != null && action.data.value != null) {
-      tree = setUI(state.tree, state.activePath, { [action.data.key]: action.data.value })
+      const tree = setUI(state.tree, state.activePath, { [action.data.key]: action.data.value })
       return { ...state, tree }
     }
     return state
