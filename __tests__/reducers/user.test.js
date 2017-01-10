@@ -9,7 +9,8 @@ import reducer from '../../app/reducers/user'
 import {
   UNAUTHENTICATED,
   AUTHENTICATE,
-  AUTHENTICATION_FAILED
+  AUTHENTICATION_FAILED,
+  SIGN_OUT_FAILED
 } from '../../app/actions/user'
 import { uid } from '../uid'
 
@@ -28,6 +29,10 @@ describe('user reducer', () => {
 
   it('AUTHENTICATION_FAILED', () => {
     expect(reducer(undefined, { type: AUTHENTICATION_FAILED, data: {} }).authenticationFailed).toBe(true)
+  })
+
+  it('SIGN_OUT_FAILED', () => {
+    expect(reducer(undefined, { type: SIGN_OUT_FAILED, data: {} }).signOutFailed).toBe(true)
   })
 
   it('sign out', () => {

@@ -116,7 +116,7 @@ describe('user actions', () => {
         .then(
           () => {
             const lastAction = store.getActions().pop()
-            expect(lastAction).toBe(undefined)
+            expect(lastAction.type).toEqual('SIGN_OUT_FAILED')
           }
         )
     })

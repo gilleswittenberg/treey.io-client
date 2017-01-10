@@ -11,5 +11,6 @@ export default {
   PASSWORD: 'password',
   SAVE: 'save',
   SIGN_OUT: 'sign out',
+  SIGN_OUT_FAILED: 'sign out failed',
   USERNAME: 'username'
 }

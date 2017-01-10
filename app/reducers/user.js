@@ -7,7 +7,8 @@ export const defaultState: UserState = {
   username: 'gilleswittenberg',
   authenticationFailed: false,
   loggedIn: null,
-  rootId: null
+  rootId: null,
+  signOutFailed: false
 }
 
 export default function user (state: UserState = defaultState, action: UserAction) {
@@ -18,6 +19,8 @@ export default function user (state: UserState = defaultState, action: UserActio
     return { ...state, loggedIn: true, username: action.data.username, rootId: action.data.rootId }
   case types.AUTHENTICATION_FAILED:
     return { ...state, authenticationFailed: true }
+  case types.SIGN_OUT_FAILED:
+    return { ...state, signOutFailed: true }
   default:
     return { ...state }
   }

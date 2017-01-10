@@ -32,6 +32,12 @@ export const authenticationFailed = () => {
   }
 }
 
+export const SIGN_OUT_FAILED = 'SIGN_OUT_FAILED'
+export const signOutFailed = () => {
+  return {
+    type: SIGN_OUT_FAILED
+  }
+}
 
 export const getUser = () => {
 
@@ -130,8 +136,7 @@ export const postSignOut = () => {
           dispatch(unauthenticated())
         },
         () => {
-          // @TODO: implement
-          // dispatch(signOutFailed())
+          dispatch(signOutFailed())
         }
       )
   }
