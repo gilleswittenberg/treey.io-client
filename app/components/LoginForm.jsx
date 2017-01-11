@@ -9,6 +9,7 @@ export default class LoginForm extends Component {
   static propTypes = {
     postAuthenticate: PropTypes.func.isRequired,
     authenticationFailed: PropTypes.bool.isRequired,
+    authenticationError: PropTypes.bool.isRequired,
     lang: PropTypes.string.isRequired
   }
 
@@ -35,8 +36,9 @@ export default class LoginForm extends Component {
 
   render () {
 
-    const { authenticationFailed, lang } = this.props
+    const { authenticationFailed, authenticationError, lang } = this.props
     const authenticationFailedMessage = __(lang, 'AUTHENTICATION_FAILED_MESSAGE')
+    const authenticationErrorMessage = __(lang, 'AUTHENTICATION_ERROR_MESSAGE')
     const usernameText = __(lang, 'USERNAME')
     const passwordText = __(lang, 'PASSWORD')
     const loginText = __(lang, 'LOGIN')
@@ -47,6 +49,7 @@ export default class LoginForm extends Component {
           <input type="text" name="username" onChange={ this.handleChange } placeholder={ usernameText } />
           <input type="password" name="password" onChange={ this.handleChange } placeholder={ passwordText } />
           { authenticationFailed && <p>{ authenticationFailedMessage }</p> }
+          { authenticationError && <p>{ authenticationErrorMessage }</p> }
           <input type="submit" value={ loginText } />
         </form>
       </div>

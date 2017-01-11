@@ -81,6 +81,22 @@ describe('user actions', () => {
         )
     })
 
+    it('ERROR', () => {
+      nock(hostname)
+        .post('/user/authenticate')
+        .reply(500)
+
+      const store = mockStore()
+
+      return store.dispatch(actions.postAuthenticate('gilleswittenberg', 'incorrect'))
+        .then(
+          () => {
+            const lastAction = store.getActions().pop()
+            expect(lastAction.type).toEqual('AUTHENTICATION_ERROR')
+          }
+        )
+    })
+
     it('OK', () => {
       const body = {
         username: 'gilleswittenberg',

@@ -6,6 +6,7 @@ import * as types from '../actions/user'
 export const defaultState: UserState = {
   username: 'gilleswittenberg',
   authenticationFailed: false,
+  authenticationError: false,
   loggedIn: null,
   rootId: null,
   signOutFailed: false
@@ -16,9 +17,18 @@ export default function user (state: UserState = defaultState, action: UserActio
   case types.UNAUTHENTICATED:
     return { ...state, loggedIn: false, username: null, rootId: null }
   case types.AUTHENTICATE:
-    return { ...state, loggedIn: true, username: action.data.username, rootId: action.data.rootId }
+    return {
+      ...state,
+      username: action.data.username,
+      authenticationFailed: false,
+      authenticationError: false,
+      loggedIn: true,
+      rootId: action.data.rootId
+    }
   case types.AUTHENTICATION_FAILED:
-    return { ...state, authenticationFailed: true }
+    return { ...state, authenticationFailed: true, authenticationError: false }
+  case types.AUTHENTICATION_ERROR:
+    return { ...state, authenticationError: true, authenticationFailed: false }
   case types.SIGN_OUT_FAILED:
     return { ...state, signOutFailed: true }
   default:

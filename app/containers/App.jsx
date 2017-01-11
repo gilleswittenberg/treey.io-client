@@ -23,7 +23,13 @@ class App extends React.Component {
       dispatch,
       app,
       app: { lang, enableDnD },
-      user: { loggedIn, username, authenticationFailed, signOutFailed },
+      user: {
+        loggedIn,
+        username,
+        authenticationFailed,
+        authenticationError,
+        signOutFailed
+      },
       nodes: { tree, isSyncing, hasErrors }
     } = this.props
 
@@ -32,6 +38,7 @@ class App extends React.Component {
     const loginFormProps = {
       postAuthenticate: actions.postAuthenticate,
       authenticationFailed,
+      authenticationError,
       lang
     }
     const signOutButtonProps = { lang, username, signOutFailed, postSignOut: actions.postSignOut }

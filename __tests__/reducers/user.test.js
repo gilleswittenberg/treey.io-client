@@ -10,9 +10,11 @@ import {
   UNAUTHENTICATED,
   AUTHENTICATE,
   AUTHENTICATION_FAILED,
+  AUTHENTICATION_ERROR,
   SIGN_OUT_FAILED
 } from '../../app/actions/user'
 import { uid } from '../uid'
+import { defaultState } from '../../app/reducers/user'
 
 describe('user reducer', () => {
 
@@ -20,15 +22,36 @@ describe('user reducer', () => {
     expect(reducer(undefined, { type: UNAUTHENTICATED, data: {} }).loggedIn).toBe(false)
   })
 
-  it('AUTHENTICATE', () => {
-    const data = { username: 'gilleswittenberg', rootId: uid }
-    const state = reducer(undefined, { type: AUTHENTICATE, data })
-    expect(state.username).toBe('gilleswittenberg')
-    expect(state.rootId).toBe(uid)
+  describe('AUTHENTICATE', () => {
+
+    it('AUTHENTICATE', () => {
+      const data = { username: 'gilleswittenberg', rootId: uid }
+      const state = reducer(undefined, { type: AUTHENTICATE, data })
+      expect(state.username).toBe('gilleswittenberg')
+      expect(state.rootId).toBe(uid)
+    })
+
+    it('clear failure and error', () => {
+      const data = { username: 'gilleswittenberg', rootId: uid }
+      const state = { ...defaultState, authenticationFailed: true, authenticationError: true }
+      const state2 = reducer(state, { type: AUTHENTICATE, data })
+      expect(state2.authenticationFailed).toBe(false)
+      expect(state2.authenticationError).toBe(false)
+    })
   })
 
   it('AUTHENTICATION_FAILED', () => {
-    expect(reducer(undefined, { type: AUTHENTICATION_FAILED, data: {} }).authenticationFailed).toBe(true)
+    const state = { ...defaultState, authenticationError: true }
+    const state2 = reducer(state, { type: AUTHENTICATION_FAILED, data: {} })
+    expect(state2.authenticationFailed).toBe(true)
+    expect(state2.authenticationError).toBe(false)
+  })
+
+  it('AUTHENTICATION_ERROR', () => {
+    const state = { ...defaultState, authenticationFailed: true }
+    const state2 = reducer(state, { type: AUTHENTICATION_ERROR, data: {} })
+    expect(state2.authenticationError).toBe(true)
+    expect(state2.authenticationFailed).toBe(false)
   })
 
   it('SIGN_OUT_FAILED', () => {

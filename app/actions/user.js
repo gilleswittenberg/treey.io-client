@@ -32,6 +32,13 @@ export const authenticationFailed = () => {
   }
 }
 
+export const AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR'
+export const authenticationError = () => {
+  return {
+    type: AUTHENTICATION_ERROR
+  }
+}
+
 export const SIGN_OUT_FAILED = 'SIGN_OUT_FAILED'
 export const signOutFailed = () => {
   return {
@@ -92,7 +99,7 @@ export const postAuthenticate = (username: string, password: string) => {
       .then(
         response => {
           if (response.ok === false) {
-            return Promise.reject(new Error(response.statusText))
+            return Promise.reject(new Error(response.status))
           }
           return response.json()
         }
@@ -102,8 +109,12 @@ export const postAuthenticate = (username: string, password: string) => {
           dispatch(authenticate(json.username, json.rootId))
           dispatch(getNodes(json.rootId))
         },
-        () => {
-          dispatch(authenticationFailed())
+        error => {
+          if (error.message === '401') {
+            dispatch(authenticationFailed())
+          } else {
+            dispatch(authenticationError())
+          }
         }
       )
   }
