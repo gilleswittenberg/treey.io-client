@@ -59,8 +59,7 @@ describe('user reducer', () => {
   })
 
   it('sign out', () => {
-    const data = { username: 'gilleswittenberg', rootId: uid }
-    const state = reducer(undefined, { type: AUTHENTICATE, data })
+    const state = { ...defaultState, loggedIn: true, username: 'gilleswittenberg', rootId: uid }
     const state2 = reducer(state, { type: UNAUTHENTICATED, data: {} })
     expect(state2.username).toBe(null)
     expect(state2.rootId).toBe(null)
