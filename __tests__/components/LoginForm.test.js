@@ -48,10 +48,19 @@ describe('LoginForm', () => {
 
   describe('sumbit', () => {
 
+    it('invalid inputs', () => {
+      const wrapper = shallow(getComponent())
+      const mockEvent = getMockEvent()
+      wrapper.find('form').simulate('submit', mockEvent)
+      expect(wrapper.state().usernameValid).toBe(false)
+      expect(wrapper.state().passwordValid).toBe(false)
+    })
+
     it('postAuthenticate', () => {
       const postAuthenticate = jest.fn()
       const wrapper = shallow(getComponent({ postAuthenticate }))
       const mockEvent = getMockEvent()
+      wrapper.setState({ usernameValid: true, passwordValid: true })
       wrapper.find('form').simulate('submit', mockEvent)
       expect(postAuthenticate.mock.calls.length).toBe(1)
     })
