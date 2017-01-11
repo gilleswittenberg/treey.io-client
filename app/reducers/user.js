@@ -4,7 +4,7 @@ import type { UserState, UserAction } from '../../flow/types'
 import * as types from '../actions/user'
 
 export const defaultState: UserState = {
-  username: 'gilleswittenberg',
+  username: null,
   authenticationFailed: false,
   authenticationError: false,
   loggedIn: null,
