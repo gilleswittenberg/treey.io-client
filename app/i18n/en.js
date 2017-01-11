@@ -1,6 +1,7 @@
 export default {
   ADD: 'add',
   AUTHENTICATION_FAILED_MESSAGE: 'Invalid username, password combination',
+  AUTHENTICATION_ERROR_MESSAGE: 'Authentication error',
   DELETE: 'delete',
   EDIT: 'edit',
   HAS_ERRRORS: 'has errors',
