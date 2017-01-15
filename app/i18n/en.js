@@ -10,6 +10,8 @@ export default {
   MORE: 'more',
   MOVE_CHILD: 'move child',
   PASSWORD: 'password',
+  PASSWORD_CONFIRM: 'confirm password',
+  REGISTER: 'register',
   SAVE: 'save',
   SIGN_OUT: 'sign out',
   SIGN_OUT_FAILED: 'sign out failed',

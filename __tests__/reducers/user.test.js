@@ -11,6 +11,8 @@ import {
   AUTHENTICATE,
   AUTHENTICATION_FAILED,
   AUTHENTICATION_ERROR,
+  REGISTRATION_FAILED,
+  REGISTRATION_ERROR,
   SIGN_OUT_FAILED
 } from '../../app/actions/user'
 import { uid } from '../uid'
@@ -52,6 +54,20 @@ describe('user reducer', () => {
     const state2 = reducer(state, { type: AUTHENTICATION_ERROR, data: {} })
     expect(state2.authenticationError).toBe(true)
     expect(state2.authenticationFailed).toBe(false)
+  })
+
+  it('REGISTRATION_FAILED', () => {
+    const state = { ...defaultState, registrationError: true }
+    const state2 = reducer(state, { type: REGISTRATION_FAILED, data: {} })
+    expect(state2.registrationFailed).toBe(true)
+    expect(state2.registrationError).toBe(false)
+  })
+
+  it('REGISTRATION_ERROR', () => {
+    const state = { ...defaultState, registrationFailed: true }
+    const state2 = reducer(state, { type: REGISTRATION_ERROR, data: {} })
+    expect(state2.registrationError).toBe(true)
+    expect(state2.registrationFailed).toBe(false)
   })
 
   it('SIGN_OUT_FAILED', () => {

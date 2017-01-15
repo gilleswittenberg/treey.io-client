@@ -72,12 +72,22 @@ export type UserState = {
   username: ?string,
   authenticationFailed: boolean,
   authenticationError: boolean,
+  registrationFailed: boolean,
+  registrationError: boolean,
   loggedIn: ?boolean,
   rootId: ?NodeId,
   signOutFailed: boolean
 }
 
-type UserActionType = 'AUTHENTICATE' | 'UNAUTHENTICATED' | 'AUTHENTICATION_FAILED' | 'AUTHENTICATION_ERROR' | 'SIGN_OUT_FAILED'
+type UserActionType =
+  'AUTHENTICATE' |
+  'UNAUTHENTICATED' |
+  'AUTHENTICATION_FAILED' |
+  'AUTHENTICATION_ERROR' |
+  'REGISTRATION_FAILED' |
+  'REGISTRATION_ERROR' |
+  'SIGN_OUT_FAILED'
+
 export type UserAction = {
   type: UserActionType,
   data: {

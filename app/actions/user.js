@@ -46,6 +46,20 @@ export const signOutFailed = () => {
   }
 }
 
+export const REGISTRATION_FAILED = 'REGISTRATION_FAILED'
+export const registrationFailed = () => {
+  return {
+    type: REGISTRATION_FAILED
+  }
+}
+
+export const REGISTRATION_ERROR = 'REGISTRATION_ERROR'
+export const registrationError = () => {
+  return {
+    type: REGISTRATION_ERROR
+  }
+}
+
 export const getUser = () => {
 
   return function (dispatch: () => void) {
@@ -148,6 +162,46 @@ export const postSignOut = () => {
         },
         () => {
           dispatch(signOutFailed())
+        }
+      )
+  }
+}
+
+export const postRegister = (username: string, password: string, passwordConfirm: string) => {
+
+  return function (dispatch: () => void) {
+
+    const url = `${ host }/user/register`
+    const options = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify({ username, password, passwordConfirm })
+    }
+
+    return fetch(url, options)
+      .then(
+        response => {
+          if (response.ok === false) {
+            return Promise.reject(new Error(response.status))
+          }
+          return response.json()
+        }
+      )
+      .then(
+        json => {
+          dispatch(authenticate(json.username, json.rootId))
+          dispatch(getNodes(json.rootId))
+        },
+        error => {
+          if (error.message === '400') {
+            dispatch(registrationFailed())
+          } else {
+            dispatch(registrationError())
+          }
         }
       )
   }

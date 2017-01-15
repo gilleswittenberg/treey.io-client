@@ -4,6 +4,8 @@ import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
 import __ from '../lib/utils/i18n'
 import classNames from 'classnames'
+import validateUsername from '../lib/auth/validateUsername'
+import validatePassword from '../lib/auth/validatePassword'
 
 export default class LoginForm extends Component {
 
@@ -22,11 +24,12 @@ export default class LoginForm extends Component {
   }
 
   @autobind
-  setInputsValidity () {
+  setInputsValidity () : boolean {
     const { username, password } = this.state
-    const usernameValid = username !== undefined && username.length > 2
-    const passwordValid = password !== undefined && password.length > 8
+    const usernameValid = validateUsername(username)
+    const passwordValid = validatePassword(password)
     this.setState({ usernameValid, passwordValid })
+    return usernameValid && passwordValid
   }
 
   @autobind
@@ -40,9 +43,8 @@ export default class LoginForm extends Component {
   @autobind
   handleSubmit (event: Event) {
     event.preventDefault()
-    this.setInputsValidity()
-    const { usernameValid, passwordValid } = this.state
-    if (usernameValid && passwordValid) {
+    const valid = this.setInputsValidity()
+    if (valid) {
       const { postAuthenticate } = this.props
       const { username, password } = this.state
       postAuthenticate(username, password)

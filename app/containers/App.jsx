@@ -4,6 +4,7 @@ import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import getActions from '../lib/ui/actions'
 import LoginForm from '../components/LoginForm'
+import RegisterForm from '../components/RegisterForm'
 import SignOutButton from '../components/SignOutButton'
 import ServerStatus from '../components/ServerStatus'
 import Tree from '../components/Tree'
@@ -28,6 +29,8 @@ class App extends React.Component {
         username,
         authenticationFailed,
         authenticationError,
+        registrationFailed,
+        registrationError,
         signOutFailed
       },
       nodes: { tree, isSyncing, hasErrors }
@@ -39,6 +42,12 @@ class App extends React.Component {
       postAuthenticate: actions.postAuthenticate,
       authenticationFailed,
       authenticationError,
+      lang
+    }
+    const registerFormProps = {
+      postRegister: actions.postRegister,
+      registrationFailed,
+      registrationError,
       lang
     }
     const signOutButtonProps = { lang, username, signOutFailed, postSignOut: actions.postSignOut }
@@ -57,6 +66,9 @@ class App extends React.Component {
       <div className="wrap">
         { showLoginForm &&
           <LoginForm { ...loginFormProps } />
+        }
+        { showLoginForm &&
+          <RegisterForm { ...registerFormProps } />
         }
         { showSignOutButton &&
           <SignOutButton { ...signOutButtonProps }/>

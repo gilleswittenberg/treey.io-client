@@ -6,22 +6,22 @@ declare var it: any
 declare var expect: any
 declare var jest: any
 
-import LoginForm from '../../app/components/LoginForm'
+import RegisterForm from '../../app/components/RegisterForm'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import getMockEvent from '../getMockEvent'
 
-describe('LoginForm', () => {
+describe('RegisterForm', () => {
 
   const lang = 'en'
   const defaultProps = {
     lang,
-    postAuthenticate: noop,
-    authenticationFailed: false,
-    authenticationError: false
+    postRegister: noop,
+    registrationFailed: false,
+    registrationError: false
   }
-  const getComponent = getComponentHOF(LoginForm, defaultProps)
+  const getComponent = getComponentHOF(RegisterForm, defaultProps)
 
   describe('change', () => {
 
@@ -44,6 +44,16 @@ describe('LoginForm', () => {
       wrapper.find('input[name="password"]').simulate('change', mockEvent)
       expect(wrapper.state().password).toBe('hardcoded')
     })
+
+    it('passwordConfirm', () => {
+      const wrapper = shallow(getComponent())
+      const input = document.createElement('input')
+      input.setAttribute('name', 'password')
+      input.value = 'hardcoded'
+      const mockEvent = getMockEvent({ target: input })
+      wrapper.find('input[name="passwordConfirm"]').simulate('change', mockEvent)
+      expect(wrapper.state().password).toBe('hardcoded')
+    })
   })
 
   describe('submit', () => {
@@ -54,15 +64,16 @@ describe('LoginForm', () => {
       wrapper.find('form').simulate('submit', mockEvent)
       expect(wrapper.state().usernameValid).toBe(false)
       expect(wrapper.state().passwordValid).toBe(false)
+      expect(wrapper.state().passwordConfirmValid).toBe(false)
     })
 
-    it('postAuthenticate', () => {
-      const postAuthenticate = jest.fn()
-      const wrapper = shallow(getComponent({ postAuthenticate }))
+    it('postSignup', () => {
+      const postRegister = jest.fn()
+      const wrapper = shallow(getComponent({ postRegister }))
       const mockEvent = getMockEvent()
-      wrapper.setState({ username: 'johndoe', password: '12345678' })
+      wrapper.setState({ username: 'johndoe', password: '12345678', passwordConfirm: '12345678' })
       wrapper.find('form').simulate('submit', mockEvent)
-      expect(postAuthenticate.mock.calls.length).toBe(1)
+      expect(postRegister.mock.calls.length).toBe(1)
     })
   })
 })

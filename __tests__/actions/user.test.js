@@ -153,4 +153,60 @@ describe('user actions', () => {
         )
     })
   })
+
+  describe('postRegister', () => {
+
+    it('ERROR', () => {
+      nock(hostname)
+        .post('/user/register')
+        .reply(500)
+
+      const store = mockStore()
+
+      return store.dispatch(actions.postRegister('johndoe', '12345678', '12345678'))
+        .then(
+          () => {
+            const lastAction = store.getActions().pop()
+            expect(lastAction.type).toEqual('REGISTRATION_ERROR')
+          }
+        )
+    })
+
+    it('FAILURE', () => {
+      nock(hostname)
+        .post('/user/register')
+        .reply(400)
+
+      const store = mockStore()
+
+      return store.dispatch(actions.postRegister('johndoe', '12345678', '12345678'))
+        .then(
+          () => {
+            const lastAction = store.getActions().pop()
+            expect(lastAction.type).toEqual('REGISTRATION_FAILED')
+          }
+        )
+    })
+
+    it('OK', () => {
+      const body = {
+        username: 'gilleswittenberg',
+        rootId: uid
+      }
+      nock(hostname)
+        .post('/user/register')
+        .reply(201, body)
+
+      const store = mockStore()
+
+      return store.dispatch(actions.postRegister('johndoe', '12345678', '12345678'))
+        .then(
+          () => {
+            store.getActions().pop()
+            const secondLastAction = store.getActions().pop()
+            expect(secondLastAction.type).toEqual('AUTHENTICATE')
+          }
+        )
+    })
+  })
 })
