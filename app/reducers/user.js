@@ -2,6 +2,7 @@
 
 import type { UserState, UserAction } from '../../flow/types'
 import * as types from '../actions/user'
+import { browserHistory } from 'react-router'
 
 export const defaultState: UserState = {
   authenticationFailed: false,
@@ -17,9 +18,11 @@ export const defaultState: UserState = {
 export default function user (state: UserState = defaultState, action: UserAction) {
   switch (action.type) {
   case types.UNAUTHENTICATED:
+    browserHistory.push('/login')
     // @TODO: Set signOutFailed to false
     return { ...state, loggedIn: false, username: null, rootId: null }
   case types.AUTHENTICATE:
+    browserHistory.push('/')
     return {
       ...state,
       authenticationFailed: false,

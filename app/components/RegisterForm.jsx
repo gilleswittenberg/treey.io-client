@@ -57,9 +57,9 @@ export default class RegisterForm extends Component {
 
   render () {
 
-    const { registerFailed, registerError, lang } = this.props
-    const registerFailedMessage = __(lang, 'REGISTER_FAILED_MESSAGE')
-    const registerErrorMessage = __(lang, 'REGISTER_ERROR_MESSAGE')
+    const { registrationFailed, registrationError, lang } = this.props
+    const registrationFailedMessage = __(lang, 'REGISTRATION_FAILED_MESSAGE')
+    const registrationErrorMessage = __(lang, 'REGISTRATION_ERROR_MESSAGE')
     const usernameText = __(lang, 'USERNAME')
     const passwordText = __(lang, 'PASSWORD')
     const passwordConfirmText = __(lang, 'PASSWORD_CONFIRM')
@@ -75,8 +75,8 @@ export default class RegisterForm extends Component {
           <input type="text" name="username" className={ usernameInputClassName } onChange={ this.handleChange } placeholder={ usernameText } />
           <input type="password" name="password" className={ passwordInputClassName } onChange={ this.handleChange } placeholder={ passwordText } />
           <input type="password" name="passwordConfirm" className={ passwordConfirmInputClassName } onChange={ this.handleChange } placeholder={ passwordConfirmText } />
-          { registerFailed && <p>{ registerFailedMessage }</p> }
-          { registerError && <p>{ registerErrorMessage }</p> }
+          { registrationFailed && <p>{ registrationFailedMessage }</p> }
+          { registrationError && <p>{ registrationErrorMessage }</p> }
           <input type="submit" value={ registerText } />
         </form>
       </div>

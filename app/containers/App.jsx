@@ -3,8 +3,6 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import getActions from '../lib/ui/actions'
-import LoginForm from '../components/LoginForm'
-import RegisterForm from '../components/RegisterForm'
 import SignOutButton from '../components/SignOutButton'
 import ServerStatus from '../components/ServerStatus'
 import Tree from '../components/Tree'
@@ -25,12 +23,8 @@ class App extends React.Component {
       app,
       app: { lang, enableDnD },
       user: {
-        loggedIn,
         username,
-        authenticationFailed,
-        authenticationError,
-        registrationFailed,
-        registrationError,
+        loggedIn,
         signOutFailed
       },
       nodes: { tree, isSyncing, hasErrors }
@@ -38,18 +32,6 @@ class App extends React.Component {
 
     const actions = getActions(dispatch)
 
-    const loginFormProps = {
-      postAuthenticate: actions.postAuthenticate,
-      authenticationFailed,
-      authenticationError,
-      lang
-    }
-    const registerFormProps = {
-      postRegister: actions.postRegister,
-      registrationFailed,
-      registrationError,
-      lang
-    }
     const signOutButtonProps = { lang, username, signOutFailed, postSignOut: actions.postSignOut }
     const serverStatusProps = { lang, hasErrors, isSyncing }
 
@@ -57,26 +39,16 @@ class App extends React.Component {
     const TreeComponent = enableDnD ? Tree : Tree.DecoratedComponent
     const treeProps = { lang, enableDnD, app, tree, ...actions }
 
-    const showLoginForm = loggedIn === false
-    const showTree = loggedIn === true
-    const showServerStatus = showTree
-    const showSignOutButton = showTree
 
     return (
       <div className="wrap">
-        { showLoginForm &&
-          <LoginForm { ...loginFormProps } />
-        }
-        { showLoginForm &&
-          <RegisterForm { ...registerFormProps } />
-        }
-        { showSignOutButton &&
+        { loggedIn &&
           <SignOutButton { ...signOutButtonProps }/>
         }
-        { showServerStatus &&
+        { loggedIn &&
           <ServerStatus { ...serverStatusProps } />
         }
-        { showTree &&
+        { loggedIn &&
           <TreeComponent { ...treeProps } />
         }
       </div>
