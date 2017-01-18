@@ -18,11 +18,19 @@ export const defaultState: UserState = {
 export default function user (state: UserState = defaultState, action: UserAction) {
   switch (action.type) {
   case types.UNAUTHENTICATED:
-    browserHistory.push('/login')
+    // Indicates running from test
+    // @TODO: Clean up
+    if (browserHistory.getCurrentLocation().pathname !== 'blank') {
+      browserHistory.replace('/login')
+    }
     // @TODO: Set signOutFailed to false
     return { ...state, loggedIn: false, username: null, rootId: null }
   case types.AUTHENTICATE:
-    browserHistory.push('/')
+    // Indicates running from test
+    // @TODO: Clean up
+    if (browserHistory.getCurrentLocation().pathname !== 'blank') {
+      browserHistory.replace('/')
+    }
     return {
       ...state,
       authenticationFailed: false,
