@@ -241,6 +241,63 @@ describe('nodes actions', () => {
     })
   })
 
+  describe('patchNode', () => {
+
+    it('null path', () => {
+      expect(actions.patchNode([], { title: '' })).toBe(undefined)
+    })
+
+    it('INTERNAL_SERVER_ERROR', () => {
+      nock(hostname)
+        .patch(`/node/${ uid }`)
+        .reply(500)
+
+      const store = mockStore({ nodes: null })
+
+      return store.dispatch(actions.patchNode([uid], { title: '' }))
+        .then(
+          () => {
+            const lastAction = store.getActions().pop()
+            expect(lastAction.type).toEqual('HAS_ERRORS')
+          }
+        )
+    })
+
+    it('BAD_REQUEST', () => {
+      nock(hostname)
+        .patch(`/node/${ uid }`)
+        .reply(400)
+
+      const store = mockStore({ nodes: null })
+
+      return store.dispatch(actions.patchNode([uid], { title: '' }))
+        .then(() => {
+          const lastAction = store.getActions().pop()
+          expect(lastAction.type).toEqual('HAS_ERRORS')
+        })
+    })
+
+    it('OK', () => {
+
+      const path = [uid]
+      const data = { title: 'New User' }
+      const transaction = { type: 'SET', data }
+
+      nock(hostname)
+        .patch(`/node/${ uid }`, { transaction })
+        .reply(200)
+
+      const store = mockStore({ nodes: null })
+
+      return store.dispatch(actions.patchNode(path, data))
+        .then(() => {
+          const lastAction = store.getActions().pop()
+          expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTIONS')
+          expect(lastAction.data).toEqual({ path, transaction })
+        })
+    })
+  })
+
   describe('deleteNode', () => {
 
     it('null path', () => {

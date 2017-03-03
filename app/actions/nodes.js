@@ -1,7 +1,7 @@
 /* @flow */
 
 import fetch from 'isomorphic-fetch'
-import type { TreePath, NodeId, NodeData } from '../../flow/tree'
+import type { TreePath, NodeId, NodeData, Transaction } from '../../flow/tree'
 import { getParentFromPath, getUidFromPath } from '../../app/lib/tree/TreeUtils'
 
 import host from '../settings/host'
@@ -339,6 +339,60 @@ export const putNode = (path: TreePath, data: NodeData) => {
         json => {
           dispatch(stopSyncing())
           dispatch(updateNode(path, json))
+        },
+        () => {
+          dispatch(stopSyncing())
+          dispatch(hasErrors())
+        }
+      )
+  }
+}
+
+export const UPDATE_NODE_TRANSACTIONS = 'UPDATE_NODE_TRANSACTIONS'
+export const updateNodeTransactions = (path: TreePath, transaction: Transaction) => {
+  return {
+    type: UPDATE_NODE_TRANSACTIONS,
+    data: {
+      path,
+      transaction
+    }
+  }
+}
+
+export const PATCH_NODE = 'PATCH_NODE'
+export const patchNode = (path: TreePath, data: NodeData) => {
+
+  const uid = getUidFromPath(path)
+
+  // guard
+  if (uid == null) { return }
+
+  const transaction = { type: 'SET', data }
+
+  return function (dispatch: () => void) {
+    dispatch(startSyncing())
+    const url = `${ host }/node/${ uid }`
+    const options = {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify({ transaction })
+    }
+    return fetch(url, options)
+      .then(
+        response => {
+          if (response.ok === false) {
+            return Promise.reject(new Error(response.statusText))
+          }
+        }
+      )
+      .then(
+        () => {
+          dispatch(stopSyncing())
+          dispatch(updateNodeTransactions(path, transaction))
         },
         () => {
           dispatch(stopSyncing())

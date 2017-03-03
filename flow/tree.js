@@ -37,6 +37,13 @@ export type NodeData = {
   title: string
 }
 
+export type TransactionType = 'SET' | 'ADD_CHILD' | 'REMOVE_CHILD'
+
+export type Transaction = {
+  type: TransactionType,
+  data?: NodeData
+}
+
 export type NodeUIKey = 'active' | 'expanded' | 'adding' | 'editing' | 'dragging' | 'movingChild' | 'buttonsShown'
 // @TODO: non-optional keys
 export type NodeUI = {
