@@ -6,7 +6,7 @@ declare var it: any
 declare var expect: any
 
 import { createNode } from '../../../app/lib/tree/NodeModifiers'
-import { updatePath, createTreeNode, updateTreeNode, parseTreeNode } from '../../../app/lib/tree/TreeNodeModifiers'
+import { updatePath, createTreeNode, updateTreeNode, updateTreeNodeTransaction, parseTreeNode } from '../../../app/lib/tree/TreeNodeModifiers'
 import { uid, uid1, uid2, uid3, uid4 } from '../../uid'
 import defaultUI from '../../../app/lib/ui/defaultUI'
 
@@ -76,6 +76,18 @@ describe('TreeNodeModifiers', () => {
       const updatedTreeNode = updateTreeNode(treeNode, uid)
       expect(updatedTreeNode.node.uid).toBe(uid)
       expect(updatedTreeNode.path).toEqual([uid])
+    })
+  })
+
+  describe('updateTreeNodeTransaction', () => {
+
+    it('transactions, data', () => {
+      const node = createNode()
+      const treeNode = createTreeNode(node)
+      const transaction = { type: 'SET', data: { title: 'New title' } }
+      const updatedTreeNode = updateTreeNodeTransaction(treeNode, transaction)
+      expect(updatedTreeNode.node.data).toEqual({ title: 'New title' })
+      expect(updatedTreeNode.node.transactions).toEqual([transaction])
     })
   })
 
