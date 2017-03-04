@@ -6,11 +6,12 @@ import type {
   TreeNode,
   NodeId,
   NodeData,
-  NodeUI
+  NodeUI,
+  Transaction
 } from '../../../flow/tree'
 
 import { fromJS } from 'immutable'
-import { updatePath, parseTreeNode, updateTreeNode as updateNode } from './TreeNodeModifiers'
+import { updatePath, parseTreeNode, updateTreeNode as updateNode, updateTreeNodeTransaction as updateNodeTransaction } from './TreeNodeModifiers'
 import { getNodesIndex, getTreeIndexPath, treeIndexPathToTreeNodesPath, parseTree, mapTree } from './TreeUtils'
 import ID from '../../settings/TREE_ID_KEY'
 import NODES from '../../settings/TREE_NODES_KEY'
@@ -45,6 +46,15 @@ export const updateTreeNode = (treeData: Tree, path: TreePath, data?: NodeData, 
   const nodesPath = treeIndexPathToTreeNodesPath(pathIndexes, NODES)
   let tree = fromJS(treeData)
   const treeNode = updateNode(tree.getIn(nodesPath).toJS(), undefined, data, ui)
+  return tree.setIn(nodesPath, treeNode).toJS()
+}
+
+export const updateTreeNodeTransaction = (treeData: Tree, path: TreePath, transaction: Transaction) : Tree => {
+  const pathIndexes = getTreeIndexPath(treeData, path, NODES, ID)
+  if (pathIndexes == null) return treeData
+  const nodesPath = treeIndexPathToTreeNodesPath(pathIndexes, NODES)
+  let tree = fromJS(treeData)
+  const treeNode = updateNodeTransaction(tree.getIn(nodesPath).toJS(), transaction)
   return tree.setIn(nodesPath, treeNode).toJS()
 }
 

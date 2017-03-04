@@ -12,7 +12,8 @@ import {
   addTreeNode,
   updateTreeNode,
   removeTreeNode,
-  updateTreeNodes
+  updateTreeNodes,
+  updateTreeNodeTransaction
 } from '../../../app/lib/tree/TreeModifiers'
 import defaultUI from '../../../app/lib/ui/defaultUI'
 import { uid, uid1, uid2, uid3, uid4 } from '../../uid'
@@ -177,6 +178,21 @@ describe('TreeModifiers', () => {
       const tree = updateTreeNode(treeData, path, undefined, ui)
       expect(tree.nodes[0].nodes.length).toBe(1)
       expect(tree.nodes[0].nodes[0].node.ui).toEqual(ui)
+    })
+  })
+
+  describe('updateTreeNodeTransaction', () => {
+
+    it('root data', () => {
+
+      const treeData = { nodes: [
+        { node: { uid, user: null, data: { title: 'Mr. Foo' }, ui: defaultUI, transactions: [] }, path: [uid], nodes: [] }
+      ] }
+      const path = [uid]
+      const transaction = { type: 'SET', data: { title: 'New title' } }
+      const tree = updateTreeNodeTransaction(treeData, path, transaction)
+      expect(tree.nodes[0].node.data).toEqual({ title: 'New title' })
+      expect(tree.nodes[0].node.transactions).toEqual([transaction])
     })
   })
 
