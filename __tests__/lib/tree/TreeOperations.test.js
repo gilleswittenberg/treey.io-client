@@ -9,6 +9,7 @@ import {
   index,
   createAndAdd,
   update,
+  updateTransaction,
   remove,
   move,
   clearUI,
@@ -78,6 +79,25 @@ describe('TreeOperations', () => {
       const updatedTree = update(tree, path, nodeData)
       expect(updatedTree.nodes.length).toBe(1)
       expect(updatedTree.nodes[0].node.data).toEqual({ title: 'new' })
+    })
+  })
+
+  describe('updateTransaction', () => {
+
+    it('updateTransaction', () => {
+
+      const tree = {
+        nodes: [{
+          node: { uid, user: null, data: { title: 'Mr. Root' }, ui: defaultUI, transactions: [] },
+          path: [uid],
+          nodes: []
+        }]
+      }
+      const path = [uid]
+      const transaction = { type: 'SET', data: { title: 'new' } }
+      const updatedTree = updateTransaction(tree, path, transaction)
+      expect(updatedTree.nodes[0].node.data).toEqual({ title: 'new' })
+      expect(updatedTree.nodes[0].node.transactions).toEqual([transaction])
     })
   })
 

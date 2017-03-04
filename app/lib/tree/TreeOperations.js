@@ -8,12 +8,13 @@ import type {
   NodeData,
   NodeUI,
   NodeUIKey,
+  Transaction,
   PrevOrNext
 } from '../../../flow/tree'
 
 import { createNode } from './NodeModifiers'
 import { createTreeNode } from './TreeNodeModifiers'
-import { indexTreeNodes, addTreeNode, updateTreeNode, removeTreeNode, updateTreeNodes } from './TreeModifiers'
+import { indexTreeNodes, addTreeNode, updateTreeNode, updateTreeNodeTransaction, removeTreeNode, updateTreeNodes } from './TreeModifiers'
 import { getTreeNode, filterTree, flattenTree } from './TreeUtils'
 import { getNextCircular, getPrevCircular } from '../utils/ArrayUtils'
 import ID from '../../settings/TREE_ID_KEY'
@@ -31,6 +32,10 @@ export const createAndAdd = (tree: Tree, path: TreePath, uid?: NodeId, data?: No
 
 export const update = (tree: Tree, path: TreePath, data: NodeData) : Tree  => {
   return updateTreeNode(tree, path, data)
+}
+
+export const updateTransaction = (tree: Tree, path: TreePath, transaction: Transaction) : Tree  => {
+  return updateTreeNodeTransaction(tree, path, transaction)
 }
 
 export const remove = (tree: Tree, path: TreePath) : Tree  => {
