@@ -292,7 +292,7 @@ describe('nodes actions', () => {
       return store.dispatch(actions.patchNode(path, data))
         .then(() => {
           const lastAction = store.getActions().pop()
-          expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTIONS')
+          expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION')
           expect(lastAction.data).toEqual({ path, transaction })
         })
     })

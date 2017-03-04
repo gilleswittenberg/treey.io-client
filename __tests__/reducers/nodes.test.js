@@ -13,6 +13,7 @@ import {
   INDEX_NODES,
   ADD_NODE,
   UPDATE_NODE,
+  UPDATE_NODE_TRANSACTION,
   REMOVE_NODE,
   CLEAR_NODE_UI,
   UPDATE_NODE_UI,
@@ -132,6 +133,36 @@ describe('nodes reducer', () => {
     if (state4.tree != null) {
       expect(state4.tree.nodes[0].nodes[0].nodes.length).toBe(1)
     }
+  })
+
+  describe('transaction', () => {
+
+    it('UPDATE_NODE_TRANSACTION', () => {
+
+      const tree = { nodes: [{
+        uid,
+        data: { title: 'John Doe' },
+        nodes: [],
+        transactions: [
+          { type: 'SET', data: { title: 'John Doe' } }
+        ]
+      }] }
+      const state = reducer(undefined, { type: INDEX_NODES, data: { tree } })
+      const transaction = { type: 'SET', data: { title: 'New' } }
+      const state2 = reducer(state, {
+        type: UPDATE_NODE_TRANSACTION,
+        data: {
+          path: [uid],
+          transaction
+        }
+      })
+      if (state2.tree != null && state2.tree.nodes != null) {
+        expect(state2.tree.nodes[0].node.data).toEqual({ title: 'New' })
+      }
+      if (state2.tree != null && state2.tree.nodes != null) {
+        expect(state2.tree.nodes[0].node.transactions[1]).toEqual()
+      }
+    })
   })
 
   describe('ui', () => {

@@ -348,10 +348,10 @@ export const putNode = (path: TreePath, data: NodeData) => {
   }
 }
 
-export const UPDATE_NODE_TRANSACTIONS = 'UPDATE_NODE_TRANSACTIONS'
-export const updateNodeTransactions = (path: TreePath, transaction: Transaction) => {
+export const UPDATE_NODE_TRANSACTION = 'UPDATE_NODE_TRANSACTION'
+export const updateNodeTransaction = (path: TreePath, transaction: Transaction) => {
   return {
-    type: UPDATE_NODE_TRANSACTIONS,
+    type: UPDATE_NODE_TRANSACTION,
     data: {
       path,
       transaction
@@ -392,7 +392,7 @@ export const patchNode = (path: TreePath, data: NodeData) => {
       .then(
         () => {
           dispatch(stopSyncing())
-          dispatch(updateNodeTransactions(path, transaction))
+          dispatch(updateNodeTransaction(path, transaction))
         },
         () => {
           dispatch(stopSyncing())
