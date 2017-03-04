@@ -28,7 +28,8 @@ export type Node = {
   uid: ?NodeId,
   user: ?NodeUser,
   data: NodeData,
-  ui: NodeUI
+  ui: NodeUI,
+  transactions: Transaction[]
 }
 
 export type Nodes = Node[]

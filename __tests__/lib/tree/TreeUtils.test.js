@@ -66,7 +66,7 @@ describe('TreeUtils', () => {
 
     it('not in nodes', () => {
       const nodes = [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: []
       }]
@@ -75,11 +75,11 @@ describe('TreeUtils', () => {
 
     it('in nodes', () => {
       const nodes = [{
-        node: { uid, user: null, uid1, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, uid1, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid1],
         nodes: []
       }, {
-        node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid2],
         nodes: []
       }]
@@ -100,7 +100,8 @@ describe('TreeUtils', () => {
           uid,
           user: null,
           data: { title: '' },
-          ui: defaultUI
+          ui: defaultUI,
+          transactions: []
         },
         path: [uid],
         nodes: []
@@ -110,7 +111,7 @@ describe('TreeUtils', () => {
 
     it('root nodes', () => {
       const node = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: []
       }] }
@@ -119,10 +120,10 @@ describe('TreeUtils', () => {
 
     it('non 1st child', () => {
       const node = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: [{
-          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           nodes: [],
           path: [uid, uid1]
         }]
@@ -132,14 +133,14 @@ describe('TreeUtils', () => {
 
     it('1st child', () => {
       const node = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: [{
-          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           nodes: [],
           path: [uid, uid1]
         }, {
-          node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           nodes: [],
           path: [uid, uid2]
         }]
@@ -149,10 +150,10 @@ describe('TreeUtils', () => {
 
     it('non nodes 2nd child', () => {
       const node = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: [{
-          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           nodes: [],
           path: [uid, uid1]
         }]
@@ -162,14 +163,14 @@ describe('TreeUtils', () => {
 
     it('non 2nd child', () => {
       const node = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: [{
-          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           nodes: [],
           path: [uid, uid1]
         }, {
-          node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           nodes: [],
           path: [uid, uid2]
         }]
@@ -179,16 +180,16 @@ describe('TreeUtils', () => {
 
     it('2nd child', () => {
       const node = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: [{
-          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           nodes: [{
-            node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI },
+            node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
             nodes: [],
             path: [uid, uid2]
           }, {
-            node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI },
+            node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
             nodes: [],
             path: [uid, uid3]
           }],
@@ -256,7 +257,8 @@ describe('TreeUtils', () => {
             uid,
             user: null,
             data: { title: '' },
-            ui: defaultUI
+            ui: defaultUI,
+            transactions: []
           },
           path: [uid],
           nodes: [treeNode]
@@ -336,7 +338,7 @@ describe('TreeUtils', () => {
 
     it('root', () => {
       const tree = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: []
       }] }
@@ -346,14 +348,14 @@ describe('TreeUtils', () => {
 
     it('1st generation', () => {
       const tree = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: [{
-          node: { uid: uid1, user: null, data: { title: '' }, ui:defaultUI },
+          node: { uid: uid1, user: null, data: { title: '' }, ui:defaultUI, transactions: [] },
           path: [uid, uid1],
           nodes: []
         }, {
-          node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           path: [uid, uid2],
           nodes: []
         }]
@@ -364,17 +366,17 @@ describe('TreeUtils', () => {
 
     it('2nd generation', () => {
       const tree = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: [{
-          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           path: [uid, uid1],
           nodes: [{
-            node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI },
+            node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
             path: [uid, uid2],
             nodes: []
           }, {
-            node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI },
+            node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
             path: [uid, uid3],
             nodes: []
           }]
@@ -395,7 +397,7 @@ describe('TreeUtils', () => {
 
     it('non valid', () => {
       const tree = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: []
       }] }
@@ -405,7 +407,7 @@ describe('TreeUtils', () => {
 
     it('valid', () => {
       const tree = { nodes: [{
-        node: { uid, user: null, data: { title: 'Mr. Foo' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: 'Mr. Foo' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: []
       }] }
@@ -418,15 +420,15 @@ describe('TreeUtils', () => {
 
     it('valid multiple', () => {
       const tree = { nodes: [{
-        node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: []
       }, {
-        node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: []
       }, {
-        node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: []
       }] }
@@ -439,18 +441,18 @@ describe('TreeUtils', () => {
 
     it('1 generation', () => {
       const tree = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: [{
-          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           path: [uid, uid1],
           nodes: []
         }, {
-          node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           path: [uid, uid2],
           nodes: []
         }, {
-          node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           path: [uid, uid3],
           nodes: []
         }] }
@@ -464,26 +466,26 @@ describe('TreeUtils', () => {
 
     it('2 generations', () => {
       const tree = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: [{
-          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           path: [uid, uid1],
           nodes: [{
-            node: { uid: uid4, user: null, data: { title: '' }, ui: defaultUI },
+            node: { uid: uid4, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
             path: [uid, uid1, uid4],
             nodes: []
           }, {
-            node: { uid: uid5, user: null, data: { title: '' }, ui: defaultUI },
+            node: { uid: uid5, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
             path: [uid, uid1, uid5],
             nodes: []
           }]
         }, {
-          node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           path: [uid, uid2],
           nodes: []
         }, {
-          node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           path: [uid, uid3],
           nodes: []
         }] }
@@ -499,30 +501,30 @@ describe('TreeUtils', () => {
     it('ui parent', () => {
       const uiExpanded = { ...defaultUI, expanded: true }
       const tree = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: uiExpanded },
+        node: { uid, user: null, data: { title: '' }, ui: uiExpanded, transactions: [] },
         path: [uid],
         nodes: [{
-          node: { uid: uid1, user: null, data: { title: '' }, ui: uiExpanded },
+          node: { uid: uid1, user: null, data: { title: '' }, ui: uiExpanded, transactions: [] },
           path: [uid, uid1],
           nodes: [{
-            node: { uid: uid4, user: null, data: { title: '' }, ui: uiExpanded },
+            node: { uid: uid4, user: null, data: { title: '' }, ui: uiExpanded, transactions: [] },
             path: [uid, uid1, uid4],
             nodes: []
           }, {
-            node: { uid: uid5, user: null, data: { title: '' }, ui: defaultUI },
+            node: { uid: uid5, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
             path: [uid, uid1, uid5],
             nodes: []
           }]
         }, {
-          node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           path: [uid, uid2],
           nodes: [{
-            node: { uid: uid6, user: null, data: { title: '' }, ui: defaultUI },
+            node: { uid: uid6, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
             path: [uid, uid2, uid6],
             nodes: []
           }]
         }, {
-          node: { uid: uid3, user: null, data: { title: '' }, ui: uiExpanded },
+          node: { uid: uid3, user: null, data: { title: '' }, ui: uiExpanded, transactions: [] },
           path: [uid, uid3],
           nodes: []
         }] }
@@ -545,11 +547,11 @@ describe('TreeUtils', () => {
 
     it('1 generation', () => {
       const tree = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: []
       }, {
-        node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid1],
         nodes: []
       }] }
@@ -562,20 +564,20 @@ describe('TreeUtils', () => {
     it('2 generations', () => {
       const tree = { nodes: [
         {
-          node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           path: [uid],
           nodes: [{
-            node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI },
+            node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
             path: [uid, uid3],
             nodes: []
           }, {
-            node: { uid: uid4, user: null, data: { title: '' }, ui: defaultUI },
+            node: { uid: uid4, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
             path: [uid, uid4],
             nodes: []
           }]
         },
         {
-          node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           path: [uid2],
           nodes: []
         }
@@ -591,7 +593,7 @@ describe('TreeUtils', () => {
 
     it('root', () => {
       const tree = { nodes: [{
-        node: { uid, user: null, data: { title: 'Mr. Foo' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: 'Mr. Foo' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: []
       }] }
@@ -605,17 +607,17 @@ describe('TreeUtils', () => {
 
     it('2 generations', () => {
       const tree = { nodes: [{
-        node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+        node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
         path: [uid],
         nodes: [{
-          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           path: [uid, uid1],
           nodes: [{
-            node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI },
+            node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
             path: [uid, uid1, uid2],
             nodes: []
           }, {
-            node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI },
+            node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
             path: [uid, uid1, uid3],
             nodes: []
           }]

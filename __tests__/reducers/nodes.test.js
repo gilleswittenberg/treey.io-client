@@ -143,7 +143,8 @@ describe('nodes reducer', () => {
             uid,
             user: null,
             data: { title: '' },
-            ui: { ...defaultUI, editing: true }
+            ui: { ...defaultUI, editing: true },
+            transactions: []
           },
           path: [uid],
           nodes: []
@@ -163,7 +164,8 @@ describe('nodes reducer', () => {
             uid,
             user: null,
             data: { title: '' },
-            ui: { ...defaultUI, dragging: true }
+            ui: { ...defaultUI, dragging: true },
+            transactions: []
           },
           path: [uid],
           nodes: []
@@ -184,7 +186,8 @@ describe('nodes reducer', () => {
             uid,
             user: null,
             data: { title: '' },
-            ui: { ...defaultUI }
+            ui: { ...defaultUI },
+            transactions: []
           },
           path: [uid],
           nodes: []
@@ -204,7 +207,8 @@ describe('nodes reducer', () => {
             uid,
             user: null,
             data: { title: '' },
-            ui: { ...defaultUI }
+            ui: { ...defaultUI },
+            transactions: []
           },
           path: [uid],
           nodes: []
@@ -225,7 +229,8 @@ describe('nodes reducer', () => {
             uid,
             user: null,
             data: { title: '' },
-            ui: { ...defaultUI, active: true }
+            ui: { ...defaultUI, active: true },
+            transactions: []
           },
           path: [uid],
           nodes: []

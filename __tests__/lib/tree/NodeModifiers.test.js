@@ -5,7 +5,7 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import { createNode, updateNode, parseNode } from '../../../app/lib/tree/NodeModifiers'
+import { createNode, updateNode, updateNodeTransaction, parseNode } from '../../../app/lib/tree/NodeModifiers'
 import defaultUI from '../../../app/lib/ui/defaultUI'
 import { uid, uid1 } from '../../uid'
 
@@ -50,6 +50,17 @@ describe('NodeModifiers', () => {
       const node = createNode(undefined, undefined, undefined, ui)
       expect(node.ui).toEqual(ui)
     })
+
+    it('transactions', () => {
+      const transactions = [
+        { type: 'SET', data: { title: 'Mr. First' } },
+        { type: 'SET', data: { title: 'Mr. Foo' } }
+      ]
+      const data = { title: 'Mr. Foo' }
+      const node = createNode(undefined, undefined, data, undefined, transactions)
+      expect(node.data).toEqual(data)
+      expect(node.transactions).toEqual(transactions)
+    })
   })
 
   describe('updateNode', () => {
@@ -92,6 +103,20 @@ describe('NodeModifiers', () => {
       expect(node2.uid).toBe(uid1)
       expect(node2.data).toEqual({ title: 'New title' })
       expect(node2.ui).toEqual(ui)
+    })
+  })
+
+  describe('updateNodeTransaction', () => {
+
+    it('transaction', () => {
+      const data = { title: 'Mr. Foo' }
+      const transactions = [{ type: 'SET', data }]
+      const node = createNode(undefined, undefined, data, undefined, transactions)
+      const transaction = { type: 'SET', data: { title: 'New title' } }
+      const node2 = updateNodeTransaction(node, transaction)
+      expect(node2.transactions.length).toEqual(2)
+      expect(node2.transactions[1]).toEqual(transaction)
+      expect(node2.data).toEqual({ title: 'New title' })
     })
   })
 

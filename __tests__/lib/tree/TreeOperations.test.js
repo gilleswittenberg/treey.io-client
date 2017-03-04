@@ -42,7 +42,7 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           path: [uid],
           nodes: []
         }]
@@ -66,7 +66,7 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          node: { uid, user: null, data: { title: 'Mr. Root' }, ui: defaultUI },
+          node: { uid, user: null, data: { title: 'Mr. Root' }, ui: defaultUI, transactions: [] },
           path: [uid],
           nodes: []
         }]
@@ -87,10 +87,10 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           path: [uid],
           nodes: [{
-            node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI },
+            node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
             path: [uid, uid1],
             nodes: []
           }]
@@ -108,24 +108,24 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          node: { uid, user: null, data: { title: '' }, ui: defaultUI },
+          node: { uid, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
           path: [uid],
           nodes: [
             {
-              node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI },
+              node: { uid: uid1, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
               path: [uid, uid1],
               nodes: [{
-                node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI },
+                node: { uid: uid2, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
                 path: [uid, uid1, uid2],
                 nodes: [{
-                  node: { uid: uid4, user: null, data: { title: '' }, ui: defaultUI },
+                  node: { uid: uid4, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
                   path: [uid, uid1, uid4],
                   nodes: []
                 }]
               }]
             },
             {
-              node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI },
+              node: { uid: uid3, user: null, data: { title: '' }, ui: defaultUI, transactions: [] },
               path: [uid, uid3],
               nodes: []
             }
@@ -156,7 +156,8 @@ describe('TreeOperations', () => {
             },
             ui: {
               editing: false
-            }
+            },
+            transactions: []
           },
           path: [uid],
           nodes: [
@@ -169,7 +170,8 @@ describe('TreeOperations', () => {
                 },
                 ui: {
                   editing: true
-                }
+                },
+                transactions: []
               },
               path: [uid, uid1],
               nodes: []
@@ -193,7 +195,8 @@ describe('TreeOperations', () => {
             user: null,
             data: { title: 'Mr. Root' },
             ui: defaultUI,
-            nodes: []
+            nodes: [],
+            transactions: []
           },
           path: [uid],
           nodes: []
@@ -215,12 +218,15 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          node: { uid, user: null, data: { title: '' }, ui: { ...defaultUI, expanded: true, active: true } },
+          node: {
+            uid, user: null, data: { title: '' }, ui: { ...defaultUI, expanded: true, active: true }, transactions: []
+          },
           path: [uid],
           nodes: [{
-            node: { uid: uid1, user: null, data: { title: '' }, ui: { ...defaultUI, active: false } },
+            node: { uid: uid1, user: null, data: { title: '' }, ui: { ...defaultUI, active: false }, transactions: [] },
             path: [uid, uid1],
-            nodes: []
+            nodes: [],
+            transactions: []
           }]
         }]
       }
@@ -236,10 +242,10 @@ describe('TreeOperations', () => {
 
       const tree = {
         nodes: [{
-          node: { uid, user: null, data: { title: '' }, ui: { ...defaultUI, expanded: true } },
+          node: { uid, user: null, data: { title: '' }, ui: { ...defaultUI, expanded: true }, transactions: [] },
           path: [uid],
           nodes: [{
-            node: { uid: uid1, user: null, data: { title: '' }, ui: { ...defaultUI, active: true } },
+            node: { uid: uid1, user: null, data: { title: '' }, ui: { ...defaultUI, active: true }, transactions: [] },
             path: [uid, uid1],
             nodes: []
           }]
