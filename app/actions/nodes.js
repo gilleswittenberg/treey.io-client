@@ -1,8 +1,9 @@
 /* @flow */
 
 import fetch from 'isomorphic-fetch'
-import type { TreePath, NodeId, NodeData, Transaction } from '../../flow/tree'
+import type { TreePath, NodeId, NodeData, Transaction, TransactionStatus } from '../../flow/tree'
 import { getParentFromPath, getUidFromPath } from '../../app/lib/tree/TreeUtils'
+import createTransaction from '../../app/lib/tree/createTransaction'
 
 import host from '../settings/host'
 
@@ -348,10 +349,10 @@ export const putNode = (path: TreePath, data: NodeData) => {
   }
 }
 
-export const UPDATE_NODE_TRANSACTION = 'UPDATE_NODE_TRANSACTION'
-export const updateNodeTransaction = (path: TreePath, transaction: Transaction) => {
+export const ADD_NODE_TRANSACTION = 'ADD_NODE_TRANSACTION'
+export const addNodeTransaction = (path: TreePath, transaction: Transaction) => {
   return {
-    type: UPDATE_NODE_TRANSACTION,
+    type: ADD_NODE_TRANSACTION,
     data: {
       path,
       transaction
@@ -359,17 +360,34 @@ export const updateNodeTransaction = (path: TreePath, transaction: Transaction) 
   }
 }
 
-export const PATCH_NODE = 'PATCH_NODE'
-export const patchNode = (path: TreePath, data: NodeData) => {
+export const UPDATE_NODE_TRANSACTION_STATUS = 'UPDATE_NODE_TRANSACTION_STATUS'
+export const updateNodeTransactionStatus = (path: TreePath, transaction: Transaction, status: TransactionStatus) => {
+  return {
+    type: UPDATE_NODE_TRANSACTION_STATUS,
+    data: {
+      path,
+      transaction,
+      status
+    }
+  }
+}
+
+export const update = (path: TreePath, data: NodeData) => {
+  return (dispatch: () => void) => {
+    const transaction = createTransaction('SET', data)
+    dispatch(addNodeTransaction(path, transaction))
+    return dispatch(patchNode(path, transaction))
+  }
+}
+
+export const patchNode = (path: TreePath, transaction: Transaction) => {
 
   const uid = getUidFromPath(path)
 
   // guard
-  if (uid == null) { return }
+  if (uid == null) return
 
-  const transaction = { type: 'SET', data }
-
-  return function (dispatch: () => void) {
+  return (dispatch: () => void) => {
     dispatch(startSyncing())
     const url = `${ host }/node/${ uid }`
     const options = {
@@ -387,12 +405,13 @@ export const patchNode = (path: TreePath, data: NodeData) => {
           if (response.ok === false) {
             return Promise.reject(new Error(response.statusText))
           }
+          return response.json()
         }
       )
       .then(
-        () => {
+        json => {
           dispatch(stopSyncing())
-          dispatch(updateNodeTransaction(path, transaction))
+          dispatch(updateNodeTransactionStatus(path, transaction, json.status))
         },
         () => {
           dispatch(stopSyncing())

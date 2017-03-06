@@ -1,6 +1,6 @@
 /* @flow */
 
-import type { Tree, TreePath, NodeId, NodeData, NodeUIKey } from './tree'
+import type { Tree, TreePath, NodeId, NodeData, NodeUIKey, Transaction, TransactionStatus } from './tree'
 
 export type Type = 'boolean' | 'number' | 'string' | '[]' | 'boolean[]' | 'string[]' | 'number[]'
 
@@ -30,6 +30,8 @@ type NodesActionType =
   'ADD_NODE' |
   'POST_NODE' |
   'UPDATE_NODE' |
+  'ADD_NODE_TRANSACTION' |
+  'UPDATE_NODE_TRANSACTION_STATUS' |
   'PUT_NODE' |
   'REMOVE_NODE' |
   'DELETE_NODE' |
@@ -52,7 +54,9 @@ export type NodesAction = {
     before?: NodeId,
     key?: NodeUIKey,
     keys?: NodeUIKey[],
-    value?: boolean
+    value?: boolean,
+    transaction?: Transaction,
+    status?: TransactionStatus
   }
 }
 

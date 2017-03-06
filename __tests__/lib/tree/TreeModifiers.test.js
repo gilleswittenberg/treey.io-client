@@ -13,10 +13,12 @@ import {
   updateTreeNode,
   removeTreeNode,
   updateTreeNodes,
-  updateTreeNodeTransaction
+  addTreeNodeTransaction,
+  updateTreeNodeTransactionStatus
 } from '../../../app/lib/tree/TreeModifiers'
 import defaultUI from '../../../app/lib/ui/defaultUI'
 import { uid, uid1, uid2, uid3, uid4 } from '../../uid'
+import createTransaction from '../../../app/lib/tree/createTransaction'
 
 describe('TreeModifiers', () => {
 
@@ -181,18 +183,35 @@ describe('TreeModifiers', () => {
     })
   })
 
-  describe('updateTreeNodeTransaction', () => {
+  describe('addTreeNodeTransaction', () => {
 
     it('root data', () => {
 
+      const data = { title: 'Mr. Foo' }
+      const transaction0 = { type: 'SET', data, status: 'COMMITTED', uuid: '' }
       const treeData = { nodes: [
-        { node: { uid, user: null, data: { title: 'Mr. Foo' }, ui: defaultUI, transactions: [] }, path: [uid], nodes: [] }
+        { node: { uid, user: null, data, ui: defaultUI, transactions: [transaction0] }, path: [uid], nodes: [] }
       ] }
       const path = [uid]
-      const transaction = { type: 'SET', data: { title: 'New title' } }
-      const tree = updateTreeNodeTransaction(treeData, path, transaction)
+      const transaction1 = { type: 'SET', data: { title: 'New title' }, status: 'PENDING', uuid: '' }
+      const tree = addTreeNodeTransaction(treeData, path, transaction1)
       expect(tree.nodes[0].node.data).toEqual({ title: 'New title' })
-      expect(tree.nodes[0].node.transactions).toEqual([transaction])
+      expect(tree.nodes[0].node.transactions).toEqual([transaction0, transaction1])
+    })
+  })
+
+  describe('updateTreeNodeTransactionStatus', () => {
+
+    it('root data', () => {
+
+      const data = { title: 'Mr. Foo' }
+      const transaction = createTransaction('SET', data)
+      const treeData = { nodes: [
+        { node: { uid, user: null, data, ui: defaultUI, transactions: [transaction] }, path: [uid], nodes: [] }
+      ] }
+      const path = [uid]
+      const tree = updateTreeNodeTransactionStatus(treeData, path, transaction.uuid, 'COMMITTED')
+      expect(tree.nodes[0].node.transactions[0].status).toBe('COMMITTED')
     })
   })
 

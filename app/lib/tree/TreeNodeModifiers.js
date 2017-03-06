@@ -1,6 +1,7 @@
 /* @flow */
 
 import type {
+  UUID,
   TreeNodes,
   TreeNode,
   TreePath,
@@ -8,11 +9,12 @@ import type {
   NodeId,
   NodeData,
   NodeUI,
-  Transaction
+  Transaction,
+  TransactionStatus
 } from '../../../flow/tree'
 
 import { fromJS } from 'immutable'
-import { updateNode, updateNodeTransaction, parseNode } from './NodeModifiers'
+import { updateNode, addTransaction, updateTransactionStatus, parseNode } from './NodeModifiers'
 
 // @TODO: Use Flow type TreeNode instead of any
 const setPath = (treeNode: any, parentPath?: TreePath = [], id?: ?NodeId) : any => {
@@ -61,9 +63,16 @@ export const updateTreeNode = (treeNode: TreeNode, id?: NodeId, data?: NodeData,
   return treeNode
 }
 
-export const updateTreeNodeTransaction = (treeNode: TreeNode, transaction: Transaction) : TreeNode => {
+export const addTreeNodeTransaction = (treeNode: TreeNode, transaction: Transaction) : TreeNode => {
   let map = fromJS(treeNode)
-  map = map.set('node', updateNodeTransaction(map.get('node').toJS(), transaction))
+  map = map.set('node', addTransaction(map.get('node').toJS(), transaction))
+  treeNode = map.toJS()
+  return treeNode
+}
+
+export const updateTreeNodeTransactionStatus = (treeNode: TreeNode, uuid: UUID, status: TransactionStatus) : TreeNode => {
+  let map = fromJS(treeNode)
+  map = map.set('node', updateTransactionStatus(map.get('node').toJS(), uuid, status))
   treeNode = map.toJS()
   return treeNode
 }

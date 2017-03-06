@@ -1,17 +1,25 @@
 /* @flow */
 
 import type {
+  UUID,
   Tree,
   TreePath,
   TreeNode,
   NodeId,
   NodeData,
   NodeUI,
-  Transaction
+  Transaction,
+  TransactionStatus
 } from '../../../flow/tree'
 
 import { fromJS } from 'immutable'
-import { updatePath, parseTreeNode, updateTreeNode as updateNode, updateTreeNodeTransaction as updateNodeTransaction } from './TreeNodeModifiers'
+import {
+  updatePath,
+  parseTreeNode,
+  updateTreeNode as updateNode,
+  addTreeNodeTransaction as addNodeTransaction,
+  updateTreeNodeTransactionStatus as updateNodeTransactionStatus
+} from './TreeNodeModifiers'
 import { getNodesIndex, getTreeIndexPath, treeIndexPathToTreeNodesPath, parseTree, mapTree } from './TreeUtils'
 import ID from '../../settings/TREE_ID_KEY'
 import NODES from '../../settings/TREE_NODES_KEY'
@@ -49,12 +57,21 @@ export const updateTreeNode = (treeData: Tree, path: TreePath, data?: NodeData, 
   return tree.setIn(nodesPath, treeNode).toJS()
 }
 
-export const updateTreeNodeTransaction = (treeData: Tree, path: TreePath, transaction: Transaction) : Tree => {
+export const addTreeNodeTransaction = (treeData: Tree, path: TreePath, transaction: Transaction) : Tree => {
   const pathIndexes = getTreeIndexPath(treeData, path, NODES, ID)
   if (pathIndexes == null) return treeData
   const nodesPath = treeIndexPathToTreeNodesPath(pathIndexes, NODES)
   let tree = fromJS(treeData)
-  const treeNode = updateNodeTransaction(tree.getIn(nodesPath).toJS(), transaction)
+  const treeNode = addNodeTransaction(tree.getIn(nodesPath).toJS(), transaction)
+  return tree.setIn(nodesPath, treeNode).toJS()
+}
+
+export const updateTreeNodeTransactionStatus = (treeData: Tree, path: TreePath, uuid: UUID, status: TransactionStatus) : Tree => {
+  const pathIndexes = getTreeIndexPath(treeData, path, NODES, ID)
+  if (pathIndexes == null) return treeData
+  const nodesPath = treeIndexPathToTreeNodesPath(pathIndexes, NODES)
+  let tree = fromJS(treeData)
+  const treeNode = updateNodeTransactionStatus(tree.getIn(nodesPath).toJS(), uuid, status)
   return tree.setIn(nodesPath, treeNode).toJS()
 }
 

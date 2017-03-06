@@ -7,7 +7,8 @@ import {
   index,
   createAndAdd,
   update,
-  updateTransaction,
+  addTransaction,
+  updateTransactionStatus,
   remove,
   move,
   clearUI,
@@ -56,9 +57,16 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     }
     return state
 
-  case types.UPDATE_NODE_TRANSACTION:
+  case types.ADD_NODE_TRANSACTION:
     if (state.tree != null && action.data.path != null && action.data.transaction != null) {
-      const tree = updateTransaction(state.tree, action.data.path, action.data.transaction)
+      const tree = addTransaction(state.tree, action.data.path, action.data.transaction)
+      return { ...state, tree }
+    }
+    return state
+
+  case types.UPDATE_NODE_TRANSACTION_STATUS:
+    if (state.tree != null && action.data.path != null && action.data.transaction != null && action.data.status != null) {
+      const tree = updateTransactionStatus(state.tree, action.data.path, action.data.transaction.uuid, action.data.status)
       return { ...state, tree }
     }
     return state

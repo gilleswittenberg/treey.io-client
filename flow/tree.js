@@ -1,5 +1,7 @@
 /* @flow */
 
+export type UUID = string
+
 // @TODO: allow for settings NodesKey dynamically
 export type NodesKey = string
 // @TODO: allow for settings IdKey dynamically
@@ -39,9 +41,11 @@ export type NodeData = {
 }
 
 export type TransactionType = 'SET' | 'ADD_CHILD' | 'REMOVE_CHILD'
-
+export type TransactionStatus = 'PENDING' | 'DENIED' | 'COMMITTED' | 'UNDONE'
 export type Transaction = {
+  uuid: UUID,
   type: TransactionType,
+  status: TransactionStatus,
   data?: NodeData
 }
 

@@ -5,7 +5,8 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import { createNode, updateNode, updateNodeTransaction, parseNode } from '../../../app/lib/tree/NodeModifiers'
+import { createNode, updateNode, addTransaction, updateTransactionStatus, parseNode } from '../../../app/lib/tree/NodeModifiers'
+import createTransaction from '../../../app/lib/tree/createTransaction'
 import defaultUI from '../../../app/lib/ui/defaultUI'
 import { uid, uid1 } from '../../uid'
 
@@ -53,8 +54,8 @@ describe('NodeModifiers', () => {
 
     it('transactions', () => {
       const transactions = [
-        { type: 'SET', data: { title: 'Mr. First' } },
-        { type: 'SET', data: { title: 'Mr. Foo' } }
+        { type: 'SET', data: { title: 'Mr. First' }, status: 'PENDING', uuid: '' },
+        { type: 'SET', data: { title: 'Mr. Foo' }, status: 'PENDING', uuid: '' }
       ]
       const data = { title: 'Mr. Foo' }
       const node = createNode(undefined, undefined, data, undefined, transactions)
@@ -106,17 +107,31 @@ describe('NodeModifiers', () => {
     })
   })
 
-  describe('updateNodeTransaction', () => {
+  describe('addTransaction', () => {
 
     it('transaction', () => {
       const data = { title: 'Mr. Foo' }
-      const transactions = [{ type: 'SET', data }]
+      const transactions = [{ type: 'SET', data, status: 'PENDING', uuid: '' }]
       const node = createNode(undefined, undefined, data, undefined, transactions)
-      const transaction = { type: 'SET', data: { title: 'New title' } }
-      const node2 = updateNodeTransaction(node, transaction)
+      const transaction = { type: 'SET', data: { title: 'New title' }, status: 'PENDING', uuid: '' }
+      const node2 = addTransaction(node, transaction)
       expect(node2.transactions.length).toEqual(2)
       expect(node2.transactions[1]).toEqual(transaction)
       expect(node2.data).toEqual({ title: 'New title' })
+    })
+  })
+
+  describe('updateTransactionStatus', () => {
+
+    it('COMMITTED', () => {
+      const data = { title: 'Mr. Foo' }
+      const transaction = createTransaction('SET', data)
+      const transactions = [transaction]
+      const node = createNode(undefined, undefined, data, undefined, transactions)
+      const node2 = updateTransactionStatus(node, transaction.uuid, 'COMMITTED')
+      expect(node2.transactions.length).toEqual(1)
+      expect(node2.transactions[0].status).toEqual('COMMITTED')
+      expect(node2.data).toEqual(data)
     })
   })
 

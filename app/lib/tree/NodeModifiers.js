@@ -1,6 +1,6 @@
 /* @flow */
 
-import type { Node, NodeId, NodeUser, NodeData, NodeUI, Transaction } from '../../../flow/tree'
+import type { UUID, Node, NodeId, NodeUser, NodeData, NodeUI, Transaction, TransactionStatus } from '../../../flow/tree'
 
 import { fromJS } from 'immutable'
 import defaultUI from '../ui/defaultUI'
@@ -28,12 +28,21 @@ export const updateNode = (node: Node, id?: NodeId, data?: NodeData, ui?: NodeUI
   return nodeMap.toJS()
 }
 
-export const updateNodeTransaction = (node: Node, transaction: Transaction) : Node => {
+export const addTransaction = (node: Node, transaction: Transaction) : Node => {
   let nodeMap = fromJS(node)
   nodeMap = nodeMap.updateIn(['transactions'], list => list.push(transaction))
   // @TODO: extract update data from transactions, calculate state from transactions
   if (transaction.type === 'SET') {
     nodeMap = nodeMap.setIn(['data'], transaction.data)
+  }
+  return nodeMap.toJS()
+}
+
+export const updateTransactionStatus = (node: Node, uuid: UUID, status: TransactionStatus) : Node => {
+  let nodeMap = fromJS(node)
+  let entry = nodeMap.getIn(['transactions']).findEntry(value => value.get('uuid') === uuid)
+  if (entry) {
+    nodeMap = nodeMap.updateIn(['transactions', entry[0], 'status'], () => status)
   }
   return nodeMap.toJS()
 }

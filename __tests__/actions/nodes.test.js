@@ -12,6 +12,7 @@ import multi from 'redux-multi'
 import nock from 'nock'
 import * as actions from '../../app/actions/nodes'
 import { uid, uid1, uid2, uid3, uid4, uid5 } from '../uid'
+import createTransaction from '../../app/lib/tree/createTransaction'
 
 const middlewares = [thunk, multi]
 const mockStore = configureMockStore(middlewares)
@@ -243,10 +244,6 @@ describe('nodes actions', () => {
 
   describe('patchNode', () => {
 
-    it('null path', () => {
-      expect(actions.patchNode([], { title: '' })).toBe(undefined)
-    })
-
     it('INTERNAL_SERVER_ERROR', () => {
       nock(hostname)
         .patch(`/node/${ uid }`)
@@ -254,7 +251,9 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.patchNode([uid], { title: '' }))
+      const transaction = createTransaction('SET', { title: '' })
+
+      return store.dispatch(actions.patchNode([uid], transaction))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -270,7 +269,9 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.patchNode([uid], { title: '' }))
+      const transaction = createTransaction('SET', { title: '' })
+
+      return store.dispatch(actions.patchNode([uid], transaction))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -280,20 +281,43 @@ describe('nodes actions', () => {
     it('OK', () => {
 
       const path = [uid]
-      const data = { title: 'New User' }
-      const transaction = { type: 'SET', data }
+      const transaction = createTransaction('SET', { title: 'Mr Foo' })
 
       nock(hostname)
         .patch(`/node/${ uid }`, { transaction })
-        .reply(200)
+        .reply(200, { status: 'COMMITTED' })
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.patchNode(path, data))
+      return store.dispatch(actions.patchNode(path, transaction))
         .then(() => {
           const lastAction = store.getActions().pop()
-          expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION')
-          expect(lastAction.data).toEqual({ path, transaction })
+          expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')
+          expect(lastAction.data).toEqual({ path, transaction, status: 'COMMITTED' })
+        })
+    })
+  })
+
+  describe('update', () => {
+
+    it('dispatches', () => {
+
+      nock(hostname)
+        .patch(`/node/${ uid }`)
+        .reply(200, { status: 'COMMITTED' })
+
+      const store = mockStore({ nodes: null })
+
+      return store.dispatch(actions.update([uid], { title: 'Mr. Foo' }))
+        .then(() => {
+          const lastAction = store.getActions().pop()
+          expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')
+          const secondLastAction = store.getActions().pop()
+          expect(secondLastAction.type).toEqual('STOP_SYNCING')
+          const thirdLastAction = store.getActions().pop()
+          expect(thirdLastAction.type).toEqual('START_SYNCING')
+          const fourthLastAction = store.getActions().pop()
+          expect(fourthLastAction.type).toEqual('ADD_NODE_TRANSACTION')
         })
     })
   })

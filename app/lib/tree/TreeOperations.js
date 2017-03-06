@@ -1,6 +1,7 @@
 /* @flow */
 
 import type {
+  UUID,
   NodeId,
   Tree,
   TreeNode,
@@ -9,12 +10,21 @@ import type {
   NodeUI,
   NodeUIKey,
   Transaction,
+  TransactionStatus,
   PrevOrNext
 } from '../../../flow/tree'
 
 import { createNode } from './NodeModifiers'
 import { createTreeNode } from './TreeNodeModifiers'
-import { indexTreeNodes, addTreeNode, updateTreeNode, updateTreeNodeTransaction, removeTreeNode, updateTreeNodes } from './TreeModifiers'
+import {
+  indexTreeNodes,
+  addTreeNode,
+  updateTreeNode,
+  addTreeNodeTransaction,
+  updateTreeNodeTransactionStatus,
+  removeTreeNode,
+  updateTreeNodes
+} from './TreeModifiers'
 import { getTreeNode, filterTree, flattenTree } from './TreeUtils'
 import { getNextCircular, getPrevCircular } from '../utils/ArrayUtils'
 import ID from '../../settings/TREE_ID_KEY'
@@ -34,8 +44,12 @@ export const update = (tree: Tree, path: TreePath, data: NodeData) : Tree  => {
   return updateTreeNode(tree, path, data)
 }
 
-export const updateTransaction = (tree: Tree, path: TreePath, transaction: Transaction) : Tree  => {
-  return updateTreeNodeTransaction(tree, path, transaction)
+export const addTransaction = (tree: Tree, path: TreePath, transaction: Transaction) : Tree  => {
+  return addTreeNodeTransaction(tree, path, transaction)
+}
+
+export const updateTransactionStatus = (tree: Tree, path: TreePath, uuid: UUID, status: TransactionStatus) : Tree  => {
+  return updateTreeNodeTransactionStatus(tree, path, uuid, status)
 }
 
 export const remove = (tree: Tree, path: TreePath) : Tree  => {
