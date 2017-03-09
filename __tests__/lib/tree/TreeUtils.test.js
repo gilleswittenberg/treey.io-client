@@ -272,22 +272,32 @@ describe('TreeUtils', () => {
   describe('parseTree', () => {
 
     it('root', () => {
-      const tree = { uid, data: { title: 'Mr. Foo' } }
+      const tree = {
+        uid,
+        data: { title: 'Mr. Foo' },
+        transactions: [{ type: 'SET', uuid: '', data: { title: 'Mr. Foo' }, status: 'COMMITTED' }]
+      }
       const parsedTree = parseTree(tree)
       expect(parsedTree.nodes.length).toBe(1)
       expect(parsedTree.nodes[0].path).toEqual([uid])
       expect(parsedTree.nodes[0].nodes).toEqual([])
       expect(parsedTree.nodes[0].node.uid).toBe(uid)
       expect(parsedTree.nodes[0].node.data).toEqual({ title: 'Mr. Foo' })
+      expect(parsedTree.nodes[0].node.transactions).toEqual([{ type: 'SET', uuid: '', data: { title: 'Mr. Foo' }, status: 'COMMITTED' }])
     })
 
     it('1st generation', () => {
       const nodes = [{
         uid: uid1,
-        data: { title: 'First child' }
+        data: { title: 'First child' },
+        transactions: [{ type: 'SET', uuid: '', data: { title: 'First Child' }, status: 'COMMITTED' }]
       }, {
         uid: uid2,
-        data: { title: 'Second child' }
+        data: { title: 'Second child' },
+        transactions: [
+          { type: 'SET', uuid: '', data: { title: 'Second Child old' }, status: 'COMMITTED' },
+          { type: 'SET', uuid: '', data: { title: 'Second Child' }, status: 'COMMITTED' }
+        ]
       }]
       const tree = { uid, title: 'Mr. Foo', nodes }
       const parsedTree = parseTree(tree)
@@ -295,25 +305,37 @@ describe('TreeUtils', () => {
       expect(parsedTree.nodes[0].nodes[0].path).toEqual([uid, uid1])
       expect(parsedTree.nodes[0].nodes[0].node.uid).toBe(uid1)
       expect(parsedTree.nodes[0].nodes[0].node.data).toEqual({ title: 'First child' })
+      expect(parsedTree.nodes[0].nodes[0].node.transactions).toEqual([{ type: 'SET', uuid: '', data: { title: 'First Child' }, status: 'COMMITTED' }])
       expect(parsedTree.nodes[0].nodes[1].path).toEqual([uid, uid2])
       expect(parsedTree.nodes[0].nodes[1].node.uid).toBe(uid2)
       expect(parsedTree.nodes[0].nodes[1].node.data).toEqual({ title: 'Second child' })
+      expect(parsedTree.nodes[0].nodes[1].node.transactions).toEqual([
+        { type: 'SET', uuid: '', data: { title: 'Second Child old' }, status: 'COMMITTED' },
+        { type: 'SET', uuid: '', data: { title: 'Second Child' }, status: 'COMMITTED' }
+      ])
     })
 
     it('2nd generation', () => {
       const nodes = [{
         uid: uid2,
-        data: { title: 'First grandchild' }
+        data: { title: 'First grandchild' },
+        transactions: [
+          { type: 'SET', uuid: '', data: { title: 'First Child' }, status: 'COMMITTED' }
+        ]
       }, {
         uid: uid3,
-        data: { title: 'Second grandchild' }
+        data: { title: 'Second grandchild' },
+        transactions: [
+          { type: 'SET', uuid: '', data: { title: 'First Child' }, status: 'COMMITTED' },
+          { type: 'SET', uuid: '', data: { title: 'First Child' }, status: 'COMMITTED' }
+        ],
       }]
       const tree = {
         uid,
-        title: 'Mr. Foo',
+        data: { title: 'Mr. Foo' },
         nodes : [
-          { uid: uid4, title: 'First child' },
-          { uid: uid1, title: 'Second child', nodes }
+          { uid: uid4, data: { title: 'First child' } },
+          { uid: uid1, data: { title: 'Second child' }, nodes }
         ]
       }
       const parsedTree = parseTree(tree)
@@ -321,9 +343,16 @@ describe('TreeUtils', () => {
       expect(parsedTree.nodes[0].nodes[1].nodes[0].path).toEqual([uid, uid1, uid2])
       expect(parsedTree.nodes[0].nodes[1].nodes[0].node.uid).toBe(uid2)
       expect(parsedTree.nodes[0].nodes[1].nodes[0].node.data).toEqual({ title: 'First grandchild' })
+      expect(parsedTree.nodes[0].nodes[1].nodes[0].node.transactions).toEqual([
+        { type: 'SET', uuid: '', data: { title: 'First Child' }, status: 'COMMITTED' }
+      ])
       expect(parsedTree.nodes[0].nodes[1].nodes[1].path).toEqual([uid, uid1, uid3])
       expect(parsedTree.nodes[0].nodes[1].nodes[1].node.uid).toBe(uid3)
       expect(parsedTree.nodes[0].nodes[1].nodes[1].node.data).toEqual({ title: 'Second grandchild' })
+      expect(parsedTree.nodes[0].nodes[1].nodes[1].node.transactions).toEqual([
+        { type: 'SET', uuid: '', data: { title: 'First Child' }, status: 'COMMITTED' },
+        { type: 'SET', uuid: '', data: { title: 'First Child' }, status: 'COMMITTED' }
+      ])
     })
   })
 

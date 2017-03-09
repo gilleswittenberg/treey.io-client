@@ -94,9 +94,11 @@ describe('nodes reducer', () => {
       state.tree.nodes[0].nodes.forEach(function (node) {
         expect(node.path).not.toBe(null)
         expect(node.node.ui).not.toBe(null)
+        expect(node.node.transactions).not.toBe(null)
         node.nodes.forEach(node => {
           expect(node.path).not.toBe(null)
           expect(node.node.ui).not.toBe(null)
+          expect(node.node.transactions).not.toBe(null)
         })
       })
     }

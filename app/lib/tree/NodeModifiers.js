@@ -47,7 +47,7 @@ export const updateTransactionStatus = (node: Node, uuid: UUID, status: Transact
   return nodeMap.toJS()
 }
 
-export const parseNode = (obj: { uid?: NodeId, user?: string, data?: NodeData }) : Node => {
+export const parseNode = (obj: { uid?: NodeId, user?: string, data?: NodeData, transactions?: Transaction[] }) : Node => {
   const id = obj.uid != null ? obj.uid : undefined
-  return createNode(id, obj.user, obj.data)
+  return createNode(id, obj.user, obj.data, undefined, obj.transactions)
 }

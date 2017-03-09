@@ -138,11 +138,18 @@ describe('NodeModifiers', () => {
   describe('parseNode', () => {
 
     it('node', () => {
-      const data = { uid, data: { title: 'Mr. Foo' } }
+      const nodeData = { title: 'Mr. Foo' }
+      const transaction = { type: 'SET', status: 'COMMITTED', data: nodeData, uuid: '' }
+      const data = {
+        uid,
+        data: nodeData,
+        transactions: [transaction]
+      }
       const node = parseNode(data)
       expect(node.uid).toBe(uid)
       expect(node.data).toEqual({ title: 'Mr. Foo' })
       expect(node.ui).toEqual(defaultUI)
+      expect(node.transactions).toEqual([transaction])
     })
 
     it('uid undefined', () => {
