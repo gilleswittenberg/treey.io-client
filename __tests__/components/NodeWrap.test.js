@@ -30,7 +30,7 @@ describe('NodeWrap', () => {
     siblings: [],
     index: 0,
     clearUIEditingAdding: noop,
-    putNode: noop,
+    update: noop,
     postNode: noop,
     deleteNode: noop,
     putMoveNode: noop

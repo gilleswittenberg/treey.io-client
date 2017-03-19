@@ -22,7 +22,7 @@ describe('NodeEdit', () => {
     uid,
     title: '',
     clearUIEditingAdding: noop,
-    putNode: noop,
+    update: noop,
     deleteNode: noop
   }
   const getComponent = getComponentHOF(NodeEdit, defaultProps)
@@ -57,16 +57,16 @@ describe('NodeEdit', () => {
       expect(deleteNode.mock.calls.length).toBe(1)
     })
 
-    it('putNode', () => {
+    it('update', () => {
       const clearUIEditingAdding = jest.fn()
-      const putNode = jest.fn()
-      const wrapper = shallow(getComponent({ clearUIEditingAdding, putNode }))
+      const update = jest.fn()
+      const wrapper = shallow(getComponent({ clearUIEditingAdding, update }))
       wrapper.setState({ title: 'user input' })
       const mockEvent = getMockEvent()
       wrapper.find('form').simulate('submit', mockEvent)
       expect(clearUIEditingAdding.mock.calls.length).toBe(1)
-      expect(putNode.mock.calls.length).toBe(1)
-      expect(putNode.mock.calls[0][1]).toEqual({ title: 'user input' })
+      expect(update.mock.calls.length).toBe(1)
+      expect(update.mock.calls[0][1]).toEqual({ title: 'user input' })
     })
   })
 })

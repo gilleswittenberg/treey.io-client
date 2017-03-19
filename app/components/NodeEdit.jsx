@@ -13,7 +13,7 @@ export default class NodeEdit extends Component {
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     clearUIEditingAdding: PropTypes.func.isRequired,
-    putNode: PropTypes.func.isRequired,
+    update: PropTypes.func.isRequired,
     deleteNode: PropTypes.func.isRequired
   }
 
@@ -47,7 +47,7 @@ export default class NodeEdit extends Component {
   @autobind
   handleSubmit (event: Event) {
     event.preventDefault()
-    const { parent, path, title, deleteNode, putNode, clearUIEditingAdding } = this.props
+    const { parent, path, title, deleteNode, update, clearUIEditingAdding } = this.props
     const { title: newTitle } = this.state
     const newTitleTrimmed = newTitle.trim()
     // @TODO: what to do for parent && newTitleTrimmed == ''?
@@ -55,8 +55,7 @@ export default class NodeEdit extends Component {
     if (parent != null && newTitleTrimmed === '') {
       deleteNode(path)
     } else if (title !== newTitleTrimmed) {
-      // @TOOD: remove uid
-      putNode(path, { title: newTitleTrimmed })
+      update(path, { title: newTitleTrimmed })
     }
     clearUIEditingAdding()
   }

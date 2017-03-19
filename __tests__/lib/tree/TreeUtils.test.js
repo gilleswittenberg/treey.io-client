@@ -328,7 +328,7 @@ describe('TreeUtils', () => {
         transactions: [
           { type: 'SET', uuid: '', data: { title: 'First Child' }, status: 'COMMITTED' },
           { type: 'SET', uuid: '', data: { title: 'First Child' }, status: 'COMMITTED' }
-        ],
+        ]
       }]
       const tree = {
         uid,
