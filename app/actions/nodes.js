@@ -380,6 +380,23 @@ export const update = (path: TreePath, data: NodeData) => {
   }
 }
 
+export const removeChild = (path: TreePath) => {
+
+  const parent = getParentFromPath(path)
+  const uid = getUidFromPath(path)
+
+  // guard
+  if (parent == null || uid == null) return
+
+  const parentPath = path.slice(0, -1)
+
+  return (dispatch: () => void) => {
+    const transaction = createTransaction('REMOVE_CHILD', undefined, uid)
+    dispatch(addNodeTransaction(parentPath, transaction))
+    return dispatch(patchNode(parentPath, transaction))
+  }
+}
+
 export const patchNode = (path: TreePath, transaction: Transaction) => {
 
   const uid = getUidFromPath(path)

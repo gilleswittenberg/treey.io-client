@@ -109,15 +109,32 @@ describe('NodeModifiers', () => {
 
   describe('addTransaction', () => {
 
-    it('transaction', () => {
-      const data = { title: 'Mr. Foo' }
-      const transactions = [{ type: 'SET', data, status: 'PENDING', uuid: '' }]
-      const node = createNode(undefined, undefined, data, undefined, transactions)
-      const transaction = { type: 'SET', data: { title: 'New title' }, status: 'PENDING', uuid: '' }
-      const node2 = addTransaction(node, transaction)
-      expect(node2.transactions.length).toEqual(2)
-      expect(node2.transactions[1]).toEqual(transaction)
-      expect(node2.data).toEqual({ title: 'New title' })
+    describe('SET', () => {
+
+      it('transaction', () => {
+        const data = { title: 'Mr. Foo' }
+        const transactions = [{ type: 'SET', data, status: 'PENDING', uuid: '' }]
+        const node = createNode(undefined, undefined, data, undefined, transactions)
+        const transaction = { type: 'SET', data: { title: 'New title' }, status: 'PENDING', uuid: '' }
+        const node2 = addTransaction(node, transaction)
+        expect(node2.transactions.length).toEqual(2)
+        expect(node2.transactions[1]).toEqual(transaction)
+        expect(node2.data).toEqual({ title: 'New title' })
+      })
+    })
+
+    describe('REMOVE_CHILD', () => {
+
+      it('transaction', () => {
+        const data= { title: 'Title' }
+        const transactions = [{ type: 'SET', data, status: 'PENDING', uuid: '' }]
+        const node = createNode(undefined, undefined, data, undefined, transactions)
+        const transaction = { type: 'REMOVE_CHILD', uid, status: 'PENDING', uuid: '' }
+        const node2 = addTransaction(node, transaction)
+        expect(node2.transactions.length).toEqual(2)
+        expect(node2.transactions[1]).toEqual(transaction)
+        expect(node2.data).toEqual(data)
+      })
     })
   })
 

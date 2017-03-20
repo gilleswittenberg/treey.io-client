@@ -71,7 +71,7 @@ describe('NodeDroppable', () => {
     hasNodes: false,
     siblings: [{ uid: uid1 }],
     index: 0,
-    deleteNode: noop,
+    removeChild: noop,
     putMoveNode: noop,
     setUIEditing: noop,
     setUIAdding: noop,

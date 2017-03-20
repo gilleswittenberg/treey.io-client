@@ -66,6 +66,12 @@ export const updateTreeNode = (treeNode: TreeNode, id?: NodeId, data?: NodeData,
 export const addTreeNodeTransaction = (treeNode: TreeNode, transaction: Transaction) : TreeNode => {
   let map = fromJS(treeNode)
   map = map.set('node', addTransaction(map.get('node').toJS(), transaction))
+  if (transaction.type === 'REMOVE_CHILD') {
+    const index = map.get('nodes').findIndex(value => value.getIn(['node', 'uid']) === transaction.uid)
+    if (index > -1) {
+      map = map.deleteIn(['nodes', index])
+    }
+  }
   treeNode = map.toJS()
   return treeNode
 }

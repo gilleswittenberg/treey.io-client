@@ -82,15 +82,34 @@ describe('TreeNodeModifiers', () => {
 
   describe('addTreeNodeTransaction', () => {
 
-    it('transactions, data', () => {
-      const data = { title: 'Mr. Foo' }
-      const transaction0 = { type: 'SET', data, status: 'COMMITTED', uuid: '' }
-      const node = createNode(undefined, undefined, data, undefined, [transaction0])
-      const treeNode = createTreeNode(node)
-      const transaction1 = { type: 'SET', data: { title: 'New title' }, status: 'PENDING', uuid: '' }
-      const updatedTreeNode = addTreeNodeTransaction(treeNode, transaction1)
-      expect(updatedTreeNode.node.data).toEqual({ title: 'New title' })
-      expect(updatedTreeNode.node.transactions).toEqual([transaction0, transaction1])
+    describe('SET', () => {
+
+      it('transactions, data', () => {
+        const data = { title: 'Mr. Foo' }
+        const transaction0 = { type: 'SET', data, status: 'COMMITTED', uuid: '' }
+        const node = createNode(undefined, undefined, data, undefined, [transaction0])
+        const treeNode = createTreeNode(node)
+        const transaction1 = { type: 'SET', data: { title: 'New title' }, status: 'PENDING', uuid: '' }
+        const updatedTreeNode = addTreeNodeTransaction(treeNode, transaction1)
+        expect(updatedTreeNode.node.data).toEqual({ title: 'New title' })
+        expect(updatedTreeNode.node.transactions).toEqual([transaction0, transaction1])
+      })
+    })
+
+    describe('REMOVE_CHILD', () => {
+
+      it('transactions, nodes', () => {
+        const childNode = createNode(uid, undefined, { title: 'Child' }, undefined)
+        const childTreeNode = createTreeNode(childNode)
+        const data = { title: 'Mr. Foo' }
+        const transaction0 = { type: 'SET', data, status: 'COMMITTED', uuid: '' }
+        const node = createNode(undefined, undefined, data, undefined, [transaction0])
+        const treeNode = createTreeNode(node, undefined, [childTreeNode])
+        const transaction1 = { type: 'REMOVE_CHILD', uid, status: 'PENDING', uuid: '' }
+        const updatedTreeNode = addTreeNodeTransaction(treeNode, transaction1)
+        expect(updatedTreeNode.node.transactions).toEqual([transaction0, transaction1])
+        expect(updatedTreeNode.nodes).toEqual([])
+      })
     })
   })
 

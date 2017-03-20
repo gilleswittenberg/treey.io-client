@@ -46,7 +46,7 @@ describe('Node', () => {
     setUIDragging: noop,
     clearUIDragging: noop,
     setUIButtonsShown: noop,
-    deleteNode: noop
+    removeChild: noop
   }
   const getComponent = getComponentHOF(Node, defaultProps)
 
@@ -103,12 +103,12 @@ describe('Node', () => {
   describe('handleClickDelete', () => {
 
     it('non root', () => {
-      const deleteNode = jest.fn()
+      const removeChild = jest.fn()
       const wrapper = mount(getComponent({
-        deleteNode
+        removeChild
       }))
       wrapper.find('.button-icon-delete').simulate('click')
-      expect(deleteNode.mock.calls.length).toBe(1)
+      expect(removeChild.mock.calls.length).toBe(1)
     })
 
     it('root', () => {

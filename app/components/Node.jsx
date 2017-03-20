@@ -31,7 +31,7 @@ export default class Node extends Component {
     setUIExpanded: PropTypes.func.isRequired,
     setUIActive: PropTypes.func.isRequired,
     setUIButtonsShown: PropTypes.func.isRequired,
-    deleteNode: PropTypes.func.isRequired
+    removeChild: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -80,8 +80,8 @@ export default class Node extends Component {
 
   @autobind
   handleClickDelete () {
-    const { path, deleteNode } = this.props
-    deleteNode(path)
+    const { path, removeChild } = this.props
+    removeChild(path)
   }
 
   @autobind
