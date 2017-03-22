@@ -6,7 +6,7 @@ declare var it: any
 declare var expect: any
 
 import createTransaction from '../../../app/lib/tree/createTransaction'
-import { uid } from '../../uid'
+import { uid, uid1 } from '../../uid'
 
 describe('createTransaction', () => {
 
@@ -33,6 +33,18 @@ describe('createTransaction', () => {
       expect(transaction.type).toBe('REMOVE_CHILD')
       expect(transaction.uuid.length).toBe(36)
       expect(transaction.uid).toEqual(uid)
+      expect(transaction.status).toBe('PENDING')
+    })
+  })
+
+  describe('ADD_CHILD', () => {
+
+    it('valid', () => {
+      const transaction = createTransaction('ADD_CHILD', undefined, uid, uid1)
+      expect(transaction.type).toBe('ADD_CHILD')
+      expect(transaction.uuid.length).toBe(36)
+      expect(transaction.uid).toEqual(uid)
+      expect(transaction.before).toEqual(uid1)
       expect(transaction.status).toBe('PENDING')
     })
   })

@@ -397,6 +397,15 @@ export const removeChild = (path: TreePath) => {
   }
 }
 
+export const addChild = (path: TreePath, uid: NodeId, before?: NodeId) => {
+
+  return (dispatch: () => void) => {
+    const transaction = createTransaction('ADD_CHILD', undefined, uid, before)
+    dispatch(addNodeTransaction(path, transaction))
+    return dispatch(patchNode(path, transaction))
+  }
+}
+
 export const patchNode = (path: TreePath, transaction: Transaction) => {
 
   const uid = getUidFromPath(path)

@@ -322,6 +322,54 @@ describe('nodes actions', () => {
     })
   })
 
+  describe('removeChild', () => {
+
+    it('dispatches', () => {
+
+      nock(hostname)
+        .patch(`/node/${ uid }`)
+        .reply(200, { status: 'COMMITTED' })
+
+      const store = mockStore({ nodes: null })
+
+      return store.dispatch(actions.removeChild([uid, uid1]))
+        .then(() => {
+          const lastAction = store.getActions().pop()
+          expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')
+          const secondLastAction = store.getActions().pop()
+          expect(secondLastAction.type).toEqual('STOP_SYNCING')
+          const thirdLastAction = store.getActions().pop()
+          expect(thirdLastAction.type).toEqual('START_SYNCING')
+          const fourthLastAction = store.getActions().pop()
+          expect(fourthLastAction.type).toEqual('ADD_NODE_TRANSACTION')
+        })
+    })
+  })
+
+  describe('addChild', () => {
+
+    it('dispatches', () => {
+
+      nock(hostname)
+        .patch(`/node/${ uid }`)
+        .reply(200, { status: 'COMMITTED' })
+
+      const store = mockStore({ nodes: null })
+
+      return store.dispatch(actions.addChild([uid], uid1))
+        .then(() => {
+          const lastAction = store.getActions().pop()
+          expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')
+          const secondLastAction = store.getActions().pop()
+          expect(secondLastAction.type).toEqual('STOP_SYNCING')
+          const thirdLastAction = store.getActions().pop()
+          expect(thirdLastAction.type).toEqual('START_SYNCING')
+          const fourthLastAction = store.getActions().pop()
+          expect(fourthLastAction.type).toEqual('ADD_NODE_TRANSACTION')
+        })
+    })
+  })
+
   describe('deleteNode', () => {
 
     it('null path', () => {

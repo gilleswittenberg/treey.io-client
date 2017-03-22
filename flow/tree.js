@@ -47,7 +47,8 @@ export type Transaction = {
   type: TransactionType,
   status: TransactionStatus,
   data?: NodeData,
-  uid?: NodeId
+  uid?: NodeId,
+  before?: NodeId
 }
 
 export type NodeUIKey = 'active' | 'expanded' | 'adding' | 'editing' | 'dragging' | 'movingChild' | 'buttonsShown'
