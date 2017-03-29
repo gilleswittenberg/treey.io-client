@@ -1,5 +1,6 @@
 import type { Transaction, TransactionType, NodeData, NodeId } from '../../../flow/tree'
 import uuid from 'uuid/v4'
+import createMongoObjectId from './createMongoObjectId'
 
 export default (type: TransactionType, nodeData?: NodeData, uid?: NodeId, before?: NodeId) : ?Transaction => {
 
@@ -9,6 +10,10 @@ export default (type: TransactionType, nodeData?: NodeData, uid?: NodeId, before
   }
 
   switch (type) {
+  case 'CREATE':
+    transaction.type = 'CREATE'
+    transaction.uid = createMongoObjectId()
+    return transaction
   case 'SET':
     transaction.type = 'SET'
     transaction.data = nodeData

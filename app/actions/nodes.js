@@ -372,6 +372,20 @@ export const updateNodeTransactionStatus = (path: TreePath, transaction: Transac
   }
 }
 
+export const create = (parentPath: TreePath, data: NodeData) => {
+  return (dispatch: () => void) => {
+    const transaction0 = createTransaction('CREATE')
+    dispatch(addNodeTransaction(parentPath, transaction0))
+    const transaction1 = createTransaction('SET', data)
+    const path = parentPath.concat([transaction0.uid])
+    dispatch(addNodeTransaction(path, transaction1))
+    const transaction2 = createTransaction('ADD_CHILD', parentPath, transaction0.uid)
+    dispatch(addNodeTransaction(parentPath, transaction2))
+    dispatch(postNodeTransactions(path, [transaction0, transaction1]))
+    return dispatch(patchNode(parentPath, transaction2))
+  }
+}
+
 export const update = (path: TreePath, data: NodeData) => {
   return (dispatch: () => void) => {
     const transaction = createTransaction('SET', data)
@@ -416,6 +430,44 @@ export const move = (path: TreePath, newPath: TreePath, before?: NodeId) => {
   return (dispatch: () => void) => {
     dispatch(removeChild(path))
     dispatch(addChild(newPath, uid, before))
+  }
+}
+
+export const postNodeTransactions = (path: TreePath, transactions: Transaction[]) => {
+
+  return (dispatch: () => void) => {
+    dispatch(startSyncing())
+    const url = `${ host }/node_transactions`
+    const options = {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify({ transactions })
+    }
+    return fetch(url, options)
+      .then(
+        response => {
+          if (response.ok === false) {
+            return Promise.reject(new Error(response.statusText))
+          }
+          return response.json()
+        }
+      )
+      .then(
+        json => {
+          dispatch(stopSyncing())
+          transactions.forEach(transaction => {
+            dispatch(updateNodeTransactionStatus(path, transaction, json.status))
+          })
+        },
+        () => {
+          dispatch(stopSyncing())
+          dispatch(hasErrors())
+        }
+      )
   }
 }
 

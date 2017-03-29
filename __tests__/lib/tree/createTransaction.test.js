@@ -15,6 +15,17 @@ describe('createTransaction', () => {
     expect(transaction).toBe(null)
   })
 
+  describe('CREATE', () => {
+
+    it('valid', () => {
+      const transaction = createTransaction('CREATE')
+      expect(transaction.type).toBe('CREATE')
+      expect(transaction.uuid.length).toBe(36)
+      expect(transaction.uid.length).toBe(24) // MongoDB ObjectId
+      expect(transaction.status).toBe('PENDING')
+    })
+  })
+
   describe('SET', () => {
 
     it('valid', () => {
