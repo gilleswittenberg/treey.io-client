@@ -1,7 +1,7 @@
 /* @flow */
 
 import fetch from 'isomorphic-fetch'
-import type { TreePath, NodeId, NodeData, Transaction, TransactionStatus } from '../../flow/tree'
+import type { TreePath, Nodes, NodeId, NodeData, Transaction, TransactionStatus } from '../../flow/tree'
 import { getParentFromPath, getUidFromPath } from '../../app/lib/tree/TreeUtils'
 import createTransaction from '../../app/lib/tree/createTransaction'
 
@@ -30,11 +30,11 @@ export const hasErrors = () => {
 }
 
 export const INDEX_NODES = 'INDEX_NODES'
-export const indexNodes = (tree: {}) => {
+export const indexNodes = (nodes: Nodes) => {
   return {
     type: INDEX_NODES,
     data: {
-      tree
+      nodes
     }
   }
 }
@@ -209,7 +209,7 @@ export const GET_NODES = 'GET_NODES'
 export const getNodes = (rootId: NodeId) => {
   return function (dispatch: () => void) {
     dispatch(startSyncing())
-    const url = `${ host }/node/${ rootId }`
+    const url = `${ host }/nodes/${ rootId }`
     const options = {
       method: 'GET',
       headers: {
@@ -229,7 +229,7 @@ export const getNodes = (rootId: NodeId) => {
       .then(
         json => {
           dispatch(stopSyncing())
-          dispatch(indexNodes(json))
+          dispatch(indexNodes(json.nodes))
         },
         () => { // (error)
           dispatch(stopSyncing())

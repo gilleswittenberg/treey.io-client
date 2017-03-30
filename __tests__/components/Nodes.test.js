@@ -20,6 +20,7 @@ describe('Nodes', () => {
   const defaultProps = {
     app,
     parent: null,
+    nodesArray: [],
     path: [],
     nodes: [],
     ui,
@@ -46,24 +47,21 @@ describe('Nodes', () => {
   describe('nodes', () => {
 
     it('nodes', () => {
-      const nodes = [{
-        node: {
-          uid,
-          data: { title: '' },
-          ui
-        },
+      const nodes = [uid, uid1]
+      const nodesArray = [{
+        uid,
+        data: { title: '' },
+        ui,
         path: [uid],
         nodes: []
       }, {
-        node: {
-          uid: uid1,
-          data: { title: '' },
-          ui
-        },
+        uid: uid1,
+        data: { title: '' },
+        ui,
         path: [uid1],
         nodes: []
       }]
-      const wrapper = shallow(getComponent({ nodes }))
+      const wrapper = shallow(getComponent({ nodes, nodesArray }))
       expect(wrapper.find('li').length).toBe(2)
     })
   })

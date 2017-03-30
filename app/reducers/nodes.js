@@ -4,23 +4,22 @@ import type { NodesState, NodesAction } from '../../flow/types'
 
 import * as types from '../actions/nodes'
 import {
-  index,
-  addTransaction,
-  updateTransactionStatus,
   clearUI,
   setUI,
   selectActiveNode
 } from '../lib/tree/TreeOperations'
+import { fromJS } from 'immutable'
 
 export const defaultState: NodesState = {
   isSyncing: false,
   hasErrors: false,
   tree: null,
+  nodes: [],
   userIsDragging: false,
   activePath: null
 }
 
-export default function nodes (state: NodesState = defaultState, action: NodesAction) {
+export default function nodes (state: NodesState = defaultState, action: NodesAction) : NodesState {
 
   // backend
   switch (action.type) {
@@ -33,23 +32,61 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
 
   // nodes
   case types.INDEX_NODES:
-    if (action.data.tree != null) {
-      const tree = index(action.data.tree)
-      return { ...state, tree }
+    if (action.data.nodes != null) {
+      return { ...state, nodes: action.data.nodes }
     }
     return state
 
   case types.ADD_NODE_TRANSACTION:
-    if (state.tree != null && action.data.path != null && action.data.transaction != null) {
-      const tree = addTransaction(state.tree, action.data.path, action.data.transaction)
-      return { ...state, tree }
+    if (action.data.transaction != null) {
+      const transaction = action.data.transaction
+      const uid = transaction.uid
+      const data = transaction.data
+      const index = state.nodes.findIndex(node => node.uid === uid)
+      let indexChild
+      if (index > -1) {
+        let nodes = fromJS(state.nodes)
+        nodes = nodes.updateIn([index, 'transactions'], arr => arr.push(transaction))
+        switch (transaction.type) {
+        case 'SET':
+          nodes = nodes.setIn([index, 'data'], data)
+          break
+        case 'REMOVE_CHILD':
+          indexChild = nodes.getIn([index, 'nodes']).findIndex(elem => elem === transaction.childUid)
+          if (indexChild > -1) {
+            nodes = nodes.updateIn([index, 'nodes'], arr => arr.splice(indexChild, 1))
+          }
+          break
+        case 'ADD_CHILD':
+          if (transaction.before == null) {
+            nodes = nodes.updateIn([index, 'nodes'], arr => arr.push(transaction.childUid))
+          } else {
+            const indexBefore = nodes.getIn([index, 'nodes']).findIndex(elem => elem === transaction.before)
+            nodes = nodes.updateIn([index, 'nodes'], arr => arr.splice(indexBefore, 0, transaction.childUid))
+          }
+          break
+        }
+
+        nodes = nodes.toJS()
+        return { ...state, nodes }
+      }
     }
     return state
 
   case types.UPDATE_NODE_TRANSACTION_STATUS:
-    if (state.tree != null && action.data.path != null && action.data.transaction != null && action.data.status != null) {
-      const tree = updateTransactionStatus(state.tree, action.data.path, action.data.transaction.uuid, action.data.status)
-      return { ...state, tree }
+    if (action.data.transaction != null) {
+      const transaction = action.data.transaction
+      const uid = transaction.uid
+      const index = state.nodes.findIndex(node => node.uid === uid)
+      if (index > -1) {
+        let nodes = fromJS(state.nodes)
+        let indexTransaction = nodes.getIn([index, 'transactions']).findIndex(elem => elem.get('uuid') === transaction.uuid)
+        if (indexTransaction > -1) {
+          nodes = nodes.setIn([index, 'transactions', indexTransaction, 'status'], action.data.status)
+          nodes = nodes.toJS()
+          return { ...state, nodes }
+        }
+      }
     }
     return state
 

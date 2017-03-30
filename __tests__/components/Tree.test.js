@@ -23,6 +23,7 @@ describe('Tree', () => {
     app,
     ...defaultActions,
     tree: null,
+    nodesArray: [],
     updateNodeUI: noop,
     unsetIsEditing: noop
   }
@@ -30,113 +31,69 @@ describe('Tree', () => {
 
   describe('index', () => {
 
-    it('null', () => {
+    it('empty nodesArray', () => {
       const wrapper = shallow(getComponent())
       expect(wrapper.find('Nodes').length).toBe(0)
     })
 
-    it('nodes', () => {
-      const tree = {
+    it('nodesArray', () => {
+      const nodesArray = [{
         uid: uid1,
-        path: [uid1],
-        nodes: [{
-          uid: uid2,
-          path: [uid1, uid2],
-          ui
-        }],
+        nodes: [],
         ui
-      }
-      const wrapper = shallow(getComponent({ tree }))
+      }]
+      const wrapper = shallow(getComponent({ nodesArray }))
       expect(wrapper.find('Nodes').length).toBe(1)
     })
 
-    it('nodes deep', () => {
-      const tree = { nodes: [{
-        node: {
+    it('nodesArray deep', () => {
+      const nodesArray = [
+        {
           uid,
-          data: {
-            title: 'John Doe'
-          },
-          ui
+          data: { title: 'John Doe' },
+          nodes: [uid1, uid4]
         },
-        path: [uid],
-        nodes: [
-          {
-            node: {
-              uid: uid1,
-              data: {
-                title: 'ToDo'
-              },
-              ui
-            },
-            path: [uid, uid1],
-            nodes: [
-              {
-                node: {
-                  uid: uid2,
-                  data: { title: 'bring home the milk' },
-                  ui
-                },
-                path: [uid, uid1, uid2],
-                nodes: []
-              },
-              {
-                node: {
-                  uid: uid3,
-                  data: { title: 'clean the house' },
-                  ui
-                },
-                path: [uid, uid1, uid3],
-                nodes: []
-              }
-            ]
-          },
-          {
-            node: {
-              uid: uid4,
-              data: {
-                title: 'Movies'
-              },
-              ui
-            },
-            path: [uid, uid4],
-            nodes: [
-              {
-                node: {
-                  uid: uid5,
-                  data: { title: 'Star Wars: Episode IV - A New Hope (1977)' },
-                  ui
-                },
-                path: [uid, uid4, uid5],
-                nodes: []
-              },
-              {
-                node: {
-                  uid: uid6,
-                  data: { title: 'The Terminator (1984)' },
-                  ui
-                },
-                path: [uid, uid4, uid6],
-                nodes: []
-              },
-              {
-                node: {
-                  uid: uid7,
-                  data: { title: 'The Matrix (1999)' },
-                  ui
-                },
-                path: [uid, uid4, uid7],
-                nodes: []
-              }
-            ]
-          }
-        ]
-      }] }
-      const wrapper = render(getComponent({ tree }))
+        {
+          uid: uid1,
+          data: { title: 'ToDo' },
+          nodes: [uid2, uid3]
+        },
+        {
+          uid: uid2,
+          data: { title: 'bring home the milk' },
+          nodes: []
+        },
+        {
+          uid: uid3,
+          data: { title: 'clean the house' },
+          nodes: []
+        },
+        {
+          uid: uid4,
+          data: { title: 'Movies' },
+          nodes: [uid5, uid6, uid7]
+        },
+        {
+          uid: uid5,
+          data: { title: 'The Terminator (1984)' },
+          nodes: []
+        }, {
+          uid: uid6,
+          data: { title: 'Star Wars: Episode IV - A New Hope (1977)' },
+          nodes: []
+        }, {
+          uid: uid7,
+          data: { title: 'The Matrix (1999)' },
+          nodes: []
+        }
+      ]
+      const wrapper = render(getComponent({ nodesArray }))
+      // @TODO: Better DOM selector
       // deepest child nodes 3 + 2
       expect(wrapper.find('ul ul ul ul').length).toBe(3 + 2)
     })
 
+    // @TODO: Check if still necessary. Remove / update
     it('componentWillReceiveProps', () => {
 
       const setUIExpanded = jest.fn()

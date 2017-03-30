@@ -28,7 +28,7 @@ describe('nodes actions', () => {
 
     it('INTERNAL_SERVER_ERROR', () => {
       nock(hostname)
-        .get(`/node/${ uid }`)
+        .get(`/nodes/${ uid }`)
         .reply(500)
 
       const store = mockStore({ nodes: null })
@@ -44,7 +44,7 @@ describe('nodes actions', () => {
 
     it('NOT_FOUND', () => {
       nock(hostname)
-        .get(`/node/${ uid }`)
+        .get(`/nodes/${ uid }`)
         .reply(404)
 
       const store = mockStore({ nodes: null })
@@ -58,7 +58,7 @@ describe('nodes actions', () => {
 
     it('BAD_REQUEST', () => {
       nock(hostname)
-        .get(`/node/${ uid }`)
+        .get(`/nodes/${ uid }`)
         .reply(400)
 
       const store = mockStore({ nodes: null })
@@ -73,29 +73,35 @@ describe('nodes actions', () => {
     it('OK', () => {
 
       const body = {
-        uid,
-        data: { title: 'John Doe' },
-        nodes: [
-          {
-            data: { title: 'ToDo' },
-            nodes: [
-              { uid: uid1, title: 'bring home the milk' },
-              { uid: uid2, title: 'clean the house' }
-            ]
-          },
-          {
-            data: { title: 'Movies' },
-            nodes: [
-              { uid: uid3, data: { title: 'Star Wars: Episode IV - A New Hope (1977)' } },
-              { uid: uid4, data: { title: 'The Terminator (1984)' } },
-              { uid: uid5, data: { title: 'The Matrix (1999)' } }
-            ]
-          }
-        ]
+        nodes: [{
+          uid,
+          data: { title: 'John Doe' },
+          nodes: [uid1, uid2]
+        }, {
+          uid: uid1,
+          data: { title: 'ToDo' },
+          nodes: []
+        }, {
+          uid: uid2,
+          data: { title: 'clean the house' },
+          nodes: [uid3, uid4, uid5]
+        }, {
+          uid: uid3,
+          data: { title: 'Star Wars: Episode IV - A New Hope (1977)' },
+          nodes: []
+        }, {
+          uid: uid4,
+          data: { title: 'The Terminator (1984)' },
+          nodes: []
+        }, {
+          uid: uid5,
+          data: { title: 'The Matrix (1999)' },
+          nodes: []
+        }]
       }
 
       nock(hostname)
-        .get(`/node/${ uid }`)
+        .get(`/nodes/${ uid }`)
         .reply(200, body)
 
       const store = mockStore({ nodes: null })
@@ -104,8 +110,28 @@ describe('nodes actions', () => {
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('INDEX_NODES')
-          expect(lastAction.data.tree).toEqual(body)
+          expect(lastAction.data.nodes).toEqual(body.nodes)
         })
+    })
+  })
+
+  describe('addNodeTransaction', () => {
+
+    it('action', () => {
+
+      const store = mockStore({ nodes: [] })
+      const transaction = {
+        uuid: '',
+        uid,
+        type: 'SET',
+        data: { title: 'Title' },
+        status: 'PENDING'
+      }
+
+      store.dispatch(actions.addNodeTransaction(transaction))
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual('ADD_NODE_TRANSACTION')
+      expect(lastAction.data.transaction).toEqual(transaction)
     })
   })
 

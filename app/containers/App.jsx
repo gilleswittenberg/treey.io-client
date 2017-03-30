@@ -27,7 +27,7 @@ class App extends React.Component {
         loggedIn,
         signOutFailed
       },
-      nodes: { tree, isSyncing, hasErrors }
+      nodes: { tree, nodes: nodesArray, isSyncing, hasErrors }
     } = this.props
 
     const actions = getActions(dispatch)
@@ -37,7 +37,7 @@ class App extends React.Component {
 
     // $FlowIssue Flow does not recognize Tree.DecoratedComponent
     const TreeComponent = enableDnD ? Tree : Tree.DecoratedComponent
-    const treeProps = { lang, enableDnD, app, tree, ...actions }
+    const treeProps = { lang, enableDnD, app, tree, nodesArray, ...actions }
 
 
     return (

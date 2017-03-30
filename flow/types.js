@@ -1,6 +1,6 @@
 /* @flow */
 
-import type { Tree, TreePath, NodeId, NodeData, NodeUIKey, Transaction, TransactionStatus } from './tree'
+import type { Tree, TreePath, Nodes, NodeId, NodeData, NodeUIKey, Transaction, TransactionStatus } from './tree'
 
 export type Type = 'boolean' | 'number' | 'string' | '[]' | 'boolean[]' | 'string[]' | 'number[]'
 
@@ -17,6 +17,7 @@ export type NodesState = {
   isSyncing: boolean,
   hasErrors: boolean,
   tree: ?Tree,
+  nodes: Nodes,
   userIsDragging: boolean,
   activePath: ?TreePath
 }
@@ -47,6 +48,7 @@ export type NodesAction = {
   type: NodesActionType,
   data: {
     nodeData?: NodeData,
+    nodes?: Nodes,
     tree?: any,
     path?: TreePath,
     newPath?: TreePath,

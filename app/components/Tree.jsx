@@ -14,9 +14,9 @@ class Tree extends Component {
   static propTypes = {
     enableDnD: PropTypes.bool,
     tree: PropTypes.object,
+    nodesArray: PropTypes.array.isRequired,
     clearUIEditingAdding: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
-
     setUIActive: PropTypes.func.isRequired,
     setNextUIActive: PropTypes.func.isRequired,
     setPrevUIActive: PropTypes.func.isRequired
@@ -93,18 +93,21 @@ class Tree extends Component {
 
     const {
       enableDnD,
-      tree
+      // tree,
+      nodesArray
     } = this.props
 
-    const nodes = tree ? tree.nodes : []
-    const nodesProps = { ...this.props, parent: null, nodes, ui: defaultUI }
+    // const nodes = tree ? tree.nodes : []
+    const nodes = nodesArray.length > 0 ? [nodesArray[0].uid] : []
+    const showNodes = nodes.length > 0
+    const nodesProps = { ...this.props, parent: null, nodesArray, nodes, ui: defaultUI }
 
     // $FlowIssue Flow does not recognize CustomDragLayer.DecoratedComponent
     const CustomDragLayerComponent = enableDnD ? CustomDragLayer : CustomDragLayer.DecoratedComponent
 
     return (
       <div className="tree">
-        { tree && <Nodes { ...nodesProps } /> }
+        { showNodes && <Nodes { ...nodesProps } /> }
         <CustomDragLayerComponent />
       </div>
     )

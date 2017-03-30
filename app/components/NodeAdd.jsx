@@ -11,7 +11,7 @@ export default class NodeAdd extends Component {
   static propTypes = {
     lang: PropTypes.string,
     parent: PropTypes.string.isRequired,
-    path: PropTypes.array.isRequired,
+    // path: PropTypes.array.isRequired,
     ui: PropTypes.object.isRequired,
     clearUIEditingAdding: PropTypes.func.isRequired,
 

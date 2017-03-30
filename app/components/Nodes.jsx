@@ -4,14 +4,15 @@ import React, { Component, PropTypes } from 'react'
 import NodeWrap from './NodeWrap'
 import NodeAdd from './NodeAdd'
 import NodeOver from './NodeOver'
-import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
+// import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
 
 export default class Nodes extends Component {
 
   static propTypes = {
     enableDnD: PropTypes.bool,
     parent: PropTypes.string,
-    ui: PropTypes.shape(propTypeShapeUI),
+    // ui: PropTypes.shape(propTypeShapeUI),
+    nodesArray: PropTypes.array,
     nodes: PropTypes.array,
     hasNodes: PropTypes.bool
   }
@@ -31,6 +32,7 @@ export default class Nodes extends Component {
   render () {
 
     const {
+      nodesArray,
       nodes,
       hasNodes,
       // @TODO: check if this works
@@ -45,18 +47,19 @@ export default class Nodes extends Component {
 
     const nodeWrapProps = { ...this.props, isRoot }
     const nodeAddProps = { ...this.props, isEditing: adding }
+    const nodesPopulated = nodes.map(nodeId => nodesArray.find(node => node.uid === nodeId))
 
     return (
       <ul>
 
-        { nodes.map((node, index) =>
-          <li key={ node.node.uid }>
+        { nodesPopulated.map((node, index) =>
+          <li key={ node.uid }>
             <NodeWrap
               { ...nodeWrapProps }
-              uid={ node.node.uid }
+              uid={ node.uid }
               path={ node.path }
-              data={ node.node.data }
-              ui={ node.node.ui }
+              data={ node.data }
+              ui={ node.ui }
               nodes={ node.nodes }
               siblings={ nodes }
               index={ index }

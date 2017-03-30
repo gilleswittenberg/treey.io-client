@@ -17,7 +17,7 @@ import {
   UPDATE_NODE_UI,
   UPDATE_ACTIVE_NODE_UI
 } from '../../app/actions/nodes'
-import { uid, uid1, uid2, uid3, uid4, uid5, uid6, uid7 } from '../uid'
+import { uid, uid1, uid2, uid3, uid4, uid5 } from '../uid'
 import defaultUI from '../../app/lib/ui/defaultUI'
 import { defaultState } from '../../app/reducers/nodes'
 import uuid from 'uuid/v4'
@@ -33,72 +33,54 @@ describe('nodes reducer', () => {
     expect(reducer(undefined, { type: HAS_ERRORS, data: {} }).hasErrors).toBe(true)
   })
 
-  it('nodes', () => {
+  it('INDEX_NODES', () => {
 
-    const tree = { nodes: [{
+    const nodes = [{
       uid,
-      title: 'John Doe',
-      nodes: [
-        {
-          uid: uid1,
-          title: 'ToDo',
-          nodes: [
-            {
-              uid: uid2,
-              title: 'bring home the milk',
-              nodes: []
-            },
-            {
-              uid: uid3,
-              title: 'clean the house',
-              nodes: []
-            }
-          ]
-        },
-        {
-          uid: uid4,
-          title: 'Movies',
-          nodes: [
-            {
-              uid: uid5,
-              title: 'Star Wars: Episode IV - A New Hope (1977)',
-              nodes: []
-            },
-            {
-              uid: uid6,
-              title: 'The Terminator (1984)',
-              nodes: []
-            },
-            {
-              uid: uid7,
-              title: 'The Matrix (1999)',
-              nodes: []
-            }
-          ]
-        }
-      ]
-    } ] }
+      data: { title: 'John Doe' },
+      transactions: [],
+      ui: {},
+      nodes: [uid1, uid2],
+      user: ''
+    }, {
+      uid: uid1,
+      data: { title: 'ToDo' },
+      transactions: [],
+      ui: {},
+      nodes: [],
+      user: ''
+    }, {
+      uid: uid2,
+      data: { title: 'clean the house' },
+      transactions: [],
+      ui: {},
+      nodes: [uid3, uid4, uid5],
+      user: ''
+    }, {
+      uid: uid3,
+      data: { title: 'Star Wars: Episode IV - A New Hope (1977)' },
+      transactions: [],
+      ui: {},
+      nodes: [],
+      user: ''
+    }, {
+      uid: uid4,
+      data: { title: 'The Terminator (1984)' },
+      transactions: [],
+      ui: {},
+      nodes: [],
+      user: ''
+    }, {
+      uid: uid5,
+      data: { title: 'The Matrix (1999)' },
+      transactions: [],
+      ui: {},
+      nodes: [],
+      user: ''
+    }]
 
-    const state = reducer(undefined, { type: INDEX_NODES, data: { tree } })
-    // parsed Tree
-    if (state.tree != null) {
-      expect(state.tree.nodes[0].path).not.toBe(null)
-    }
-    if (state.tree != null) {
-      expect(state.tree.nodes[0].node.ui).not.toBe(null)
-    }
-    if (state.tree != null) {
-      state.tree.nodes[0].nodes.forEach(function (node) {
-        expect(node.path).not.toBe(null)
-        expect(node.node.ui).not.toBe(null)
-        expect(node.node.transactions).not.toBe(null)
-        node.nodes.forEach(node => {
-          expect(node.path).not.toBe(null)
-          expect(node.node.ui).not.toBe(null)
-          expect(node.node.transactions).not.toBe(null)
-        })
-      })
-    }
+    const state = reducer(undefined, { type: INDEX_NODES, data: { nodes } })
+    expect(state.nodes).toBe(nodes)
   })
 
   describe('transaction', () => {
@@ -107,9 +89,8 @@ describe('nodes reducer', () => {
 
       it('SET', () => {
 
-        const tree = { nodes: [{
-          path: [uid],
-          node: {
+        const nodes = [
+          {
             uid,
             data: { title: 'John Doe' },
             transactions: [
@@ -117,13 +98,14 @@ describe('nodes reducer', () => {
             ],
             ui: {},
             user: 'user1'
-          },
-          nodes: []
-        }] }
+          }
+        ]
+
         const state = {
           isSyncing: false,
           hasErrors: false,
-          tree,
+          tree: null,
+          nodes,
           userIsDragging: false,
           activePath: null
         }
@@ -131,148 +113,103 @@ describe('nodes reducer', () => {
         const state2 = reducer(state, {
           type: ADD_NODE_TRANSACTION,
           data: {
-            path: [uid],
             transaction
           }
         })
-        if (state2.tree != null && state2.tree.nodes != null) {
-          expect(state2.tree.nodes[0].node.data).toEqual({ title: 'New' })
-        }
-        if (state2.tree != null && state2.tree.nodes != null) {
-          expect(state2.tree.nodes[0].node.transactions[1]).toEqual(transaction)
-        }
+        expect(state2.nodes[0].data).toEqual({ title: 'New' })
+        expect(state2.nodes[0].transactions[1]).toEqual(transaction)
       })
 
       it('REMOVE_CHILD', () => {
 
-        const tree = { nodes: [{
-          path: [uid],
-          node: {
+        const nodes = [
+          {
             uid,
             data: { title: 'John Doe' },
             transactions: [
               { type: 'SET', uid, data: { title: 'John Doe' }, status: 'COMMITTED', uuid: '' }
             ],
             ui: {},
-            user: 'user1'
-          },
-          nodes: [{
-            path: [uid, uid2],
-            node: {
-              uid: uid2,
-              data: { title: 'Child' },
-              transactions: [],
-              ui: {},
-              user: 'user1'
-            },
-            nodes: []
-          }]
-        }] }
+            user: 'user1',
+            nodes: [uid1]
+          }
+        ]
         const state = {
           isSyncing: false,
           hasErrors: false,
-          tree,
+          tree: null,
+          nodes,
           userIsDragging: false,
           activePath: null
         }
-        const transaction = { type: 'REMOVE_CHILD', uid: uid2, status: 'PENDING', uuid: '' }
+        const transaction = { type: 'REMOVE_CHILD', uid, childUid: uid1, status: 'PENDING', uuid: '' }
         const state2 = reducer(state, {
           type: ADD_NODE_TRANSACTION,
           data: {
-            path: [uid],
             transaction
           }
         })
-        if (state2.tree != null && state2.tree.nodes != null) {
-          expect(state2.tree.nodes[0].nodes.length).toBe(0)
+        // @TODO: remove null check
+        if (state2.nodes[0].nodes != null) {
+          expect(state2.nodes[0].nodes.length).toBe(0)
         }
-        if (state2.tree != null && state2.tree.nodes != null) {
-          expect(state2.tree.nodes[0].node.transactions[1]).toEqual(transaction)
-        }
+        expect(state2.nodes[0].transactions[1]).toEqual(transaction)
       })
 
       describe('ADD_CHILD', () => {
 
         it('push', () => {
 
-          const tree = { nodes: [{
-            path: [uid],
-            node: {
+          const nodes = [
+            {
               uid,
               data: { title: 'John Doe' },
               transactions: [
                 { type: 'SET', uid, data: { title: 'John Doe' }, status: 'COMMITTED', uuid: '' }
               ],
               ui: {},
-              user: 'user1'
-            },
-            nodes: [{
-              path: [uid, uid1],
-              node: {
-                uid: uid1,
-                data: { title: 'Child' },
-                transactions: [],
-                ui: {},
-                user: 'user1'
-              },
+              user: 'user1',
               nodes: []
-            }]
-          }] }
+            }
+          ]
           const state = {
             isSyncing: false,
             hasErrors: false,
-            tree,
+            tree: null,
+            nodes,
             userIsDragging: false,
             activePath: null
           }
-          const transaction = { type: 'ADD_CHILD', uid, childUid: uid2, status: 'PENDING', uuid: '' }
+          const transaction = { type: 'ADD_CHILD', uid, childUid: uid1, status: 'PENDING', uuid: '' }
           const state2 = reducer(state, {
             type: ADD_NODE_TRANSACTION,
             data: {
-              path: [uid],
               transaction
             }
           })
-          if (state2.tree != null && state2.tree.nodes != null) {
-            expect(state2.tree.nodes[0].node.transactions[1]).toEqual(transaction)
-          }
-          if (state2.tree != null && state2.tree.nodes != null) {
-            expect(state2.tree.nodes[0].nodes.length).toBe(2)
-          }
-          if (state2.tree != null && state2.tree.nodes != null) {
-            expect(state2.tree.nodes[0].nodes[1]).toBe(uid2)
-          }
+          expect(state2.nodes[0].transactions[1]).toEqual(transaction)
+          expect(state2.nodes[0].nodes).toEqual([uid1])
         })
 
         it('before', () => {
 
-          const tree = { nodes: [{
-            path: [uid],
-            node: {
+          const nodes = [
+            {
               uid,
               data: { title: 'John Doe' },
               transactions: [
                 { type: 'SET', uid, data: { title: 'John Doe' }, status: 'COMMITTED', uuid: '' }
               ],
               ui: {},
-              user: 'user1'
-            },
-            nodes: [{
-              path: [uid, uid1],
-              node: {
-                uid: uid1,
-                data: { title: 'Child' },
-                transactions: [],
-                ui: {},
-                user: 'user1'
-              },
-              nodes: []
-            }]
-          }] }
+              user: 'user1',
+              nodes: [uid1]
+            }
+          ]
           const state = {
             isSyncing: false,
             hasErrors: false,
-            tree,
+            tree: null,
+            nodes,
             userIsDragging: false,
             activePath: null
           }
@@ -280,19 +217,11 @@ describe('nodes reducer', () => {
           const state2 = reducer(state, {
             type: ADD_NODE_TRANSACTION,
             data: {
-              path: [uid],
               transaction
             }
           })
-          if (state2.tree != null && state2.tree.nodes != null) {
-            expect(state2.tree.nodes[0].node.transactions[1]).toEqual(transaction)
-          }
-          if (state2.tree != null && state2.tree.nodes != null) {
-            expect(state2.tree.nodes[0].nodes.length).toBe(2)
-          }
-          if (state2.tree != null && state2.tree.nodes != null) {
-            expect(state2.tree.nodes[0].nodes[0]).toBe(uid2)
-          }
+          expect(state2.nodes[0].transactions[1]).toEqual(transaction)
+          expect(state2.nodes[0].nodes).toEqual([uid2, uid1])
         })
       })
     })
@@ -300,81 +229,34 @@ describe('nodes reducer', () => {
     describe('UPDATE_NODE_TRANSACTION_STATUS', () => {
 
       it('SET', () => {
-
         const transaction = { type: 'SET', uid, uuid: uuid(), data: { title: 'John Doe' }, status: 'PENDING' }
-        const tree = { nodes: [{
-          path: [uid],
-          node: {
+        const nodes = [
+          {
             uid,
             data: { title: 'John Doe' },
             transactions: [transaction],
             ui: {},
-            user: 'user1'
-          },
-          nodes: []
-        }] }
+            user: 'user1',
+            nodes: [uid1]
+          }
+        ]
         const state = {
           isSyncing: false,
           hasErrors: false,
-          tree,
+          tree: null,
+          nodes,
           userIsDragging: false,
           activePath: null
         }
+
         const state2 = reducer(state, {
           type: UPDATE_NODE_TRANSACTION_STATUS,
           data: {
-            path: [uid],
             transaction,
             status: 'COMMITTED'
           }
         })
-        if (state2.tree != null && state2.tree.nodes != null) {
-          expect(state2.tree.nodes[0].node.transactions[0].status).toEqual('COMMITTED')
-        }
-      })
-
-      it('REMOVE_CHILD', () => {
-
-        const transaction = { type: 'REMOVE_CHILD', uuid: uuid(), uid, status: 'PENDING' }
-        const tree = { nodes: [{
-          path: [uid],
-          node: {
-            uid,
-            data: { title: 'John Doe' },
-            transactions: [transaction],
-            ui: {},
-            user: 'user1'
-          },
-          nodes: [{
-            path: [uid, uid2],
-            node: {
-              uid: uid2,
-              data: { title: 'Child' },
-              transactions: [],
-              ui: {},
-              user: 'user1'
-            },
-            nodes: []
-          }]
-        }] }
-        const state = {
-          isSyncing: false,
-          hasErrors: false,
-          tree,
-          userIsDragging: false,
-          activePath: null
-        }
-        const state2 = reducer(state, {
-          type: UPDATE_NODE_TRANSACTION_STATUS,
-          data: {
-            path: [uid],
-            transaction,
-            status: 'COMMITTED'
-          }
-        })
-        if (state2.tree != null && state2.tree.nodes != null) {
-          expect(state2.tree.nodes[0].node.transactions[0].status).toEqual('COMMITTED')
-        }
+        expect(state2.nodes[0].transactions[0].status).toEqual('COMMITTED')
       })
     })
   })

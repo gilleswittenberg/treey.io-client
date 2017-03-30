@@ -31,7 +31,9 @@ export type Node = {
   user: ?NodeUser,
   data: NodeData,
   ui: NodeUI,
-  transactions: Transaction[]
+  transactions: Transaction[],
+  // @TODO: make non-optional
+  nodes?: NodeId[]
 }
 
 export type Nodes = Node[]

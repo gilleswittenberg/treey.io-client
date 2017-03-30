@@ -5,17 +5,17 @@ import classNames from 'classnames'
 import NodeDroppable from '../components/NodeDroppable'
 import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
-import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
+// import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
 
 export default class NodeWrap extends Component {
 
   static propTypes = {
     enableDnD: PropTypes.bool,
     app: PropTypes.object.isRequired,
-    ui: PropTypes.shape(propTypeShapeUI),
+    // ui: PropTypes.shape(propTypeShapeUI),
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
-    path: PropTypes.array.isRequired,
+    // path: PropTypes.array.isRequired,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     nodes: PropTypes.array,
