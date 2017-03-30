@@ -54,8 +54,8 @@ describe('NodeModifiers', () => {
 
     it('transactions', () => {
       const transactions = [
-        { type: 'SET', data: { title: 'Mr. First' }, status: 'PENDING', uuid: '' },
-        { type: 'SET', data: { title: 'Mr. Foo' }, status: 'PENDING', uuid: '' }
+        { type: 'SET', uid, data: { title: 'Mr. First' }, status: 'PENDING', uuid: '' },
+        { type: 'SET', uid, data: { title: 'Mr. Foo' }, status: 'PENDING', uuid: '' }
       ]
       const data = { title: 'Mr. Foo' }
       const node = createNode(undefined, undefined, data, undefined, transactions)
@@ -113,9 +113,9 @@ describe('NodeModifiers', () => {
 
       it('transaction', () => {
         const data = { title: 'Mr. Foo' }
-        const transactions = [{ type: 'SET', data, status: 'PENDING', uuid: '' }]
+        const transactions = [{ type: 'SET', uid, data, status: 'PENDING', uuid: '' }]
         const node = createNode(undefined, undefined, data, undefined, transactions)
-        const transaction = { type: 'SET', data: { title: 'New title' }, status: 'PENDING', uuid: '' }
+        const transaction = { type: 'SET', uid, data: { title: 'New title' }, status: 'PENDING', uuid: '' }
         const node2 = addTransaction(node, transaction)
         expect(node2.transactions.length).toEqual(2)
         expect(node2.transactions[1]).toEqual(transaction)
@@ -127,7 +127,7 @@ describe('NodeModifiers', () => {
 
       it('transaction', () => {
         const data= { title: 'Title' }
-        const transactions = [{ type: 'SET', data, status: 'PENDING', uuid: '' }]
+        const transactions = [{ type: 'SET', uid, data, status: 'PENDING', uuid: '' }]
         const node = createNode(undefined, undefined, data, undefined, transactions)
         const transaction = { type: 'REMOVE_CHILD', uid, status: 'PENDING', uuid: '' }
         const node2 = addTransaction(node, transaction)
@@ -156,7 +156,7 @@ describe('NodeModifiers', () => {
 
     it('node', () => {
       const nodeData = { title: 'Mr. Foo' }
-      const transaction = { type: 'SET', status: 'COMMITTED', data: nodeData, uuid: '' }
+      const transaction = { type: 'SET', uid, status: 'COMMITTED', data: nodeData, uuid: '' }
       const data = {
         uid,
         data: nodeData,

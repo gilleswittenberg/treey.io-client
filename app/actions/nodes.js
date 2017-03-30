@@ -239,133 +239,21 @@ export const getNodes = (rootId: NodeId) => {
   }
 }
 
-export const ADD_NODE = 'ADD_NODE'
-export const addNode = (path: TreePath, json: any) => {
-  const uid = json.uid
-  const nodeData = json.data
-  return {
-    type: ADD_NODE,
-    data: {
-      path,
-      uid,
-      nodeData
-    }
-  }
-}
-
-export const POST_NODE = 'POST_NODE'
-export const postNode = (path: TreePath, data: NodeData) => {
-
-  const parent = getUidFromPath(path)
-
-  // guard
-  if (parent == null) { return }
-
-  return function (dispatch: () => void) {
-    dispatch(startSyncing())
-    const url = `${ host }/node/${ parent }`
-    const options = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: JSON.stringify({ data })
-    }
-    return fetch(url, options)
-      .then(
-        response => {
-          if (response.ok === false) {
-            return Promise.reject(new Error(response.statusText))
-          }
-          return response.json()
-        }
-      )
-      .then(
-        json => {
-          dispatch(stopSyncing())
-          dispatch(addNode(path, json))
-        },
-        () => {
-          dispatch(stopSyncing())
-          dispatch(hasErrors())
-        }
-      )
-  }
-}
-
-export const UPDATE_NODE = 'UPDATE_NODE'
-export const updateNode = (path: TreePath, json: any) => {
-  const nodeData = json.data
-  return {
-    type: UPDATE_NODE,
-    data: {
-      path,
-      nodeData
-    }
-  }
-}
-
-export const PUT_NODE = 'PUT_NODE'
-export const putNode = (path: TreePath, data: NodeData) => {
-
-  const uid = getUidFromPath(path)
-
-  // guard
-  if (uid == null) { return }
-
-  return function (dispatch: () => void) {
-    dispatch(startSyncing())
-    const url = `${ host }/node/${ uid }`
-    const options = {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: JSON.stringify({ data })
-    }
-    return fetch(url, options)
-      .then(
-        response => {
-          if (response.ok === false) {
-            return Promise.reject(new Error(response.statusText))
-          }
-          return response.json()
-        }
-      )
-      .then(
-        json => {
-          dispatch(stopSyncing())
-          dispatch(updateNode(path, json))
-        },
-        () => {
-          dispatch(stopSyncing())
-          dispatch(hasErrors())
-        }
-      )
-  }
-}
-
 export const ADD_NODE_TRANSACTION = 'ADD_NODE_TRANSACTION'
-export const addNodeTransaction = (path: TreePath, transaction: Transaction) => {
+export const addNodeTransaction = (transaction: Transaction) => {
   return {
     type: ADD_NODE_TRANSACTION,
     data: {
-      path,
       transaction
     }
   }
 }
 
 export const UPDATE_NODE_TRANSACTION_STATUS = 'UPDATE_NODE_TRANSACTION_STATUS'
-export const updateNodeTransactionStatus = (path: TreePath, transaction: Transaction, status: TransactionStatus) => {
+export const updateNodeTransactionStatus = (transaction: Transaction, status: TransactionStatus) => {
   return {
     type: UPDATE_NODE_TRANSACTION_STATUS,
     data: {
-      path,
       transaction,
       status
     }
@@ -375,26 +263,31 @@ export const updateNodeTransactionStatus = (path: TreePath, transaction: Transac
 export const create = (parentPath: TreePath, data: NodeData) => {
   return (dispatch: () => void) => {
     const transaction0 = createTransaction('CREATE')
-    dispatch(addNodeTransaction(parentPath, transaction0))
-    const transaction1 = createTransaction('SET', data)
-    const path = parentPath.concat([transaction0.uid])
-    dispatch(addNodeTransaction(path, transaction1))
-    const transaction2 = createTransaction('ADD_CHILD', parentPath, transaction0.uid)
-    dispatch(addNodeTransaction(parentPath, transaction2))
-    dispatch(postNodeTransactions(path, [transaction0, transaction1]))
-    return dispatch(patchNode(parentPath, transaction2))
+    const transaction1 = createTransaction('SET', transaction0.uid, data)
+    const uid = getUidFromPath(parentPath)
+    const transaction2 = createTransaction('ADD_CHILD', uid, transaction0.uid)
+    dispatch(addNodeTransaction(transaction0))
+    dispatch(addNodeTransaction(transaction1))
+    dispatch(addNodeTransaction(transaction2))
+    return dispatch(postTransactions([transaction0, transaction1, transaction2]))
   }
 }
 
 export const update = (path: TreePath, data: NodeData) => {
+
+  const uid = getUidFromPath(path)
+
+  // guard
+  if (uid == null) return
+
   return (dispatch: () => void) => {
-    const transaction = createTransaction('SET', data)
-    dispatch(addNodeTransaction(path, transaction))
-    return dispatch(patchNode(path, transaction))
+    const transaction = createTransaction('SET', uid, data)
+    dispatch(addNodeTransaction(transaction))
+    return dispatch(postTransactions([transaction]))
   }
 }
 
-export const removeChild = (path: TreePath) => {
+export const remove = (path: TreePath) => {
 
   const parent = getParentFromPath(path)
   const uid = getUidFromPath(path)
@@ -402,42 +295,34 @@ export const removeChild = (path: TreePath) => {
   // guard
   if (parent == null || uid == null) return
 
-  const parentPath = path.slice(0, -1)
-
   return (dispatch: () => void) => {
-    const transaction = createTransaction('REMOVE_CHILD', undefined, uid)
-    dispatch(addNodeTransaction(parentPath, transaction))
-    return dispatch(patchNode(parentPath, transaction))
-  }
-}
-
-export const addChild = (path: TreePath, uid: NodeId, before?: NodeId) => {
-
-  return (dispatch: () => void) => {
-    const transaction = createTransaction('ADD_CHILD', undefined, uid, before)
-    dispatch(addNodeTransaction(path, transaction))
-    return dispatch(patchNode(path, transaction))
+    const transaction = createTransaction('REMOVE_CHILD', parent, undefined, uid)
+    dispatch(addNodeTransaction(transaction))
+    return dispatch(postTransactions([transaction]))
   }
 }
 
 export const move = (path: TreePath, newPath: TreePath, before?: NodeId) => {
 
   const uid = getUidFromPath(path)
+  const parent = getParentFromPath(path)
+  const newParent = getUidFromPath(newPath)
 
   // guard
-  if (!uid) return
+  if (uid == null || parent == null || newParent == null) return
 
   return (dispatch: () => void) => {
-    dispatch(removeChild(path))
-    dispatch(addChild(newPath, uid, before))
+    const transaction0 = createTransaction('REMOVE_CHILD', parent, undefined, uid)
+    const transaction1 = createTransaction('ADD_CHILD', newParent, undefined, uid, before)
+    return dispatch(postTransactions([transaction0, transaction1]))
   }
 }
 
-export const postNodeTransactions = (path: TreePath, transactions: Transaction[]) => {
+export const postTransactions = (transactions: Transaction[]) => {
 
   return (dispatch: () => void) => {
     dispatch(startSyncing())
-    const url = `${ host }/node_transactions`
+    const url = `${ host }/nodes/transactions`
     const options = {
       method: 'POST',
       headers: {
@@ -459,155 +344,10 @@ export const postNodeTransactions = (path: TreePath, transactions: Transaction[]
       .then(
         json => {
           dispatch(stopSyncing())
-          transactions.forEach(transaction => {
-            dispatch(updateNodeTransactionStatus(path, transaction, json.status))
+          transactions.forEach((transaction, index) => {
+            const status = json.transactions[index].status
+            dispatch(updateNodeTransactionStatus(transaction, status))
           })
-        },
-        () => {
-          dispatch(stopSyncing())
-          dispatch(hasErrors())
-        }
-      )
-  }
-}
-
-export const patchNode = (path: TreePath, transaction: Transaction) => {
-
-  const uid = getUidFromPath(path)
-
-  // guard
-  if (uid == null) return
-
-  return (dispatch: () => void) => {
-    dispatch(startSyncing())
-    const url = `${ host }/node/${ uid }`
-    const options = {
-      method: 'PATCH',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: JSON.stringify({ transaction })
-    }
-    return fetch(url, options)
-      .then(
-        response => {
-          if (response.ok === false) {
-            return Promise.reject(new Error(response.statusText))
-          }
-          return response.json()
-        }
-      )
-      .then(
-        json => {
-          dispatch(stopSyncing())
-          dispatch(updateNodeTransactionStatus(path, transaction, json.status))
-        },
-        () => {
-          dispatch(stopSyncing())
-          dispatch(hasErrors())
-        }
-      )
-  }
-}
-
-export const REMOVE_NODE = 'REMOVE_NODE'
-export const removeNode = (path: TreePath) => {
-  return {
-    type: REMOVE_NODE,
-    data: {
-      path
-    }
-  }
-}
-
-export const DELETE_NODE = 'DELETE_NODE'
-export const deleteNode = (path: TreePath) => {
-
-  const parent = getParentFromPath(path)
-  const uid = getUidFromPath(path)
-
-  // guard
-  if (parent == null || uid == null) { return }
-
-  return function (dispatch: () => void) {
-    dispatch(startSyncing())
-    const url = `${ host }/node/${ parent }/${ uid }`
-    const options = {
-      method: 'DELETE',
-      headers: {
-        Accept: 'application/json'
-      },
-      credentials: 'include'
-    }
-    return fetch(url, options)
-      .then(
-        response => {
-          if (response.ok === false) {
-            return Promise.reject(new Error(response.statusText))
-          }
-        }
-      )
-      .then(
-        () => {
-          dispatch(stopSyncing())
-          dispatch(removeNode(path))
-        },
-        () => {
-          dispatch(stopSyncing())
-          dispatch(hasErrors())
-        }
-      )
-  }
-}
-
-export const MOVE_NODE = 'MOVE_NODE'
-export const moveNode = (path: TreePath, newPath: TreePath, before?: NodeId) => {
-
-  return {
-    type: MOVE_NODE,
-    data: {
-      path,
-      newPath,
-      before
-    }
-  }
-}
-
-export const PUT_MOVE_NODE = 'PUT_MOVE_NODE'
-export const putMoveNode = (path: TreePath, newPath: TreePath, before?: NodeId) => {
-
-  const parent = getParentFromPath(path)
-  const uid = getUidFromPath(path)
-  const newParent = getUidFromPath(newPath)
-
-  // guard
-  if (parent == null || uid == null || newParent == null) { return }
-
-  return function (dispatch: () => void) {
-    dispatch(startSyncing())
-    dispatch(moveNode(path, newPath, before))
-    before = before || ''
-    const url = `${ host }/node/move/${ parent }/${ uid }/${ newParent }/${ before }`
-    const options = {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json'
-      },
-      credentials: 'include'
-    }
-    return fetch(url, options)
-      .then(
-        response => {
-          if (response.ok === false) {
-            return Promise.reject(new Error(response.statusText))
-          }
-        }
-      )
-      .then(
-        () => {
-          dispatch(stopSyncing())
         },
         () => {
           dispatch(stopSyncing())

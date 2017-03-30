@@ -11,11 +11,8 @@ import {
   STOP_SYNCING,
   HAS_ERRORS,
   INDEX_NODES,
-  ADD_NODE,
-  UPDATE_NODE,
   ADD_NODE_TRANSACTION,
   UPDATE_NODE_TRANSACTION_STATUS,
-  REMOVE_NODE,
   CLEAR_NODE_UI,
   UPDATE_NODE_UI,
   UPDATE_ACTIVE_NODE_UI
@@ -102,41 +99,6 @@ describe('nodes reducer', () => {
         })
       })
     }
-
-    const state2 = reducer(state, {
-      type: ADD_NODE,
-      data: {
-        path: [uid],
-        nodeData: { title: 'new' }
-      }
-    })
-    if (state2.tree != null) {
-      expect(state2.tree.nodes[0].nodes.length).toBe(3)
-    }
-    if (state2.tree != null) {
-      expect(state2.tree.nodes[0].nodes[2].node.data).toEqual({ title: 'new' })
-    }
-
-    const state3 = reducer(state2, {
-      type: UPDATE_NODE,
-      data: {
-        path: [uid],
-        nodeData: { title: 'John Doe Sr.' }
-      }
-    })
-    if (state3.tree != null) {
-      expect(state3.tree.nodes[0].node.data).toEqual({ title: 'John Doe Sr.' })
-    }
-
-    const state4 = reducer(state3, {
-      type: REMOVE_NODE,
-      data: {
-        path: [uid, uid1, uid2]
-      }
-    })
-    if (state4.tree != null) {
-      expect(state4.tree.nodes[0].nodes[0].nodes.length).toBe(1)
-    }
   })
 
   describe('transaction', () => {
@@ -151,7 +113,7 @@ describe('nodes reducer', () => {
             uid,
             data: { title: 'John Doe' },
             transactions: [
-              { type: 'SET', data: { title: 'John Doe' }, status: 'COMMITTED', uuid: '' }
+              { type: 'SET', uid, data: { title: 'John Doe' }, status: 'COMMITTED', uuid: '' }
             ],
             ui: {},
             user: 'user1'
@@ -165,7 +127,7 @@ describe('nodes reducer', () => {
           userIsDragging: false,
           activePath: null
         }
-        const transaction = { type: 'SET', data: { title: 'New' }, status: 'PENDING', uuid: '' }
+        const transaction = { type: 'SET', uid, data: { title: 'New' }, status: 'PENDING', uuid: '' }
         const state2 = reducer(state, {
           type: ADD_NODE_TRANSACTION,
           data: {
@@ -189,7 +151,7 @@ describe('nodes reducer', () => {
             uid,
             data: { title: 'John Doe' },
             transactions: [
-              { type: 'SET', data: { title: 'John Doe' }, status: 'COMMITTED', uuid: '' }
+              { type: 'SET', uid, data: { title: 'John Doe' }, status: 'COMMITTED', uuid: '' }
             ],
             ui: {},
             user: 'user1'
@@ -239,7 +201,7 @@ describe('nodes reducer', () => {
               uid,
               data: { title: 'John Doe' },
               transactions: [
-                { type: 'SET', data: { title: 'John Doe' }, status: 'COMMITTED', uuid: '' }
+                { type: 'SET', uid, data: { title: 'John Doe' }, status: 'COMMITTED', uuid: '' }
               ],
               ui: {},
               user: 'user1'
@@ -263,7 +225,7 @@ describe('nodes reducer', () => {
             userIsDragging: false,
             activePath: null
           }
-          const transaction = { type: 'ADD_CHILD', uid: uid2, status: 'PENDING', uuid: '' }
+          const transaction = { type: 'ADD_CHILD', uid, childUid: uid2, status: 'PENDING', uuid: '' }
           const state2 = reducer(state, {
             type: ADD_NODE_TRANSACTION,
             data: {
@@ -290,7 +252,7 @@ describe('nodes reducer', () => {
               uid,
               data: { title: 'John Doe' },
               transactions: [
-                { type: 'SET', data: { title: 'John Doe' }, status: 'COMMITTED', uuid: '' }
+                { type: 'SET', uid, data: { title: 'John Doe' }, status: 'COMMITTED', uuid: '' }
               ],
               ui: {},
               user: 'user1'
@@ -314,7 +276,7 @@ describe('nodes reducer', () => {
             userIsDragging: false,
             activePath: null
           }
-          const transaction = { type: 'ADD_CHILD', uid: uid2, before: uid1, status: 'PENDING', uuid: '' }
+          const transaction = { type: 'ADD_CHILD', uid, childUid: uid2, before: uid1, status: 'PENDING', uuid: '' }
           const state2 = reducer(state, {
             type: ADD_NODE_TRANSACTION,
             data: {
@@ -339,7 +301,7 @@ describe('nodes reducer', () => {
 
       it('SET', () => {
 
-        const transaction = { type: 'SET', uuid: uuid(), data: { title: 'John Doe' }, status: 'PENDING' }
+        const transaction = { type: 'SET', uid, uuid: uuid(), data: { title: 'John Doe' }, status: 'PENDING' }
         const tree = { nodes: [{
           path: [uid],
           node: {

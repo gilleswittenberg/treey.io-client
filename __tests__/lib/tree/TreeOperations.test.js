@@ -89,7 +89,7 @@ describe('TreeOperations', () => {
     it('addTransaction', () => {
 
       const data = { title: 'Mr. Root' }
-      const transaction0 = { type: 'SET', data, status: 'COMMITTED', uuid: '' }
+      const transaction0 = { type: 'SET', uid, data, status: 'COMMITTED', uuid: '' }
       const tree = {
         nodes: [{
           node: { uid, user: null, data, ui: defaultUI, transactions: [transaction0] },
@@ -98,7 +98,7 @@ describe('TreeOperations', () => {
         }]
       }
       const path = [uid]
-      const transaction1 = { type: 'SET', data: { title: 'new' }, status: 'PENDING', uuid: '' }
+      const transaction1 = { type: 'SET', uid, data: { title: 'new' }, status: 'PENDING', uuid: '' }
       const updatedTree = addTransaction(tree, path, transaction1)
       expect(updatedTree.nodes[0].node.data).toEqual({ title: 'new' })
       expect(updatedTree.nodes[0].node.transactions).toEqual([transaction0, transaction1])

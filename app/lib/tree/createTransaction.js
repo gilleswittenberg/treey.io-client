@@ -2,9 +2,10 @@ import type { Transaction, TransactionType, NodeData, NodeId } from '../../../fl
 import uuid from 'uuid/v4'
 import createMongoObjectId from './createMongoObjectId'
 
-export default (type: TransactionType, nodeData?: NodeData, uid?: NodeId, before?: NodeId) : ?Transaction => {
+export default (type: TransactionType, uid?: NodeId, nodeData?: NodeData, childUid?: NodeId, before?: NodeId) : ?Transaction => {
 
   const transaction = {
+    uid,
     uuid: uuid(),
     status: 'PENDING'
   }
@@ -20,11 +21,11 @@ export default (type: TransactionType, nodeData?: NodeData, uid?: NodeId, before
     return transaction
   case 'REMOVE_CHILD':
     transaction.type = 'REMOVE_CHILD'
-    transaction.uid = uid
+    transaction.childUid = childUid
     return transaction
   case 'ADD_CHILD':
     transaction.type = 'ADD_CHILD'
-    transaction.uid = uid
+    transaction.childUid = childUid
     transaction.before = before
     return transaction
   default:

@@ -78,10 +78,10 @@ export const addTreeNodeTransaction = (treeNode: TreeNode, transaction: Transact
     }
     if (index > -1) {
       // @TODO: complete node should be inserted not just uid
-      map = map.updateIn(['nodes'], arr => arr.splice(index, 0, transaction.uid))
+      map = map.updateIn(['nodes'], arr => arr.splice(index, 0, transaction.childUid))
     } else {
       // @TODO: complete node should be pushed not just uid
-      map = map.updateIn(['nodes'], arr => arr.push(transaction.uid))
+      map = map.updateIn(['nodes'], arr => arr.push(transaction.childUid))
     }
   }
   treeNode = map.toJS()

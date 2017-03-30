@@ -65,7 +65,6 @@ class NodeDroppable extends Component {
     hasNodes: PropTypes.bool.isRequired,
     siblings: PropTypes.array.isRequired,
     index: PropTypes.number.isRequired,
-    putMoveNode: PropTypes.func.isRequired,
     // Injected by React DnD DropTarget
     connectDropTarget: PropTypes.func,
     isOver: PropTypes.bool

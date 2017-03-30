@@ -30,8 +30,7 @@ export default class Node extends Component {
     setUIAdding: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
     setUIActive: PropTypes.func.isRequired,
-    setUIButtonsShown: PropTypes.func.isRequired,
-    removeChild: PropTypes.func.isRequired
+    setUIButtonsShown: PropTypes.func.isRequired
   }
 
   static defaultProps = {

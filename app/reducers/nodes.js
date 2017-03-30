@@ -5,12 +5,8 @@ import type { NodesState, NodesAction } from '../../flow/types'
 import * as types from '../actions/nodes'
 import {
   index,
-  createAndAdd,
-  update,
   addTransaction,
   updateTransactionStatus,
-  remove,
-  move,
   clearUI,
   setUI,
   selectActiveNode
@@ -43,20 +39,6 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     }
     return state
 
-  case types.ADD_NODE:
-    if (state.tree != null && action.data.path != null) {
-      const tree = createAndAdd(state.tree, action.data.path, action.data.uid, action.data.nodeData)
-      return { ...state, tree }
-    }
-    return state
-
-  case types.UPDATE_NODE:
-    if (state.tree != null && action.data.path != null && action.data.nodeData != null) {
-      const tree = update(state.tree, action.data.path, action.data.nodeData)
-      return { ...state, tree }
-    }
-    return state
-
   case types.ADD_NODE_TRANSACTION:
     if (state.tree != null && action.data.path != null && action.data.transaction != null) {
       const tree = addTransaction(state.tree, action.data.path, action.data.transaction)
@@ -70,21 +52,6 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
       return { ...state, tree }
     }
     return state
-
-  case types.REMOVE_NODE:
-    if (state.tree != null && action.data.path) {
-      const tree = remove(state.tree, action.data.path)
-      return { ...state, tree }
-    }
-    return state
-
-  case types.MOVE_NODE:
-    if (state.tree != null && action.data.path != null && action.data.newPath != null) {
-      const tree = move(state.tree, action.data.path, action.data.newPath, action.data.before)
-      return { ...state, tree }
-    }
-    return state
-
 
   // ui
   case types.CLEAR_NODE_UI:

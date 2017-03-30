@@ -6,7 +6,7 @@ declare var it: any
 declare var expect: any
 
 import createTransaction from '../../../app/lib/tree/createTransaction'
-import { uid, uid1 } from '../../uid'
+import { uid, uid1, uid2 } from '../../uid'
 
 describe('createTransaction', () => {
 
@@ -29,34 +29,37 @@ describe('createTransaction', () => {
   describe('SET', () => {
 
     it('valid', () => {
-      const transaction = createTransaction('SET', { title: 'Mr. Foo' })
+      const transaction = createTransaction('SET', uid, { title: 'Mr. Foo' })
       expect(transaction.type).toBe('SET')
       expect(transaction.uuid.length).toBe(36)
-      expect(transaction.data).toEqual({ title: 'Mr. Foo' })
       expect(transaction.status).toBe('PENDING')
+      expect(transaction.uid).toBe(uid)
+      expect(transaction.data).toEqual({ title: 'Mr. Foo' })
     })
   })
 
   describe('REMOVE_CHILD', () => {
 
     it('valid', () => {
-      const transaction = createTransaction('REMOVE_CHILD', undefined, uid)
+      const transaction = createTransaction('REMOVE_CHILD', uid, undefined, uid1)
       expect(transaction.type).toBe('REMOVE_CHILD')
       expect(transaction.uuid.length).toBe(36)
-      expect(transaction.uid).toEqual(uid)
       expect(transaction.status).toBe('PENDING')
+      expect(transaction.uid).toEqual(uid)
+      expect(transaction.childUid).toEqual(uid1)
     })
   })
 
   describe('ADD_CHILD', () => {
 
     it('valid', () => {
-      const transaction = createTransaction('ADD_CHILD', undefined, uid, uid1)
+      const transaction = createTransaction('ADD_CHILD', uid, undefined, uid1, uid2)
       expect(transaction.type).toBe('ADD_CHILD')
       expect(transaction.uuid.length).toBe(36)
-      expect(transaction.uid).toEqual(uid)
-      expect(transaction.before).toEqual(uid1)
       expect(transaction.status).toBe('PENDING')
+      expect(transaction.uid).toEqual(uid)
+      expect(transaction.childUid).toEqual(uid1)
+      expect(transaction.before).toEqual(uid2)
     })
   })
 })

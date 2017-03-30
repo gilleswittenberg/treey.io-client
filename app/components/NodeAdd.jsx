@@ -16,8 +16,7 @@ export default class NodeAdd extends Component {
     clearUIEditingAdding: PropTypes.func.isRequired,
 
     setUIAdding: PropTypes.func.isRequired,
-    setUIExpanded: PropTypes.func.isRequired,
-    postNode: PropTypes.func.isRequired
+    setUIExpanded: PropTypes.func.isRequired
   }
 
   static defaultProps = {

@@ -188,12 +188,12 @@ describe('TreeModifiers', () => {
     it('root data', () => {
 
       const data = { title: 'Mr. Foo' }
-      const transaction0 = { type: 'SET', data, status: 'COMMITTED', uuid: '' }
+      const transaction0 = { type: 'SET', uid, data, status: 'COMMITTED', uuid: '' }
       const treeData = { nodes: [
         { node: { uid, user: null, data, ui: defaultUI, transactions: [transaction0] }, path: [uid], nodes: [] }
       ] }
       const path = [uid]
-      const transaction1 = { type: 'SET', data: { title: 'New title' }, status: 'PENDING', uuid: '' }
+      const transaction1 = { type: 'SET', uid, data: { title: 'New title' }, status: 'PENDING', uuid: '' }
       const tree = addTreeNodeTransaction(treeData, path, transaction1)
       expect(tree.nodes[0].node.data).toEqual({ title: 'New title' })
       expect(tree.nodes[0].node.transactions).toEqual([transaction0, transaction1])
