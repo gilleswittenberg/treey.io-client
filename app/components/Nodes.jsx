@@ -11,6 +11,7 @@ export default class Nodes extends Component {
   static propTypes = {
     enableDnD: PropTypes.bool,
     parent: PropTypes.string,
+    indexPath: PropTypes.array.isRequired,
     // ui: PropTypes.shape(propTypeShapeUI),
     nodesArray: PropTypes.array,
     nodes: PropTypes.array,
@@ -35,6 +36,7 @@ export default class Nodes extends Component {
       nodesArray,
       nodes,
       hasNodes,
+      indexPath,
       // @TODO: check if this works
       ui: { adding, movingChild }
     } = this.props
@@ -63,6 +65,7 @@ export default class Nodes extends Component {
               nodes={ node.nodes }
               siblings={ nodes }
               index={ index }
+              indexPath={ indexPath.concat([index]) }
             />
           </li>
         ) }

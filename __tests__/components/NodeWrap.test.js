@@ -21,6 +21,7 @@ describe('NodeWrap', () => {
     parent,
     uid,
     path: [uid],
+    indexPath: [],
     data: {
       title: ''
     },

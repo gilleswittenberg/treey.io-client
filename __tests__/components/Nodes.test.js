@@ -22,6 +22,7 @@ describe('Nodes', () => {
     parent: null,
     nodesArray: [],
     path: [],
+    indexPath: [],
     nodes: [],
     ui,
     clearUIEditingAdding: noop,

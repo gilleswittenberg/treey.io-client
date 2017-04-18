@@ -12,25 +12,22 @@ export type NodeUser = string
 export type TreePath = NodeId[]
 export type TreeNodesIndex = number
 export type TreeIndexPath = TreeNodesIndex[]
+export type IndexPath = number[]
 export type TreeNodesPath = []
-
-export type TreeNode = {
-  path: TreePath,
-  nodes: TreeNodes,
-  node: Node
-}
-
-export type TreeNodes = TreeNode[]
 
 export type Tree = {
   nodes: TreeNodes
+}
+export type TreeNodes = TreeNode[]
+export type TreeNode = {
+  nodes: TreeNodes,
+  ui: NodeUI
 }
 
 export type Node = {
   uid: ?NodeId,
   user: ?NodeUser,
   data: NodeData,
-  ui: NodeUI,
   transactions: Transaction[],
   // @TODO: make non-optional
   nodes?: NodeId[]

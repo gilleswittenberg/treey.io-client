@@ -100,7 +100,7 @@ class Tree extends Component {
     // const nodes = tree ? tree.nodes : []
     const nodes = nodesArray.length > 0 ? [nodesArray[0].uid] : []
     const showNodes = nodes.length > 0
-    const nodesProps = { ...this.props, parent: null, nodesArray, nodes, ui: defaultUI }
+    const nodesProps = { ...this.props, parent: null, indexPath: [], nodesArray, nodes, ui: defaultUI }
 
     // $FlowIssue Flow does not recognize CustomDragLayer.DecoratedComponent
     const CustomDragLayerComponent = enableDnD ? CustomDragLayer : CustomDragLayer.DecoratedComponent

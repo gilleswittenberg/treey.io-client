@@ -32,7 +32,9 @@ import {
 } from '../../actions/user'
 import {
   getNodes,
-  update,
+  update
+} from '../../actions/nodes'
+import {
   clearUIEditingAdding,
   setUIEditing,
   setUIAdding,
@@ -47,7 +49,7 @@ import {
   updateActiveNodeUI,
   setNextUIActive,
   setPrevUIActive
-} from '../../actions/nodes'
+} from '../../actions/tree'
 
 let actions = {
   postAuthenticate,
