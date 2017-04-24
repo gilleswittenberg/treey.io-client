@@ -20,10 +20,11 @@ describe('NodeEdit', () => {
     lang,
     parent,
     uid,
+    treePath: [parent, uid],
     title: '',
     clearUIEditingAdding: noop,
     update: noop,
-    deleteNode: noop
+    remove: noop
   }
   const getComponent = getComponentHOF(NodeEdit, defaultProps)
 
@@ -47,14 +48,14 @@ describe('NodeEdit', () => {
 
   describe('sumbit', () => {
 
-    it('deleteNode', () => {
+    it('remove', () => {
       const clearUIEditingAdding = jest.fn()
-      const deleteNode = jest.fn()
-      const wrapper = shallow(getComponent({ clearUIEditingAdding, deleteNode }))
+      const remove = jest.fn()
+      const wrapper = shallow(getComponent({ clearUIEditingAdding, remove }))
       const mockEvent = getMockEvent()
       wrapper.find('form').simulate('submit', mockEvent)
       expect(clearUIEditingAdding.mock.calls.length).toBe(1)
-      expect(deleteNode.mock.calls.length).toBe(1)
+      expect(remove.mock.calls.length).toBe(1)
     })
 
     it('update', () => {

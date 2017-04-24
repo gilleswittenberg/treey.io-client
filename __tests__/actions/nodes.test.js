@@ -10,8 +10,17 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import multi from 'redux-multi'
 import nock from 'nock'
-import * as actions from '../../app/actions/nodes'
+import {
+  getNodes,
+  addNodeTransaction,
+  updateNodeTransactionStatus,
+  create,
+  update,
+  remove,
+  move
+} from '../../app/actions/nodes'
 import { uid, uid1, uid2, uid3, uid4, uid5 } from '../uid'
+import { uuid } from '../uuid'
 
 const middlewares = [thunk, multi]
 const mockStore = configureMockStore(middlewares)
@@ -33,7 +42,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.getNodes(uid))
+      return store.dispatch(getNodes(uid))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -49,7 +58,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.getNodes(uid))
+      return store.dispatch(getNodes(uid))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -63,7 +72,7 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.getNodes(uid))
+      return store.dispatch(getNodes(uid))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -106,11 +115,15 @@ describe('nodes actions', () => {
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(actions.getNodes(uid))
+      return store.dispatch(getNodes(uid))
         .then(() => {
           const lastAction = store.getActions().pop()
-          expect(lastAction.type).toEqual('INDEX_NODES')
-          expect(lastAction.data.nodes).toEqual(body.nodes)
+          const secondLastAction = store.getActions().pop()
+          const thirdLastAction = store.getActions().pop()
+          expect(lastAction.type).toEqual('SET_UI_KEY')
+          expect(secondLastAction.type).toEqual('SET_EXPANDED')
+          expect(thirdLastAction.type).toEqual('INDEX_NODES')
+          expect(thirdLastAction.data.nodes).toEqual(body.nodes)
         })
     })
   })
@@ -119,19 +132,151 @@ describe('nodes actions', () => {
 
     it('action', () => {
 
-      const store = mockStore({ nodes: [] })
+      const node = {
+        uid,
+        nodes: []
+      }
+      const store = mockStore({ nodes: [node] })
       const transaction = {
-        uuid: '',
+        uuid,
         uid,
         type: 'SET',
         data: { title: 'Title' },
         status: 'PENDING'
       }
 
-      store.dispatch(actions.addNodeTransaction(transaction))
+      store.dispatch(addNodeTransaction(transaction))
       const lastAction = store.getActions().pop()
       expect(lastAction.type).toEqual('ADD_NODE_TRANSACTION')
       expect(lastAction.data.transaction).toEqual(transaction)
+    })
+  })
+
+  describe('updateNodeTransactionStatus', () => {
+
+    it('action', () => {
+
+      const transaction = {
+        uuid,
+        uid,
+        type: 'SET',
+        data: { title: 'Title' },
+        status: 'PENDING'
+      }
+
+      const node = {
+        uid,
+        data: { title: '' },
+        nodes: [],
+        transactions: [transaction]
+      }
+      const store = mockStore({ nodes: [node] })
+      store.dispatch(updateNodeTransactionStatus(transaction, 'COMMITTED'))
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')
+      expect(lastAction.data.transaction).toEqual(transaction)
+      expect(lastAction.data.status).toEqual('COMMITTED')
+    })
+  })
+
+  describe('create', () => {
+
+    it('actions', () => {
+
+      const response = {
+        transactions: [
+          { status: 'COMMITTED' },
+          { status: 'COMMITTED' },
+          { status: 'COMMITTED' }
+        ]
+      }
+      nock(hostname)
+        .post('/nodes/transactions')
+        .reply(201, response)
+
+      const store = mockStore({ nodes: [] })
+      const actions = store.dispatch(create([uid], { title: 'Create' }))
+      return actions[actions.length - 1].then(() => {
+        const lastAction = store.getActions().pop()
+        const secondLastAction = store.getActions().pop()
+        const thirdLastAction = store.getActions().pop()
+        expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')
+        expect(lastAction.data.status).toEqual('COMMITTED')
+        expect(secondLastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')
+        expect(secondLastAction.data.status).toEqual('COMMITTED')
+        expect(thirdLastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')
+        expect(thirdLastAction.data.status).toEqual('COMMITTED')
+      })
+    })
+  })
+
+  describe('update', () => {
+
+    it('actions', () => {
+
+      const response = {
+        transactions: [
+          { status: 'COMMITTED' }
+        ]
+      }
+      nock(hostname)
+        .post('/nodes/transactions')
+        .reply(201, response)
+
+      const store = mockStore({ nodes: [] })
+      const actions = store.dispatch(update([uid], { title: 'Update' }))
+      return actions[actions.length - 1].then(() => {
+        const lastAction = store.getActions().pop()
+        expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')
+        expect(lastAction.data.status).toEqual('COMMITTED')
+      })
+    })
+  })
+
+  describe('remove', () => {
+
+    it('actions', () => {
+
+      const response = {
+        transactions: [
+          { status: 'COMMITTED' }
+        ]
+      }
+      nock(hostname)
+        .post('/nodes/transactions')
+        .reply(201, response)
+
+      const store = mockStore({ nodes: [] })
+      const actions = store.dispatch(remove([uid, uid1]))
+      return actions[actions.length - 1].then(() => {
+        const lastAction = store.getActions().pop()
+        expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')
+        expect(lastAction.data.status).toEqual('COMMITTED')
+      })
+    })
+  })
+
+  describe('move', () => {
+
+    it('actions', () => {
+
+      const response = {
+        transactions: [
+          { status: 'COMMITTED' },
+          { status: 'COMMITTED' }
+        ]
+      }
+      nock(hostname)
+        .post('/nodes/transactions')
+        .reply(201, response)
+
+      const store = mockStore({ nodes: [] })
+      const actions = store.dispatch(move([uid, uid2], [uid1]))
+      return actions[actions.length - 1].then(() => {
+        const lastAction = store.getActions().pop()
+        expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')
+        expect(lastAction.data.status).toEqual('COMMITTED')
+      })
     })
   })
 })

@@ -82,6 +82,24 @@ describe('nodes reducer', () => {
 
     describe('ADD_NODE_TRANSACTION', () => {
 
+      it('CREATE', () => {
+
+        const state = {
+          isSyncing: false,
+          hasErrors: false,
+          nodes: []
+        }
+        const transaction = { type: 'CREATE', uid, status: 'PENDING', uuid: '' }
+        const state2 = reducer(state, {
+          type: ADD_NODE_TRANSACTION,
+          data: {
+            transaction
+          }
+        })
+        expect(state2.nodes[0].uid).toBe(uid)
+        expect(state2.nodes[0].transactions[0]).toEqual(transaction)
+      })
+
       it('SET', () => {
 
         const nodes = [
@@ -99,10 +117,7 @@ describe('nodes reducer', () => {
         const state = {
           isSyncing: false,
           hasErrors: false,
-          tree: null,
-          nodes,
-          userIsDragging: false,
-          activePath: null
+          nodes
         }
         const transaction = { type: 'SET', uid, data: { title: 'New' }, status: 'PENDING', uuid: '' }
         const state2 = reducer(state, {
@@ -132,10 +147,7 @@ describe('nodes reducer', () => {
         const state = {
           isSyncing: false,
           hasErrors: false,
-          tree: null,
-          nodes,
-          userIsDragging: false,
-          activePath: null
+          nodes
         }
         const transaction = { type: 'REMOVE_CHILD', uid, childUid: uid1, status: 'PENDING', uuid: '' }
         const state2 = reducer(state, {
@@ -170,10 +182,7 @@ describe('nodes reducer', () => {
           const state = {
             isSyncing: false,
             hasErrors: false,
-            tree: null,
-            nodes,
-            userIsDragging: false,
-            activePath: null
+            nodes
           }
           const transaction = { type: 'ADD_CHILD', uid, childUid: uid1, status: 'PENDING', uuid: '' }
           const state2 = reducer(state, {
@@ -203,10 +212,7 @@ describe('nodes reducer', () => {
           const state = {
             isSyncing: false,
             hasErrors: false,
-            tree: null,
-            nodes,
-            userIsDragging: false,
-            activePath: null
+            nodes
           }
           const transaction = { type: 'ADD_CHILD', uid, childUid: uid2, before: uid1, status: 'PENDING', uuid: '' }
           const state2 = reducer(state, {
@@ -238,10 +244,7 @@ describe('nodes reducer', () => {
         const state = {
           isSyncing: false,
           hasErrors: false,
-          tree: null,
-          nodes,
-          userIsDragging: false,
-          activePath: null
+          nodes
         }
 
         const state2 = reducer(state, {

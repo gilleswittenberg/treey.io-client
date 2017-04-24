@@ -1,5 +1,6 @@
 import type { Transaction, TransactionType, NodeData, NodeId } from '../../../flow/tree'
 import uuid from 'uuid/v4'
+// @TODO: Remove MongoId
 import createMongoObjectId from './createMongoObjectId'
 
 export default (type: TransactionType, uid?: NodeId, nodeData?: NodeData, childUid?: NodeId, before?: NodeId) : ?Transaction => {

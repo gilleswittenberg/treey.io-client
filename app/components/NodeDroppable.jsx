@@ -7,7 +7,6 @@ import DND_TYPE from '../settings/DND_TYPE'
 import { DropTarget } from 'react-dnd'
 import getHoverRegion from '../lib/ui/getHoverRegion'
 import getNextSibling from '../lib/ui/getNextSibling'
-import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
 
 const DropSpec = {
 
@@ -31,13 +30,13 @@ const DropSpec = {
 
     const item = monitor.getItem() // NodeDraggable props
     const {
-      path,
+      treePath,
       uid: uidDraggable,
       siblings: siblingsDraggable,
       index: indexDraggable
     } = item
 
-    const { path: pathDroppable, uid, siblings, index, putMoveNode } = props // NodeDroppable props
+    const { treePath: pathDroppable, uid, siblings, index, move } = props // NodeDroppable props
     const overPosition = component.getHoverRegion(monitor, component.element)
     const nextSiblingDroppable = getNextSibling(siblings, index) // next uid: ?string after NodeDroppable
     const nextSiblingDraggable = getNextSibling(siblingsDraggable, indexDraggable) // next uid: ?string after NodeDraggable
@@ -50,7 +49,7 @@ const DropSpec = {
     const newPath = pathDroppable && pathDroppable.length > 1 ? pathDroppable.slice(0, -1) : pathDroppable
 
     // save
-    putMoveNode(path, newPath, before)
+    move(treePath, newPath, before)
   }
 }
 
@@ -60,11 +59,11 @@ class NodeDroppable extends Component {
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
-    // path: PropTypes.array.isRequired,
-    ui: PropTypes.shape(propTypeShapeUI),
+    treePath: PropTypes.array.isRequired,
     hasNodes: PropTypes.bool.isRequired,
     siblings: PropTypes.array.isRequired,
     index: PropTypes.number.isRequired,
+    move: PropTypes.func.isRequired,
     // Injected by React DnD DropTarget
     connectDropTarget: PropTypes.func,
     isOver: PropTypes.bool

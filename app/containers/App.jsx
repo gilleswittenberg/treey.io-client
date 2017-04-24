@@ -11,9 +11,10 @@ class App extends React.Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
-    nodes: PropTypes.object.isRequired,
+    app: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    app: PropTypes.object.isRequired
+    nodes: PropTypes.object.isRequired,
+    ui: PropTypes.object.isRequired
   }
 
   render () {
@@ -27,7 +28,9 @@ class App extends React.Component {
         loggedIn,
         signOutFailed
       },
-      nodes: { tree, nodes: nodesArray, isSyncing, hasErrors }
+      // @TODO: Rename nodesArray to nodes
+      nodes: { tree, nodes: nodesArray, isSyncing, hasErrors, treeIndices },
+      ui
     } = this.props
 
     const actions = getActions(dispatch)
@@ -37,13 +40,12 @@ class App extends React.Component {
 
     // $FlowIssue Flow does not recognize Tree.DecoratedComponent
     const TreeComponent = enableDnD ? Tree : Tree.DecoratedComponent
-    const treeProps = { lang, enableDnD, app, tree, nodesArray, ...actions }
-
+    const treeProps = { lang, enableDnD, app, tree, ui, nodesArray, treeIndices, ...actions }
 
     return (
       <div className="wrap">
         { loggedIn &&
-          <SignOutButton { ...signOutButtonProps }/>
+          <SignOutButton { ...signOutButtonProps } />
         }
         { loggedIn &&
           <ServerStatus { ...serverStatusProps } />

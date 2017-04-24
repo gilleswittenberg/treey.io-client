@@ -1,18 +1,15 @@
 /* @flow */
 
 import type { NodesState, NodesAction } from '../../flow/types'
-
+// @TODO: Use named imports
 import * as types from '../actions/nodes'
-
 import { fromJS } from 'immutable'
+import createNode from '../lib/tree/createNode'
 
 export const defaultState: NodesState = {
   isSyncing: false,
   hasErrors: false,
-  tree: null,
-  nodes: [],
-  userIsDragging: false,
-  activePath: null
+  nodes: []
 }
 
 export default function nodes (state: NodesState = defaultState, action: NodesAction) : NodesState {
@@ -27,21 +24,28 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     return { ...state, hasErrors: true }
 
   // nodes
+  // @TODO: Parsing
   case types.INDEX_NODES:
     if (action.data.nodes != null) {
-      return { ...state, nodes: action.data.nodes }
+      const nodes = action.data.nodes
+      return { ...state, nodes }
     }
     return state
 
+  // @TODO: Extract logic
   case types.ADD_NODE_TRANSACTION:
     if (action.data.transaction != null) {
       const transaction = action.data.transaction
       const uid = transaction.uid
       const data = transaction.data
       const index = state.nodes.findIndex(node => node.uid === uid)
+      let nodes = fromJS(state.nodes)
       let indexChild
-      if (index > -1) {
-        let nodes = fromJS(state.nodes)
+      let node
+      if (index === -1 && transaction.type === 'CREATE') {
+        node = createNode(transaction.uid, transaction)
+        nodes = nodes.push(node)
+      } else if (index > -1) {
         nodes = nodes.updateIn([index, 'transactions'], arr => arr.push(transaction))
         switch (transaction.type) {
         case 'SET':
@@ -54,6 +58,9 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
           }
           break
         case 'ADD_CHILD':
+          if (nodes.getIn([index, 'nodes']) === undefined) {
+            nodes = nodes.setIn([index, 'nodes'], [])
+          }
           if (transaction.before == null) {
             nodes = nodes.updateIn([index, 'nodes'], arr => arr.push(transaction.childUid))
           } else {
@@ -62,13 +69,13 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
           }
           break
         }
-
-        nodes = nodes.toJS()
-        return { ...state, nodes }
       }
+      nodes = nodes.toJS()
+      return { ...state, nodes }
     }
     return state
 
+  // @TODO: Extract logic
   case types.UPDATE_NODE_TRANSACTION_STATUS:
     if (action.data.transaction != null) {
       const transaction = action.data.transaction

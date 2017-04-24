@@ -12,26 +12,28 @@ import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import getMockEvent from '../getMockEvent'
 import { uid } from '../uid'
+import defaultUI from '../../app/lib/ui/defaultUI'
 
 describe('NodeAdd', () => {
 
   const lang = 'en'
   const parent = uid
+  const ui = defaultUI
 
   const defaultProps = {
     lang,
     parent,
-    path: [],
-    ui: {},
+    treePath: [uid],
+    ui,
     clearUIEditingAdding: noop,
     setUIEditing: noop,
     setUIAdding: noop,
     setUIExpanded: noop,
-    postNode: noop
+    create: noop
   }
   const getComponent = getComponentHOF(NodeAdd, defaultProps)
 
-  describe('editing', () => {
+  describe('adding', () => {
 
     it('false', () => {
       const wrapper = shallow(getComponent())
@@ -39,7 +41,7 @@ describe('NodeAdd', () => {
     })
 
     it('true', () => {
-      const wrapper = shallow(getComponent({ ui: { adding: true } }))
+      const wrapper = shallow(getComponent({ ui: { adding: [uid] } }))
       expect(wrapper.render().find('input').length).toBe(1)
     })
   })
@@ -51,7 +53,7 @@ describe('NodeAdd', () => {
       const wrapper = shallow(getComponent())
       wrapper.setState({ title: 'user input' })
       expect(wrapper.state().title).toBe('user input')
-      wrapper.setProps({ ui: { adding: true } })
+      wrapper.setProps({ ui: { adding: [uid] } })
       expect(wrapper.state().title).toBe('')
     })
   })
@@ -59,7 +61,7 @@ describe('NodeAdd', () => {
   describe('input', () => {
 
     it('change', () => {
-      const wrapper = shallow(getComponent({ ui: { adding: true } }))
+      const wrapper = shallow(getComponent({ ui: { adding: [uid] } }))
       const input = document.createElement('input')
       input.value = 'user input'
       const mockEvent = getMockEvent({ target: input })
@@ -70,16 +72,16 @@ describe('NodeAdd', () => {
     describe('componentWillReceiveProps', () => {
 
       it('true => false', () => {
-        const wrapper = shallow(getComponent({ ui: { adding: true } }))
+        const wrapper = shallow(getComponent({ ui: { adding: [uid] } }))
         wrapper.setState({ title: 'blabla' })
-        wrapper.setProps({ ui: { adding: false } })
+        wrapper.setProps({ ui: { adding: null } })
         expect(wrapper.state().title).toEqual('')
       })
 
       it('false => true', () => {
-        const wrapper = shallow(getComponent({ ui: { adding: false } }))
+        const wrapper = shallow(getComponent())
         wrapper.setState({ title: 'blabla' })
-        wrapper.setProps({ ui: { adding: true } })
+        wrapper.setProps({ ui: { adding: [uid] } })
         expect(wrapper.state().title).toEqual('')
       })
     })
@@ -89,31 +91,31 @@ describe('NodeAdd', () => {
       it('input', () => {
 
         const clearUIEditingAdding = jest.fn()
-        const postNode = jest.fn()
+        const create = jest.fn()
         const setUIExpanded = jest.fn()
-        const wrapper = shallow(getComponent({ ui: { adding: true }, clearUIEditingAdding, postNode, setUIExpanded }))
+        const wrapper = shallow(getComponent({ ui: { adding: [uid] }, clearUIEditingAdding, create, setUIExpanded }))
 
         wrapper.setState({ title: 'user input' })
         const mockEvent = getMockEvent()
         wrapper.find('form').simulate('submit', mockEvent)
         expect(clearUIEditingAdding.mock.calls.length).toBe(1)
-        expect(postNode.mock.calls.length).toBe(1)
-        expect(postNode.mock.calls[0][1]).toEqual({ title: 'user input' })
+        expect(create.mock.calls.length).toBe(1)
+        expect(create.mock.calls[0][1]).toEqual({ title: 'user input' })
         expect(setUIExpanded.mock.calls.length).toBe(1)
       })
 
       it('empty (whitespace) input', () => {
 
         const clearUIEditingAdding = jest.fn()
-        const postNode = jest.fn()
+        const create = jest.fn()
         const setUIExpanded = jest.fn()
-        const wrapper = shallow(getComponent({ ui: { adding: true }, clearUIEditingAdding, setUIExpanded, postNode }))
+        const wrapper = shallow(getComponent({ ui: { adding: [uid] }, clearUIEditingAdding, setUIExpanded, create }))
 
         wrapper.setState({ title: ' ' })
         const mockEvent = getMockEvent()
         wrapper.find('form').simulate('submit', mockEvent)
         expect(clearUIEditingAdding.mock.calls.length).toBe(1)
-        expect(postNode.mock.calls.length).toBe(0)
+        expect(create.mock.calls.length).toBe(0)
         expect(setUIExpanded.mock.calls.length).toBe(0)
       })
     })

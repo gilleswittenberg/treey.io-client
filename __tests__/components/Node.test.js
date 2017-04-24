@@ -21,13 +21,14 @@ describe('Node', () => {
   const ui = defaultUI
   const parent = uid1
 
+  // @TODO: Extract defaultProps for all Node tests
   const defaultProps = {
     app,
     lang,
     parent,
     isRoot: false,
     uid,
-    path: [],
+    treePath: [],
     data: {
       title: ''
     },
@@ -35,18 +36,24 @@ describe('Node', () => {
     hasNodes: false,
     siblings: [{ uid, ui }],
     index: 0,
+
     clearUIEditingAdding: noop,
     setUIEditing: noop,
     setUIAdding: noop,
     setUIActive: noop,
     setUIExpanded: noop,
+    unsetUIExpanded: noop,
     setUIMovingChild: noop,
     clearUIMovingChild: noop,
     clearUIButtonsShown: noop,
     setUIDragging: noop,
     clearUIDragging: noop,
     setUIButtonsShown: noop,
-    removeChild: noop
+
+    create: noop,
+    update: noop,
+    remove: noop,
+    move: noop
   }
   const getComponent = getComponentHOF(Node, defaultProps)
 
@@ -72,7 +79,7 @@ describe('Node', () => {
       const wrapper = mount(getComponent({ setUIExpanded, hasNodes: true }))
       wrapper.find('.node-content').simulate('click')
       expect(setUIExpanded.mock.calls.length).toBe(1)
-      expect(setUIExpanded.mock.calls[0][1]).toBe(true)
+      expect(setUIExpanded.mock.calls[0][0]).toEqual([])
     })
 
     it('setUIActive', () => {
@@ -103,12 +110,10 @@ describe('Node', () => {
   describe('handleClickDelete', () => {
 
     it('non root', () => {
-      const removeChild = jest.fn()
-      const wrapper = mount(getComponent({
-        removeChild
-      }))
+      const remove = jest.fn()
+      const wrapper = mount(getComponent({ remove }))
       wrapper.find('.button-icon-delete').simulate('click')
-      expect(removeChild.mock.calls.length).toBe(1)
+      expect(remove.mock.calls.length).toBe(1)
     })
 
     it('root', () => {

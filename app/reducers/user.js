@@ -1,6 +1,7 @@
 /* @flow */
 
 import type { UserState, UserAction } from '../../flow/types'
+// @TODO: Use named imports
 import * as types from '../actions/user'
 import { browserHistory } from 'react-router'
 

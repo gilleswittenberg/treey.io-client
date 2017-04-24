@@ -6,7 +6,6 @@ import fetch from 'isomorphic-fetch'
 import host from '../settings/host'
 import { getNodes } from './nodes'
 
-
 export const AUTHENTICATE = 'AUTHENTICATE'
 export const authenticate = (username: string, rootId: NodeId) => {
   return {
@@ -62,9 +61,10 @@ export const registrationError = () => {
 
 export const getUser = () => {
 
-  return function (dispatch: () => void) {
+  return (dispatch: () => void) => {
 
     const url = `${ host }/user`
+    // @TODO: Extract options
     const options = {
       method: 'GET',
       headers: {
@@ -96,9 +96,10 @@ export const getUser = () => {
 
 export const postAuthenticate = (username: string, password: string) => {
 
-  return function (dispatch: () => void) {
+  return (dispatch: () => void) => {
 
     const url = `${ host }/user/authenticate`
+    // @TODO: Extract options
     const options = {
       method: 'POST',
       headers: {
@@ -136,9 +137,10 @@ export const postAuthenticate = (username: string, password: string) => {
 
 export const postSignOut = () => {
 
-  return function (dispatch: () => void) {
+  return (dispatch: () => void) => {
 
     const url = `${ host }/user/signout`
+    // @TODO: Extract options
     const options = {
       method: 'POST',
       headers: {
@@ -169,9 +171,10 @@ export const postSignOut = () => {
 
 export const postRegister = (username: string, password: string, passwordConfirm: string) => {
 
-  return function (dispatch: () => void) {
+  return (dispatch: () => void) => {
 
     const url = `${ host }/user/register`
+    // @TODO: Extract options
     const options = {
       method: 'POST',
       headers: {

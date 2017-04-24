@@ -1,6 +1,6 @@
 /* @flow */
 
-import type { Tree, TreePath, IndexPath, Nodes, NodeId, NodeData, NodeUIKey, Transaction, TransactionStatus } from './tree'
+import type { TreePath, Nodes, NodeId, UIKey, Transaction, TransactionStatus } from './tree'
 
 export type Type = 'boolean' | 'number' | 'string' | '[]' | 'boolean[]' | 'string[]' | 'number[]'
 
@@ -9,14 +9,15 @@ export type Lang = 'en' | 'nl'
 
 export type State = {
   app: AppState,
+  user: UserState,
   nodes: NodesState,
-  user: UserState
+  ui: UIState
 }
 
 export type NodesState = {
   isSyncing: boolean,
   hasErrors: boolean,
-  nodes: Nodes,
+  nodes: Nodes
 }
 
 type NodesActionType =
@@ -25,45 +26,16 @@ type NodesActionType =
   'HAS_ERRORS' |
   'INDEX_NODES' |
   'GET_NODES' |
-  'ADD_NODE' |
-  'POST_NODE' |
-  'UPDATE_NODE' |
   'ADD_NODE_TRANSACTION' |
-  'UPDATE_NODE_TRANSACTION_STATUS' |
-  'PUT_NODE' |
-  'REMOVE_NODE' |
-  'DELETE_NODE' |
-  'MOVE_NODE' |
-  'PUT_MOVE_NODE' |
-  'CLEAR_NODE_UI' |
-  'UPDATE_NODE_UI' |
-  'UPDATE_ACTIVE_NODE_UI' |
-  'SET_NEXT_UI_ACTIVE' |
-  'SET_PREV_UI_ACTIVE'
+  'UPDATE_NODE_TRANSACTION_STATUS'
 
 export type NodesAction = {
   type: NodesActionType,
   data: {
-    nodeData?: NodeData,
     nodes?: Nodes,
-    tree?: any,
-    path?: TreePath,
-    newPath?: TreePath,
-    uid?: NodeId,
-    before?: NodeId,
-    key?: NodeUIKey,
-    keys?: NodeUIKey[],
-    value?: boolean,
     transaction?: Transaction,
     status?: TransactionStatus
   }
-}
-
-type AppActionType = '@TODO'
-
-export type AppAction = {
-  type: AppActionType,
-  data: {}
 }
 
 export type AppState = {
@@ -99,27 +71,27 @@ export type UserAction = {
   }
 }
 
-export type TreeState = {
-  tree: ?Tree,
-  userIsDragging: boolean,
-  activeIndexPath: ?IndexPath
+export type UIState = {
+  expanded: Object,
+  active: ?TreePath,
+  editing: ?TreePath,
+  adding: ?TreePath,
+  movingChild: ?TreePath,
+  buttonsShown: ?TreePath,
+  dragging: ?TreePath
 }
 
-type TreeActionType =
-  'CLEAR_NODE_UI' |
-  'UPDATE_NODE_UI' |
-  'UPDATE_ACTIVE_NODE_UI' |
-  'SET_NEXT_UI_ACTIVE' |
-  'SET_PREV_UI_ACTIVE'
+type UIActionType =
+  'SET_UI_KEY' |
+  'UNSET_UI_KEY' |
+  'SET_EXPANDED' |
+  'UNSET_EXPANDED'
 
-export type TreeAction = {
-  type: TreeActionType,
+export type UIAction = {
+  type: UIActionType,
   data: {
-    tree?: any,
-    indexPath?: IndexPath,
-    key?: NodeUIKey,
-    keys?: NodeUIKey[],
-    value?: boolean,
+    treePath?: TreePath,
+    key?: UIKey
   }
 }
 

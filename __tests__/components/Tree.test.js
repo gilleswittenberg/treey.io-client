@@ -1,10 +1,9 @@
-/* @flow */
+  /* @flow */
 
 // required for Flow type
 declare var describe: any
 declare var it: any
 declare var expect: any
-declare var jest: any
 
 import Tree from '../../app/components/Tree'
 import { shallow, render } from 'enzyme'
@@ -22,9 +21,8 @@ describe('Tree', () => {
   const defaultProps = {
     app,
     ...defaultActions,
-    tree: null,
+    ui,
     nodesArray: [],
-    updateNodeUI: noop,
     unsetIsEditing: noop
   }
   const getComponent = getComponentHOF(Tree.DecoratedComponent, defaultProps)
@@ -91,22 +89,6 @@ describe('Tree', () => {
       // @TODO: Better DOM selector
       // deepest child nodes 3 + 2
       expect(wrapper.find('ul ul ul ul').length).toBe(3 + 2)
-    })
-
-    // @TODO: Check if still necessary. Remove / update
-    it('componentWillReceiveProps', () => {
-
-      const setUIExpanded = jest.fn()
-      const wrapper = shallow(getComponent({ setUIExpanded }))
-      const tree = {
-        nodes: [{ node: {
-          uid: uid1,
-          data: { title: '' },
-          ui: defaultUI
-        } }]
-      }
-      wrapper.setProps({ tree })
-      expect(setUIExpanded.mock.calls.length).toBe(1)
     })
   })
 })

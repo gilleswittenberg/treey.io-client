@@ -3,11 +3,11 @@
 import { PropTypes } from 'react'
 
 export default {
-  active: PropTypes.bool.isRequired,
-  expanded: PropTypes.bool.isRequired,
-  adding: PropTypes.bool.isRequired,
-  editing: PropTypes.bool.isRequired,
-  dragging: PropTypes.bool.isRequired,
-  movingChild: PropTypes.bool.isRequired,
-  buttonsShown: PropTypes.bool.isRequired
+  expanded: PropTypes.object,
+  active: PropTypes.array,
+  adding: PropTypes.array,
+  editing: PropTypes.array,
+  dragging: PropTypes.array,
+  movingChild: PropTypes.array,
+  buttonsShown: PropTypes.array
 }

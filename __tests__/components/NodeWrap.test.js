@@ -20,8 +20,7 @@ describe('NodeWrap', () => {
     app: { enableDnD: false },
     parent,
     uid,
-    path: [uid],
-    indexPath: [],
+    treePath: [],
     data: {
       title: ''
     },
@@ -32,9 +31,8 @@ describe('NodeWrap', () => {
     index: 0,
     clearUIEditingAdding: noop,
     update: noop,
-    postNode: noop,
-    deleteNode: noop,
-    putMoveNode: noop
+    remove: noop,
+    move: noop
   }
 
   const getComponent = getComponentHOF(NodeWrap, defaultProps)
@@ -60,7 +58,7 @@ describe('NodeWrap', () => {
     })
 
     it('true', () => {
-      const wrapper = shallow(getComponent({ app: { enableDnD: false }, ui: { ...ui, editing: true } }))
+      const wrapper = shallow(getComponent({ app: { enableDnD: false }, ui: { ...ui, editing: [] } }))
       expect(wrapper.find('NodeEdit').length).toBe(1)
     })
   })

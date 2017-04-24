@@ -4,15 +4,16 @@ import React, { Component, PropTypes } from 'react'
 import NodeWrap from './NodeWrap'
 import NodeAdd from './NodeAdd'
 import NodeOver from './NodeOver'
-// import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
+import arraysEqual from '../lib/utils/arraysEqual'
+import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
 
 export default class Nodes extends Component {
 
   static propTypes = {
     enableDnD: PropTypes.bool,
     parent: PropTypes.string,
-    indexPath: PropTypes.array.isRequired,
-    // ui: PropTypes.shape(propTypeShapeUI),
+    treePath: PropTypes.array.isRequired,
+    ui: PropTypes.shape(propTypeShapeUI),
     nodesArray: PropTypes.array,
     nodes: PropTypes.array,
     hasNodes: PropTypes.bool
@@ -30,25 +31,36 @@ export default class Nodes extends Component {
     return this.props.parent === null
   }
 
+  isUI (key: string) : bool {
+    const { ui, treePath } = this.props
+    if (ui && ui[key]) {
+      if (arraysEqual(ui[key], treePath)) {
+        return true
+      }
+    }
+    return false
+  }
+
   render () {
 
     const {
       nodesArray,
       nodes,
       hasNodes,
-      indexPath,
-      // @TODO: check if this works
-      ui: { adding, movingChild }
+      treePath,
+      ui
     } = this.props
 
     const isRoot = this.isRoot()
     const hasNodeAdd = !isRoot
+    const isAdding = this.isUI('adding')
+    const isMovingChild = this.isUI('movingChild')
 
-    const showNodeMoveChild = !hasNodes && movingChild
-    const showNodeAdd = hasNodeAdd && !movingChild
+    const showNodeMoveChild = !hasNodes && isMovingChild
+    const showNodeAdd = hasNodeAdd && !isMovingChild
 
     const nodeWrapProps = { ...this.props, isRoot }
-    const nodeAddProps = { ...this.props, isEditing: adding }
+    const nodeAddProps = { ...this.props, isEditing: isAdding }
     const nodesPopulated = nodes.map(nodeId => nodesArray.find(node => node.uid === nodeId))
 
     return (
@@ -59,13 +71,12 @@ export default class Nodes extends Component {
             <NodeWrap
               { ...nodeWrapProps }
               uid={ node.uid }
-              path={ node.path }
               data={ node.data }
-              ui={ node.ui }
+              ui={ ui }
               nodes={ node.nodes }
               siblings={ nodes }
               index={ index }
-              indexPath={ indexPath.concat([index]) }
+              treePath={ treePath.concat([node.uid]) }
             />
           </li>
         ) }

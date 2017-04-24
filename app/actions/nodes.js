@@ -2,34 +2,40 @@
 
 import fetch from 'isomorphic-fetch'
 import type { TreePath, Nodes, NodeId, NodeData, Transaction, TransactionStatus } from '../../flow/tree'
-import { getParentFromPath, getUidFromPath } from '../../app/lib/tree/TreeUtils2'
+import { getParentFromTreePath, getUidFromTreePath } from '../../app/lib/tree/TreeUtils'
 import createTransaction from '../../app/lib/tree/createTransaction'
+import { initUIRoot, unsetUIExpanded } from './ui'
 
 import host from '../settings/host'
 
-// backend
+// actions
 export const START_SYNCING = 'START_SYNCING'
+export const STOP_SYNCING = 'STOP_SYNCING'
+export const HAS_ERRORS = 'HAS_ERRORS'
+export const INDEX_NODES = 'INDEX_NODES'
+export const GET_NODES = 'GET_NODES'
+export const ADD_NODE_TRANSACTION = 'ADD_NODE_TRANSACTION'
+export const UPDATE_NODE_TRANSACTION_STATUS = 'UPDATE_NODE_TRANSACTION_STATUS'
+
+// action creators
 export const startSyncing = () => {
   return {
     type: START_SYNCING
   }
 }
 
-export const STOP_SYNCING = 'STOP_SYNCING'
 export const stopSyncing = () => {
   return {
     type: STOP_SYNCING
   }
 }
 
-export const HAS_ERRORS = 'HAS_ERRORS'
 export const hasErrors = () => {
   return {
     type: HAS_ERRORS
   }
 }
 
-export const INDEX_NODES = 'INDEX_NODES'
 export const indexNodes = (nodes: Nodes) => {
   return {
     type: INDEX_NODES,
@@ -39,9 +45,8 @@ export const indexNodes = (nodes: Nodes) => {
   }
 }
 
-export const GET_NODES = 'GET_NODES'
 export const getNodes = (rootId: NodeId) => {
-  return function (dispatch: () => void) {
+  return (dispatch: () => void) => {
     dispatch(startSyncing())
     const url = `${ host }/nodes/${ rootId }`
     const options = {
@@ -64,6 +69,7 @@ export const getNodes = (rootId: NodeId) => {
         json => {
           dispatch(stopSyncing())
           dispatch(indexNodes(json.nodes))
+          dispatch(initUIRoot(json.nodes))
         },
         () => { // (error)
           dispatch(stopSyncing())
@@ -73,7 +79,6 @@ export const getNodes = (rootId: NodeId) => {
   }
 }
 
-export const ADD_NODE_TRANSACTION = 'ADD_NODE_TRANSACTION'
 export const addNodeTransaction = (transaction: Transaction) => {
   return {
     type: ADD_NODE_TRANSACTION,
@@ -83,7 +88,6 @@ export const addNodeTransaction = (transaction: Transaction) => {
   }
 }
 
-export const UPDATE_NODE_TRANSACTION_STATUS = 'UPDATE_NODE_TRANSACTION_STATUS'
 export const updateNodeTransactionStatus = (transaction: Transaction, status: TransactionStatus) => {
   return {
     type: UPDATE_NODE_TRANSACTION_STATUS,
@@ -95,64 +99,71 @@ export const updateNodeTransactionStatus = (transaction: Transaction, status: Tr
 }
 
 export const create = (parentPath: TreePath, data: NodeData) => {
-  return (dispatch: () => void) => {
-    const transaction0 = createTransaction('CREATE')
-    const transaction1 = createTransaction('SET', transaction0.uid, data)
-    const uid = getUidFromPath(parentPath)
-    const transaction2 = createTransaction('ADD_CHILD', uid, transaction0.uid)
-    dispatch(addNodeTransaction(transaction0))
-    dispatch(addNodeTransaction(transaction1))
-    dispatch(addNodeTransaction(transaction2))
-    return dispatch(postTransactions([transaction0, transaction1, transaction2]))
-  }
+  const transaction0 = createTransaction('CREATE')
+  const transaction1 = createTransaction('SET', transaction0.uid, data)
+  const uid = getUidFromTreePath(parentPath)
+  const transaction2 = createTransaction('ADD_CHILD', uid, undefined, transaction0.uid)
+  return [
+    addNodeTransaction(transaction0),
+    addNodeTransaction(transaction1),
+    addNodeTransaction(transaction2),
+    postTransactions([transaction0, transaction1, transaction2])
+  ]
 }
 
 export const update = (path: TreePath, data: NodeData) => {
 
-  const uid = getUidFromPath(path)
+  const uid = getUidFromTreePath(path)
 
   // guard
   if (uid == null) return
 
-  return (dispatch: () => void) => {
-    const transaction = createTransaction('SET', uid, data)
-    dispatch(addNodeTransaction(transaction))
-    return dispatch(postTransactions([transaction]))
-  }
+  const transaction = createTransaction('SET', uid, data)
+
+  return [
+    addNodeTransaction(transaction),
+    postTransactions([transaction])
+  ]
 }
 
 export const remove = (path: TreePath) => {
 
-  const parent = getParentFromPath(path)
-  const uid = getUidFromPath(path)
+  const parent = getParentFromTreePath(path)
+  const uid = getUidFromTreePath(path)
 
   // guard
   if (parent == null || uid == null) return
 
-  return (dispatch: () => void) => {
-    const transaction = createTransaction('REMOVE_CHILD', parent, undefined, uid)
-    dispatch(addNodeTransaction(transaction))
-    return dispatch(postTransactions([transaction]))
-  }
+  const transaction = createTransaction('REMOVE_CHILD', parent, undefined, uid)
+
+  return [
+    unsetUIExpanded(path),
+    addNodeTransaction(transaction),
+    postTransactions([transaction])
+  ]
 }
 
 export const move = (path: TreePath, newPath: TreePath, before?: NodeId) => {
 
-  const uid = getUidFromPath(path)
-  const parent = getParentFromPath(path)
-  const newParent = getUidFromPath(newPath)
+  const uid = getUidFromTreePath(path)
+  const parent = getParentFromTreePath(path)
+  const newParent = getUidFromTreePath(newPath)
 
   // guard
   if (uid == null || parent == null || newParent == null) return
 
-  return (dispatch: () => void) => {
-    const transaction0 = createTransaction('REMOVE_CHILD', parent, undefined, uid)
-    const transaction1 = createTransaction('ADD_CHILD', newParent, undefined, uid, before)
-    return dispatch(postTransactions([transaction0, transaction1]))
-  }
+  const transaction0 = createTransaction('REMOVE_CHILD', parent, undefined, uid)
+  const transaction1 = createTransaction('ADD_CHILD', newParent, undefined, uid, before)
+
+  return [
+    unsetUIExpanded(path),
+    addNodeTransaction(transaction0),
+    addNodeTransaction(transaction1),
+    postTransactions([transaction0, transaction1])
+  ]
 }
 
-export const postTransactions = (transactions: Transaction[]) => {
+const postTransactions = (transactions: Transaction[]) => {
 
   return (dispatch: () => void) => {
     dispatch(startSyncing())
@@ -179,6 +190,8 @@ export const postTransactions = (transactions: Transaction[]) => {
         json => {
           dispatch(stopSyncing())
           transactions.forEach((transaction, index) => {
+            // guard
+            if (!Array.isArray(json.transactions) || json.transactions[index] == null || json.transactions[index].status == null) return
             const status = json.transactions[index].status
             dispatch(updateNodeTransactionStatus(transaction, status))
           })

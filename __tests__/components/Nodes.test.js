@@ -21,14 +21,13 @@ describe('Nodes', () => {
     app,
     parent: null,
     nodesArray: [],
-    path: [],
-    indexPath: [],
+    treePath: [],
     nodes: [],
     ui,
     clearUIEditingAdding: noop,
     setUIAdding: noop,
     setUIExpanded: noop,
-    postNode: noop
+    create: noop
   }
   const getComponent = getComponentHOF(Nodes, defaultProps)
 

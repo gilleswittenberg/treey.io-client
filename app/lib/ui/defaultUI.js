@@ -1,15 +1,15 @@
 /* @flow */
 
-import type { NodeUI } from '../../../flow/tree'
+import type { UIState } from '../../../flow/types'
 
-const defaultUI: NodeUI = {
-  active: false,
-  expanded: false,
-  adding: false,
-  editing: false,
-  dragging: false,
-  movingChild: false,
-  buttonsShown: false
+const defaultUI: UIState = {
+  expanded: {},
+  active: null,
+  adding: null,
+  editing: null,
+  dragging: null,
+  movingChild: null,
+  buttonsShown: null
 }
 
 export default defaultUI

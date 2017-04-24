@@ -5,17 +5,18 @@ import classNames from 'classnames'
 import NodeDroppable from '../components/NodeDroppable'
 import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
-// import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
+import arraysEqual from '../lib/utils/arraysEqual'
+import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
 
 export default class NodeWrap extends Component {
 
   static propTypes = {
     enableDnD: PropTypes.bool,
     app: PropTypes.object.isRequired,
-    // ui: PropTypes.shape(propTypeShapeUI),
+    ui: PropTypes.shape(propTypeShapeUI),
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
-    // path: PropTypes.array.isRequired,
+    treePath: PropTypes.array.isRequired,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     nodes: PropTypes.array,
@@ -34,9 +35,30 @@ export default class NodeWrap extends Component {
     isOverPosition: -1
   }
 
+  isExpanded () : bool {
+    const { treePath, ui: { expanded } } = this.props
+    let isExpanded = false
+    Object.keys(expanded).forEach(key => {
+      if (arraysEqual(expanded[key], treePath)) {
+        isExpanded = true
+      }
+    })
+    return isExpanded
+  }
+
   hasNodes () : bool {
     const { nodes } = this.props
     return Array.isArray(nodes) && nodes.length > 0
+  }
+
+  isUI (key: string) : bool {
+    const { ui, treePath } = this.props
+    if (ui && ui[key]) {
+      if (arraysEqual(ui[key], treePath)) {
+        return true
+      }
+    }
+    return false
   }
 
   render () {
@@ -44,15 +66,15 @@ export default class NodeWrap extends Component {
     const {
       enableDnD,
       uid,
-      ui
+      treePath
     } = this.props
 
-    const isActive = ui ? ui.active : false
-    const isEditing = ui ? ui.editing : false
-    const isMovingChild = ui ? ui.movingChild : false
-    const isAdding = ui ? ui.adding : false
-    const isDragging = ui ? ui.dragging : false
-    const isExpanded = ui ? ui.expanded : false
+    const isActive = this.isUI('active')
+    const isEditing = this.isUI('editing')
+    const isMovingChild = this.isUI('movingChild')
+    const isAdding = this.isUI('adding')
+    const isDragging = this.isUI('dragging')
+    const isExpanded = this.isExpanded()
     const hasNodes = this.hasNodes()
 
     const className = classNames(
@@ -76,8 +98,10 @@ export default class NodeWrap extends Component {
     nodeEditProps.title = nodeEditProps.data.title
     const nodesProps = { ...this.props, parent: uid, hasNodes }
 
+    const treePathString = treePath.join('-')
+
     return (
-      <div>
+      <div data-tree-path={ treePathString }>
         <div className={ className }>
           { showNodeDroppable &&
             <NodeDroppableComponent { ...nodeDroppableProps } />

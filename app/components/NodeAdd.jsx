@@ -5,18 +5,20 @@ import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
 import ButtonIcon from './ButtonIcon'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
+import arraysEqual from '../lib/utils/arraysEqual'
+import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
 
 export default class NodeAdd extends Component {
 
   static propTypes = {
     lang: PropTypes.string,
     parent: PropTypes.string.isRequired,
-    // path: PropTypes.array.isRequired,
-    ui: PropTypes.object.isRequired,
-    clearUIEditingAdding: PropTypes.func.isRequired,
-
+    treePath: PropTypes.array.isRequired,
+    ui: PropTypes.shape(propTypeShapeUI),
     setUIAdding: PropTypes.func.isRequired,
-    setUIExpanded: PropTypes.func.isRequired
+    setUIExpanded: PropTypes.func.isRequired,
+    clearUIEditingAdding: PropTypes.func.isRequired,
+    create: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -38,8 +40,8 @@ export default class NodeAdd extends Component {
   handleClick (event: Event) {
     event.stopPropagation()
     this.setState({ title: '' })
-    const { path, setUIAdding } = this.props
-    setUIAdding(path)
+    const { treePath, setUIAdding } = this.props
+    setUIAdding(treePath)
   }
 
   @autobind
@@ -55,45 +57,54 @@ export default class NodeAdd extends Component {
 
     event.preventDefault()
 
-    const { path, postNode, clearUIEditingAdding, setUIExpanded } = this.props
+    const { treePath, create, clearUIEditingAdding, setUIExpanded } = this.props
     const { title } = this.state
     const titleTrimmed = title.trim()
 
     clearUIEditingAdding()
 
     // guard: do not save empty string
-    if (titleTrimmed === '') {
-      return
-    }
+    if (titleTrimmed === '') return
 
     const data = { title: titleTrimmed }
-    postNode(path, data)
+    create(treePath, data)
 
     // expand to open parent
-    setUIExpanded(path)
+    setUIExpanded(treePath)
+  }
+
+  isAdding () : bool {
+    const { ui, treePath } = this.props
+    if (ui && ui.adding) {
+      if (arraysEqual(ui.adding, treePath)) {
+        return true
+      }
+    }
+    return false
   }
 
   render () {
 
-    const { lang, ui: { adding } } = this.props
+    const { lang } = this.props
     const { title: value } = this.state
+    const isAdding = this.isAdding()
 
     const className = classNames(
       'node',
       'node-add',
-      { '-is-editing': adding }
+      { '-is-editing': isAdding }
     )
 
     return (
       <div className={ className }>
 
-        { !adding &&
+        { !isAdding &&
           <div className="node-body">
             <ButtonIcon type="ADD" lang={ lang } handleClick={ this.handleClick } />
           </div>
         }
 
-        { adding &&
+        { isAdding &&
           <div className="node-editing">
             <form onSubmit={ this.handleSubmit }>
               <div className="node-buttons">

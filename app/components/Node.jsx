@@ -7,6 +7,7 @@ import ButtonIcon from './ButtonIcon'
 import ButtonMoveChild from './ButtonMoveChild'
 import NodeDraggable from './NodeDraggable'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
+import arraysEqual from '../lib/utils/arraysEqual'
 import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
 
 export default class Node extends Component {
@@ -18,19 +19,18 @@ export default class Node extends Component {
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     uid: PropTypes.string.isRequired,
-    // path: PropTypes.array.isRequired,
+    treePath: PropTypes.array.isRequired,
     data: PropTypes.object.isRequired,
     ui: PropTypes.shape(propTypeShapeUI),
     hasNodes: PropTypes.bool.isRequired,
     isOver: PropTypes.bool,
-
-    clearUIEditingAdding: PropTypes.func.isRequired,
-    clearUIButtonsShown: PropTypes.func.isRequired,
     setUIEditing: PropTypes.func.isRequired,
     setUIAdding: PropTypes.func.isRequired,
-    setUIExpanded: PropTypes.func.isRequired,
     setUIActive: PropTypes.func.isRequired,
-    setUIButtonsShown: PropTypes.func.isRequired
+    setUIButtonsShown: PropTypes.func.isRequired,
+    clearUIEditingAdding: PropTypes.func.isRequired,
+    setUIExpanded: PropTypes.func.isRequired,
+    unsetUIExpanded: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -46,49 +46,52 @@ export default class Node extends Component {
 
     event.stopPropagation()
 
-    const { clearUIEditingAdding, setUIEditing, setUIExpanded, setUIActive, ui: { expanded }, path } = this.props
+    const { clearUIEditingAdding, setUIEditing, setUIExpanded, unsetUIExpanded, setUIActive, treePath } = this.props
+    const isExpanded = this.isExpanded()
 
     // alt key to edit
     if (event.altKey) {
-      setUIEditing(path)
+      setUIEditing(treePath)
     }
     // regular click to collapse or expand
     else {
       clearUIEditingAdding()
-      if (this.canExpand()) {
-        setUIExpanded(path, !expanded)
+      if (isExpanded) {
+        unsetUIExpanded(treePath)
+      } else if (this.canExpand()) {
+        setUIExpanded(treePath)
       }
     }
 
-    setUIActive(path)
+    setUIActive(treePath)
   }
 
   @autobind
   handleClickAdd (event: Event) {
     event.stopPropagation()
-    const { path, setUIAdding } = this.props
-    setUIAdding(path)
+    const { treePath, setUIAdding } = this.props
+    setUIAdding(treePath)
   }
 
   @autobind
   handleClickEdit (event: Event) {
     event.stopPropagation()
-    const { path, setUIEditing } = this.props
-    setUIEditing(path)
+    const { treePath, setUIEditing } = this.props
+    setUIEditing(treePath)
   }
 
   @autobind
-  handleClickDelete () {
-    const { path, removeChild } = this.props
-    removeChild(path)
+  handleClickDelete (event: Event) {
+    event.stopPropagation()
+    const { treePath, remove } = this.props
+    remove(treePath)
   }
 
   @autobind
   handleClickShowButtons (event: Event) {
     event.stopPropagation()
-    const { path, clearUIButtonsShown, setUIButtonsShown } = this.props
-    clearUIButtonsShown()
-    setUIButtonsShown(path)
+    const { treePath, setUIButtonsShown } = this.props
+    setUIButtonsShown(treePath)
   }
 
   componentDidMount () {
@@ -102,32 +105,38 @@ export default class Node extends Component {
   @autobind
   handleKeyDown (event: KeyboardEvent) {
 
-    const { ui: { active, editing, adding }, path, setUIExpanded, setUIEditing, setUIAdding, deleteNode } = this.props
+    const { treePath, setUIExpanded, unsetUIExpanded, setUIEditing, setUIAdding, remove } = this.props
 
     // guard
-    if (active !== true || editing === true || adding === true) { return }
+    const isActive = this.isUI('active')
+    if (!isActive) return
+
+    // guard
+    const isEditing = this.isUI('editing')
+    const isAdding = this.isUI('adding')
+    if (isEditing || isAdding) return
 
     switch (event.keyCode) {
     case 37: // left arrow
       event.preventDefault()
-      setUIExpanded(path, false)
+      unsetUIExpanded(treePath)
       break
     case 39: // right arrow
       event.preventDefault()
-      setUIExpanded(path)
+      setUIExpanded(treePath)
       break
     case 13: // enter
       event.preventDefault()
-      setUIEditing(path)
+      setUIEditing(treePath)
       break
     case 68: // d
       if (event.shiftKey) {
-        deleteNode(path)
+        remove(treePath)
       }
       break
     case 187: // +
       event.preventDefault()
-      setUIAdding(path)
+      setUIAdding(treePath)
       break
     }
   }
@@ -136,29 +145,49 @@ export default class Node extends Component {
     return this.props.hasNodes
   }
 
+  isExpanded () : bool {
+    const { treePath, ui: { expanded } } = this.props
+    let isExpanded = false
+    Object.keys(expanded).forEach(key => {
+      if (arraysEqual(expanded[key], treePath)) {
+        isExpanded = true
+      }
+    })
+    return isExpanded
+  }
+
+  isUI (key: string) : bool {
+    const { ui, treePath } = this.props
+    if (ui && ui[key]) {
+      if (arraysEqual(ui[key], treePath)) {
+        return true
+      }
+    }
+    return false
+  }
+
+  userIsDragging () : bool {
+    const { ui } = this.props
+    if (ui && ui.dragging != null) {
+      return true
+    }
+    return false
+  }
+
   render () {
 
     const {
       enableDnD,
       lang,
       isRoot,
-      hasNodes,
-      /*
-      ui: {
-        buttonsShown,
-        dragging
-      },
-      */
-      userIsDragging
+      hasNodes
     } = this.props
-    const dragging = false
-    const buttonsShown = false
 
     const showAddButton = !hasNodes
     const showDeleteButton = !isRoot
-    const hasButtonsShown = buttonsShown
-    const isDragging = dragging
-    const showMoveChildButton = userIsDragging && !hasNodes
+    const hasButtonsShown = this.isUI('buttonsShown')
+    const isDragging = this.isUI('dragging')
+    const showMoveChildButton = this.userIsDragging() && !hasNodes
 
     const className = classNames(
       'node-body',

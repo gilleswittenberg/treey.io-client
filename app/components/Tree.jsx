@@ -7,7 +7,7 @@ import autobind from 'autobind-decorator'
 import { DragDropContext } from 'react-dnd'
 import TouchBackend from 'react-dnd-touch-backend'
 import delay from '../lib/utils/delay'
-import defaultUI from '../lib/ui/defaultUI'
+import { getNextActive, getPrevActive } from '../lib/tree/getNextPrevActive'
 
 class Tree extends Component {
 
@@ -17,9 +17,7 @@ class Tree extends Component {
     nodesArray: PropTypes.array.isRequired,
     clearUIEditingAdding: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
-    setUIActive: PropTypes.func.isRequired,
-    setNextUIActive: PropTypes.func.isRequired,
-    setPrevUIActive: PropTypes.func.isRequired
+    setUIActive: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -29,15 +27,6 @@ class Tree extends Component {
 
   // needed for Flowtype
   static DecoratedComponent = null
-
-  componentWillReceiveProps (nextProps: any) {
-    const { tree, setUIActive, setUIExpanded } = this.props
-    if (tree === null && nextProps.tree && nextProps.tree.nodes && nextProps.tree.nodes.length > 0) {
-      const path = nextProps.tree.nodes[0].path
-      setUIActive(path)
-      setUIExpanded(path)
-    }
-  }
 
   componentDidMount () {
     window.addEventListener('keyup', this.handleKeyUp)
@@ -62,24 +51,30 @@ class Tree extends Component {
   @autobind
   handleKeyDown (event: KeyboardEvent) {
 
-    const { setNextUIActive, setPrevUIActive } = this.props
-    let action
+    const { setUIActive, nodesArray: nodes, ui: { expanded, active, adding, editing } } = this.props
+
+    // guard
+    if (adding != null || editing != null) return
+
+    let action, nextActive
 
     switch (event.keyCode) {
     case 40: // down arrow
-      event.preventDefault()
-      setNextUIActive()
+      nextActive = getNextActive(nodes, active, expanded)
       break
     case 38: // up arrow
-      event.preventDefault()
-      setPrevUIActive()
+      nextActive = getPrevActive(nodes, active, expanded)
       break
     case 9: // tab
-      event.preventDefault()
-      action = event.shiftKey ? setPrevUIActive : setNextUIActive
-      action()
+      action = event.shiftKey ? getPrevActive : getNextActive
+      nextActive = action(nodes, active, expanded)
       break
+    default:
+      return
     }
+
+    event.preventDefault()
+    setUIActive(nextActive)
   }
 
   @autobind
@@ -93,14 +88,12 @@ class Tree extends Component {
 
     const {
       enableDnD,
-      // tree,
       nodesArray
     } = this.props
 
-    // const nodes = tree ? tree.nodes : []
     const nodes = nodesArray.length > 0 ? [nodesArray[0].uid] : []
     const showNodes = nodes.length > 0
-    const nodesProps = { ...this.props, parent: null, indexPath: [], nodesArray, nodes, ui: defaultUI }
+    const nodesProps = { ...this.props, parent: null, treePath: [], nodesArray, nodes }
 
     // $FlowIssue Flow does not recognize CustomDragLayer.DecoratedComponent
     const CustomDragLayerComponent = enableDnD ? CustomDragLayer : CustomDragLayer.DecoratedComponent
