@@ -1,5 +1,4 @@
 /* @flow */
-// @TODO: import actions using * and use Object.keys instead of hardcoding
 
 import noop from '../utils/noop'
 
