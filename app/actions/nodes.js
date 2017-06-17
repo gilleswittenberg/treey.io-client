@@ -2,9 +2,12 @@
 
 import fetch from 'isomorphic-fetch'
 import type { TreePath, Nodes, NodeId, NodeData, Transaction, TransactionStatus } from '../../flow/tree'
+// @TODO: remove ../app/
 import { getParentFromTreePath, getUidFromTreePath } from '../../app/lib/tree/TreeUtils'
+// @TODO: remove ../app/
 import createTransaction from '../../app/lib/tree/createTransaction'
 import { initUIRoot, unsetUIExpanded } from './ui'
+import fetchOptions from '../lib/utils/fetchOptions'
 
 import host from '../settings/host'
 
@@ -168,15 +171,7 @@ const postTransactions = (transactions: Transaction[]) => {
   return (dispatch: () => void) => {
     dispatch(startSyncing())
     const url = `${ host }/nodes/transactions`
-    const options = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: JSON.stringify({ transactions })
-    }
+    const options = fetchOptions('POST', { transactions })
     return fetch(url, options)
       .then(
         response => {

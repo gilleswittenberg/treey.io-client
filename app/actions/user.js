@@ -5,6 +5,7 @@ import type { NodeId } from '../../flow/tree'
 import fetch from 'isomorphic-fetch'
 import host from '../settings/host'
 import { getNodes } from './nodes'
+import fetchOptions from '../lib/utils/fetchOptions'
 
 export const AUTHENTICATE = 'AUTHENTICATE'
 export const authenticate = (username: string, rootId: NodeId) => {
@@ -64,15 +65,7 @@ export const getUser = () => {
   return (dispatch: () => void) => {
 
     const url = `${ host }/user`
-    // @TODO: Extract options
-    const options = {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json'
-      },
-      credentials: 'include'
-    }
-
+    const options = fetchOptions()
     return fetch(url, options)
       .then(
         response => {
@@ -99,16 +92,7 @@ export const postAuthenticate = (username: string, password: string) => {
   return (dispatch: () => void) => {
 
     const url = `${ host }/user/authenticate`
-    // @TODO: Extract options
-    const options = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: JSON.stringify({ username, password })
-    }
+    const options = fetchOptions('POST', { username, password })
 
     return fetch(url, options)
       .then(
@@ -140,15 +124,7 @@ export const postSignOut = () => {
   return (dispatch: () => void) => {
 
     const url = `${ host }/user/signout`
-    // @TODO: Extract options
-    const options = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include'
-    }
+    const options = fetchOptions('POST')
 
     return fetch(url, options)
       .then(
@@ -174,16 +150,7 @@ export const postRegister = (username: string, password: string, passwordConfirm
   return (dispatch: () => void) => {
 
     const url = `${ host }/user/register`
-    // @TODO: Extract options
-    const options = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: JSON.stringify({ username, password, passwordConfirm })
-    }
+    const options = fetchOptions('POST', { username, password, passwordConfirm })
 
     return fetch(url, options)
       .then(
