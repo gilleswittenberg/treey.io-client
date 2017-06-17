@@ -2,10 +2,8 @@
 
 import fetch from 'isomorphic-fetch'
 import type { TreePath, Nodes, NodeId, NodeData, Transaction, TransactionStatus } from '../../flow/tree'
-// @TODO: remove ../app/
-import { getParentFromTreePath, getUidFromTreePath } from '../../app/lib/tree/TreeUtils'
-// @TODO: remove ../app/
-import createTransaction from '../../app/lib/tree/createTransaction'
+import { getParentFromTreePath, getUidFromTreePath } from '../lib/tree/TreeUtils'
+import createTransaction from '../lib/tree/createTransaction'
 import { initUIRoot, unsetUIExpanded } from './ui'
 import fetchOptions from '../lib/utils/fetchOptions'
 
