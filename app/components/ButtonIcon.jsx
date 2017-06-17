@@ -23,7 +23,6 @@ export default class ButtonIcon extends Component {
   }
 
   static defaultProps = {
-    // @TODO: Can we remove event argument?
     handleClick: (event: Event) => {} // eslint-disable-line no-unused-vars
   }
 
