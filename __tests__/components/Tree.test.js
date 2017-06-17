@@ -11,7 +11,7 @@ import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import { defaultActions } from '../../app/lib/ui/actions'
 import defaultUI from '../../app/lib/ui/defaultUI'
-import { uid, uid1, uid2, uid3, uid4, uid5, uid6, uid7 } from '../uid'
+import { uuid, uuid1, uuid2, uuid3, uuid4, uuid5, uuid6, uuid7 } from '../uuid'
 
 describe('Tree', () => {
 
@@ -36,7 +36,7 @@ describe('Tree', () => {
 
     it('nodesArray', () => {
       const nodesArray = [{
-        uid: uid1,
+        uuid: uuid1,
         nodes: [],
         ui
       }]
@@ -47,40 +47,40 @@ describe('Tree', () => {
     it('nodesArray deep', () => {
       const nodesArray = [
         {
-          uid,
+          uuid,
           data: { title: 'John Doe' },
-          nodes: [uid1, uid4]
+          nodes: [uuid1, uuid4]
         },
         {
-          uid: uid1,
+          uuid: uuid1,
           data: { title: 'ToDo' },
-          nodes: [uid2, uid3]
+          nodes: [uuid2, uuid3]
         },
         {
-          uid: uid2,
+          uuid: uuid2,
           data: { title: 'bring home the milk' },
           nodes: []
         },
         {
-          uid: uid3,
+          uuid: uuid3,
           data: { title: 'clean the house' },
           nodes: []
         },
         {
-          uid: uid4,
+          uuid: uuid4,
           data: { title: 'Movies' },
-          nodes: [uid5, uid6, uid7]
+          nodes: [uuid5, uuid6, uuid7]
         },
         {
-          uid: uid5,
+          uuid: uuid5,
           data: { title: 'The Terminator (1984)' },
           nodes: []
         }, {
-          uid: uid6,
+          uuid: uuid6,
           data: { title: 'Star Wars: Episode IV - A New Hope (1977)' },
           nodes: []
         }, {
-          uid: uid7,
+          uuid: uuid7,
           data: { title: 'The Matrix (1999)' },
           nodes: []
         }

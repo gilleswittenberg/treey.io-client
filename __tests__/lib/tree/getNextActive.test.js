@@ -6,90 +6,90 @@ declare var it: any
 declare var expect: any
 
 import { getNextActive } from '../../../app/lib/tree/getNextPrevActive'
-import { uid, uid1, uid2, uid3 } from '../../uid'
+import { uuid, uuid1, uuid2, uuid3 } from '../../uuid'
 
 describe('getNextActive', () => {
 
   it('root', () => {
     const nodes = [
-      { uid, data: { title: '' }, transactions: [], user: '', nodes: [uid1] },
-      { uid: uid1, data: { title: '' }, transactions: [], user: '', nodes: [] }
+      { uuid, data: { title: '' }, transactions: [], user: '', nodes: [uuid1] },
+      { uuid: uuid1, data: { title: '' }, transactions: [], user: '', nodes: [] }
     ]
-    const nextActive = getNextActive(nodes, [uid], { '0': [uid] })
-    expect(nextActive).toEqual([uid, uid1])
+    const nextActive = getNextActive(nodes, [uuid], { '0': [uuid] })
+    expect(nextActive).toEqual([uuid, uuid1])
   })
 
   it('root, first child', () => {
     const nodes = [
-      { uid, data: { title: '' }, transactions: [], user: '', nodes: [uid1, uid2] },
-      { uid: uid1, data: { title: '' }, transactions: [], user: '', nodes: [] },
-      { uid: uid2, data: { title: '' }, transactions: [], user: '', nodes: [] }
+      { uuid, data: { title: '' }, transactions: [], user: '', nodes: [uuid1, uuid2] },
+      { uuid: uuid1, data: { title: '' }, transactions: [], user: '', nodes: [] },
+      { uuid: uuid2, data: { title: '' }, transactions: [], user: '', nodes: [] }
     ]
-    const nextActive = getNextActive(nodes, [uid, uid1])
-    expect(nextActive).toEqual([uid, uid2])
+    const nextActive = getNextActive(nodes, [uuid, uuid1])
+    expect(nextActive).toEqual([uuid, uuid2])
   })
 
   it('root, second child', () => {
     const nodes = [
-      { uid, data: { title: '' }, transactions: [], user: '', nodes: [uid1, uid2, uid3] },
-      { uid: uid1, data: { title: '' }, transactions: [], user: '', nodes: [] },
-      { uid: uid2, data: { title: '' }, transactions: [], user: '', nodes: [] },
-      { uid: uid3, data: { title: '' }, transactions: [], user: '', nodes: [] }
+      { uuid, data: { title: '' }, transactions: [], user: '', nodes: [uuid1, uuid2, uuid3] },
+      { uuid: uuid1, data: { title: '' }, transactions: [], user: '', nodes: [] },
+      { uuid: uuid2, data: { title: '' }, transactions: [], user: '', nodes: [] },
+      { uuid: uuid3, data: { title: '' }, transactions: [], user: '', nodes: [] }
     ]
-    const nextActive = getNextActive(nodes, [uid, uid2])
-    expect(nextActive).toEqual([uid, uid3])
+    const nextActive = getNextActive(nodes, [uuid, uuid2])
+    expect(nextActive).toEqual([uuid, uuid3])
   })
 
   it('root, first child, first grandchild', () => {
     const nodes = [
-      { uid, data: { title: '' }, transactions: [], user: '', nodes: [uid1] },
-      { uid: uid1, data: { title: '' }, transactions: [], user: '', nodes: [uid2] },
-      { uid: uid2, data: { title: '' }, transactions: [], user: '', nodes: [] }
+      { uuid, data: { title: '' }, transactions: [], user: '', nodes: [uuid1] },
+      { uuid: uuid1, data: { title: '' }, transactions: [], user: '', nodes: [uuid2] },
+      { uuid: uuid2, data: { title: '' }, transactions: [], user: '', nodes: [] }
     ]
-    const nextActive = getNextActive(nodes, [uid, uid1], { '0': [uid], '1': [uid, uid1] })
-    expect(nextActive).toEqual([uid, uid1, uid2])
+    const nextActive = getNextActive(nodes, [uuid, uuid1], { '0': [uuid], '1': [uuid, uuid1] })
+    expect(nextActive).toEqual([uuid, uuid1, uuid2])
   })
 
   it('root, first child, second child', () => {
     const nodes = [
-      { uid, data: { title: '' }, transactions: [], user: '', nodes: [uid1, uid3] },
-      { uid: uid1, data: { title: '' }, transactions: [], user: '', nodes: [uid2] },
-      { uid: uid2, data: { title: '' }, transactions: [], user: '', nodes: [] },
-      { uid: uid3, data: { title: '' }, transactions: [], user: '', nodes: [] }
+      { uuid, data: { title: '' }, transactions: [], user: '', nodes: [uuid1, uuid3] },
+      { uuid: uuid1, data: { title: '' }, transactions: [], user: '', nodes: [uuid2] },
+      { uuid: uuid2, data: { title: '' }, transactions: [], user: '', nodes: [] },
+      { uuid: uuid3, data: { title: '' }, transactions: [], user: '', nodes: [] }
     ]
-    const nextActive = getNextActive(nodes, [uid, uid1, uid2])
-    expect(nextActive).toEqual([uid, uid3])
+    const nextActive = getNextActive(nodes, [uuid, uuid1, uuid2])
+    expect(nextActive).toEqual([uuid, uuid3])
   })
 
   it('root, first child, first grandchild, first grandgrandchild', () => {
     const nodes = [
-      { uid, data: { title: '' }, transactions: [], user: '', nodes: [uid1] },
-      { uid: uid1, data: { title: '' }, transactions: [], user: '', nodes: [uid2, uid3] },
-      { uid: uid2, data: { title: '' }, transactions: [], user: '', nodes: [] },
-      { uid: uid3, data: { title: '' }, transactions: [], user: '', nodes: [] }
+      { uuid, data: { title: '' }, transactions: [], user: '', nodes: [uuid1] },
+      { uuid: uuid1, data: { title: '' }, transactions: [], user: '', nodes: [uuid2, uuid3] },
+      { uuid: uuid2, data: { title: '' }, transactions: [], user: '', nodes: [] },
+      { uuid: uuid3, data: { title: '' }, transactions: [], user: '', nodes: [] }
     ]
-    const nextActive = getNextActive(nodes, [uid, uid1, uid2])
-    expect(nextActive).toEqual([uid, uid1, uid3])
+    const nextActive = getNextActive(nodes, [uuid, uuid1, uuid2])
+    expect(nextActive).toEqual([uuid, uuid1, uuid3])
   })
 
   it('circular root', () => {
     const nodes = [
-      { uid, data: { title: '' }, transactions: [], user: '', nodes: [uid1] },
-      { uid: uid1, data: { title: '' }, transactions: [], user: '', nodes: [uid2] },
-      { uid: uid2, data: { title: '' }, transactions: [], user: '', nodes: [] }
+      { uuid, data: { title: '' }, transactions: [], user: '', nodes: [uuid1] },
+      { uuid: uuid1, data: { title: '' }, transactions: [], user: '', nodes: [uuid2] },
+      { uuid: uuid2, data: { title: '' }, transactions: [], user: '', nodes: [] }
     ]
-    const nextActive = getNextActive(nodes, [uid, uid1, uid2])
-    expect(nextActive).toEqual([uid])
+    const nextActive = getNextActive(nodes, [uuid, uuid1, uuid2])
+    expect(nextActive).toEqual([uuid])
   })
 
   it('multiple children', () => {
     const nodes = [
-      { uid, data: { title: '' }, transactions: [], user: '', nodes: [uid1] },
-      { uid: uid1, data: { title: '' }, transactions: [], user: '', nodes: [uid2, uid3] },
-      { uid: uid2, data: { title: '' }, transactions: [], user: '', nodes: [] },
-      { uid: uid3, data: { title: '' }, transactions: [], user: '', nodes: [] }
+      { uuid, data: { title: '' }, transactions: [], user: '', nodes: [uuid1] },
+      { uuid: uuid1, data: { title: '' }, transactions: [], user: '', nodes: [uuid2, uuid3] },
+      { uuid: uuid2, data: { title: '' }, transactions: [], user: '', nodes: [] },
+      { uuid: uuid3, data: { title: '' }, transactions: [], user: '', nodes: [] }
     ]
-    const nextActive = getNextActive(nodes, [uid, uid1, uid3])
-    expect(nextActive).toEqual([uid])
+    const nextActive = getNextActive(nodes, [uuid, uuid1, uuid3])
+    expect(nextActive).toEqual([uuid])
   })
 })

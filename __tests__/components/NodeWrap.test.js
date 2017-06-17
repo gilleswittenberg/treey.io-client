@@ -10,7 +10,7 @@ import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import defaultUI from '../../app/lib/ui/defaultUI'
-import { parent, uid } from '../uid'
+import { parent, uuid } from '../uuid'
 
 describe('NodeWrap', () => {
 
@@ -19,7 +19,7 @@ describe('NodeWrap', () => {
   const defaultProps = {
     app: { enableDnD: false },
     parent,
-    uid,
+    uuid,
     treePath: [],
     data: {
       title: ''

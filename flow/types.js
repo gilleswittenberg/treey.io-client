@@ -62,7 +62,7 @@ export type UserState = {
   registrationFailed: boolean,
   registrationError: boolean,
   loggedIn: ?boolean,
-  rootId: ?NodeId,
+  rootNode: ?NodeId,
   signOutFailed: boolean
 }
 
@@ -79,7 +79,7 @@ export type UserAction = {
   type: UserActionType,
   data: {
     username?: string,
-    rootId?: NodeId
+    rootNode?: NodeId
   }
 }
 

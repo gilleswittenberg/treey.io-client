@@ -11,7 +11,7 @@ export default class NodeEdit extends Component {
     lang: PropTypes.string,
     parent: PropTypes.string,
     treePath: PropTypes.array.isRequired,
-    uid: PropTypes.string.isRequired,
+    uuid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     clearUIEditingAdding: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired,

@@ -29,7 +29,7 @@ export class NodeDraggable extends Component {
     isRoot: PropTypes.bool.isRequired,
     siblings: PropTypes.array.isRequired,
     index: PropTypes.number.isRequired,
-    uid: PropTypes.string.isRequired,
+    uuid: PropTypes.string.isRequired,
     clearUIEditingAdding: PropTypes.func.isRequired,
     setUIDragging: PropTypes.func.isRequired,
     clearUIDragging: PropTypes.func.isRequired,

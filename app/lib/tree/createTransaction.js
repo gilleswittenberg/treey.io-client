@@ -1,20 +1,18 @@
 import type { Transaction, TransactionType, NodeData, NodeId } from '../../../flow/tree'
-import uuid from 'uuid/v4'
-// @TODO: Remove MongoId
-import createMongoObjectId from './createMongoObjectId'
+import uuidv4 from 'uuid/v4'
 
-export default (type: TransactionType, uid?: NodeId, nodeData?: NodeData, childUid?: NodeId, before?: NodeId) : ?Transaction => {
+export default (type: TransactionType, uuid?: NodeId, nodeData?: NodeData, child?: NodeId, before?: NodeId) : ?Transaction => {
 
   const transaction = {
-    uid,
-    uuid: uuid(),
+    uuid: uuidv4(),
+    node: uuid,
     status: 'PENDING'
   }
 
   switch (type) {
   case 'CREATE':
     transaction.type = 'CREATE'
-    transaction.uid = createMongoObjectId()
+    transaction.node = uuidv4()
     return transaction
   case 'SET':
     transaction.type = 'SET'
@@ -22,11 +20,11 @@ export default (type: TransactionType, uid?: NodeId, nodeData?: NodeData, childU
     return transaction
   case 'REMOVE_CHILD':
     transaction.type = 'REMOVE_CHILD'
-    transaction.childUid = childUid
+    transaction.child = child
     return transaction
   case 'ADD_CHILD':
     transaction.type = 'ADD_CHILD'
-    transaction.childUid = childUid
+    transaction.child = child
     transaction.before = before
     return transaction
   default:

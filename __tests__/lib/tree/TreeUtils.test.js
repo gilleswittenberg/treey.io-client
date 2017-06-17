@@ -6,37 +6,37 @@ declare var it: any
 declare var expect: any
 
 import {
-  getUidFromTreePath,
+  getNodeFromTreePath,
   getParentFromTreePath
 } from '../../../app/lib/tree/TreeUtils'
 
-import { uid1, uid2 } from '../../uid'
+import { uuid1, uuid2 } from '../../uuid'
 
 describe('TreeUtils', () => {
 
-  describe('getUidFromTreePath', () => {
+  describe('getNodeFromTreePath', () => {
 
     it('empty array', () => {
-      const uid = getUidFromTreePath([])
-      expect(uid).toEqual(null)
+      const node = getNodeFromTreePath([])
+      expect(node).toEqual(null)
     })
 
-    it('uid', () => {
-      const uid = getUidFromTreePath([uid1, uid2])
-      expect(uid).toEqual(uid2)
+    it('uuid', () => {
+      const node = getNodeFromTreePath([uuid1, uuid2])
+      expect(node).toEqual(uuid2)
     })
   })
 
   describe('getParentFromTreePath', () => {
 
     it('array length 1', () => {
-      const parent = getParentFromTreePath([uid1])
+      const parent = getParentFromTreePath([uuid1])
       expect(parent).toEqual(null)
     })
 
     it('parent', () => {
-      const parent = getParentFromTreePath([uid1, uid2])
-      expect(parent).toEqual(uid1)
+      const parent = getParentFromTreePath([uuid1, uuid2])
+      expect(parent).toEqual(uuid1)
     })
   })
 })

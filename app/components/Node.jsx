@@ -18,7 +18,7 @@ export default class Node extends Component {
     app: PropTypes.object.isRequired,
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
-    uid: PropTypes.string.isRequired,
+    uuid: PropTypes.string.isRequired,
     treePath: PropTypes.array.isRequired,
     data: PropTypes.object.isRequired,
     ui: PropTypes.shape(propTypeShapeUI),

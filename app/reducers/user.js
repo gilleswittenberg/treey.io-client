@@ -20,7 +20,7 @@ export const defaultState: UserState = {
   signOutFailed: false,
   loggedIn: null,
   username: null,
-  rootId: null
+  rootNode: null
 }
 
 export default function user (state: UserState = defaultState, action: UserAction) {
@@ -32,7 +32,7 @@ export default function user (state: UserState = defaultState, action: UserActio
       browserHistory.replace('/login')
     }
     // @TODO: Set signOutFailed to false
-    return { ...state, loggedIn: false, username: null, rootId: null }
+    return { ...state, loggedIn: false, username: null, rootNode: null }
   case AUTHENTICATE:
     // Indicates running from test
     // @TODO: Clean up
@@ -47,7 +47,7 @@ export default function user (state: UserState = defaultState, action: UserActio
       registerError: false,
       loggedIn: true,
       username: action.data.username,
-      rootId: action.data.rootId
+      rootNode: action.data.rootNode
     }
   case AUTHENTICATION_FAILED:
     // @TODO: Set registrationError, registrationFailed to false

@@ -12,14 +12,14 @@ import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import getMockEvent from '../getMockEvent'
 import defaultUI from '../../app/lib/ui/defaultUI'
-import { uid, uid1 } from '../uid'
+import { uuid, uuid1 } from '../uuid'
 
 describe('Node', () => {
 
   const app = { enableDnD: false }
   const lang = 'en'
   const ui = defaultUI
-  const parent = uid1
+  const parent = uuid1
 
   // @TODO: Extract defaultProps for all Node tests
   const defaultProps = {
@@ -27,14 +27,14 @@ describe('Node', () => {
     lang,
     parent,
     isRoot: false,
-    uid,
+    uuid,
     treePath: [],
     data: {
       title: ''
     },
     ui,
     hasNodes: false,
-    siblings: [{ uid, ui }],
+    siblings: [{ uuid, ui }],
     index: 0,
 
     clearUIEditingAdding: noop,

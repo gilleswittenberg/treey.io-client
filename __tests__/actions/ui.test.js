@@ -25,7 +25,7 @@ import {
   clearUIButtonsShown
 } from '../../app/actions/ui'
 
-import { uid, uid1 } from '../uid'
+import { uuid, uuid1 } from '../uuid'
 
 const middlewares = [thunk, multi]
 const mockStore = configureMockStore(middlewares)
@@ -60,10 +60,10 @@ describe('ui actions', () => {
 
         const store = mockStore({ tree: null })
 
-        store.dispatch(setUIEditing([uid, uid1]))
+        store.dispatch(setUIEditing([uuid, uuid1]))
         const lastAction = store.getActions().pop()
         expect(lastAction.type).toEqual('SET_UI_KEY')
-        expect(lastAction.data.treePath).toEqual([uid, uid1])
+        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
         expect(lastAction.data.key).toBe('editing')
       })
     })
@@ -74,10 +74,10 @@ describe('ui actions', () => {
 
         const store = mockStore({ tree: null })
 
-        store.dispatch(setUIAdding([uid, uid1]))
+        store.dispatch(setUIAdding([uuid, uuid1]))
         const lastAction = store.getActions().pop()
         expect(lastAction.type).toEqual('SET_UI_KEY')
-        expect(lastAction.data.treePath).toEqual([uid, uid1])
+        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
         expect(lastAction.data.key).toBe('adding')
       })
     })
@@ -88,10 +88,10 @@ describe('ui actions', () => {
 
         const store = mockStore({ tree: null })
 
-        store.dispatch(setUIExpanded([uid, uid1]))
+        store.dispatch(setUIExpanded([uuid, uuid1]))
         const lastAction = store.getActions().pop()
         expect(lastAction.type).toEqual('SET_EXPANDED')
-        expect(lastAction.data.treePath).toEqual([uid, uid1])
+        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
       })
     })
 
@@ -101,10 +101,10 @@ describe('ui actions', () => {
 
         const store = mockStore({ tree: null })
 
-        store.dispatch(unsetUIExpanded([uid, uid1]))
+        store.dispatch(unsetUIExpanded([uuid, uuid1]))
         const lastAction = store.getActions().pop()
         expect(lastAction.type).toEqual('UNSET_EXPANDED')
-        expect(lastAction.data.treePath).toEqual([uid, uid1])
+        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
       })
     })
 
@@ -147,10 +147,10 @@ describe('ui actions', () => {
 
         const store = mockStore({ tree: null })
 
-        store.dispatch(setUIMovingChild([uid, uid1]))
+        store.dispatch(setUIMovingChild([uuid, uuid1]))
         const lastAction = store.getActions().pop()
         expect(lastAction.type).toEqual('SET_UI_KEY')
-        expect(lastAction.data.treePath).toEqual([uid, uid1])
+        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
         expect(lastAction.data.key).toBe('movingChild')
       })
     })
@@ -161,10 +161,10 @@ describe('ui actions', () => {
 
         const store = mockStore({ tree: null })
 
-        store.dispatch(setUIDragging([uid, uid1]))
+        store.dispatch(setUIDragging([uuid, uuid1]))
         const lastAction = store.getActions().pop()
         expect(lastAction.type).toEqual('SET_UI_KEY')
-        expect(lastAction.data.treePath).toEqual([uid, uid1])
+        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
         expect(lastAction.data.key).toBe('dragging')
       })
     })
@@ -175,10 +175,10 @@ describe('ui actions', () => {
 
         const store = mockStore({ tree: null })
 
-        store.dispatch(setUIActive([uid, uid1]))
+        store.dispatch(setUIActive([uuid, uuid1]))
         const lastAction = store.getActions().pop()
         expect(lastAction.type).toEqual('SET_UI_KEY')
-        expect(lastAction.data.treePath).toEqual([uid, uid1])
+        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
         expect(lastAction.data.key).toBe('active')
       })
     })
@@ -189,10 +189,10 @@ describe('ui actions', () => {
 
         const store = mockStore({ tree: null })
 
-        store.dispatch(setUIButtonsShown([uid, uid1]))
+        store.dispatch(setUIButtonsShown([uuid, uuid1]))
         const lastAction = store.getActions().pop()
         expect(lastAction.type).toEqual('SET_UI_KEY')
-        expect(lastAction.data.treePath).toEqual([uid, uid1])
+        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
         expect(lastAction.data.key).toBe('buttonsShown')
       })
     })

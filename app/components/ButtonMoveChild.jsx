@@ -16,7 +16,7 @@ const DropSpec = {
   drop (props, monitor) {
     const item = monitor.getItem() // NodeDraggable
     const { path } = item // NodeDraggable props
-    const { uid: before, path: pathDroppable, putMoveNode, setUIExpanded } = props // NodeDroppable props
+    const { uuid: before, path: pathDroppable, putMoveNode, setUIExpanded } = props // NodeDroppable props
     const newPath = pathDroppable && pathDroppable.length > 1 ? pathDroppable.slice(0, -1) : pathDroppable
     putMoveNode(path, newPath, before)
     setUIExpanded(path)

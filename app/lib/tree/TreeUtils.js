@@ -1,6 +1,6 @@
 import type { TreePath, NodeId } from '../../../flow/tree'
 
-export const getUidFromTreePath = (arr: ?TreePath) : ?NodeId => {
+export const getNodeFromTreePath = (arr: ?TreePath) : ?NodeId => {
   if (arr == null) return null
   if (arr.length === 0) return null
   return arr[arr.length - 1]

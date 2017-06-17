@@ -8,12 +8,12 @@ import { getNodes } from './nodes'
 import fetchOptions from '../lib/utils/fetchOptions'
 
 export const AUTHENTICATE = 'AUTHENTICATE'
-export const authenticate = (username: string, rootId: NodeId) => {
+export const authenticate = (username: string, rootNode: NodeId) => {
   return {
     type: AUTHENTICATE,
     data: {
       username,
-      rootId
+      rootNode
     }
   }
 }
@@ -77,8 +77,8 @@ export const getUser = () => {
       )
       .then(
         json => {
-          dispatch(authenticate(json.username, json.rootId))
-          dispatch(getNodes(json.rootId))
+          dispatch(authenticate(json.username, json.rootNode))
+          dispatch(getNodes(json.rootNode))
         },
         () => {
           dispatch(unauthenticated())
@@ -105,8 +105,8 @@ export const postAuthenticate = (username: string, password: string) => {
       )
       .then(
         json => {
-          dispatch(authenticate(json.username, json.rootId))
-          dispatch(getNodes(json.rootId))
+          dispatch(authenticate(json.username, json.rootNode))
+          dispatch(getNodes(json.rootNode))
         },
         error => {
           if (error.message === '401') {
@@ -163,8 +163,8 @@ export const postRegister = (username: string, password: string, passwordConfirm
       )
       .then(
         json => {
-          dispatch(authenticate(json.username, json.rootId))
-          dispatch(getNodes(json.rootId))
+          dispatch(authenticate(json.username, json.rootNode))
+          dispatch(getNodes(json.rootNode))
         },
         error => {
           if (error.message === '400') {

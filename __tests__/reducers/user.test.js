@@ -15,7 +15,7 @@ import {
   REGISTRATION_ERROR,
   SIGN_OUT_FAILED
 } from '../../app/actions/user'
-import { uid } from '../uid'
+import { uuid } from '../uuid'
 import { defaultState } from '../../app/reducers/user'
 
 describe('user reducer', () => {
@@ -27,14 +27,14 @@ describe('user reducer', () => {
   describe('AUTHENTICATE', () => {
 
     it('AUTHENTICATE', () => {
-      const data = { username: 'gilleswittenberg', rootId: uid }
+      const data = { username: 'gilleswittenberg', rootNode: uuid }
       const state = reducer(undefined, { type: AUTHENTICATE, data })
       expect(state.username).toBe('gilleswittenberg')
-      expect(state.rootId).toBe(uid)
+      expect(state.rootNode).toBe(uuid)
     })
 
     it('clear failure and error', () => {
-      const data = { username: 'gilleswittenberg', rootId: uid }
+      const data = { username: 'gilleswittenberg', rootNode: uuid }
       const state = { ...defaultState, authenticationFailed: true, authenticationError: true }
       const state2 = reducer(state, { type: AUTHENTICATE, data })
       expect(state2.authenticationFailed).toBe(false)
@@ -75,10 +75,10 @@ describe('user reducer', () => {
   })
 
   it('sign out', () => {
-    const state = { ...defaultState, loggedIn: true, username: 'gilleswittenberg', rootId: uid }
+    const state = { ...defaultState, loggedIn: true, username: 'gilleswittenberg', rootNode: uuid }
     const state2 = reducer(state, { type: UNAUTHENTICATED, data: {} })
     expect(state2.username).toBe(null)
-    expect(state2.rootId).toBe(null)
+    expect(state2.rootNode).toBe(null)
     expect(state2.loggedIn).toBe(false)
   })
 })

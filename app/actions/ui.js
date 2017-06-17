@@ -98,12 +98,12 @@ export const initUIRoot = (nodes: Nodes) => {
   // Guard
   if (nodes.length === 0) return
 
-  const rootUid = nodes[0].uid
+  const root = nodes[0].uuid
 
   // Guard
-  if (rootUid == null) return
+  if (root == null) return
 
-  const treePath = [rootUid]
+  const treePath = [root]
   return [
     setUIExpanded(treePath),
     setUIKey('active', treePath)

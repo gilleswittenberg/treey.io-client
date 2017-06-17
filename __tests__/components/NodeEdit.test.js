@@ -11,7 +11,7 @@ import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import getMockEvent from '../getMockEvent'
-import { parent, uid } from '../uid'
+import { parent, uuid } from '../uuid'
 
 describe('NodeEdit', () => {
 
@@ -19,8 +19,8 @@ describe('NodeEdit', () => {
   const defaultProps = {
     lang,
     parent,
-    uid,
-    treePath: [parent, uid],
+    uuid,
+    treePath: [parent, uuid],
     title: '',
     clearUIEditingAdding: noop,
     update: noop,

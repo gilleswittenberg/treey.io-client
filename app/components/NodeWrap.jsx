@@ -17,7 +17,7 @@ export default class NodeWrap extends Component {
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
     treePath: PropTypes.array.isRequired,
-    uid: PropTypes.string.isRequired,
+    uuid: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     nodes: PropTypes.array,
     siblings: PropTypes.array.isRequired,
@@ -65,7 +65,7 @@ export default class NodeWrap extends Component {
 
     const {
       enableDnD,
-      uid,
+      uuid,
       treePath
     } = this.props
 
@@ -96,7 +96,7 @@ export default class NodeWrap extends Component {
     const nodeEditProps = { ...this.props }
     // @TODO: Clean up
     nodeEditProps.title = nodeEditProps.data.title
-    const nodesProps = { ...this.props, parent: uid, hasNodes }
+    const nodesProps = { ...this.props, parent: uuid, hasNodes }
 
     const treePathString = treePath.join('-')
 

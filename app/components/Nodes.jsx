@@ -61,22 +61,22 @@ export default class Nodes extends Component {
 
     const nodeWrapProps = { ...this.props, isRoot }
     const nodeAddProps = { ...this.props, isEditing: isAdding }
-    const nodesPopulated = nodes.map(nodeId => nodesArray.find(node => node.uid === nodeId))
+    const nodesPopulated = nodes.map(nodeId => nodesArray.find(node => node.uuid === nodeId))
 
     return (
       <ul>
 
         { nodesPopulated.map((node, index) =>
-          <li key={ node.uid }>
+          <li key={ node.uuid }>
             <NodeWrap
               { ...nodeWrapProps }
-              uid={ node.uid }
+              uuid={ node.uuid }
               data={ node.data }
               ui={ ui }
               nodes={ node.nodes }
               siblings={ nodes }
               index={ index }
-              treePath={ treePath.concat([node.uid]) }
+              treePath={ treePath.concat([node.uuid]) }
             />
           </li>
         ) }

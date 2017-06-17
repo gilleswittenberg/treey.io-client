@@ -14,8 +14,8 @@ import {
   ADD_NODE_TRANSACTION,
   UPDATE_NODE_TRANSACTION_STATUS
 } from '../../app/actions/nodes'
-import { uid, uid1, uid2, uid3, uid4, uid5 } from '../uid'
-import uuid from 'uuid/v4'
+import { uuid, uuid1, uuid2, uuid3, uuid4, uuid5 } from '../uuid'
+import uuidv4 from 'uuid/v4'
 
 describe('nodes reducer', () => {
 
@@ -31,42 +31,42 @@ describe('nodes reducer', () => {
   it('INDEX_NODES', () => {
 
     const nodes = [{
-      uid,
+      uuid,
       data: { title: 'John Doe' },
       transactions: [],
       ui: {},
-      nodes: [uid1, uid2],
+      nodes: [uuid1, uuid2],
       user: ''
     }, {
-      uid: uid1,
+      uuid: uuid1,
       data: { title: 'ToDo' },
       transactions: [],
       ui: {},
       nodes: [],
       user: ''
     }, {
-      uid: uid2,
+      uuid: uuid2,
       data: { title: 'clean the house' },
       transactions: [],
       ui: {},
-      nodes: [uid3, uid4, uid5],
+      nodes: [uuid3, uuid4, uuid5],
       user: ''
     }, {
-      uid: uid3,
+      uuid: uuid3,
       data: { title: 'Star Wars: Episode IV - A New Hope (1977)' },
       transactions: [],
       ui: {},
       nodes: [],
       user: ''
     }, {
-      uid: uid4,
+      uuid: uuid4,
       data: { title: 'The Terminator (1984)' },
       transactions: [],
       ui: {},
       nodes: [],
       user: ''
     }, {
-      uid: uid5,
+      uuid: uuid5,
       data: { title: 'The Matrix (1999)' },
       transactions: [],
       ui: {},
@@ -89,14 +89,14 @@ describe('nodes reducer', () => {
           hasErrors: false,
           nodes: []
         }
-        const transaction = { type: 'CREATE', uid, status: 'PENDING', uuid: '' }
+        const transaction = { uuid, node: uuid1, type: 'CREATE', status: 'PENDING' }
         const state2 = reducer(state, {
           type: ADD_NODE_TRANSACTION,
           data: {
             transaction
           }
         })
-        expect(state2.nodes[0].uid).toBe(uid)
+        expect(state2.nodes[0].uuid).toBe(uuid1)
         expect(state2.nodes[0].transactions[0]).toEqual(transaction)
       })
 
@@ -104,10 +104,10 @@ describe('nodes reducer', () => {
 
         const nodes = [
           {
-            uid,
+            uuid,
             data: { title: 'John Doe' },
             transactions: [
-              { type: 'SET', uid, data: { title: 'John Doe' }, status: 'COMMITTED', uuid: '' }
+              { uuid, type: 'SET', node: uuid, data: { title: 'John Doe' }, status: 'COMMITTED' }
             ],
             ui: {},
             user: 'user1'
@@ -119,7 +119,7 @@ describe('nodes reducer', () => {
           hasErrors: false,
           nodes
         }
-        const transaction = { type: 'SET', uid, data: { title: 'New' }, status: 'PENDING', uuid: '' }
+        const transaction = { uuid, type: 'SET', node: uuid, data: { title: 'New' }, status: 'PENDING' }
         const state2 = reducer(state, {
           type: ADD_NODE_TRANSACTION,
           data: {
@@ -134,14 +134,14 @@ describe('nodes reducer', () => {
 
         const nodes = [
           {
-            uid,
+            uuid,
             data: { title: 'John Doe' },
             transactions: [
-              { type: 'SET', uid, data: { title: 'John Doe' }, status: 'COMMITTED', uuid: '' }
+              { uuid, node: uuid, type: 'SET', data: { title: 'John Doe' }, status: 'COMMITTED' }
             ],
             ui: {},
             user: 'user1',
-            nodes: [uid1]
+            nodes: [uuid1]
           }
         ]
         const state = {
@@ -149,7 +149,7 @@ describe('nodes reducer', () => {
           hasErrors: false,
           nodes
         }
-        const transaction = { type: 'REMOVE_CHILD', uid, childUid: uid1, status: 'PENDING', uuid: '' }
+        const transaction = { uuid, type: 'REMOVE_CHILD', node: uuid, child: uuid1, status: 'PENDING' }
         const state2 = reducer(state, {
           type: ADD_NODE_TRANSACTION,
           data: {
@@ -169,10 +169,10 @@ describe('nodes reducer', () => {
 
           const nodes = [
             {
-              uid,
+              uuid,
               data: { title: 'John Doe' },
               transactions: [
-                { type: 'SET', uid, data: { title: 'John Doe' }, status: 'COMMITTED', uuid: '' }
+                { uuid, node: uuid, type: 'SET', data: { title: 'John Doe' }, status: 'COMMITTED' }
               ],
               ui: {},
               user: 'user1',
@@ -184,7 +184,7 @@ describe('nodes reducer', () => {
             hasErrors: false,
             nodes
           }
-          const transaction = { type: 'ADD_CHILD', uid, childUid: uid1, status: 'PENDING', uuid: '' }
+          const transaction = { uuid, type: 'ADD_CHILD', node: uuid, child: uuid1, status: 'PENDING' }
           const state2 = reducer(state, {
             type: ADD_NODE_TRANSACTION,
             data: {
@@ -192,21 +192,21 @@ describe('nodes reducer', () => {
             }
           })
           expect(state2.nodes[0].transactions[1]).toEqual(transaction)
-          expect(state2.nodes[0].nodes).toEqual([uid1])
+          expect(state2.nodes[0].nodes).toEqual([uuid1])
         })
 
         it('before', () => {
 
           const nodes = [
             {
-              uid,
+              uuid,
               data: { title: 'John Doe' },
               transactions: [
-                { type: 'SET', uid, data: { title: 'John Doe' }, status: 'COMMITTED', uuid: '' }
+                { uuid, node: uuid, type: 'SET', data: { title: 'John Doe' }, status: 'COMMITTED' }
               ],
               ui: {},
               user: 'user1',
-              nodes: [uid1]
+              nodes: [uuid1]
             }
           ]
           const state = {
@@ -214,7 +214,7 @@ describe('nodes reducer', () => {
             hasErrors: false,
             nodes
           }
-          const transaction = { type: 'ADD_CHILD', uid, childUid: uid2, before: uid1, status: 'PENDING', uuid: '' }
+          const transaction = { uuid, type: 'ADD_CHILD', node: uuid, child: uuid2, before: uuid1, status: 'PENDING' }
           const state2 = reducer(state, {
             type: ADD_NODE_TRANSACTION,
             data: {
@@ -222,7 +222,7 @@ describe('nodes reducer', () => {
             }
           })
           expect(state2.nodes[0].transactions[1]).toEqual(transaction)
-          expect(state2.nodes[0].nodes).toEqual([uid2, uid1])
+          expect(state2.nodes[0].nodes).toEqual([uuid2, uuid1])
         })
       })
     })
@@ -230,15 +230,15 @@ describe('nodes reducer', () => {
     describe('UPDATE_NODE_TRANSACTION_STATUS', () => {
 
       it('SET', () => {
-        const transaction = { type: 'SET', uid, uuid: uuid(), data: { title: 'John Doe' }, status: 'PENDING' }
+        const transaction = { uuid: uuidv4(), node: uuid, type: 'SET', data: { title: 'John Doe' }, status: 'PENDING' }
         const nodes = [
           {
-            uid,
+            uuid,
             data: { title: 'John Doe' },
             transactions: [transaction],
             ui: {},
             user: 'user1',
-            nodes: [uid1]
+            nodes: [uuid1]
           }
         ]
         const state = {

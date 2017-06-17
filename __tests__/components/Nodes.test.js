@@ -10,7 +10,7 @@ import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import defaultUI from '../../app/lib/ui/defaultUI'
-import { parent, uid, uid1 } from '../uid'
+import { parent, uuid, uuid1 } from '../uuid'
 
 describe('Nodes', () => {
 
@@ -47,18 +47,18 @@ describe('Nodes', () => {
   describe('nodes', () => {
 
     it('nodes', () => {
-      const nodes = [uid, uid1]
+      const nodes = [uuid, uuid1]
       const nodesArray = [{
-        uid,
+        uuid,
         data: { title: '' },
         ui,
-        path: [uid],
+        path: [uuid],
         nodes: []
       }, {
-        uid: uid1,
+        uuid: uuid1,
         data: { title: '' },
         ui,
-        path: [uid1],
+        path: [uuid1],
         nodes: []
       }]
       const wrapper = shallow(getComponent({ nodes, nodesArray }))

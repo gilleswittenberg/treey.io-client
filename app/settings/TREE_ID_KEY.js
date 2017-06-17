@@ -1,1 +1,1 @@
-export default 'uid'
+export default 'uuid'

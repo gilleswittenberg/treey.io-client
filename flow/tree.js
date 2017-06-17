@@ -6,13 +6,13 @@ export type UUID = string
 export type NodesKey = string
 // @TODO: allow for settings IdKey dynamically
 export type IdKey = string
-export type NodeId = string
+export type NodeId = UUID
 export type NodeUser = string
 
 export type TreePath = NodeId[]
 
 export type Node = {
-  uid: ?NodeId,
+  uuid: ?UUID,
   user: ?NodeUser,
   data: NodeData,
   transactions: Transaction[],
@@ -26,15 +26,16 @@ export type NodeData = {
   title: string
 }
 
+export type TransactionId = UUID
 export type TransactionType = 'CREATE' | 'SET' | 'ADD_CHILD' | 'REMOVE_CHILD'
 export type TransactionStatus = 'PENDING' | 'DENIED' | 'COMMITTED' | 'UNDONE'
 export type Transaction = {
+  uuid: TransactionId,
+  node: NodeId,
   type: TransactionType,
-  uid: NodeId,
-  uuid: UUID,
   status: TransactionStatus,
   data?: NodeData,
-  childUid?: NodeId,
+  child?: NodeId,
   before?: NodeId
 }
 

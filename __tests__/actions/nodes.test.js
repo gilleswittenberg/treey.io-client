@@ -19,8 +19,7 @@ import {
   remove,
   move
 } from '../../app/actions/nodes'
-import { uid, uid1, uid2, uid3, uid4, uid5 } from '../uid'
-import { uuid } from '../uuid'
+import { uuid, uuid1, uuid2, uuid3, uuid4, uuid5 } from '../uuid'
 
 const middlewares = [thunk, multi]
 const mockStore = configureMockStore(middlewares)
@@ -37,12 +36,12 @@ describe('nodes actions', () => {
 
     it('INTERNAL_SERVER_ERROR', () => {
       nock(hostname)
-        .get(`/nodes/${ uid }`)
+        .get(`/nodes/${ uuid }`)
         .reply(500)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(getNodes(uid))
+      return store.dispatch(getNodes(uuid))
         .then(
           () => {
             const lastAction = store.getActions().pop()
@@ -53,12 +52,12 @@ describe('nodes actions', () => {
 
     it('NOT_FOUND', () => {
       nock(hostname)
-        .get(`/nodes/${ uid }`)
+        .get(`/nodes/${ uuid }`)
         .reply(404)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(getNodes(uid))
+      return store.dispatch(getNodes(uuid))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -67,12 +66,12 @@ describe('nodes actions', () => {
 
     it('BAD_REQUEST', () => {
       nock(hostname)
-        .get(`/nodes/${ uid }`)
+        .get(`/nodes/${ uuid }`)
         .reply(400)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(getNodes(uid))
+      return store.dispatch(getNodes(uuid))
         .then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('HAS_ERRORS')
@@ -83,39 +82,39 @@ describe('nodes actions', () => {
 
       const body = {
         nodes: [{
-          uid,
+          uuid,
           data: { title: 'John Doe' },
-          nodes: [uid1, uid2]
+          nodes: [uuid1, uuid2]
         }, {
-          uid: uid1,
+          uuid: uuid1,
           data: { title: 'ToDo' },
           nodes: []
         }, {
-          uid: uid2,
+          uuid: uuid2,
           data: { title: 'clean the house' },
-          nodes: [uid3, uid4, uid5]
+          nodes: [uuid3, uuid4, uuid5]
         }, {
-          uid: uid3,
+          uuid: uuid3,
           data: { title: 'Star Wars: Episode IV - A New Hope (1977)' },
           nodes: []
         }, {
-          uid: uid4,
+          uuid: uuid4,
           data: { title: 'The Terminator (1984)' },
           nodes: []
         }, {
-          uid: uid5,
+          uuid: uuid5,
           data: { title: 'The Matrix (1999)' },
           nodes: []
         }]
       }
 
       nock(hostname)
-        .get(`/nodes/${ uid }`)
+        .get(`/nodes/${ uuid }`)
         .reply(200, body)
 
       const store = mockStore({ nodes: null })
 
-      return store.dispatch(getNodes(uid))
+      return store.dispatch(getNodes(uuid))
         .then(() => {
           const lastAction = store.getActions().pop()
           const secondLastAction = store.getActions().pop()
@@ -133,13 +132,13 @@ describe('nodes actions', () => {
     it('action', () => {
 
       const node = {
-        uid,
+        uuid,
         nodes: []
       }
       const store = mockStore({ nodes: [node] })
       const transaction = {
         uuid,
-        uid,
+        node: uuid,
         type: 'SET',
         data: { title: 'Title' },
         status: 'PENDING'
@@ -158,14 +157,14 @@ describe('nodes actions', () => {
 
       const transaction = {
         uuid,
-        uid,
+        node: uuid,
         type: 'SET',
         data: { title: 'Title' },
         status: 'PENDING'
       }
 
       const node = {
-        uid,
+        uuid,
         data: { title: '' },
         nodes: [],
         transactions: [transaction]
@@ -195,7 +194,7 @@ describe('nodes actions', () => {
         .reply(201, response)
 
       const store = mockStore({ nodes: [] })
-      const actions = store.dispatch(create([uid], { title: 'Create' }))
+      const actions = store.dispatch(create([uuid], { title: 'Create' }))
       return actions[actions.length - 1].then(() => {
         const lastAction = store.getActions().pop()
         const secondLastAction = store.getActions().pop()
@@ -224,7 +223,7 @@ describe('nodes actions', () => {
         .reply(201, response)
 
       const store = mockStore({ nodes: [] })
-      const actions = store.dispatch(update([uid], { title: 'Update' }))
+      const actions = store.dispatch(update([uuid], { title: 'Update' }))
       return actions[actions.length - 1].then(() => {
         const lastAction = store.getActions().pop()
         expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')
@@ -247,7 +246,7 @@ describe('nodes actions', () => {
         .reply(201, response)
 
       const store = mockStore({ nodes: [] })
-      const actions = store.dispatch(remove([uid, uid1]))
+      const actions = store.dispatch(remove([uuid, uuid1]))
       return actions[actions.length - 1].then(() => {
         const lastAction = store.getActions().pop()
         expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')
@@ -271,7 +270,7 @@ describe('nodes actions', () => {
         .reply(201, response)
 
       const store = mockStore({ nodes: [] })
-      const actions = store.dispatch(move([uid, uid2], [uid1]))
+      const actions = store.dispatch(move([uuid, uuid2], [uuid1]))
       return actions[actions.length - 1].then(() => {
         const lastAction = store.getActions().pop()
         expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')

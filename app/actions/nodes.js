@@ -2,7 +2,7 @@
 
 import fetch from 'isomorphic-fetch'
 import type { TreePath, Nodes, NodeId, NodeData, Transaction, TransactionStatus } from '../../flow/tree'
-import { getParentFromTreePath, getUidFromTreePath } from '../lib/tree/TreeUtils'
+import { getParentFromTreePath, getNodeFromTreePath } from '../lib/tree/TreeUtils'
 import createTransaction from '../lib/tree/createTransaction'
 import { initUIRoot, unsetUIExpanded } from './ui'
 import fetchOptions from '../lib/utils/fetchOptions'
@@ -46,10 +46,10 @@ export const indexNodes = (nodes: Nodes) => {
   }
 }
 
-export const getNodes = (rootId: NodeId) => {
+export const getNodes = (rootNode: NodeId) => {
   return (dispatch: () => void) => {
     dispatch(startSyncing())
-    const url = `${ host }/nodes/${ rootId }`
+    const url = `${ host }/nodes/${ rootNode }`
     const options = {
       method: 'GET',
       headers: {
@@ -101,9 +101,10 @@ export const updateNodeTransactionStatus = (transaction: Transaction, status: Tr
 
 export const create = (parentPath: TreePath, data: NodeData) => {
   const transaction0 = createTransaction('CREATE')
-  const transaction1 = createTransaction('SET', transaction0.uid, data)
-  const uid = getUidFromTreePath(parentPath)
-  const transaction2 = createTransaction('ADD_CHILD', uid, undefined, transaction0.uid)
+  const node = transaction0.node
+  const transaction1 = createTransaction('SET', node, data)
+  const parent = getNodeFromTreePath(parentPath)
+  const transaction2 = createTransaction('ADD_CHILD', parent, undefined, node)
   return [
     addNodeTransaction(transaction0),
     addNodeTransaction(transaction1),
@@ -114,12 +115,12 @@ export const create = (parentPath: TreePath, data: NodeData) => {
 
 export const update = (path: TreePath, data: NodeData) => {
 
-  const uid = getUidFromTreePath(path)
+  const node = getNodeFromTreePath(path)
 
   // Guard
-  if (uid == null) return
+  if (node == null) return
 
-  const transaction = createTransaction('SET', uid, data)
+  const transaction = createTransaction('SET', node, data)
 
   return [
     addNodeTransaction(transaction),
@@ -130,12 +131,12 @@ export const update = (path: TreePath, data: NodeData) => {
 export const remove = (path: TreePath) => {
 
   const parent = getParentFromTreePath(path)
-  const uid = getUidFromTreePath(path)
+  const node = getNodeFromTreePath(path)
 
   // Guard
-  if (parent == null || uid == null) return
+  if (parent == null || node == null) return
 
-  const transaction = createTransaction('REMOVE_CHILD', parent, undefined, uid)
+  const transaction = createTransaction('REMOVE_CHILD', parent, undefined, node)
 
   return [
     unsetUIExpanded(path),
@@ -146,15 +147,15 @@ export const remove = (path: TreePath) => {
 
 export const move = (path: TreePath, newPath: TreePath, before?: NodeId) => {
 
-  const uid = getUidFromTreePath(path)
+  const node = getNodeFromTreePath(path)
   const parent = getParentFromTreePath(path)
-  const newParent = getUidFromTreePath(newPath)
+  const newParent = getNodeFromTreePath(newPath)
 
   // Guard
-  if (uid == null || parent == null || newParent == null) return
+  if (node == null || parent == null || newParent == null) return
 
-  const transaction0 = createTransaction('REMOVE_CHILD', parent, undefined, uid)
-  const transaction1 = createTransaction('ADD_CHILD', newParent, undefined, uid, before)
+  const transaction0 = createTransaction('REMOVE_CHILD', parent, undefined, node)
+  const transaction1 = createTransaction('ADD_CHILD', newParent, undefined, node, before)
 
   return [
     unsetUIExpanded(path),

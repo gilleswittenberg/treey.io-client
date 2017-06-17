@@ -11,19 +11,19 @@ import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import getMockEvent from '../getMockEvent'
-import { uid } from '../uid'
+import { uuid } from '../uuid'
 import defaultUI from '../../app/lib/ui/defaultUI'
 
 describe('NodeAdd', () => {
 
   const lang = 'en'
-  const parent = uid
+  const parent = uuid
   const ui = defaultUI
 
   const defaultProps = {
     lang,
     parent,
-    treePath: [uid],
+    treePath: [uuid],
     ui,
     clearUIEditingAdding: noop,
     setUIEditing: noop,
@@ -41,7 +41,7 @@ describe('NodeAdd', () => {
     })
 
     it('true', () => {
-      const wrapper = shallow(getComponent({ ui: { adding: [uid] } }))
+      const wrapper = shallow(getComponent({ ui: { adding: [uuid] } }))
       expect(wrapper.render().find('input').length).toBe(1)
     })
   })
@@ -53,7 +53,7 @@ describe('NodeAdd', () => {
       const wrapper = shallow(getComponent())
       wrapper.setState({ title: 'user input' })
       expect(wrapper.state().title).toBe('user input')
-      wrapper.setProps({ ui: { adding: [uid] } })
+      wrapper.setProps({ ui: { adding: [uuid] } })
       expect(wrapper.state().title).toBe('')
     })
   })
@@ -61,7 +61,7 @@ describe('NodeAdd', () => {
   describe('input', () => {
 
     it('change', () => {
-      const wrapper = shallow(getComponent({ ui: { adding: [uid] } }))
+      const wrapper = shallow(getComponent({ ui: { adding: [uuid] } }))
       const input = document.createElement('input')
       input.value = 'user input'
       const mockEvent = getMockEvent({ target: input })
@@ -72,7 +72,7 @@ describe('NodeAdd', () => {
     describe('componentWillReceiveProps', () => {
 
       it('true => false', () => {
-        const wrapper = shallow(getComponent({ ui: { adding: [uid] } }))
+        const wrapper = shallow(getComponent({ ui: { adding: [uuid] } }))
         wrapper.setState({ title: 'blabla' })
         wrapper.setProps({ ui: { adding: null } })
         expect(wrapper.state().title).toEqual('')
@@ -81,7 +81,7 @@ describe('NodeAdd', () => {
       it('false => true', () => {
         const wrapper = shallow(getComponent())
         wrapper.setState({ title: 'blabla' })
-        wrapper.setProps({ ui: { adding: [uid] } })
+        wrapper.setProps({ ui: { adding: [uuid] } })
         expect(wrapper.state().title).toEqual('')
       })
     })
@@ -93,7 +93,7 @@ describe('NodeAdd', () => {
         const clearUIEditingAdding = jest.fn()
         const create = jest.fn()
         const setUIExpanded = jest.fn()
-        const wrapper = shallow(getComponent({ ui: { adding: [uid] }, clearUIEditingAdding, create, setUIExpanded }))
+        const wrapper = shallow(getComponent({ ui: { adding: [uuid] }, clearUIEditingAdding, create, setUIExpanded }))
 
         wrapper.setState({ title: 'user input' })
         const mockEvent = getMockEvent()
@@ -109,7 +109,7 @@ describe('NodeAdd', () => {
         const clearUIEditingAdding = jest.fn()
         const create = jest.fn()
         const setUIExpanded = jest.fn()
-        const wrapper = shallow(getComponent({ ui: { adding: [uid] }, clearUIEditingAdding, setUIExpanded, create }))
+        const wrapper = shallow(getComponent({ ui: { adding: [uuid] }, clearUIEditingAdding, setUIExpanded, create }))
 
         wrapper.setState({ title: ' ' })
         const mockEvent = getMockEvent()

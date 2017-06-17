@@ -6,7 +6,7 @@ declare var it: any
 declare var expect: any
 
 import createTransaction from '../../../app/lib/tree/createTransaction'
-import { uid, uid1, uid2 } from '../../uid'
+import { uuid, uuid1, uuid2 } from '../../uuid'
 
 describe('createTransaction', () => {
 
@@ -21,7 +21,7 @@ describe('createTransaction', () => {
       const transaction = createTransaction('CREATE')
       expect(transaction.type).toBe('CREATE')
       expect(transaction.uuid.length).toBe(36)
-      expect(transaction.uid.length).toBe(24) // MongoDB ObjectId
+      expect(transaction.node.length).toBe(36)
       expect(transaction.status).toBe('PENDING')
     })
   })
@@ -29,11 +29,11 @@ describe('createTransaction', () => {
   describe('SET', () => {
 
     it('valid', () => {
-      const transaction = createTransaction('SET', uid, { title: 'Mr. Foo' })
+      const transaction = createTransaction('SET', uuid, { title: 'Mr. Foo' })
       expect(transaction.type).toBe('SET')
       expect(transaction.uuid.length).toBe(36)
       expect(transaction.status).toBe('PENDING')
-      expect(transaction.uid).toBe(uid)
+      expect(transaction.node).toBe(uuid)
       expect(transaction.data).toEqual({ title: 'Mr. Foo' })
     })
   })
@@ -41,25 +41,25 @@ describe('createTransaction', () => {
   describe('REMOVE_CHILD', () => {
 
     it('valid', () => {
-      const transaction = createTransaction('REMOVE_CHILD', uid, undefined, uid1)
+      const transaction = createTransaction('REMOVE_CHILD', uuid, undefined, uuid1)
       expect(transaction.type).toBe('REMOVE_CHILD')
       expect(transaction.uuid.length).toBe(36)
       expect(transaction.status).toBe('PENDING')
-      expect(transaction.uid).toEqual(uid)
-      expect(transaction.childUid).toEqual(uid1)
+      expect(transaction.node).toEqual(uuid)
+      expect(transaction.child).toEqual(uuid1)
     })
   })
 
   describe('ADD_CHILD', () => {
 
     it('valid', () => {
-      const transaction = createTransaction('ADD_CHILD', uid, undefined, uid1, uid2)
+      const transaction = createTransaction('ADD_CHILD', uuid, undefined, uuid1, uuid2)
       expect(transaction.type).toBe('ADD_CHILD')
       expect(transaction.uuid.length).toBe(36)
       expect(transaction.status).toBe('PENDING')
-      expect(transaction.uid).toEqual(uid)
-      expect(transaction.childUid).toEqual(uid1)
-      expect(transaction.before).toEqual(uid2)
+      expect(transaction.node).toEqual(uuid)
+      expect(transaction.child).toEqual(uuid1)
+      expect(transaction.before).toEqual(uuid2)
     })
   })
 })

@@ -91,7 +91,7 @@ class Tree extends Component {
       nodesArray
     } = this.props
 
-    const nodes = nodesArray.length > 0 ? [nodesArray[0].uid] : []
+    const nodes = nodesArray.length > 0 ? [nodesArray[0].uuid] : []
     const showNodes = nodes.length > 0
     const nodesProps = { ...this.props, parent: null, treePath: [], nodesArray, nodes }
 

@@ -17,7 +17,7 @@ const DropSpec = {
   hover (props, monitor, component) {
 
     // Guard: do not allow hover on self
-    if (props.uid === monitor.getItem().uid) return false
+    if (props.uuid === monitor.getItem().uuid) return false
 
     // Guard: do not allow dropping as sibling of root
     if (!monitor.canDrop()) return false
@@ -31,20 +31,20 @@ const DropSpec = {
     const item = monitor.getItem() // NodeDraggable props
     const {
       treePath,
-      uid: uidDraggable,
+      uuid: uuidDraggable,
       siblings: siblingsDraggable,
       index: indexDraggable
     } = item
 
-    const { treePath: pathDroppable, uid, siblings, index, move } = props // NodeDroppable props
+    const { treePath: pathDroppable, uuid, siblings, index, move } = props // NodeDroppable props
     const overPosition = component.getHoverRegion(monitor, component.element)
-    const nextSiblingDroppable = getNextSibling(siblings, index) // Next uid: ?string after NodeDroppable
-    const nextSiblingDraggable = getNextSibling(siblingsDraggable, indexDraggable) // Next uid: ?string after NodeDraggable
-    const before = overPosition === 'top' ? uid : nextSiblingDroppable
+    const nextSiblingDroppable = getNextSibling(siblings, index) // Next uuid: ?string after NodeDroppable
+    const nextSiblingDraggable = getNextSibling(siblingsDraggable, indexDraggable) // Next uuid: ?string after NodeDraggable
+    const before = overPosition === 'top' ? uuid : nextSiblingDroppable
 
     // Guard: do not put when dropped on original position
     if (overPosition === 'top' && before === nextSiblingDraggable) return
-    if (overPosition === 'bottom' && before === uidDraggable) return
+    if (overPosition === 'bottom' && before === uuidDraggable) return
 
     const newPath = pathDroppable && pathDroppable.length > 1 ? pathDroppable.slice(0, -1) : pathDroppable
 
@@ -58,7 +58,7 @@ class NodeDroppable extends Component {
   static propTypes = {
     parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
-    uid: PropTypes.string.isRequired,
+    uuid: PropTypes.string.isRequired,
     treePath: PropTypes.array.isRequired,
     hasNodes: PropTypes.bool.isRequired,
     siblings: PropTypes.array.isRequired,

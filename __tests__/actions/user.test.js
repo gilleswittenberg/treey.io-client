@@ -16,7 +16,7 @@ const middlewares = [thunk, multi]
 const mockStore = configureMockStore(middlewares)
 
 const hostname = /treey\.io/
-import { uid } from '../uid'
+import { uuid } from '../uuid'
 
 describe('user actions', () => {
 
@@ -100,7 +100,7 @@ describe('user actions', () => {
     it('OK', () => {
       const body = {
         username: 'gilleswittenberg',
-        rootId: uid
+        rootNode: uuid
       }
       nock(hostname)
         .post('/user/authenticate')
@@ -191,7 +191,7 @@ describe('user actions', () => {
     it('OK', () => {
       const body = {
         username: 'gilleswittenberg',
-        rootId: uid
+        rootNode: uuid
       }
       nock(hostname)
         .post('/user/register')

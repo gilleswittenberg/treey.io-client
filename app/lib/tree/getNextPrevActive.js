@@ -19,7 +19,7 @@ export const getNextActive = (nodesArray: Nodes, indices: TreePath, expanded: an
     // Guard
     if (parent == null || parent.nodes == null) continue
     if (parent.nodes != null) {
-      const index = parent.nodes.findIndex(uid => uid === indices[i])
+      const index = parent.nodes.findIndex(uuid => uuid === indices[i])
       if (parent.nodes != null && parent.nodes.length - 1 > index) {
         const diff = (indices.length - 1) - i
         const ret = indices.slice(0, indices.length - diff)
@@ -42,12 +42,12 @@ export const getPrevActive = (nodesArray: Nodes, indices: TreePath, expanded: an
   if (nodes.length >= 2) {
     const parent = nodes[nodes.length - 2]
     if (parent != null && parent.nodes != null) {
-      const index = parent.nodes.findIndex(uid => uid === indices[indices.length - 1])
+      const index = parent.nodes.findIndex(uuid => uuid === indices[indices.length - 1])
       if (index > 0) {
         if (parent.nodes != null) {
-          const prevUid = parent.nodes[index - 1]
-          let ret = indices.slice(0, -1).concat([prevUid])
-          const prevNode = findNode(nodesArray, prevUid)
+          const prevUuid = parent.nodes[index - 1]
+          let ret = indices.slice(0, -1).concat([prevUuid])
+          const prevNode = findNode(nodesArray, prevUuid)
           if (isExpanded(ret, expanded) && prevNode != null && prevNode.nodes != null && prevNode.nodes.length > 0) {
             ret = ret.concat([prevNode.nodes[prevNode.nodes.length - 1]])
           }
@@ -57,19 +57,19 @@ export const getPrevActive = (nodesArray: Nodes, indices: TreePath, expanded: an
     }
   }
 
-  if (arraysEqual(indices, [nodesArray[0].uid])) {
+  if (arraysEqual(indices, [nodesArray[0].uuid])) {
     return getLastIndices(nodesArray, expanded)
   }
 
   return indices.slice(0, -1)
 }
 
-const findNode = (nodes, uid) => {
-  return nodes.find(node => node.uid === uid)
+const findNode = (nodes, uuid) => {
+  return nodes.find(node => node.uuid === uuid)
 }
 
 const getNodesAtIndices = (nodes, indices) => {
-  return indices.map(uid => findNode(nodes, uid))
+  return indices.map(uuid => findNode(nodes, uuid))
 }
 
 const isExpanded = (indices, expanded) => {
@@ -86,11 +86,11 @@ const isExpanded = (indices, expanded) => {
 
 const getLastIndices = (nodes, expanded) => {
   let node = nodes[0]
-  const indices = node != null && node.uid != null ? [node.uid] : []
+  const indices = node != null && node.uuid != null ? [node.uuid] : []
   while (node && node.nodes && node.nodes.length > 0 && isExpanded(indices, expanded)) {
-    const uid = node.nodes[node.nodes.length - 1]
-    indices.push(uid)
-    node = findNode(nodes, uid)
+    const uuid = node.nodes[node.nodes.length - 1]
+    indices.push(uuid)
+    node = findNode(nodes, uuid)
   }
   return indices
 }

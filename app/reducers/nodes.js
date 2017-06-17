@@ -42,14 +42,14 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
   case ADD_NODE_TRANSACTION:
     if (action.data.transaction != null) {
       const transaction = action.data.transaction
-      const uid = transaction.uid
+      const uuid = transaction.node
       const data = transaction.data
-      const index = state.nodes.findIndex(node => node.uid === uid)
+      const index = state.nodes.findIndex(node => node.uuid === uuid)
       let nodes = fromJS(state.nodes)
       let indexChild
       let node
       if (index === -1 && transaction.type === 'CREATE') {
-        node = createNode(transaction.uid, transaction)
+        node = createNode(transaction.node, transaction)
         nodes = nodes.push(node)
       } else if (index > -1) {
         nodes = nodes.updateIn([index, 'transactions'], arr => arr.push(transaction))
@@ -58,7 +58,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
           nodes = nodes.setIn([index, 'data'], data)
           break
         case 'REMOVE_CHILD':
-          indexChild = nodes.getIn([index, 'nodes']).findIndex(elem => elem === transaction.childUid)
+          indexChild = nodes.getIn([index, 'nodes']).findIndex(elem => elem === transaction.child)
           if (indexChild > -1) {
             nodes = nodes.updateIn([index, 'nodes'], arr => arr.splice(indexChild, 1))
           }
@@ -68,10 +68,10 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
             nodes = nodes.setIn([index, 'nodes'], [])
           }
           if (transaction.before == null) {
-            nodes = nodes.updateIn([index, 'nodes'], arr => arr.push(transaction.childUid))
+            nodes = nodes.updateIn([index, 'nodes'], arr => arr.push(transaction.child))
           } else {
             const indexBefore = nodes.getIn([index, 'nodes']).findIndex(elem => elem === transaction.before)
-            nodes = nodes.updateIn([index, 'nodes'], arr => arr.splice(indexBefore, 0, transaction.childUid))
+            nodes = nodes.updateIn([index, 'nodes'], arr => arr.splice(indexBefore, 0, transaction.child))
           }
           break
         }
@@ -85,8 +85,8 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
   case UPDATE_NODE_TRANSACTION_STATUS:
     if (action.data.transaction != null) {
       const transaction = action.data.transaction
-      const uid = transaction.uid
-      const index = state.nodes.findIndex(node => node.uid === uid)
+      const uuid = transaction.node
+      const index = state.nodes.findIndex(node => node.uuid === uuid)
       if (index > -1) {
         let nodes = fromJS(state.nodes)
         let indexTransaction = nodes.getIn([index, 'transactions']).findIndex(elem => elem.get('uuid') === transaction.uuid)
