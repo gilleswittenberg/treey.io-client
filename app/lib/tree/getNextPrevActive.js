@@ -7,16 +7,16 @@ export const getNextActive = (nodesArray: Nodes, indices: TreePath, expanded: an
 
   const nodes = getNodesAtIndices(nodesArray, indices)
 
-  // first child
+  // First child
   const node = nodes[indices.length - 1]
   if (node && node.nodes && node.nodes.length > 0 && isExpanded(indices, expanded)) {
     return indices.concat([node.nodes[0]])
   }
 
-  // next sibling or parent's sibling recursive
+  // Next sibling or parent's sibling recursive
   for (let i = indices.length - 1; i >= 0; i--) {
     const parent = nodes[i - 1]
-    // guard
+    // Guard
     if (parent == null || parent.nodes == null) continue
     if (parent.nodes != null) {
       const index = parent.nodes.findIndex(uid => uid === indices[i])
@@ -31,7 +31,7 @@ export const getNextActive = (nodesArray: Nodes, indices: TreePath, expanded: an
     }
   }
 
-  // return root
+  // Return root
   return indices.slice(0, 1)
 }
 
@@ -73,7 +73,7 @@ const getNodesAtIndices = (nodes, indices) => {
 }
 
 const isExpanded = (indices, expanded) => {
-  // guard
+  // Guard
   if (!expanded) return false
   let ret = false
   Object.keys(expanded).forEach(k => {

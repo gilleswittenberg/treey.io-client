@@ -25,7 +25,7 @@ class Tree extends Component {
     tree: null
   }
 
-  // needed for Flowtype
+  // Needed for Flowtype
   static DecoratedComponent = null
 
   componentDidMount () {
@@ -42,7 +42,7 @@ class Tree extends Component {
 
   @autobind
   handleKeyUp (event: KeyboardEvent) {
-    if (event.keyCode === 27) { // esc
+    if (event.keyCode === 27) { // Esc
       const { clearUIEditingAdding } = this.props
       clearUIEditingAdding()
     }
@@ -53,19 +53,19 @@ class Tree extends Component {
 
     const { setUIActive, nodesArray: nodes, ui: { expanded, active, adding, editing } } = this.props
 
-    // guard
+    // Guard
     if (adding != null || editing != null) return
 
     let action, nextActive
 
     switch (event.keyCode) {
-    case 40: // down arrow
+    case 40: // Down arrow
       nextActive = getNextActive(nodes, active, expanded)
       break
-    case 38: // up arrow
+    case 38: // Up arrow
       nextActive = getPrevActive(nodes, active, expanded)
       break
-    case 9: // tab
+    case 9: // Tab
       action = event.shiftKey ? getPrevActive : getNextActive
       nextActive = action(nodes, active, expanded)
       break
@@ -80,7 +80,7 @@ class Tree extends Component {
   @autobind
   handleWindowClick () {
     const { clearUIEditingAdding } = this.props
-    // this needs to be delayed to be called after a possible submit event
+    // This needs to be delayed to be called after a possible submit event
     delay(() => clearUIEditingAdding())
   }
 

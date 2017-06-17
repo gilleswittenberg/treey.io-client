@@ -29,7 +29,7 @@ export default class NodeAdd extends Component {
     title: ''
   }
 
-  // clear input when user starts adding
+  // Clear input when user starts adding
   componentWillReceiveProps (nextProps: any) {
     if (nextProps.ui.adding !== this.props.ui.adding) {
       this.setState({ title: '' })
@@ -63,13 +63,13 @@ export default class NodeAdd extends Component {
 
     clearUIEditingAdding()
 
-    // guard: do not save empty string
+    // Guard: do not save empty string
     if (titleTrimmed === '') return
 
     const data = { title: titleTrimmed }
     create(treePath, data)
 
-    // expand to open parent
+    // Expand to open parent
     setUIExpanded(treePath)
   }
 

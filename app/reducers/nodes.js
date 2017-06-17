@@ -20,7 +20,7 @@ export const defaultState: NodesState = {
 
 export default function nodes (state: NodesState = defaultState, action: NodesAction) : NodesState {
 
-  // backend
+  // Backend
   switch (action.type) {
   case START_SYNCING:
     return { ...state, isSyncing: true }
@@ -29,7 +29,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
   case HAS_ERRORS:
     return { ...state, hasErrors: true }
 
-  // nodes
+  // Nodes
   // @TODO: Parsing
   case INDEX_NODES:
     if (action.data.nodes != null) {

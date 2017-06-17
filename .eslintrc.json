@@ -29,6 +29,7 @@
         "semi": ["error", "never"],
         "space-before-function-paren": ["error", "always"],
         "spaced-comment": ["error", "always"],
+        "capitalized-comments": ["error"],
         "template-curly-spacing": ["error", "always"],
 
         "react/jsx-uses-vars": "error",

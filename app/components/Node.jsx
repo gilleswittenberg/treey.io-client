@@ -49,11 +49,11 @@ export default class Node extends Component {
     const { clearUIEditingAdding, setUIEditing, setUIExpanded, unsetUIExpanded, setUIActive, treePath } = this.props
     const isExpanded = this.isExpanded()
 
-    // alt key to edit
+    // Alt key to edit
     if (event.altKey) {
       setUIEditing(treePath)
     }
-    // regular click to collapse or expand
+    // Regular click to collapse or expand
     else {
       clearUIEditingAdding()
       if (isExpanded) {
@@ -107,29 +107,29 @@ export default class Node extends Component {
 
     const { treePath, setUIExpanded, unsetUIExpanded, setUIEditing, setUIAdding, remove } = this.props
 
-    // guard
+    // Guard
     const isActive = this.isUI('active')
     if (!isActive) return
 
-    // guard
+    // Guard
     const isEditing = this.isUI('editing')
     const isAdding = this.isUI('adding')
     if (isEditing || isAdding) return
 
     switch (event.keyCode) {
-    case 37: // left arrow
+    case 37: // Left arrow
       event.preventDefault()
       unsetUIExpanded(treePath)
       break
-    case 39: // right arrow
+    case 39: // Right arrow
       event.preventDefault()
       setUIExpanded(treePath)
       break
-    case 13: // enter
+    case 13: // Enter
       event.preventDefault()
       setUIEditing(treePath)
       break
-    case 68: // d
+    case 68: // D
       if (event.shiftKey) {
         remove(treePath)
       }

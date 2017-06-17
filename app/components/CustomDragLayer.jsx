@@ -17,7 +17,7 @@ function getItemStyles (props) {
 
   const { currentOffset } = props
 
-  // guard
+  // Guard
   if (!currentOffset) return { display: 'none' }
 
   const { x, y } = currentOffset
@@ -44,7 +44,7 @@ class CustomDragLayer extends Component {
   render () {
     const { item, isDragging } = this.props
 
-    // guard: do not render when not dragging
+    // Guard: do not render when not dragging
     if (!isDragging || !item) return null
 
     const { title } = item

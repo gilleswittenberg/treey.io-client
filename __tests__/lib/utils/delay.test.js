@@ -1,6 +1,6 @@
 /* @flow */
 
-// required for Flow type
+// Required for Flow type
 declare var describe: any
 declare var it: any
 declare var expect: any
@@ -11,6 +11,6 @@ import noop from '../../noop'
 describe('delay', () => {
 
   it('return timeoutID', () => {
-    expect(delay(noop)).toBeGreaterThan(0) // timeoutID is number > 0
+    expect(delay(noop)).toBeGreaterThan(0) // TimeoutID is number > 0
   })
 })

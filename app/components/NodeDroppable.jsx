@@ -16,10 +16,10 @@ const DropSpec = {
 
   hover (props, monitor, component) {
 
-    // guard: do not allow hover on self
+    // Guard: do not allow hover on self
     if (props.uid === monitor.getItem().uid) return false
 
-    // guard: do not allow dropping as sibling of root
+    // Guard: do not allow dropping as sibling of root
     if (!monitor.canDrop()) return false
 
     const hoverRegion = component.getHoverRegion(monitor, component.element)
@@ -38,17 +38,17 @@ const DropSpec = {
 
     const { treePath: pathDroppable, uid, siblings, index, move } = props // NodeDroppable props
     const overPosition = component.getHoverRegion(monitor, component.element)
-    const nextSiblingDroppable = getNextSibling(siblings, index) // next uid: ?string after NodeDroppable
-    const nextSiblingDraggable = getNextSibling(siblingsDraggable, indexDraggable) // next uid: ?string after NodeDraggable
+    const nextSiblingDroppable = getNextSibling(siblings, index) // Next uid: ?string after NodeDroppable
+    const nextSiblingDraggable = getNextSibling(siblingsDraggable, indexDraggable) // Next uid: ?string after NodeDraggable
     const before = overPosition === 'top' ? uid : nextSiblingDroppable
 
-    // guard: do not put when dropped on original position
+    // Guard: do not put when dropped on original position
     if (overPosition === 'top' && before === nextSiblingDraggable) return
     if (overPosition === 'bottom' && before === uidDraggable) return
 
     const newPath = pathDroppable && pathDroppable.length > 1 ? pathDroppable.slice(0, -1) : pathDroppable
 
-    // save
+    // Save
     move(treePath, newPath, before)
   }
 }
@@ -79,7 +79,7 @@ class NodeDroppable extends Component {
 
   element = undefined
 
-  // logic for hover out
+  // Logic for hover out
   componentWillReceiveProps (nextProps: any) {
     const { isOver } = this.props
     if (nextProps.isOver === false && isOver === true) {
@@ -89,16 +89,16 @@ class NodeDroppable extends Component {
 
   getHoverRegion (monitor, element) : string {
 
-    // used when mocking
+    // Used when mocking
     // @TODO: Try to make mocking es6 default export work in Jest. And remove.
     const { hoverRegion: hoverRegionProps } = this.props
     if (hoverRegionProps) return hoverRegionProps
 
-    // first time hover
+    // First time hover
     const { hoverRegion: hoverRegionState } = this.state
     if (hoverRegionState === null) return 'top'
 
-    // succeeding hover events
+    // Succeeding hover events
     return getHoverRegion(monitor, element, hoverRegionState)
   }
 
@@ -117,7 +117,6 @@ class NodeDroppable extends Component {
   render () {
 
     const {
-      // ui: { movingChild },
       connectDropTarget
     } = this.props
     const movingChild = false

@@ -1,6 +1,6 @@
   /* @flow */
 
-// required for Flow type
+// Required for Flow type
 declare var describe: any
 declare var it: any
 declare var expect: any
@@ -87,7 +87,7 @@ describe('Tree', () => {
       ]
       const wrapper = render(getComponent({ nodesArray }))
       // @TODO: Better DOM selector
-      // deepest child nodes 3 + 2
+      // Deepest child nodes 3 + 2
       expect(wrapper.find('ul ul ul ul').length).toBe(3 + 2)
     })
   })

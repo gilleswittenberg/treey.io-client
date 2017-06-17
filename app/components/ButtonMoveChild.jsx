@@ -39,7 +39,7 @@ class ButtonMoveChild extends Component {
     connectDropTarget: (jsx: any) => jsx
   }
 
-  // logic for hover out
+  // Logic for hover out
   componentWillReceiveProps (nextProps: any) {
     const { isOver, clearUIMovingChild } = this.props
     if (nextProps.isOver === false && isOver === true) {

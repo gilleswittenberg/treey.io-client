@@ -1,6 +1,6 @@
 /* @flow */
 
-// required for Flow type
+// Required for Flow type
 declare var describe: any
 declare var it: any
 declare var expect: any

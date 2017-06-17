@@ -2,13 +2,13 @@
 
 import type { UIKey, TreePath, Nodes } from '../../flow/tree'
 
-// actions
+// Actions
 export const SET_UI_KEY = 'SET_UI_KEY'
 export const UNSET_UI_KEY = 'UNSET_UI_KEY'
 export const SET_EXPANDED = 'SET_EXPANDED'
 export const UNSET_EXPANDED = 'UNSET_EXPANDED'
 
-// action creators
+// Action creators
 const setUIKey = (key: UIKey, treePath: TreePath) => {
   return [
     {
@@ -95,12 +95,12 @@ export const clearUIDragging = () => {
 
 export const initUIRoot = (nodes: Nodes) => {
 
-  // guard
+  // Guard
   if (nodes.length === 0) return
 
   const rootUid = nodes[0].uid
 
-  // guard
+  // Guard
   if (rootUid == null) return
 
   const treePath = [rootUid]

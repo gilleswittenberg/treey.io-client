@@ -52,7 +52,7 @@ export default function (state: UIState = defaultState, action: UIAction) : UISt
     if (action.data.treePath != null) {
       const treePath = action.data.treePath
       const keys = Object.keys(state.expanded)
-      // check if not already expanded
+      // Check if not already expanded
       let isExpanded = false
       keys.forEach(key => {
         const expanded = state.expanded[key]
@@ -61,7 +61,7 @@ export default function (state: UIState = defaultState, action: UIAction) : UISt
         }
       })
       if (isExpanded) return state
-      // add to state.expanded
+      // Add to state.expanded
       const key = keys.length === 0 ? '0' : Math.max(...keys.map(k => parseInt(k, 10))) + 1
       const expanded = (fromJS(state.expanded).set(key, treePath)).toJS()
       return { ...state, expanded }

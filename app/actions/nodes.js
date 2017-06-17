@@ -9,7 +9,7 @@ import fetchOptions from '../lib/utils/fetchOptions'
 
 import host from '../settings/host'
 
-// actions
+// Actions
 export const START_SYNCING = 'START_SYNCING'
 export const STOP_SYNCING = 'STOP_SYNCING'
 export const HAS_ERRORS = 'HAS_ERRORS'
@@ -18,7 +18,7 @@ export const GET_NODES = 'GET_NODES'
 export const ADD_NODE_TRANSACTION = 'ADD_NODE_TRANSACTION'
 export const UPDATE_NODE_TRANSACTION_STATUS = 'UPDATE_NODE_TRANSACTION_STATUS'
 
-// action creators
+// Action creators
 export const startSyncing = () => {
   return {
     type: START_SYNCING
@@ -116,7 +116,7 @@ export const update = (path: TreePath, data: NodeData) => {
 
   const uid = getUidFromTreePath(path)
 
-  // guard
+  // Guard
   if (uid == null) return
 
   const transaction = createTransaction('SET', uid, data)
@@ -132,7 +132,7 @@ export const remove = (path: TreePath) => {
   const parent = getParentFromTreePath(path)
   const uid = getUidFromTreePath(path)
 
-  // guard
+  // Guard
   if (parent == null || uid == null) return
 
   const transaction = createTransaction('REMOVE_CHILD', parent, undefined, uid)
@@ -150,7 +150,7 @@ export const move = (path: TreePath, newPath: TreePath, before?: NodeId) => {
   const parent = getParentFromTreePath(path)
   const newParent = getUidFromTreePath(newPath)
 
-  // guard
+  // Guard
   if (uid == null || parent == null || newParent == null) return
 
   const transaction0 = createTransaction('REMOVE_CHILD', parent, undefined, uid)
@@ -183,7 +183,7 @@ const postTransactions = (transactions: Transaction[]) => {
         json => {
           dispatch(stopSyncing())
           transactions.forEach((transaction, index) => {
-            // guard
+            // Guard
             if (!Array.isArray(json.transactions) || json.transactions[index] == null || json.transactions[index].status == null) return
             const status = json.transactions[index].status
             dispatch(updateNodeTransactionStatus(transaction, status))
