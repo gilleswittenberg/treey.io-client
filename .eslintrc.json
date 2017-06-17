@@ -31,6 +31,7 @@
         "spaced-comment": ["error", "always"],
         "capitalized-comments": ["error"],
         "template-curly-spacing": ["error", "always"],
+        "arrow-parens": ["error", "as-needed"],
 
         "react/jsx-uses-vars": "error",
         "react/jsx-uses-react": "error"
