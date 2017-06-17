@@ -1,8 +1,12 @@
 /* @flow */
 
 import type { UIState, UIAction } from '../../flow/types'
-// @TODO: Use named imports
-import * as types from '../actions/ui'
+import {
+  SET_UI_KEY,
+  UNSET_UI_KEY,
+  SET_EXPANDED,
+  UNSET_EXPANDED
+} from '../actions/ui'
 import { fromJS } from 'immutable'
 import arraysEqual from '../lib/utils/arraysEqual'
 
@@ -20,7 +24,7 @@ export default function (state: UIState = defaultState, action: UIAction) : UISt
 
   switch (action.type) {
 
-  case types.SET_UI_KEY:
+  case SET_UI_KEY:
     if (action.data.treePath != null && action.data.key != null) {
       const active = action.data.key === 'active' ? action.data.treePath : state.active
       const editing = action.data.key === 'editing' ? action.data.treePath : state.editing
@@ -32,7 +36,7 @@ export default function (state: UIState = defaultState, action: UIAction) : UISt
     }
     return state
 
-  case types.UNSET_UI_KEY:
+  case UNSET_UI_KEY:
     if (action.data.key != null) {
       const active = action.data.key === 'active' ? null : state.active
       const editing = action.data.key === 'editing' ? null : state.editing
@@ -44,7 +48,7 @@ export default function (state: UIState = defaultState, action: UIAction) : UISt
     }
     return state
 
-  case types.SET_EXPANDED:
+  case SET_EXPANDED:
     if (action.data.treePath != null) {
       const treePath = action.data.treePath
       const keys = Object.keys(state.expanded)
@@ -64,7 +68,7 @@ export default function (state: UIState = defaultState, action: UIAction) : UISt
     }
     return state
 
-  case types.UNSET_EXPANDED:
+  case UNSET_EXPANDED:
     if (action.data.treePath != null) {
       const treePath = action.data.treePath
       let key

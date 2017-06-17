@@ -1,8 +1,14 @@
 /* @flow */
 
 import type { NodesState, NodesAction } from '../../flow/types'
-// @TODO: Use named imports
-import * as types from '../actions/nodes'
+import {
+  START_SYNCING,
+  STOP_SYNCING,
+  HAS_ERRORS,
+  INDEX_NODES,
+  ADD_NODE_TRANSACTION,
+  UPDATE_NODE_TRANSACTION_STATUS
+} from '../actions/nodes'
 import { fromJS } from 'immutable'
 import createNode from '../lib/tree/createNode'
 
@@ -16,16 +22,16 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
 
   // backend
   switch (action.type) {
-  case types.START_SYNCING:
+  case START_SYNCING:
     return { ...state, isSyncing: true }
-  case types.STOP_SYNCING:
+  case STOP_SYNCING:
     return { ...state, isSyncing: false }
-  case types.HAS_ERRORS:
+  case HAS_ERRORS:
     return { ...state, hasErrors: true }
 
   // nodes
   // @TODO: Parsing
-  case types.INDEX_NODES:
+  case INDEX_NODES:
     if (action.data.nodes != null) {
       const nodes = action.data.nodes
       return { ...state, nodes }
@@ -33,7 +39,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     return state
 
   // @TODO: Extract logic
-  case types.ADD_NODE_TRANSACTION:
+  case ADD_NODE_TRANSACTION:
     if (action.data.transaction != null) {
       const transaction = action.data.transaction
       const uid = transaction.uid
@@ -76,7 +82,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     return state
 
   // @TODO: Extract logic
-  case types.UPDATE_NODE_TRANSACTION_STATUS:
+  case UPDATE_NODE_TRANSACTION_STATUS:
     if (action.data.transaction != null) {
       const transaction = action.data.transaction
       const uid = transaction.uid

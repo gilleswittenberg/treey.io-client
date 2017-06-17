@@ -1,8 +1,15 @@
 /* @flow */
 
 import type { UserState, UserAction } from '../../flow/types'
-// @TODO: Use named imports
-import * as types from '../actions/user'
+import {
+  UNAUTHENTICATED,
+  AUTHENTICATE,
+  AUTHENTICATION_FAILED,
+  AUTHENTICATION_ERROR,
+  SIGN_OUT_FAILED,
+  REGISTRATION_FAILED,
+  REGISTRATION_ERROR
+} from '../actions/user'
 import { browserHistory } from 'react-router'
 
 export const defaultState: UserState = {
@@ -18,7 +25,7 @@ export const defaultState: UserState = {
 
 export default function user (state: UserState = defaultState, action: UserAction) {
   switch (action.type) {
-  case types.UNAUTHENTICATED:
+  case UNAUTHENTICATED:
     // Indicates running from test
     // @TODO: Clean up
     if (browserHistory.getCurrentLocation().pathname !== 'blank') {
@@ -26,7 +33,7 @@ export default function user (state: UserState = defaultState, action: UserActio
     }
     // @TODO: Set signOutFailed to false
     return { ...state, loggedIn: false, username: null, rootId: null }
-  case types.AUTHENTICATE:
+  case AUTHENTICATE:
     // Indicates running from test
     // @TODO: Clean up
     if (browserHistory.getCurrentLocation().pathname !== 'blank') {
@@ -42,18 +49,18 @@ export default function user (state: UserState = defaultState, action: UserActio
       username: action.data.username,
       rootId: action.data.rootId
     }
-  case types.AUTHENTICATION_FAILED:
+  case AUTHENTICATION_FAILED:
     // @TODO: Set registrationError, registrationFailed to false
     return { ...state, authenticationFailed: true, authenticationError: false }
-  case types.AUTHENTICATION_ERROR:
+  case AUTHENTICATION_ERROR:
     // @TODO: Set registrationError, registrationFailed to false
     return { ...state, authenticationError: true, authenticationFailed: false }
-  case types.SIGN_OUT_FAILED:
+  case SIGN_OUT_FAILED:
     return { ...state, signOutFailed: true }
-  case types.REGISTRATION_FAILED:
+  case REGISTRATION_FAILED:
     // @TODO: Set authenticationError, authenticationFailed to false
     return { ...state, registrationFailed: true, registrationError: false }
-  case types.REGISTRATION_ERROR:
+  case REGISTRATION_ERROR:
     // @TODO: Set authenticationError, authenticationFailed to false
     return { ...state, registrationFailed: false, registrationError: true }
   default:
