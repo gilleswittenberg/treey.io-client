@@ -98,7 +98,7 @@ export default class NodeWrap extends Component {
     nodeEditProps.title = nodeEditProps.data.title
     const nodesProps = { ...this.props, parent: uuid, hasNodes }
 
-    const treePathString = treePath.join('-')
+    const treePathString = treePath.join('/')
 
     return (
       <div data-tree-path={ treePathString }>
