@@ -1,4 +1,4 @@
-# kee.plus client
+# treey.io client
 
 # Node base image
 FROM node:6

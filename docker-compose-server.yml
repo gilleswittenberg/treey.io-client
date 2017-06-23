@@ -1,7 +1,7 @@
 version: '2'
 services:
   server:
-    image: gilleswittenberg/kee.plus-server:development
+    image: gilleswittenberg/treey.io-server:development
     depends_on:
       - mongo
     environment:

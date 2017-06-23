@@ -1,7 +1,7 @@
 let host
 switch (process.env.NODE_ENV) {
 case 'production':
-  host = 'http://api.kee.plus:8081'
+  host = 'http://api.treey.io:8081'
   break
 case 'test':
   host = 'http://test.api.treey.io'

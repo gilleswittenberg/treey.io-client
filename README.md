@@ -5,7 +5,7 @@
 - [survivejs.com/react/](http://survivejs.com/react/)
 
 ## installation
-- `git clone https://github.com/gilleswittenberg/kee.plus-client.git`
+- `git clone https://github.com/gilleswittenberg/treey.io-client.git`
 - `npm install`
 - `npm test`
 - `npm run dev-server`
