@@ -1,3 +1,4 @@
+/* @flow */
 export const uuid = '7c034792-86ba-4725-8d19-74ba1f5874e0'
 export const uuid1 = '7c034792-86ba-4725-8d19-74ba1f5874e1'
 export const uuid2 = '7c034792-86ba-4725-8d19-74ba1f5874e2'
