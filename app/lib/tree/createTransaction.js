@@ -3,10 +3,14 @@ import uuidv4 from 'uuid/v4'
 
 export default (type: TransactionType, uuid?: NodeId, nodeData?: NodeData, child?: NodeId, before?: NodeId) : ?Transaction => {
 
+  const date = new Date()
+
   const transaction = {
     uuid: uuidv4(),
     node: uuid,
-    status: 'PENDING'
+    status: 'PENDING',
+    modified: date,
+    created: date
   }
 
   switch (type) {
