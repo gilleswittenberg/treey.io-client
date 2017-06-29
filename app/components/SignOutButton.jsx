@@ -1,7 +1,10 @@
 /* @flow */
 
+// @TODO: Rename component
+
 import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
+import { Link } from 'react-router'
 import __ from '../lib/utils/i18n'
 
 export default class SignOutButton extends Component {
@@ -14,7 +17,7 @@ export default class SignOutButton extends Component {
   }
 
   @autobind
-  handleClick () {
+  handleClickSignOut () {
     const { postSignOut } = this.props
     postSignOut()
   }
@@ -22,13 +25,15 @@ export default class SignOutButton extends Component {
   render () {
 
     const { lang, username, signOutFailed } = this.props
+    const sessionText = __(lang, 'SESSION')
     const signOutText = __(lang, 'SIGN_OUT')
     const signOutFailedText = __(lang, 'SIGN_OUT_FAILED')
 
     return (
       <div className="sign-out-button-wrap">
         <p>{ username }</p>
-        <button className="sign-out-button" onClick={ this.handleClick }>{ signOutText }</button>
+        <Link to="/session">{ sessionText }</Link>
+        <button className="sign-out-button" onClick={ this.handleClickSignOut }>{ signOutText }</button>
         { signOutFailed &&
           <p style={ { color: 'red' } }>{ signOutFailedText }</p>
         }

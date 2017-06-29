@@ -4,6 +4,7 @@ import React from 'react'
 import App from './App'
 import AuthLogin from './AuthLogin'
 import AuthRegister from './AuthRegister'
+import Session from './Session'
 
 export default ({ store }) => {
 
@@ -20,6 +21,7 @@ export default ({ store }) => {
         <Route path="/" component={ App } />
         <Route path="/login" component={ AuthLogin } />
         <Route path="/register" component={ AuthRegister } />
+        <Route path="/session" component={ Session } />
       </Router>
     </Provider>
   )
