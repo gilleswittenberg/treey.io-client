@@ -10,7 +10,7 @@ import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import defaultUI from '../../app/lib/ui/defaultUI'
-import { parent, uuid, uuid1 } from '../uuid'
+import { parent, uuid, uuid1, uuid2 } from '../uuid'
 
 describe('Nodes', () => {
 
@@ -48,6 +48,25 @@ describe('Nodes', () => {
 
     it('nodes', () => {
       const nodes = [uuid, uuid1]
+      const nodesArray = [{
+        uuid,
+        data: { title: '' },
+        ui,
+        path: [uuid],
+        nodes: []
+      }, {
+        uuid: uuid1,
+        data: { title: '' },
+        ui,
+        path: [uuid1],
+        nodes: []
+      }]
+      const wrapper = shallow(getComponent({ nodes, nodesArray }))
+      expect(wrapper.find('li').length).toBe(2)
+    })
+
+    it('non findable nodes', () => {
+      const nodes = [uuid, uuid1, uuid2]
       const nodesArray = [{
         uuid,
         data: { title: '' },

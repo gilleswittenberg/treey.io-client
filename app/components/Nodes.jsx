@@ -61,7 +61,8 @@ export default class Nodes extends Component {
 
     const nodeWrapProps = { ...this.props, isRoot }
     const nodeAddProps = { ...this.props, isEditing: isAdding }
-    const nodesPopulated = nodes.map(nodeId => nodesArray.find(node => node.uuid === nodeId))
+    // @TODO: Display non findable nodes in UI
+    const nodesPopulated = nodes.map(nodeId => nodesArray.find(node => node.uuid === nodeId)).filter(node => node != null)
 
     return (
       <ul>
