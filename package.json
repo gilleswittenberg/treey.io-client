@@ -16,6 +16,7 @@
     "dev": "webpack-dev-server --host 0.0.0.0",
     "dev-server": "docker-compose -f docker-compose-server.yml up",
     "test": "jest",
+    "test-coverage": "jest --coverage",
     "start": "NODE_ENV=production node_modules/http-server/bin/http-server -p 80 build"
   },
   "jest": {
