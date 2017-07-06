@@ -11,13 +11,14 @@ body
   background-repeat: no-repeat
   background-image: $backgroundGradient
 
-.wrap
-  max-width: $width - 6 * $indent
+.wrap, .wrap-narrow
+  padding-left: $indent
+  padding-right: $indent
   padding-bottom: $spacing-layout-vertical-small
   @include large
     padding-bottom: $spacing-layout-vertical-large
-  @include small
-    padding-left: $indent
-    padding-right: $indent
+
+.wrap-narrow
+  max-width: $width - 6 * $indent
   @include large
     margin: 0 auto

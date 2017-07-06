@@ -6,13 +6,13 @@ declare var it: any
 declare var expect: any
 declare var jest: any
 
-import SignOutButton from '../../app/components/SignOutButton'
+import Nav from '../../app/components/Nav'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import getMockEvent from '../getMockEvent'
 
-describe('SignOutButton', () => {
+describe('Nav', () => {
 
   const lang = 'en'
   const defaultProps = {
@@ -21,7 +21,7 @@ describe('SignOutButton', () => {
     postSignOut: noop,
     signOutFailed: false
   }
-  const getComponent = getComponentHOF(SignOutButton, defaultProps)
+  const getComponent = getComponentHOF(Nav, defaultProps)
 
   describe('click', () => {
 

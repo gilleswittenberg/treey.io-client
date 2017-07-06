@@ -5,6 +5,7 @@ import App from './App'
 import AuthLogin from './AuthLogin'
 import AuthRegister from './AuthRegister'
 import Session from './Session'
+import Node from './Node'
 
 export default ({ store }) => {
 
@@ -22,6 +23,7 @@ export default ({ store }) => {
         <Route path="/login" component={ AuthLogin } />
         <Route path="/register" component={ AuthRegister } />
         <Route path="/session" component={ Session } />
+        <Route path="/node/:uuid" component={ Node } />
       </Router>
     </Provider>
   )

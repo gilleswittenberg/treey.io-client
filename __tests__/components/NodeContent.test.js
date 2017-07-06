@@ -9,6 +9,7 @@ import NodeContent from '../../app/components/NodeContent'
 import { shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
+import { uuid } from '../uuid'
 
 describe('Node', () => {
 
@@ -16,7 +17,8 @@ describe('Node', () => {
     lang: 'en',
     title: '',
     handleClick: noop,
-    handleClickMore: noop
+    handleClickMore: noop,
+    uuid
   }
   const getComponent = getComponentHOF(NodeContent, defaultProps)
 

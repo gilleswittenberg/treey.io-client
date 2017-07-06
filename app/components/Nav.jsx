@@ -30,14 +30,14 @@ export default class SignOutButton extends Component {
     const signOutFailedText = __(lang, 'SIGN_OUT_FAILED')
 
     return (
-      <div className="sign-out-button-wrap">
+      <nav>
         <p>{ username }</p>
         <Link to="/session">{ sessionText }</Link>
         <button className="sign-out-button" onClick={ this.handleClickSignOut }>{ signOutText }</button>
         { signOutFailed &&
           <p style={ { color: 'red' } }>{ signOutFailedText }</p>
         }
-      </div>
+      </nav>
     )
   }
 }

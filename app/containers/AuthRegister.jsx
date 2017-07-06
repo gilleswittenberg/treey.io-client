@@ -35,7 +35,7 @@ class AuthRegister extends React.Component {
     }
 
     return (
-      <div className="wrap">
+      <div className="wrap-narrow">
         <RegisterForm { ...registerFormProps } />
         <Link to="/login">login</Link>
       </div>

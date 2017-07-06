@@ -4,6 +4,7 @@ export default {
   AUTHENTICATION_ERROR_MESSAGE: 'Authentication error',
   BACK: 'back',
   CREATED: 'created',
+  DATA: 'data',
   DELETE: 'delete',
   EDIT: 'edit',
   HAS_ERRRORS: 'has errors',
@@ -13,6 +14,7 @@ export default {
   MORE: 'more',
   MOVE_CHILD: 'move child',
   NODE: 'node',
+  NODES: 'nodes',
   PASSWORD: 'password',
   PASSWORD_CONFIRM: 'confirm password',
   REGISTER: 'register',
@@ -26,6 +28,7 @@ export default {
   TRANSACTIONS: 'Transactions',
   TRANSACTIONS_EMPTY: 'No transactions in this session',
   TYPE: 'type',
+  USER: 'user',
   USERNAME: 'username',
   UUID: 'UUID'
 }

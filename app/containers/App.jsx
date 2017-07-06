@@ -3,7 +3,7 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 import getActions from '../lib/ui/actions'
-import SignOutButton from '../components/SignOutButton'
+import Nav from '../components/Nav'
 import ServerStatus from '../components/ServerStatus'
 import Tree from '../components/Tree'
 
@@ -35,7 +35,7 @@ class App extends React.Component {
 
     const actions = getActions(dispatch)
 
-    const signOutButtonProps = { lang, username, signOutFailed, postSignOut: actions.postSignOut }
+    const navProps = { lang, username, signOutFailed, postSignOut: actions.postSignOut }
     const serverStatusProps = { lang, hasErrors, isSyncing }
 
     // $FlowIssue Flow does not recognize Tree.DecoratedComponent
@@ -43,9 +43,9 @@ class App extends React.Component {
     const treeProps = { lang, enableDnD, app, tree, ui, nodesArray, treeIndices, ...actions }
 
     return (
-      <div className="wrap">
+      <div className="wrap-narrow">
         { loggedIn &&
-          <SignOutButton { ...signOutButtonProps } />
+          <Nav { ...navProps } />
         }
         { loggedIn &&
           <ServerStatus { ...serverStatusProps } />
