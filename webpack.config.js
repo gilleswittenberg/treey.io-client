@@ -57,7 +57,8 @@ const common = {
   entry: ['babel-polyfill', PATHS.app],
   output: {
     path: PATHS.build,
-    filename: '[name].js'
+    filename: '[name].js',
+    publicPath: '/'
   },
   plugins: [
     new HtmlWebpackPlugin({

@@ -37,7 +37,9 @@ export default function user (state: UserState = defaultState, action: UserActio
     // Indicates running from test
     // @TODO: Clean up
     if (browserHistory.getCurrentLocation().pathname !== 'blank') {
-      browserHistory.replace('/')
+      if (window.location.pathname.match(new RegExp('^/login/?', 'i'))) {
+        browserHistory.replace('/')
+      }
     }
     return {
       ...state,

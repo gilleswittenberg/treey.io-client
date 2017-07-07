@@ -28,7 +28,7 @@ class Node extends React.Component {
     return (
       <div className="wrap">
         <NavBack { ...navBackProps } />
-        <NodeOverview { ...nodeOverviewProps } />
+        { node && <NodeOverview { ...nodeOverviewProps } /> }
       </div>
     )
   }
