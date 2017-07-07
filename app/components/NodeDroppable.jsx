@@ -99,7 +99,7 @@ class NodeDroppable extends Component {
     if (hoverRegionState === null) return 'top'
 
     // Succeeding hover events
-    return getHoverRegion(monitor, element, hoverRegionState)
+    return getHoverRegion(monitor, element)
   }
 
   showNodeOverTop () : bool {
