@@ -13,7 +13,9 @@ export type TreePath = NodeId[]
 
 export type Node = {
   uuid: ?UUID,
-  user: ?NodeUser,
+  auth?: {
+    user: ?NodeUser,
+  },
   data: NodeData,
   transactions: Transaction[],
   // @TODO: make non-optional
@@ -34,6 +36,9 @@ export type Transaction = {
   node: NodeId,
   type: TransactionType,
   status: TransactionStatus,
+  auth?: {
+    user: string
+  },
   data?: NodeData,
   child?: NodeId,
   before?: NodeId

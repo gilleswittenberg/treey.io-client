@@ -91,6 +91,9 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
         let nodes = fromJS(state.nodes)
         let indexTransaction = nodes.getIn([index, 'transactions']).findIndex(elem => elem.get('uuid') === transaction.uuid)
         if (indexTransaction > -1) {
+          if (transaction.type === 'CREATE' && transaction.auth != null) {
+            nodes = nodes.setIn([index, 'auth'], transaction.auth)
+          }
           nodes = nodes.setIn([index, 'transactions', indexTransaction, 'status'], action.data.status)
           nodes = nodes.toJS()
           return { ...state, nodes }

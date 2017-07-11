@@ -184,7 +184,7 @@ describe('nodes actions', () => {
 
       const response = {
         transactions: [
-          { status: 'COMMITTED' },
+          { status: 'COMMITTED', auth: { user: 'johndoe' } },
           { status: 'COMMITTED' },
           { status: 'COMMITTED' }
         ]
@@ -205,6 +205,7 @@ describe('nodes actions', () => {
         expect(secondLastAction.data.status).toEqual('COMMITTED')
         expect(thirdLastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')
         expect(thirdLastAction.data.status).toEqual('COMMITTED')
+        expect(thirdLastAction.data.transaction.auth).toEqual({ user: 'johndoe' })
       })
     })
   })

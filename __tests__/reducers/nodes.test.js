@@ -229,6 +229,34 @@ describe('nodes reducer', () => {
 
     describe('UPDATE_NODE_TRANSACTION_STATUS', () => {
 
+      it('CREATE', () => {
+        const transaction = { uuid: uuidv4(), node: uuid, type: 'CREATE', auth: { user: 'johndoe' }, status: 'PENDING' }
+        const nodes = [
+          {
+            uuid,
+            data: { title: 'John Doe' },
+            transactions: [transaction],
+            ui: {},
+            nodes: [uuid1]
+          }
+        ]
+        const state = {
+          isSyncing: false,
+          hasErrors: false,
+          nodes
+        }
+
+        const state2 = reducer(state, {
+          type: UPDATE_NODE_TRANSACTION_STATUS,
+          data: {
+            transaction,
+            status: 'COMMITTED'
+          }
+        })
+        expect(state2.nodes[0].transactions[0].status).toEqual('COMMITTED')
+        expect(state2.nodes[0].auth).toEqual({ user: 'johndoe' })
+      })
+
       it('SET', () => {
         const transaction = { uuid: uuidv4(), node: uuid, type: 'SET', data: { title: 'John Doe' }, status: 'PENDING' }
         const nodes = [
