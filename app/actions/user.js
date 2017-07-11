@@ -62,7 +62,7 @@ export const registrationError = () => {
 
 export const getUser = () => {
 
-  return (dispatch: () => void) => {
+  return (dispatch: (action: any) => void) => {
 
     const url = `${ host }/user`
     const options = fetchOptions()
@@ -89,7 +89,7 @@ export const getUser = () => {
 
 export const postAuthenticate = (username: string, password: string) => {
 
-  return (dispatch: () => void) => {
+  return (dispatch: (action: any) => void) => {
 
     const url = `${ host }/user/authenticate`
     const options = fetchOptions('POST', { username, password })
@@ -121,7 +121,7 @@ export const postAuthenticate = (username: string, password: string) => {
 
 export const postSignOut = () => {
 
-  return (dispatch: () => void) => {
+  return (dispatch: (action: any) => void) => {
 
     const url = `${ host }/user/signout`
     const options = fetchOptions('POST')
@@ -147,7 +147,7 @@ export const postSignOut = () => {
 
 export const postRegister = (username: string, password: string, passwordConfirm: string) => {
 
-  return (dispatch: () => void) => {
+  return (dispatch: (action: any) => void) => {
 
     const url = `${ host }/user/register`
     const options = fetchOptions('POST', { username, password, passwordConfirm })

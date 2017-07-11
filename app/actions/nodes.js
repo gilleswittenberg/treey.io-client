@@ -47,7 +47,7 @@ export const indexNodes = (nodes: Nodes) => {
 }
 
 export const getNodes = (rootNode: NodeId) => {
-  return (dispatch: () => void) => {
+  return (dispatch: (action: any) => void) => {
     dispatch(startSyncing())
     const url = `${ host }/nodes/${ rootNode }`
     const options = {
@@ -167,7 +167,7 @@ export const move = (path: TreePath, newPath: TreePath, before?: NodeId) => {
 
 const postTransactions = (transactions: Transaction[]) => {
 
-  return (dispatch: () => void) => {
+  return (dispatch: (action: any) => void) => {
     dispatch(startSyncing())
     const url = `${ host }/nodes/transactions`
     const options = fetchOptions('POST', { transactions })
