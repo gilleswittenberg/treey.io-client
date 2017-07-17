@@ -26,6 +26,7 @@ export default class NodeOverview extends Component {
     const user = auth ? auth.user : '-'
     const dataKeys = Object.keys(data)
     const transactionsProps = { lang, transactions }
+    const hasNodes = nodes.length > 0
     return (
       <div>
         <h1>{ __(lang, 'UUID') }</h1>
@@ -39,11 +40,16 @@ export default class NodeOverview extends Component {
         ) }
         </ul>
         <h1>{ __(lang, 'NODES') }</h1>
-        <ul>
-        { nodes.map(node =>
-          <li key={ node }><Link to={ '/node/' + node }>{ node }</Link></li>
-        )}
-        </ul>
+        { !hasNodes &&
+          <p>-</p>
+        }
+        { hasNodes &&
+          <ul>
+          { nodes.map(node =>
+            <li key={ node }><Link to={ '/node/' + node }>{ node }</Link></li>
+          )}
+          </ul>
+        }
         <Transactions { ...transactionsProps } />
       </div>
     )
