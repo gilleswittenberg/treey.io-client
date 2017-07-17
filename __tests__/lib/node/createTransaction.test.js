@@ -5,7 +5,7 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import createTransaction from '../../../app/lib/tree/createTransaction'
+import createTransaction from '../../../app/lib/node/createTransaction'
 import { uuid, uuid1, uuid2 } from '../../uuid'
 
 describe('createTransaction', () => {

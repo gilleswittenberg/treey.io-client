@@ -10,7 +10,7 @@ import {
   UPDATE_NODE_TRANSACTION_STATUS
 } from '../actions/nodes'
 import { fromJS } from 'immutable'
-import createNode from '../lib/tree/createNode'
+import createNode from '../lib/node/createNode'
 
 export const defaultState: NodesState = {
   isSyncing: false,
