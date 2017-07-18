@@ -25,6 +25,7 @@ const middlewares = [thunk, multi]
 const mockStore = configureMockStore(middlewares)
 
 const hostname = /treey\.io/
+const datetime = new Date()
 
 describe('nodes actions', () => {
 
@@ -140,8 +141,10 @@ describe('nodes actions', () => {
         uuid,
         node: uuid,
         type: 'SET',
+        status: 'PENDING',
         data: { title: 'Title' },
-        status: 'PENDING'
+        modified: datetime,
+        created: datetime
       }
 
       store.dispatch(addNodeTransaction(transaction))
@@ -160,7 +163,9 @@ describe('nodes actions', () => {
         node: uuid,
         type: 'SET',
         data: { title: 'Title' },
-        status: 'PENDING'
+        status: 'PENDING',
+        modified: datetime,
+        created: datetime
       }
 
       const node = {

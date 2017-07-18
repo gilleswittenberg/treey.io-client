@@ -1,11 +1,13 @@
+/* @flow */
+
 import type { Transaction, TransactionType, NodeData, NodeId } from '../../../flow/tree'
 import uuidv4 from 'uuid/v4'
 
-export default (type: TransactionType, uuid?: NodeId, nodeData?: NodeData, child?: NodeId, before?: NodeId) : ?Transaction => {
+export default (type: TransactionType, uuid?: NodeId, nodeData?: NodeData, child?: NodeId, before?: NodeId) : Transaction => {
 
   const date = new Date()
 
-  const transaction = {
+  const transaction: any = {
     uuid: uuidv4(),
     node: uuid,
     status: 'PENDING',
@@ -17,21 +19,21 @@ export default (type: TransactionType, uuid?: NodeId, nodeData?: NodeData, child
   case 'CREATE':
     transaction.type = 'CREATE'
     transaction.node = uuidv4()
-    return transaction
+    break
   case 'SET':
     transaction.type = 'SET'
     transaction.data = nodeData
-    return transaction
+    break
   case 'REMOVE_CHILD':
     transaction.type = 'REMOVE_CHILD'
     transaction.child = child
-    return transaction
+    break
   case 'ADD_CHILD':
     transaction.type = 'ADD_CHILD'
     transaction.child = child
     transaction.before = before
-    return transaction
-  default:
-    return null
+    break
   }
+
+  return transaction
 }

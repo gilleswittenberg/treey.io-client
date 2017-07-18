@@ -41,7 +41,9 @@ export type Transaction = {
   },
   data?: NodeData,
   child?: NodeId,
-  before?: NodeId
+  before?: NodeId,
+  modified: Date,
+  created: Date
 }
 
 export type UIKey = 'active' | 'expanded' | 'adding' | 'editing' | 'dragging' | 'movingChild' | 'buttonsShown'

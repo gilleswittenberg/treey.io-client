@@ -10,22 +10,20 @@ import { uuid, uuid1, uuid2 } from '../../uuid'
 
 describe('createTransaction', () => {
 
-  it('invalid', () => {
-    const transaction = createTransaction()
-    expect(transaction).toBe(null)
-  })
-
   describe('CREATE', () => {
 
     it('valid', () => {
       const transaction = createTransaction('CREATE')
-      expect(transaction.type).toBe('CREATE')
-      expect(transaction.uuid.length).toBe(36)
-      expect(transaction.node.length).toBe(36)
-      expect(transaction.status).toBe('PENDING')
-      expect(transaction.modified).toBeInstanceOf(Date)
-      expect(transaction.created).toBeInstanceOf(Date)
-      expect(transaction.modified).toEqual(transaction.created)
+      expect(transaction).not.toBe(null)
+      if (transaction != null) {
+        expect(transaction.type).toBe('CREATE')
+        expect(transaction.uuid.length).toBe(36)
+        expect(transaction.node.length).toBe(36)
+        expect(transaction.status).toBe('PENDING')
+        expect(transaction.modified).toBeInstanceOf(Date)
+        expect(transaction.created).toBeInstanceOf(Date)
+        expect(transaction.modified).toEqual(transaction.created)
+      }
     })
   })
 

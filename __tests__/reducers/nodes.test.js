@@ -17,6 +17,8 @@ import {
 import { uuid, uuid1, uuid2, uuid3, uuid4, uuid5 } from '../uuid'
 import uuidv4 from 'uuid/v4'
 
+const datetime = new Date()
+
 describe('nodes reducer', () => {
 
   it('SYNCING', () => {
@@ -89,7 +91,14 @@ describe('nodes reducer', () => {
           hasErrors: false,
           nodes: []
         }
-        const transaction = { uuid, node: uuid1, type: 'CREATE', status: 'PENDING' }
+        const transaction = {
+          uuid,
+          node: uuid1,
+          type: 'CREATE',
+          status: 'PENDING',
+          modified: datetime,
+          created: datetime
+        }
         const state2 = reducer(state, {
           type: ADD_NODE_TRANSACTION,
           data: {
@@ -106,9 +115,15 @@ describe('nodes reducer', () => {
           {
             uuid,
             data: { title: 'John Doe' },
-            transactions: [
-              { uuid, type: 'SET', node: uuid, data: { title: 'John Doe' }, status: 'COMMITTED' }
-            ],
+            transactions: [{
+              uuid,
+              type: 'SET',
+              node: uuid,
+              data: { title: 'John Doe' },
+              status: 'COMMITTED',
+              modified: datetime,
+              created: datetime
+            }],
             ui: {},
             user: 'user1'
           }
@@ -119,7 +134,15 @@ describe('nodes reducer', () => {
           hasErrors: false,
           nodes
         }
-        const transaction = { uuid, type: 'SET', node: uuid, data: { title: 'New' }, status: 'PENDING' }
+        const transaction = {
+          uuid,
+          node: uuid,
+          type: 'SET',
+          status: 'PENDING',
+          data: { title: 'New' },
+          modified: datetime,
+          created: datetime
+        }
         const state2 = reducer(state, {
           type: ADD_NODE_TRANSACTION,
           data: {
@@ -136,9 +159,15 @@ describe('nodes reducer', () => {
           {
             uuid,
             data: { title: 'John Doe' },
-            transactions: [
-              { uuid, node: uuid, type: 'SET', data: { title: 'John Doe' }, status: 'COMMITTED' }
-            ],
+            transactions: [{
+              uuid,
+              node: uuid,
+              type: 'SET',
+              status: 'COMMITTED',
+              data: { title: 'John Doe' },
+              modified: datetime,
+              created: datetime
+            }],
             ui: {},
             user: 'user1',
             nodes: [uuid1]
@@ -149,7 +178,15 @@ describe('nodes reducer', () => {
           hasErrors: false,
           nodes
         }
-        const transaction = { uuid, type: 'REMOVE_CHILD', node: uuid, child: uuid1, status: 'PENDING' }
+        const transaction = {
+          uuid,
+          type: 'REMOVE_CHILD',
+          node: uuid,
+          child: uuid1,
+          status: 'PENDING',
+          modified: datetime,
+          created: datetime
+        }
         const state2 = reducer(state, {
           type: ADD_NODE_TRANSACTION,
           data: {
@@ -171,9 +208,15 @@ describe('nodes reducer', () => {
             {
               uuid,
               data: { title: 'John Doe' },
-              transactions: [
-                { uuid, node: uuid, type: 'SET', data: { title: 'John Doe' }, status: 'COMMITTED' }
-              ],
+              transactions: [{
+                uuid,
+                node: uuid,
+                type: 'SET',
+                status: 'COMMITTED',
+                data: { title: 'John Doe' },
+                modified: datetime,
+                created: datetime
+              }],
               ui: {},
               user: 'user1',
               nodes: []
@@ -184,7 +227,15 @@ describe('nodes reducer', () => {
             hasErrors: false,
             nodes
           }
-          const transaction = { uuid, type: 'ADD_CHILD', node: uuid, child: uuid1, status: 'PENDING' }
+          const transaction = {
+            uuid,
+            type: 'ADD_CHILD',
+            node: uuid,
+            child: uuid1,
+            status: 'PENDING',
+            modified: datetime,
+            created: datetime
+          }
           const state2 = reducer(state, {
             type: ADD_NODE_TRANSACTION,
             data: {
@@ -201,9 +252,15 @@ describe('nodes reducer', () => {
             {
               uuid,
               data: { title: 'John Doe' },
-              transactions: [
-                { uuid, node: uuid, type: 'SET', data: { title: 'John Doe' }, status: 'COMMITTED' }
-              ],
+              transactions: [{
+                uuid,
+                node: uuid,
+                type: 'SET',
+                status: 'COMMITTED',
+                data: { title: 'John Doe' },
+                modified: datetime,
+                created: datetime
+              }],
               ui: {},
               user: 'user1',
               nodes: [uuid1]
@@ -214,7 +271,16 @@ describe('nodes reducer', () => {
             hasErrors: false,
             nodes
           }
-          const transaction = { uuid, type: 'ADD_CHILD', node: uuid, child: uuid2, before: uuid1, status: 'PENDING' }
+          const transaction = {
+            uuid,
+            type: 'ADD_CHILD',
+            status: 'PENDING',
+            node: uuid,
+            child: uuid2,
+            before: uuid1,
+            modified: datetime,
+            created: datetime
+          }
           const state2 = reducer(state, {
             type: ADD_NODE_TRANSACTION,
             data: {
@@ -230,7 +296,15 @@ describe('nodes reducer', () => {
     describe('UPDATE_NODE_TRANSACTION_STATUS', () => {
 
       it('CREATE', () => {
-        const transaction = { uuid: uuidv4(), node: uuid, type: 'CREATE', auth: { user: 'johndoe' }, status: 'PENDING' }
+        const transaction = {
+          uuid: uuidv4(),
+          node: uuid,
+          type: 'CREATE',
+          status: 'PENDING',
+          auth: { user: 'johndoe' },
+          modified: datetime,
+          created: datetime
+        }
         const nodes = [
           {
             uuid,
@@ -258,7 +332,15 @@ describe('nodes reducer', () => {
       })
 
       it('SET', () => {
-        const transaction = { uuid: uuidv4(), node: uuid, type: 'SET', data: { title: 'John Doe' }, status: 'PENDING' }
+        const transaction = {
+          uuid: uuidv4(),
+          node: uuid,
+          type: 'SET',
+          status: 'PENDING',
+          data: { title: 'John Doe' },
+          modified: datetime,
+          created: datetime
+        }
         const nodes = [
           {
             uuid,
