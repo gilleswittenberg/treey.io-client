@@ -17,7 +17,7 @@ export type Node = {
     user: ?NodeUser,
   },
   data: NodeData,
-  transactions: Transaction[],
+  transactions: Transactions,
   // @TODO: make non-optional
   nodes?: NodeId[]
 }
@@ -45,6 +45,7 @@ export type Transaction = {
   modified: Date,
   created: Date
 }
+export type Transactions = Transaction[]
 
 export type UIKey = 'active' | 'expanded' | 'adding' | 'editing' | 'dragging' | 'movingChild' | 'buttonsShown'
 

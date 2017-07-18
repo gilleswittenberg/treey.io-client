@@ -15,9 +15,8 @@ import {
   UPDATE_NODE_TRANSACTION_STATUS
 } from '../../app/actions/nodes'
 import { uuid, uuid1, uuid2, uuid3, uuid4, uuid5 } from '../uuid'
+import date from '../date'
 import uuidv4 from 'uuid/v4'
-
-const datetime = new Date()
 
 describe('nodes reducer', () => {
 
@@ -96,8 +95,8 @@ describe('nodes reducer', () => {
           node: uuid1,
           type: 'CREATE',
           status: 'PENDING',
-          modified: datetime,
-          created: datetime
+          modified: date,
+          created: date
         }
         const state2 = reducer(state, {
           type: ADD_NODE_TRANSACTION,
@@ -121,8 +120,8 @@ describe('nodes reducer', () => {
               node: uuid,
               data: { title: 'John Doe' },
               status: 'COMMITTED',
-              modified: datetime,
-              created: datetime
+              modified: date,
+              created: date
             }],
             ui: {},
             user: 'user1'
@@ -140,8 +139,8 @@ describe('nodes reducer', () => {
           type: 'SET',
           status: 'PENDING',
           data: { title: 'New' },
-          modified: datetime,
-          created: datetime
+          modified: date,
+          created: date
         }
         const state2 = reducer(state, {
           type: ADD_NODE_TRANSACTION,
@@ -165,8 +164,8 @@ describe('nodes reducer', () => {
               type: 'SET',
               status: 'COMMITTED',
               data: { title: 'John Doe' },
-              modified: datetime,
-              created: datetime
+              modified: date,
+              created: date
             }],
             ui: {},
             user: 'user1',
@@ -184,8 +183,8 @@ describe('nodes reducer', () => {
           node: uuid,
           child: uuid1,
           status: 'PENDING',
-          modified: datetime,
-          created: datetime
+          modified: date,
+          created: date
         }
         const state2 = reducer(state, {
           type: ADD_NODE_TRANSACTION,
@@ -214,8 +213,8 @@ describe('nodes reducer', () => {
                 type: 'SET',
                 status: 'COMMITTED',
                 data: { title: 'John Doe' },
-                modified: datetime,
-                created: datetime
+                modified: date,
+                created: date
               }],
               ui: {},
               user: 'user1',
@@ -233,8 +232,8 @@ describe('nodes reducer', () => {
             node: uuid,
             child: uuid1,
             status: 'PENDING',
-            modified: datetime,
-            created: datetime
+            modified: date,
+            created: date
           }
           const state2 = reducer(state, {
             type: ADD_NODE_TRANSACTION,
@@ -258,8 +257,8 @@ describe('nodes reducer', () => {
                 type: 'SET',
                 status: 'COMMITTED',
                 data: { title: 'John Doe' },
-                modified: datetime,
-                created: datetime
+                modified: date,
+                created: date
               }],
               ui: {},
               user: 'user1',
@@ -278,8 +277,8 @@ describe('nodes reducer', () => {
             node: uuid,
             child: uuid2,
             before: uuid1,
-            modified: datetime,
-            created: datetime
+            modified: date,
+            created: date
           }
           const state2 = reducer(state, {
             type: ADD_NODE_TRANSACTION,
@@ -302,8 +301,8 @@ describe('nodes reducer', () => {
           type: 'CREATE',
           status: 'PENDING',
           auth: { user: 'johndoe' },
-          modified: datetime,
-          created: datetime
+          modified: date,
+          created: date
         }
         const nodes = [
           {
@@ -338,8 +337,8 @@ describe('nodes reducer', () => {
           type: 'SET',
           status: 'PENDING',
           data: { title: 'John Doe' },
-          modified: datetime,
-          created: datetime
+          modified: date,
+          created: date
         }
         const nodes = [
           {

@@ -11,6 +11,7 @@ import {
 } from '../actions/nodes'
 import { fromJS } from 'immutable'
 import createNode from '../lib/node/createNode'
+import getNodeData from '../lib/node/getNodeData'
 
 export const defaultState: NodesState = {
   isSyncing: false,
@@ -43,11 +44,9 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     if (action.data.transaction != null) {
       const transaction = action.data.transaction
       const uuid = transaction.node
-      const data = transaction.data
       const index = state.nodes.findIndex(node => node.uuid === uuid)
       let nodes = fromJS(state.nodes)
-      let indexChild
-      let node
+      let indexChild, node, nodeData
       if (index === -1 && transaction.type === 'CREATE') {
         node = createNode(transaction.node, transaction)
         nodes = nodes.push(node)
@@ -55,7 +54,8 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
         nodes = nodes.updateIn([index, 'transactions'], arr => arr.push(transaction))
         switch (transaction.type) {
         case 'SET':
-          nodes = nodes.setIn([index, 'data'], data)
+          nodeData = getNodeData(nodes.getIn([index, 'transactions']).toJS())
+          nodes = nodes.setIn([index, 'data'], nodeData)
           break
         case 'REMOVE_CHILD':
           indexChild = nodes.getIn([index, 'nodes']).findIndex(elem => elem === transaction.child)
@@ -75,6 +75,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
           }
           break
         }
+        // @TODO: log, feedback for non existing node
       }
       nodes = nodes.toJS()
       return { ...state, nodes }

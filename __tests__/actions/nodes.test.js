@@ -20,12 +20,12 @@ import {
   move
 } from '../../app/actions/nodes'
 import { uuid, uuid1, uuid2, uuid3, uuid4, uuid5 } from '../uuid'
+import date from '../date'
 
 const middlewares = [thunk, multi]
 const mockStore = configureMockStore(middlewares)
 
 const hostname = /treey\.io/
-const datetime = new Date()
 
 describe('nodes actions', () => {
 
@@ -143,8 +143,8 @@ describe('nodes actions', () => {
         type: 'SET',
         status: 'PENDING',
         data: { title: 'Title' },
-        modified: datetime,
-        created: datetime
+        modified: date,
+        created: date
       }
 
       store.dispatch(addNodeTransaction(transaction))
@@ -164,8 +164,8 @@ describe('nodes actions', () => {
         type: 'SET',
         data: { title: 'Title' },
         status: 'PENDING',
-        modified: datetime,
-        created: datetime
+        modified: date,
+        created: date
       }
 
       const node = {
