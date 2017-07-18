@@ -251,15 +251,26 @@ describe('nodes reducer', () => {
             {
               uuid,
               data: { title: 'John Doe' },
-              transactions: [{
-                uuid,
-                node: uuid,
-                type: 'SET',
-                status: 'COMMITTED',
-                data: { title: 'John Doe' },
-                modified: date,
-                created: date
-              }],
+              transactions: [
+                {
+                  uuid,
+                  node: uuid,
+                  type: 'SET',
+                  status: 'COMMITTED',
+                  data: { title: 'John Doe' },
+                  modified: date,
+                  created: date
+                },
+                {
+                  uuid: uuid1,
+                  node: uuid,
+                  type: 'ADD_CHILD',
+                  status: 'COMMITTED',
+                  child: uuid1,
+                  modified: date,
+                  created: date
+                }
+              ],
               ui: {},
               user: 'user1',
               nodes: [uuid1]
@@ -271,7 +282,7 @@ describe('nodes reducer', () => {
             nodes
           }
           const transaction = {
-            uuid,
+            uuid: uuid2,
             type: 'ADD_CHILD',
             status: 'PENDING',
             node: uuid,
@@ -286,7 +297,7 @@ describe('nodes reducer', () => {
               transaction
             }
           })
-          expect(state2.nodes[0].transactions[1]).toEqual(transaction)
+          expect(state2.nodes[0].transactions[2]).toEqual(transaction)
           expect(state2.nodes[0].nodes).toEqual([uuid2, uuid1])
         })
       })

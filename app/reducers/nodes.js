@@ -12,6 +12,7 @@ import {
 import { fromJS } from 'immutable'
 import createNode from '../lib/node/createNode'
 import getNodeData from '../lib/node/getNodeData'
+import getNodes from '../lib/node/getNodes'
 
 export const defaultState: NodesState = {
   isSyncing: false,
@@ -39,44 +40,44 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     }
     return state
 
-  // @TODO: Extract logic
   case ADD_NODE_TRANSACTION:
+
     if (action.data.transaction != null) {
+
       const transaction = action.data.transaction
       const uuid = transaction.node
       const index = state.nodes.findIndex(node => node.uuid === uuid)
       let nodes = fromJS(state.nodes)
-      let indexChild, node, nodeData
+
+      // Create new node
       if (index === -1 && transaction.type === 'CREATE') {
-        node = createNode(transaction.node, transaction)
+        const node = createNode(transaction.node, transaction)
         nodes = nodes.push(node)
-      } else if (index > -1) {
+      }
+      // Update existing node
+      else if (index > -1) {
+
         nodes = nodes.updateIn([index, 'transactions'], arr => arr.push(transaction))
+        const transactions = nodes.getIn([index, 'transactions']).toJS()
         switch (transaction.type) {
+
+        // Update node data
         case 'SET':
-          nodeData = getNodeData(nodes.getIn([index, 'transactions']).toJS())
-          nodes = nodes.setIn([index, 'data'], nodeData)
+          nodes = nodes.setIn([index, 'data'], getNodeData(transactions))
           break
-        case 'REMOVE_CHILD':
-          indexChild = nodes.getIn([index, 'nodes']).findIndex(elem => elem === transaction.child)
-          if (indexChild > -1) {
-            nodes = nodes.updateIn([index, 'nodes'], arr => arr.splice(indexChild, 1))
-          }
-          break
+
+        // Update node children
         case 'ADD_CHILD':
-          if (nodes.getIn([index, 'nodes']) === undefined) {
-            nodes = nodes.setIn([index, 'nodes'], [])
-          }
-          if (transaction.before == null) {
-            nodes = nodes.updateIn([index, 'nodes'], arr => arr.push(transaction.child))
-          } else {
-            const indexBefore = nodes.getIn([index, 'nodes']).findIndex(elem => elem === transaction.before)
-            nodes = nodes.updateIn([index, 'nodes'], arr => arr.splice(indexBefore, 0, transaction.child))
-          }
+        case 'REMOVE_CHILD':
+          nodes = nodes.setIn([index, 'nodes'], getNodes(transactions))
           break
         }
-        // @TODO: log, feedback for non existing node
       }
+      else {
+        // @TODO: log error, feedback for non existing node
+      }
+
+      // Set new state
       nodes = nodes.toJS()
       return { ...state, nodes }
     }
