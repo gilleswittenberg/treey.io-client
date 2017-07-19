@@ -5,7 +5,8 @@ import type { Transactions, NodeId } from '../../../flow/tree'
 export default (transactions: Transactions) : NodeId[] => {
   const nodes = []
   const childTransactions = transactions.filter(transaction => transaction.type === 'ADD_CHILD' || transaction.type === 'REMOVE_CHILD')
-  childTransactions.forEach(transaction => {
+  const nonDeniedTransactions = childTransactions.filter(transaction => transaction.status !== 'DENIED')
+  nonDeniedTransactions.forEach(transaction => {
     switch (transaction.type) {
     case 'ADD_CHILD': {
       const before = transaction.before

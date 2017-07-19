@@ -305,76 +305,201 @@ describe('nodes reducer', () => {
 
     describe('UPDATE_NODE_TRANSACTION_STATUS', () => {
 
-      it('CREATE', () => {
-        const transaction = {
-          uuid: uuidv4(),
-          node: uuid,
-          type: 'CREATE',
-          status: 'PENDING',
-          auth: { user: 'johndoe' },
-          modified: date,
-          created: date
-        }
-        const nodes = [
-          {
-            uuid,
-            data: { title: 'John Doe' },
-            transactions: [transaction],
-            ui: {},
-            nodes: [uuid1]
-          }
-        ]
-        const state = {
-          isSyncing: false,
-          hasErrors: false,
-          nodes
-        }
+      describe('COMMITTED', () => {
 
-        const state2 = reducer(state, {
-          type: UPDATE_NODE_TRANSACTION_STATUS,
-          data: {
-            transaction,
-            status: 'COMMITTED'
+        it('CREATE', () => {
+          const transaction = {
+            uuid: uuidv4(),
+            node: uuid,
+            type: 'CREATE',
+            status: 'PENDING',
+            auth: { user: 'johndoe' },
+            modified: date,
+            created: date
           }
+          const nodes = [
+            {
+              uuid,
+              data: { title: 'John Doe' },
+              transactions: [transaction],
+              ui: {},
+              nodes: [uuid1]
+            }
+          ]
+          const state = {
+            isSyncing: false,
+            hasErrors: false,
+            nodes
+          }
+
+          const state2 = reducer(state, {
+            type: UPDATE_NODE_TRANSACTION_STATUS,
+            data: {
+              transaction,
+              status: 'COMMITTED'
+            }
+          })
+          expect(state2.nodes[0].transactions[0].status).toEqual('COMMITTED')
+          expect(state2.nodes[0].auth).toEqual({ user: 'johndoe' })
         })
-        expect(state2.nodes[0].transactions[0].status).toEqual('COMMITTED')
-        expect(state2.nodes[0].auth).toEqual({ user: 'johndoe' })
+
+        it('SET', () => {
+          const transaction = {
+            uuid: uuidv4(),
+            node: uuid,
+            type: 'SET',
+            status: 'PENDING',
+            data: { title: 'John Doe' },
+            modified: date,
+            created: date
+          }
+          const nodes = [
+            {
+              uuid,
+              data: { title: 'John Doe' },
+              transactions: [transaction],
+              ui: {},
+              user: 'user1',
+              nodes: [uuid1]
+            }
+          ]
+          const state = {
+            isSyncing: false,
+            hasErrors: false,
+            nodes
+          }
+
+          const state2 = reducer(state, {
+            type: UPDATE_NODE_TRANSACTION_STATUS,
+            data: {
+              transaction,
+              status: 'COMMITTED'
+            }
+          })
+          expect(state2.nodes[0].transactions[0].status).toEqual('COMMITTED')
+        })
       })
 
-      it('SET', () => {
-        const transaction = {
-          uuid: uuidv4(),
-          node: uuid,
-          type: 'SET',
-          status: 'PENDING',
-          data: { title: 'John Doe' },
-          modified: date,
-          created: date
-        }
-        const nodes = [
-          {
-            uuid,
-            data: { title: 'John Doe' },
-            transactions: [transaction],
-            ui: {},
-            user: 'user1',
-            nodes: [uuid1]
-          }
-        ]
-        const state = {
-          isSyncing: false,
-          hasErrors: false,
-          nodes
-        }
+      describe('DENIED', () => {
 
-        const state2 = reducer(state, {
-          type: UPDATE_NODE_TRANSACTION_STATUS,
-          data: {
-            transaction,
-            status: 'COMMITTED'
+        it('CREATE', () => {
+          const transaction = {
+            uuid: uuidv4(),
+            node: uuid,
+            type: 'CREATE',
+            status: 'PENDING',
+            auth: { user: 'johndoe' },
+            modified: date,
+            created: date
+          }
+          const nodes = [
+            {
+              uuid,
+              data: { title: 'John Doe' },
+              transactions: [transaction],
+              nodes: [uuid1]
+            }
+          ]
+          const state = {
+            isSyncing: false,
+            hasErrors: false,
+            nodes
+          }
+
+          const state2 = reducer(state, {
+            type: UPDATE_NODE_TRANSACTION_STATUS,
+            data: {
+              transaction,
+              status: 'DENIED'
+            }
+          })
+          expect(state2.nodes.length).toBe(0)
+        })
+
+        it('SET', () => {
+          const transaction0 = {
+            uuid: uuidv4(),
+            node: uuid,
+            type: 'SET',
+            status: 'COMMITTED',
+            data: { title: 'John Doe' },
+            modified: date,
+            created: date
+          }
+          const transaction1 = {
+            uuid: uuidv4(),
+            node: uuid,
+            type: 'SET',
+            status: 'PENDING',
+            data: { title: 'John Doe denied' },
+            modified: date,
+            created: date
+          }
+          const nodes = [
+            {
+              uuid,
+              data: { title: 'Denied' },
+              transactions: [transaction0, transaction1],
+              auth: { user: 'user1' },
+              nodes: []
+            }
+          ]
+          const state = {
+            isSyncing: false,
+            hasErrors: false,
+            nodes
+          }
+
+          const state2 = reducer(state, {
+            type: UPDATE_NODE_TRANSACTION_STATUS,
+            data: {
+              transaction: transaction1,
+              status: 'DENIED'
+            }
+          })
+          expect(state2.nodes[0].transactions[1].status).toEqual('DENIED')
+          expect(state2.nodes[0].data.title).toEqual('John Doe')
+        })
+
+        it('ADD_CHILD', () => {
+          const transaction = {
+            uuid: uuidv4(),
+            node: uuid,
+            type: 'ADD_CHILD',
+            status: 'COMMITTED',
+            child: uuid1,
+            modified: date,
+            created: date
+          }
+          const nodes = [
+            {
+              uuid,
+              data: { title: 'John Doe' },
+              transactions: [transaction],
+              auth: { user: 'user1' },
+              nodes: [uuid1]
+            }
+          ]
+          const state = {
+            isSyncing: false,
+            hasErrors: false,
+            nodes
+          }
+
+          const state2 = reducer(state, {
+            type: UPDATE_NODE_TRANSACTION_STATUS,
+            data: {
+              transaction,
+              status: 'DENIED'
+            }
+          })
+          expect(state2.nodes[0].transactions[0].status).toBe('DENIED')
+          const children = state2.nodes[0].nodes
+          expect(children).not.toBe(null)
+          if (children != null) {
+            expect(children.length).toBe(0)
           }
         })
-        expect(state2.nodes[0].transactions[0].status).toEqual('COMMITTED')
       })
     })
   })

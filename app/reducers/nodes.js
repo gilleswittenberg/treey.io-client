@@ -83,25 +83,57 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     }
     return state
 
-  // @TODO: Extract logic
   case UPDATE_NODE_TRANSACTION_STATUS:
+
     if (action.data.transaction != null) {
+
       const transaction = action.data.transaction
       const uuid = transaction.node
       const index = state.nodes.findIndex(node => node.uuid === uuid)
       if (index > -1) {
+
         let nodes = fromJS(state.nodes)
         let indexTransaction = nodes.getIn([index, 'transactions']).findIndex(elem => elem.get('uuid') === transaction.uuid)
         if (indexTransaction > -1) {
-          if (transaction.type === 'CREATE' && transaction.auth != null) {
-            nodes = nodes.setIn([index, 'auth'], transaction.auth)
+
+          // Update transaction status
+          const status = action.data.status
+          nodes = nodes.setIn([index, 'transactions', indexTransaction, 'status'], status)
+
+          // Transaction committed, apply
+          if (status === 'COMMITTED') {
+            if (transaction.type === 'CREATE' && transaction.auth != null) {
+              nodes = nodes.setIn([index, 'auth'], transaction.auth)
+            }
           }
-          nodes = nodes.setIn([index, 'transactions', indexTransaction, 'status'], action.data.status)
+
+          // Transaction denied, rollback
+          else if (status === 'DENIED') {
+            const transactions = nodes.getIn([index, 'transactions']).toJS()
+            switch (transaction.type) {
+            case 'CREATE':
+              nodes = nodes.delete(index)
+              break
+            case 'SET':
+              nodes = nodes.setIn([index, 'data'], getNodeData(transactions))
+              break
+            case 'ADD_CHILD':
+            case 'REMOVE_CHILD':
+              nodes = nodes.setIn([index, 'nodes'], getNodes(transactions))
+              break
+            }
+          }
+
           nodes = nodes.toJS()
           return { ...state, nodes }
+        } else {
+          // @TODO: log error, feedback for non existing transaction
         }
+      } else {
+        // @TODO: log error, feedback for non existing node
       }
     }
+
     return state
 
   default:

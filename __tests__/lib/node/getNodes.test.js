@@ -94,4 +94,27 @@ describe('getNodeData', () => {
     const nodes = getNodes([transaction0, transaction1, transaction2])
     expect(nodes).toEqual([uuid3])
   })
+
+  it('status DENIED', () => {
+    const transaction0 = {
+      uuid,
+      node: uuid1,
+      type: 'ADD_CHILD',
+      status: 'COMMITTED',
+      child: uuid2,
+      modified: date,
+      created: date
+    }
+    const transaction1 = {
+      uuid: uuid1,
+      node: uuid1,
+      type: 'ADD_CHILD',
+      status: 'DENIED',
+      child: uuid3,
+      modified: date,
+      created: date
+    }
+    const nodes = getNodes([transaction0, transaction1])
+    expect(nodes).toEqual([uuid2])
+  })
 })

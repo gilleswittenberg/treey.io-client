@@ -43,7 +43,7 @@ describe('getNodeData', () => {
     expect(nodeData).toEqual({ title: 'Title last' })
   })
 
-  it('SET PENDING', () => {
+  it('status PENDING', () => {
     const transaction0 = {
       uuid,
       node: uuid1,
@@ -68,5 +68,32 @@ describe('getNodeData', () => {
     }
     const nodeData = getNodeData([transaction0, transaction1])
     expect(nodeData).toEqual({ title: 'Title last' })
+  })
+
+  it('status DENIED', () => {
+    const transaction0 = {
+      uuid,
+      node: uuid1,
+      type: 'SET',
+      status: 'COMMITTED',
+      data: {
+        title: 'Title'
+      },
+      modified: date,
+      created: date
+    }
+    const transaction1 = {
+      uuid,
+      node: uuid1,
+      type: 'SET',
+      status: 'DENIED',
+      data: {
+        title: 'Title last'
+      },
+      modified: date,
+      created: date
+    }
+    const nodeData = getNodeData([transaction0, transaction1])
+    expect(nodeData).toEqual({ title: 'Title' })
   })
 })
