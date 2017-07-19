@@ -6,5 +6,8 @@
   th
     text-align: left
 
-  tr.non-effective
-    opacity: 0.15
+  tr
+    &.-non-effective
+      opacity: 0.15
+    &.-invalid, &.-is-denied
+      color: $red

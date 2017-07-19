@@ -3,6 +3,7 @@
 import React, { Component, PropTypes } from 'react'
 import __ from '../lib/utils/i18n'
 import setTransactionsEffective from '../lib/node/setTransactionsEffective'
+import classNames from 'classnames'
 
 export default class Transactions extends Component {
 
@@ -33,7 +34,10 @@ export default class Transactions extends Component {
             </thead>
             <tbody>
             { transactionsReversed.map(transaction => {
-              const className = transaction.effective === false ? 'non-effective' : ''
+              const className =  classNames({
+                '-non-effective': transaction.effective === false,
+                '-is-denied': transaction.status === 'DENIED'
+              })
               return (
                 <tr key={ transaction.uuid } className={ className }>
                   <td>{ transaction.uuid }</td>
