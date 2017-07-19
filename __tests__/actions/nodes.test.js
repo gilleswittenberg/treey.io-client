@@ -183,6 +183,24 @@ describe('nodes actions', () => {
     })
   })
 
+  describe('invalid response', () => {
+
+    it('actions', () => {
+
+      const response = { invalid: 'JSON' }
+      nock(hostname)
+        .post('/nodes/transactions')
+        .reply(201, response)
+
+      const store = mockStore({ nodes: [] })
+      const actions = store.dispatch(create([uuid], { title: 'Create' }))
+      return actions[actions.length - 1].then(() => {
+        const lastAction = store.getActions().pop()
+        expect(lastAction.type).toBe('STOP_SYNCING')
+      })
+    })
+  })
+
   describe('create', () => {
 
     it('actions', () => {

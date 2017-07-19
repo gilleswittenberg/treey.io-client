@@ -183,10 +183,12 @@ const postTransactions = (transactions: Transaction[]) => {
       .then(
         json => {
           dispatch(stopSyncing())
-          json.transactions.forEach((transaction, index) => {
+          // Guard
+          if (!Array.isArray(json.transactions)) return
+          json.transactions.forEach(transaction => {
+            const status = transaction.status
             // Guard
-            if (!Array.isArray(json.transactions) || json.transactions[index] == null || json.transactions[index].status == null) return
-            const status = json.transactions[index].status
+            if (status == null) return
             dispatch(updateNodeTransactionStatus(transaction, status))
           })
         },
