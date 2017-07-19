@@ -2,6 +2,7 @@
 
 import React, { Component, PropTypes } from 'react'
 import __ from '../lib/utils/i18n'
+import setTransactionsEffective from '../lib/node/setTransactionsEffective'
 
 export default class Transactions extends Component {
 
@@ -13,6 +14,8 @@ export default class Transactions extends Component {
   render () {
     const { lang, transactions } = this.props
     const transactionsIsEmpty = transactions.length === 0
+    const transactionsEffective = setTransactionsEffective(transactions)
+    const transactionsReversed = transactionsEffective.reverse()
     return (
       <div className="transactions">
         <h1>{ __(lang, 'TRANSACTIONS') }</h1>
@@ -29,15 +32,18 @@ export default class Transactions extends Component {
               </tr>
             </thead>
             <tbody>
-            { transactions.map(transaction =>
-              <tr key={ transaction.uuid }>
-                <td>{ transaction.uuid }</td>
-                <td>{ transaction.node }</td>
-                <td>{ transaction.type }</td>
-                <td>{ transaction.status }</td>
-                <td>{ transaction.modified ? transaction.modified.toString() : '-' }</td>
-                <td>{ transaction.created ? transaction.created.toString() : '-' }</td>
-              </tr>
+            { transactionsReversed.map(transaction => {
+              const className = transaction.effective === false ? 'non-effective' : ''
+              return (
+                <tr key={ transaction.uuid } className={ className }>
+                  <td>{ transaction.uuid }</td>
+                  <td>{ transaction.node }</td>
+                  <td>{ transaction.type }</td>
+                  <td>{ transaction.status }</td>
+                  <td>{ transaction.modified ? transaction.modified.toString() : '-' }</td>
+                  <td>{ transaction.created ? transaction.created.toString() : '-' }</td>
+                </tr>
+              )}
             ) }
             </tbody>
           </table>
