@@ -1,7 +1,7 @@
 /* @flow */
 
 import fetch from 'isomorphic-fetch'
-import type { TreePath, Nodes, NodeId, NodeData, Transaction, TransactionStatus } from '../../flow/tree'
+import type { TreePath, Nodes, NodeId, NodeData, Transactions, Transaction, TransactionStatus } from '../../flow/tree'
 import { getParentFromTreePath, getNodeFromTreePath } from '../lib/tree/TreeUtils'
 import createTransaction from '../lib/node/createTransaction'
 import { initUIRoot, unsetUIExpanded } from './ui'
@@ -17,6 +17,7 @@ export const INDEX_NODES = 'INDEX_NODES'
 export const GET_NODES = 'GET_NODES'
 export const ADD_NODE_TRANSACTION = 'ADD_NODE_TRANSACTION'
 export const UPDATE_NODE_TRANSACTION_STATUS = 'UPDATE_NODE_TRANSACTION_STATUS'
+export const SET_NODE_TRANSACTION_IS_SYNCING = 'SET_NODE_TRANSACTION_IS_SYNCING'
 
 // Action creators
 export const startSyncing = () => {
@@ -99,6 +100,16 @@ export const updateNodeTransactionStatus = (transaction: Transaction, status: Tr
   }
 }
 
+export const setNodeTransactionIsSyncing = (transaction: Transaction, isSyncing: boolean) => {
+  return {
+    type: SET_NODE_TRANSACTION_IS_SYNCING,
+    data: {
+      transaction,
+      isSyncing
+    }
+  }
+}
+
 export const create = (parentPath: TreePath, data: NodeData) => {
   const transaction0 = createTransaction('CREATE')
   const node = transaction0.node
@@ -165,10 +176,14 @@ export const move = (path: TreePath, newPath: TreePath, before?: NodeId) => {
   ]
 }
 
-const postTransactions = (transactions: Transaction[]) => {
+const postTransactions = (transactions: Transactions) => {
 
   return (dispatch: (action: any) => void) => {
+    // Global syncing
     dispatch(startSyncing())
+    // Transactions syncing
+    transactions.forEach(transaction => dispatch(setNodeTransactionIsSyncing(transaction, true)))
+    // POST request
     const url = `${ host }/nodes/transactions`
     const options = fetchOptions('POST', { transactions })
     return fetch(url, options)
@@ -183,6 +198,7 @@ const postTransactions = (transactions: Transaction[]) => {
       .then(
         json => {
           dispatch(stopSyncing())
+          transactions.forEach(transaction => dispatch(setNodeTransactionIsSyncing(transaction, false)))
           // Guard
           if (!Array.isArray(json.transactions)) return
           json.transactions.forEach(transaction => {
@@ -194,6 +210,7 @@ const postTransactions = (transactions: Transaction[]) => {
         },
         () => {
           dispatch(stopSyncing())
+          transactions.forEach(transaction => dispatch(setNodeTransactionIsSyncing(transaction, false)))
           dispatch(hasErrors())
         }
       )

@@ -43,6 +43,7 @@ export type Transaction = {
   child?: NodeId,
   before?: NodeId,
   effective?: boolean,
+  isSyncing?: boolean,
   modified: Date,
   created: Date
 }

@@ -7,7 +7,8 @@ import {
   HAS_ERRORS,
   INDEX_NODES,
   ADD_NODE_TRANSACTION,
-  UPDATE_NODE_TRANSACTION_STATUS
+  UPDATE_NODE_TRANSACTION_STATUS,
+  SET_NODE_TRANSACTION_IS_SYNCING
 } from '../actions/nodes'
 import { fromJS } from 'immutable'
 import createNode from '../lib/node/createNode'
@@ -135,6 +136,32 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
     }
 
     return state
+
+  case SET_NODE_TRANSACTION_IS_SYNCING:
+
+    if (action.data.transaction != null) {
+
+      const transaction = action.data.transaction
+      const uuid = transaction.node
+      const isSyncing = action.data.isSyncing
+
+      const index = state.nodes.findIndex(node => node.uuid === uuid)
+      if (index > -1) {
+        let nodes = fromJS(state.nodes)
+        let indexTransaction = nodes.getIn([index, 'transactions']).findIndex(elem => elem.get('uuid') === transaction.uuid)
+        if (indexTransaction > -1) {
+          nodes = nodes.setIn([index, 'transactions', indexTransaction, 'isSyncing'], isSyncing)
+          nodes = nodes.toJS()
+          return { ...state, nodes }
+        } else {
+          // @TODO: log error, feedback for non existing transaction
+        }
+      } else {
+        // @TODO: log error, feedback for non existing node
+      }
+    }
+    return state
+
 
   default:
     return state

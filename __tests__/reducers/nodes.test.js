@@ -12,7 +12,8 @@ import {
   HAS_ERRORS,
   INDEX_NODES,
   ADD_NODE_TRANSACTION,
-  UPDATE_NODE_TRANSACTION_STATUS
+  UPDATE_NODE_TRANSACTION_STATUS,
+  SET_NODE_TRANSACTION_IS_SYNCING
 } from '../../app/actions/nodes'
 import { uuid, uuid1, uuid2, uuid3, uuid4, uuid5 } from '../uuid'
 import date from '../date'
@@ -489,6 +490,43 @@ describe('nodes reducer', () => {
           }
         })
       })
+    })
+  })
+
+  describe('SET_NODE_TRANSACTION_IS_SYNCING', () => {
+
+    it('CREATE', () => {
+      const transaction = {
+        uuid: uuidv4(),
+        node: uuid,
+        type: 'CREATE',
+        status: 'PENDING',
+        auth: { user: 'johndoe' },
+        modified: date,
+        created: date
+      }
+      const nodes = [
+        {
+          uuid,
+          data: { title: 'John Doe' },
+          transactions: [transaction],
+          nodes: [uuid1]
+        }
+      ]
+      const state = {
+        isSyncing: false,
+        hasErrors: false,
+        nodes
+      }
+
+      const state2 = reducer(state, {
+        type: SET_NODE_TRANSACTION_IS_SYNCING,
+        data: {
+          transaction,
+          isSyncing: true
+        }
+      })
+      expect(state2.nodes[0].transactions[0].isSyncing).toBe(true)
     })
   })
 })

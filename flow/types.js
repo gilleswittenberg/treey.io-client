@@ -39,14 +39,16 @@ type NodesActionType =
   'INDEX_NODES' |
   'GET_NODES' |
   'ADD_NODE_TRANSACTION' |
-  'UPDATE_NODE_TRANSACTION_STATUS'
+  'UPDATE_NODE_TRANSACTION_STATUS' |
+  'SET_NODE_TRANSACTION_IS_SYNCING'
 
 export type NodesAction = {
   type: NodesActionType,
   data: {
     nodes?: Nodes,
     transaction?: Transaction,
-    status?: TransactionStatus
+    status?: TransactionStatus,
+    isSyncing?: boolean
   }
 }
 
