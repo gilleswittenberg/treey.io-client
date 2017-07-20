@@ -35,42 +35,36 @@ describe('nodes reducer', () => {
       uuid,
       data: { title: 'John Doe' },
       transactions: [],
-      ui: {},
       nodes: [uuid1, uuid2],
       user: ''
     }, {
       uuid: uuid1,
       data: { title: 'ToDo' },
       transactions: [],
-      ui: {},
       nodes: [],
       user: ''
     }, {
       uuid: uuid2,
       data: { title: 'clean the house' },
       transactions: [],
-      ui: {},
       nodes: [uuid3, uuid4, uuid5],
       user: ''
     }, {
       uuid: uuid3,
       data: { title: 'Star Wars: Episode IV - A New Hope (1977)' },
       transactions: [],
-      ui: {},
       nodes: [],
       user: ''
     }, {
       uuid: uuid4,
       data: { title: 'The Terminator (1984)' },
       transactions: [],
-      ui: {},
       nodes: [],
       user: ''
     }, {
       uuid: uuid5,
       data: { title: 'The Matrix (1999)' },
       transactions: [],
-      ui: {},
       nodes: [],
       user: ''
     }]
@@ -123,7 +117,6 @@ describe('nodes reducer', () => {
               modified: date,
               created: date
             }],
-            ui: {},
             user: 'user1'
           }
         ]
@@ -167,7 +160,6 @@ describe('nodes reducer', () => {
               modified: date,
               created: date
             }],
-            ui: {},
             user: 'user1',
             nodes: [uuid1]
           }
@@ -216,7 +208,6 @@ describe('nodes reducer', () => {
                 modified: date,
                 created: date
               }],
-              ui: {},
               user: 'user1',
               nodes: []
             }
@@ -271,7 +262,6 @@ describe('nodes reducer', () => {
                   created: date
                 }
               ],
-              ui: {},
               user: 'user1',
               nodes: [uuid1]
             }
@@ -322,7 +312,6 @@ describe('nodes reducer', () => {
               uuid,
               data: { title: 'John Doe' },
               transactions: [transaction],
-              ui: {},
               nodes: [uuid1]
             }
           ]
@@ -358,7 +347,6 @@ describe('nodes reducer', () => {
               uuid,
               data: { title: 'John Doe' },
               transactions: [transaction],
-              ui: {},
               user: 'user1',
               nodes: [uuid1]
             }
