@@ -25,6 +25,7 @@ export default {
   SIGN_OUT: 'sign out',
   SIGN_OUT_FAILED: 'sign out failed',
   STATUS: 'status',
+  SYNCING: 'syncing',
   TRANSACTIONS: 'Transactions',
   TRANSACTIONS_EMPTY: 'No transactions in this session',
   TYPE: 'type',

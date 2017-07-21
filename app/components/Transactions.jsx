@@ -28,6 +28,7 @@ export default class Transactions extends Component {
                 <th>{ __(lang, 'NODE') }</th>
                 <th>{ __(lang, 'TYPE') }</th>
                 <th>{ __(lang, 'STATUS') }</th>
+                <th>{ __(lang, 'SYNCING') }</th>
                 <th>{ __(lang, 'MODIFIED') }</th>
                 <th>{ __(lang, 'CREATED') }</th>
               </tr>
@@ -44,6 +45,7 @@ export default class Transactions extends Component {
                   <td>{ transaction.node }</td>
                   <td>{ transaction.type }</td>
                   <td>{ transaction.status }</td>
+                  <td>{ transaction.isSyncing ? '&hellip;' : '-' }</td>
                   <td>{ transaction.modified ? transaction.modified.toString() : '-' }</td>
                   <td>{ transaction.created ? transaction.created.toString() : '-' }</td>
                 </tr>
