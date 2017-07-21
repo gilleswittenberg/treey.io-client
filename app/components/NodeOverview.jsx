@@ -25,7 +25,7 @@ export default class NodeOverview extends Component {
     } = this.props
     const user = auth ? auth.user : '-'
     const dataKeys = Object.keys(data)
-    const transactionsProps = { lang, transactions }
+    const transactionsProps = { lang, transactions, showNode: false }
     const hasNodes = nodes.length > 0
     return (
       <div>

@@ -9,11 +9,16 @@ export default class Transactions extends Component {
 
   static propTypes = {
     lang: PropTypes.string.isRequired,
-    transactions: PropTypes.array.isRequired
+    transactions: PropTypes.array.isRequired,
+    showNode: PropTypes.bool
+  }
+
+  static defaultProps = {
+    showNode: true
   }
 
   render () {
-    const { lang, transactions } = this.props
+    const { lang, transactions, showNode } = this.props
     const transactionsIsEmpty = transactions.length === 0
     const transactionsEffective = setTransactionsEffective(transactions)
     const transactionsReversed = transactionsEffective.reverse()
@@ -25,7 +30,7 @@ export default class Transactions extends Component {
             <thead>
               <tr>
                 <th>{ __(lang, 'UUID') }</th>
-                <th>{ __(lang, 'NODE') }</th>
+                { showNode && <th>{ __(lang, 'NODE') }</th> }
                 <th>{ __(lang, 'TYPE') }</th>
                 <th>{ __(lang, 'STATUS') }</th>
                 <th>{ __(lang, 'SYNCING') }</th>
@@ -42,7 +47,7 @@ export default class Transactions extends Component {
               return (
                 <tr key={ transaction.uuid } className={ className }>
                   <td>{ transaction.uuid }</td>
-                  <td>{ transaction.node }</td>
+                  { showNode && <td>{ transaction.node }</td> }
                   <td>{ transaction.type }</td>
                   <td>{ transaction.status }</td>
                   <td>{ transaction.isSyncing ? '&hellip;' : '-' }</td>
