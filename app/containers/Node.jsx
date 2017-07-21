@@ -2,6 +2,7 @@
 
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
+import getActions from '../lib/ui/actions'
 import NavBack from '../components/NavBack'
 import NodeOverview from '../components/NodeOverview'
 
@@ -16,14 +17,17 @@ class Node extends React.Component {
   render () {
 
     const {
+      dispatch,
       app: { lang },
       nodes: { nodes },
       params: { uuid }
     } = this.props
 
+    const actions = getActions(dispatch)
+
     const navBackProps = { lang }
     const node = nodes.find(node => node.uuid === uuid)
-    const nodeOverviewProps = { lang, node }
+    const nodeOverviewProps = { lang, node, ...actions }
 
     return (
       <div className="wrap">

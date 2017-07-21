@@ -3,7 +3,7 @@
 import React, { Component, PropTypes } from 'react'
 import __ from '../lib/utils/i18n'
 import setTransactionsEffective from '../lib/node/setTransactionsEffective'
-import classNames from 'classnames'
+import TransactionRow from './TransactionRow'
 
 export default class Transactions extends Component {
 
@@ -18,10 +18,12 @@ export default class Transactions extends Component {
   }
 
   render () {
-    const { lang, transactions, showNode } = this.props
+
+    const { lang, transactions, showNode, syncTransaction } = this.props
     const transactionsIsEmpty = transactions.length === 0
     const transactionsEffective = setTransactionsEffective(transactions)
     const transactionsReversed = transactionsEffective.reverse()
+
     return (
       <div className="transactions">
         <h1>{ __(lang, 'TRANSACTIONS') }</h1>
@@ -36,26 +38,14 @@ export default class Transactions extends Component {
                 <th>{ __(lang, 'SYNCING') }</th>
                 <th>{ __(lang, 'MODIFIED') }</th>
                 <th>{ __(lang, 'CREATED') }</th>
+                <th>{ __(lang, 'ACTIONS') }</th>
               </tr>
             </thead>
             <tbody>
             { transactionsReversed.map(transaction => {
-              const className =  classNames({
-                '-non-effective': transaction.effective === false,
-                '-is-denied': transaction.status === 'DENIED'
-              })
-              return (
-                <tr key={ transaction.uuid } className={ className }>
-                  <td>{ transaction.uuid }</td>
-                  { showNode && <td>{ transaction.node }</td> }
-                  <td>{ transaction.type }</td>
-                  <td>{ transaction.status }</td>
-                  <td>{ transaction.isSyncing ? '&hellip;' : '-' }</td>
-                  <td>{ transaction.modified ? transaction.modified.toString() : '-' }</td>
-                  <td>{ transaction.created ? transaction.created.toString() : '-' }</td>
-                </tr>
-              )}
-            ) }
+              const transactionRowProps = { lang, transaction, showNode, syncTransaction }
+              return (<TransactionRow key={ transaction.uuid } { ...transactionRowProps }></TransactionRow>)
+            }) }
             </tbody>
           </table>
         }

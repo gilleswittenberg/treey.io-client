@@ -176,6 +176,13 @@ export const move = (path: TreePath, newPath: TreePath, before?: NodeId) => {
   ]
 }
 
+export const syncTransaction = (transaction: Transaction) => {
+  // Guard
+  if (transaction.status !== 'PENDING') return
+  const transactions = [transaction]
+  return postTransactions(transactions)
+}
+
 const postTransactions = (transactions: Transactions) => {
 
   return (dispatch: (action: any) => void) => {

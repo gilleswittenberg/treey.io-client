@@ -21,11 +21,12 @@ export default class NodeOverview extends Component {
         data,
         nodes = [],
         transactions = []
-      }
+      },
+      syncTransaction
     } = this.props
     const user = auth ? auth.user : '-'
     const dataKeys = Object.keys(data)
-    const transactionsProps = { lang, transactions, showNode: false }
+    const transactionsProps = { lang, transactions, showNode: false, syncTransaction }
     const hasNodes = nodes.length > 0
     return (
       <div>

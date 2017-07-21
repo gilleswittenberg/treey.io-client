@@ -1,4 +1,5 @@
 export default {
+  ACTIONS: 'actions',
   ADD: 'add',
   AUTHENTICATION_FAILED_MESSAGE: 'Invalid username, password combination',
   AUTHENTICATION_ERROR_MESSAGE: 'Authentication error',
@@ -25,8 +26,9 @@ export default {
   SIGN_OUT: 'sign out',
   SIGN_OUT_FAILED: 'sign out failed',
   STATUS: 'status',
+  SYNC: 'sync',
   SYNCING: 'syncing',
-  TRANSACTIONS: 'Transactions',
+  TRANSACTIONS: 'transactions',
   TRANSACTIONS_EMPTY: 'No transactions in this session',
   TYPE: 'type',
   USER: 'user',
