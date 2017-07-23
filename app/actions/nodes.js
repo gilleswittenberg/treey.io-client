@@ -21,29 +21,28 @@ export const UPDATE_NODE_TRANSACTION_STATUS = 'UPDATE_NODE_TRANSACTION_STATUS'
 export const SET_NODE_TRANSACTION_IS_SYNCING = 'SET_NODE_TRANSACTION_IS_SYNCING'
 
 // Action creators
-// @TODO: Specify return type (NodesAction)
-export const startSyncing = () => {
+export const startSyncing = () : NodesAction => {
   return {
-    type: START_SYNCING
+    type: START_SYNCING,
+    data: {}
   }
 }
 
-// @TODO: Specify return type (NodesAction)
-export const stopSyncing = () => {
+export const stopSyncing = () : NodesAction => {
   return {
-    type: STOP_SYNCING
+    type: STOP_SYNCING,
+    data: {}
   }
 }
 
-// @TODO: Specify return type (NodesAction)
-export const hasErrors = () => {
+export const hasErrors = () : NodesAction => {
   return {
-    type: HAS_ERRORS
+    type: HAS_ERRORS,
+    data: {}
   }
 }
 
-// @TODO: Specify return type (NodesAction)
-export const indexNodes = (nodes: Nodes) => {
+export const indexNodes = (nodes: Nodes) : NodesAction => {
   return {
     type: INDEX_NODES,
     data: {
@@ -87,8 +86,7 @@ export const getNodes = (rootNode: NodeId) => {
   }
 }
 
-// @TODO: Specify return type (NodesAction)
-export const addNodeTransaction = (transaction: Transaction) => {
+export const addNodeTransaction = (transaction: Transaction) : NodesAction => {
   return {
     type: ADD_NODE_TRANSACTION,
     data: {
@@ -97,8 +95,7 @@ export const addNodeTransaction = (transaction: Transaction) => {
   }
 }
 
-// @TODO: Specify return type (NodesAction)
-export const updateNodeTransactionStatus = (transaction: Transaction, status: TransactionStatus) => {
+export const updateNodeTransactionStatus = (transaction: Transaction, status: TransactionStatus) : NodesAction => {
   return {
     type: UPDATE_NODE_TRANSACTION_STATUS,
     data: {
@@ -108,8 +105,7 @@ export const updateNodeTransactionStatus = (transaction: Transaction, status: Tr
   }
 }
 
-// @TODO: Specify return type (NodesAction)
-export const setNodeTransactionIsSyncing = (transaction: Transaction, isSyncing: boolean) => {
+export const setNodeTransactionIsSyncing = (transaction: Transaction, isSyncing: boolean) : NodesAction => {
   return {
     type: SET_NODE_TRANSACTION_IS_SYNCING,
     data: {
