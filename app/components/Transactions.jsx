@@ -19,7 +19,7 @@ export default class Transactions extends Component {
 
   render () {
 
-    const { lang, transactions, showNode, syncTransaction } = this.props
+    const { lang, transactions, showNode, syncTransaction, cancelTransaction } = this.props
     const transactionsIsEmpty = transactions.length === 0
     const transactionsEffective = setTransactionsEffective(transactions)
     const transactionsReversed = transactionsEffective.reverse()
@@ -43,7 +43,7 @@ export default class Transactions extends Component {
             </thead>
             <tbody>
             { transactionsReversed.map(transaction => {
-              const transactionRowProps = { lang, transaction, showNode, syncTransaction }
+              const transactionRowProps = { lang, transaction, showNode, syncTransaction, cancelTransaction }
               return (<TransactionRow key={ transaction.uuid } { ...transactionRowProps }></TransactionRow>)
             }) }
             </tbody>

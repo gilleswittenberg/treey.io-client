@@ -1,7 +1,8 @@
 /* @flow */
 
-import fetch from 'isomorphic-fetch'
 import type { TreePath, Nodes, NodeId, NodeData, Transactions, Transaction, TransactionStatus } from '../../flow/tree'
+import type { NodesAction } from '../../flow/types'
+import fetch from 'isomorphic-fetch'
 import { getParentFromTreePath, getNodeFromTreePath } from '../lib/tree/TreeUtils'
 import createTransaction from '../lib/node/createTransaction'
 import { initUIRoot, unsetUIExpanded } from './ui'
@@ -20,24 +21,28 @@ export const UPDATE_NODE_TRANSACTION_STATUS = 'UPDATE_NODE_TRANSACTION_STATUS'
 export const SET_NODE_TRANSACTION_IS_SYNCING = 'SET_NODE_TRANSACTION_IS_SYNCING'
 
 // Action creators
+// @TODO: Specify return type (NodesAction)
 export const startSyncing = () => {
   return {
     type: START_SYNCING
   }
 }
 
+// @TODO: Specify return type (NodesAction)
 export const stopSyncing = () => {
   return {
     type: STOP_SYNCING
   }
 }
 
+// @TODO: Specify return type (NodesAction)
 export const hasErrors = () => {
   return {
     type: HAS_ERRORS
   }
 }
 
+// @TODO: Specify return type (NodesAction)
 export const indexNodes = (nodes: Nodes) => {
   return {
     type: INDEX_NODES,
@@ -47,6 +52,7 @@ export const indexNodes = (nodes: Nodes) => {
   }
 }
 
+// @TODO: Specify return type
 export const getNodes = (rootNode: NodeId) => {
   return (dispatch: (action: any) => void) => {
     dispatch(startSyncing())
@@ -81,6 +87,7 @@ export const getNodes = (rootNode: NodeId) => {
   }
 }
 
+// @TODO: Specify return type (NodesAction)
 export const addNodeTransaction = (transaction: Transaction) => {
   return {
     type: ADD_NODE_TRANSACTION,
@@ -90,6 +97,7 @@ export const addNodeTransaction = (transaction: Transaction) => {
   }
 }
 
+// @TODO: Specify return type (NodesAction)
 export const updateNodeTransactionStatus = (transaction: Transaction, status: TransactionStatus) => {
   return {
     type: UPDATE_NODE_TRANSACTION_STATUS,
@@ -100,6 +108,7 @@ export const updateNodeTransactionStatus = (transaction: Transaction, status: Tr
   }
 }
 
+// @TODO: Specify return type (NodesAction)
 export const setNodeTransactionIsSyncing = (transaction: Transaction, isSyncing: boolean) => {
   return {
     type: SET_NODE_TRANSACTION_IS_SYNCING,
@@ -110,6 +119,7 @@ export const setNodeTransactionIsSyncing = (transaction: Transaction, isSyncing:
   }
 }
 
+// @TODO: Specify return type (?NodesAction[])
 export const create = (parentPath: TreePath, data: NodeData) => {
   const transaction0 = createTransaction('CREATE')
   const node = transaction0.node
@@ -124,6 +134,7 @@ export const create = (parentPath: TreePath, data: NodeData) => {
   ]
 }
 
+// @TODO: Specify return type (?NodesAction[])
 export const update = (path: TreePath, data: NodeData) => {
 
   const node = getNodeFromTreePath(path)
@@ -139,6 +150,7 @@ export const update = (path: TreePath, data: NodeData) => {
   ]
 }
 
+// @TODO: Specify return type (?NodesAction[])
 export const remove = (path: TreePath) => {
 
   const parent = getParentFromTreePath(path)
@@ -156,6 +168,7 @@ export const remove = (path: TreePath) => {
   ]
 }
 
+// @TODO: Specify return type (?NodesAction[])
 export const move = (path: TreePath, newPath: TreePath, before?: NodeId) => {
 
   const node = getNodeFromTreePath(path)
@@ -176,6 +189,7 @@ export const move = (path: TreePath, newPath: TreePath, before?: NodeId) => {
   ]
 }
 
+// @TODO: Specify return type (?NodesAction)
 export const syncTransaction = (transaction: Transaction) => {
   // Guard
   if (transaction.status !== 'PENDING') return
@@ -183,6 +197,13 @@ export const syncTransaction = (transaction: Transaction) => {
   return postTransactions(transactions)
 }
 
+export const cancelTransaction = (transaction: Transaction) : ?NodesAction => {
+  // Guard
+  if (transaction.status !== 'PENDING' || transaction.isSyncing === true) return
+  return updateNodeTransactionStatus(transaction, 'CANCELLED')
+}
+
+// @TODO: Specify return type
 const postTransactions = (transactions: Transactions) => {
 
   // Only post PENDING transactions

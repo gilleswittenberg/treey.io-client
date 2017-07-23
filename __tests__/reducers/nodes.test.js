@@ -490,6 +490,55 @@ describe('nodes reducer', () => {
           }
         })
       })
+
+      describe('CANCELLED', () => {
+
+        it('SET', () => {
+          const transaction0 = {
+            uuid: uuidv4(),
+            node: uuid,
+            type: 'SET',
+            status: 'COMMITTED',
+            data: { title: 'John Doe' },
+            modified: date,
+            created: date
+          }
+          const transaction1 = {
+            uuid: uuidv4(),
+            node: uuid,
+            type: 'SET',
+            status: 'PENDING',
+            data: { title: 'John Doe denied' },
+            isSyncing: false,
+            modified: date,
+            created: date
+          }
+          const nodes = [
+            {
+              uuid,
+              data: { title: 'John Doe denied' },
+              transactions: [transaction0, transaction1],
+              auth: { user: 'user1' },
+              nodes: []
+            }
+          ]
+          const state = {
+            isSyncing: false,
+            hasErrors: false,
+            nodes
+          }
+
+          const state2 = reducer(state, {
+            type: UPDATE_NODE_TRANSACTION_STATUS,
+            data: {
+              transaction: transaction1,
+              status: 'CANCELLED'
+            }
+          })
+          expect(state2.nodes[0].transactions[1].status).toEqual('CANCELLED')
+          expect(state2.nodes[0].data.title).toEqual('John Doe')
+        })
+      })
     })
   })
 

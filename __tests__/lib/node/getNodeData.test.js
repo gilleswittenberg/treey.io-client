@@ -96,4 +96,31 @@ describe('getNodeData', () => {
     const nodeData = getNodeData([transaction0, transaction1])
     expect(nodeData).toEqual({ title: 'Title' })
   })
+
+  it('status CANCELLED', () => {
+    const transaction0 = {
+      uuid,
+      node: uuid1,
+      type: 'SET',
+      status: 'COMMITTED',
+      data: {
+        title: 'Title'
+      },
+      modified: date,
+      created: date
+    }
+    const transaction1 = {
+      uuid,
+      node: uuid1,
+      type: 'SET',
+      status: 'CANCELLED',
+      data: {
+        title: 'Title last'
+      },
+      modified: date,
+      created: date
+    }
+    const nodeData = getNodeData([transaction0, transaction1])
+    expect(nodeData).toEqual({ title: 'Title' })
+  })
 })

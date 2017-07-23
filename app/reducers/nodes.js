@@ -108,8 +108,8 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
             }
           }
 
-          // Transaction denied, rollback
-          else if (status === 'DENIED') {
+          // Transaction cancelled or denied, rollback
+          else if (status === 'CANCELLED' || status === 'DENIED') {
             const transactions = nodes.getIn([index, 'transactions']).toJS()
             switch (transaction.type) {
             case 'CREATE':

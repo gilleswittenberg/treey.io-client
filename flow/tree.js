@@ -30,7 +30,7 @@ export type NodeData = {
 
 export type TransactionId = UUID
 export type TransactionType = 'CREATE' | 'SET' | 'ADD_CHILD' | 'REMOVE_CHILD'
-export type TransactionStatus = 'PENDING' | 'DENIED' | 'COMMITTED' | 'UNDONE'
+export type TransactionStatus = 'PENDING' | 'DENIED' | 'COMMITTED' | 'CANCELLED' | 'UNDONE'
 export type Transaction = {
   uuid: TransactionId,
   node: NodeId,

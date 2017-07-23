@@ -4,6 +4,7 @@ export default {
   AUTHENTICATION_FAILED_MESSAGE: 'Invalid username, password combination',
   AUTHENTICATION_ERROR_MESSAGE: 'Authentication error',
   BACK: 'back',
+  CANCEL: 'cancel',
   CREATED: 'created',
   DATA: 'data',
   DELETE: 'delete',

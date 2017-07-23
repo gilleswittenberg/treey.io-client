@@ -16,6 +16,7 @@ import {
   updateNodeTransactionStatus,
   setNodeTransactionIsSyncing,
   syncTransaction,
+  cancelTransaction,
   create,
   update,
   remove,
@@ -289,6 +290,61 @@ describe('nodes actions', () => {
           expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')
           expect(lastAction.data.status).toEqual('COMMITTED')
         })
+      })
+    })
+
+    describe('cancelTransaction', () => {
+
+      it('guard status is PENDING, not syncing', () => {
+
+        const transaction = {
+          uuid,
+          node: uuid,
+          type: 'SET',
+          data: { title: 'Title' },
+          status: 'COMMITTED',
+          isSyncing: false,
+          modified: date,
+          created: date
+        }
+        expect(cancelTransaction(transaction)).not.toBeDefined()
+      })
+
+      it('guard status is PENDING, not syncing', () => {
+
+        const transaction = {
+          uuid,
+          node: uuid,
+          type: 'SET',
+          data: { title: 'Title' },
+          status: 'PENDING',
+          isSyncing: true,
+          modified: date,
+          created: date
+        }
+        expect(cancelTransaction(transaction)).not.toBeDefined()
+      })
+
+      it('calls updateNodeTransactionStatus', () => {
+
+        const transaction = {
+          uuid,
+          node: uuid,
+          type: 'SET',
+          data: { title: 'Title' },
+          status: 'PENDING',
+          isSyncing: false,
+          modified: date,
+          created: date
+        }
+
+        const action = cancelTransaction(transaction)
+        expect(action).toBeDefined()
+        if (action != null) {
+          expect(action.type).toBe('UPDATE_NODE_TRANSACTION_STATUS')
+          expect(action.data.transaction).toEqual(transaction)
+          expect(action.data.status).toEqual('CANCELLED')
+        }
       })
     })
 

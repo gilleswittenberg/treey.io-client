@@ -4,10 +4,10 @@ import type { Transactions, NodeData } from '../../../flow/tree'
 
 export default (transactions: Transactions) : ?NodeData => {
   const setTransactions = transactions.filter(transaction => transaction.type === 'SET')
-  const nonDeniedTransactions = setTransactions.filter(transaction => transaction.status !== 'DENIED')
-  if (nonDeniedTransactions.length === 0) {
+  const appliedTransactions = setTransactions.filter(transaction => transaction.status !== 'DENIED' && transaction.status !== 'CANCELLED')
+  if (appliedTransactions.length === 0) {
     return null
   }
-  const l = nonDeniedTransactions.length
-  return nonDeniedTransactions[l - 1].data
+  const l = appliedTransactions.length
+  return appliedTransactions[l - 1].data
 }
