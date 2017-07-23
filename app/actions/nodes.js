@@ -185,11 +185,17 @@ export const syncTransaction = (transaction: Transaction) => {
 
 const postTransactions = (transactions: Transactions) => {
 
+  // Only post PENDING transactions
+  const transactionsPending = transactions.filter(transaction => transaction.status === 'PENDING')
+
+  // Guard
+  if (transactionsPending.length === 0) return
+
   return (dispatch: (action: any) => void) => {
     // Global syncing
     dispatch(startSyncing())
     // Transactions syncing
-    transactions.forEach(transaction => dispatch(setNodeTransactionIsSyncing(transaction, true)))
+    transactionsPending.forEach(transaction => dispatch(setNodeTransactionIsSyncing(transaction, true)))
     // POST request
     const url = `${ host }/nodes/transactions`
     const options = fetchOptions('POST', { transactions })
@@ -205,7 +211,7 @@ const postTransactions = (transactions: Transactions) => {
       .then(
         json => {
           dispatch(stopSyncing())
-          transactions.forEach(transaction => dispatch(setNodeTransactionIsSyncing(transaction, false)))
+          transactionsPending.forEach(transaction => dispatch(setNodeTransactionIsSyncing(transaction, false)))
           // Guard
           if (!Array.isArray(json.transactions)) return
           json.transactions.forEach(transaction => {
@@ -217,7 +223,7 @@ const postTransactions = (transactions: Transactions) => {
         },
         () => {
           dispatch(stopSyncing())
-          transactions.forEach(transaction => dispatch(setNodeTransactionIsSyncing(transaction, false)))
+          transactionsPending.forEach(transaction => dispatch(setNodeTransactionIsSyncing(transaction, false)))
           dispatch(hasErrors())
         }
       )
