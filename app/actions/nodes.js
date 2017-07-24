@@ -199,6 +199,19 @@ export const cancelTransaction = (transaction: Transaction) : ?NodesAction => {
   return updateNodeTransactionStatus(transaction, 'CANCELLED')
 }
 
+// @TODO: Specify return type (?NodesAction[])
+export const revertTransaction = (transaction: Transaction) => {
+  // Guard
+  if (transaction.status !== 'COMMITTED') return
+  const node = transaction.node
+  const uuid = transaction.uuid
+  const revertTransaction = createTransaction('REVERT', undefined, undefined, node, undefined, uuid)
+  return [
+    addNodeTransaction(revertTransaction),
+    postTransactions([revertTransaction])
+  ]
+}
+
 // @TODO: Specify return type
 const postTransactions = (transactions: Transactions) => {
 

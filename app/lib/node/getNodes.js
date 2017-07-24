@@ -6,7 +6,13 @@ export default (transactions: Transactions) : NodeId[] => {
   const nodes = []
   const childTransactions = transactions.filter(transaction => transaction.type === 'ADD_CHILD' || transaction.type === 'REMOVE_CHILD')
   const appliedTransactions = childTransactions.filter(transaction => transaction.status !== 'DENIED' && transaction.status !== 'CANCELLED')
+  const revertTransactions = transactions.filter(transaction => transaction.type === 'REVERT' && transaction.status !== 'DENIED' && transaction.status !== 'CANCELLED')
   appliedTransactions.forEach(transaction => {
+
+    // Check if transaction is reverted
+    const isReverted = revertTransactions.find(t => t.transaction === transaction.uuid) !== undefined
+    if (isReverted) return
+
     switch (transaction.type) {
     case 'ADD_CHILD': {
       const before = transaction.before

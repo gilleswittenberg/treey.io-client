@@ -27,6 +27,12 @@ export default class TransactionRow extends Component {
     return cancelTransaction(transaction)
   }
 
+  @autobind
+  handleSubmitRevert () {
+    const { revertTransaction, transaction } = this.props
+    return revertTransaction(transaction)
+  }
+
   render () {
 
     const { lang, transaction, showNode } = this.props
@@ -36,6 +42,7 @@ export default class TransactionRow extends Component {
     })
     const showSyncButton = transaction.isSyncing === false && transaction.status === 'PENDING'
     const showCancelButton = showSyncButton
+    const showRevertButton = transaction.status === 'COMMITTED'
 
     return (
       <tr className={ className }>
@@ -46,8 +53,11 @@ export default class TransactionRow extends Component {
         <td>{ transaction.isSyncing ? '&hellip;' : '-' }</td>
         <td>{ transaction.modified ? transaction.modified.toString() : '-' }</td>
         <td>{ transaction.created ? transaction.created.toString() : '-' }</td>
-        <td>{ showSyncButton && <button onClick={ this.handleSubmitSync }>{ __(lang, 'SYNC') }</button> }</td>
-        <td>{ showCancelButton && <button onClick={ this.handleSubmitCancel }>{ __(lang, 'CANCEL') }</button> }</td>
+        <td>
+          { showSyncButton && <button onClick={ this.handleSubmitSync }>{ __(lang, 'SYNC') }</button> }
+          { showCancelButton && <button onClick={ this.handleSubmitCancel }>{ __(lang, 'CANCEL') }</button> }
+          { showRevertButton && <button onClick={ this.handleSubmitRevert }>{ __(lang, 'REVERT') }</button> }
+        </td>
       </tr>
     )
   }

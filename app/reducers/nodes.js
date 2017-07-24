@@ -72,7 +72,19 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
         case 'REMOVE_CHILD':
           nodes = nodes.setIn([index, 'nodes'], getNodes(transactions))
           break
-        }
+
+        // Revert transaction
+        case 'REVERT': {
+          const revertedTransaction = transactions.find(t => t.uuid === transaction.transaction)
+          if (revertedTransaction != null) {
+            if (revertedTransaction.type === 'SET') {
+              nodes = nodes.setIn([index, 'data'], getNodeData(transactions))
+            } else if (revertedTransaction.type === 'ADD_CHILD' || revertedTransaction.type === 'REMOVE_CHILD') {
+              nodes = nodes.setIn([index, 'nodes'], getNodes(transactions))
+            }
+          }
+          break
+        }}
       }
       else {
         // @TODO: log error, feedback for non existing node
@@ -122,6 +134,17 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
             case 'REMOVE_CHILD':
               nodes = nodes.setIn([index, 'nodes'], getNodes(transactions))
               break
+            case 'REVERT': {
+              const revertedTransaction = transactions.find(t => t.uuid === transaction.transaction)
+              if (revertedTransaction != null) {
+                if (revertedTransaction.type === 'SET') {
+                  nodes = nodes.setIn([index, 'data'], getNodeData(transactions))
+                } else if (revertedTransaction.type === 'ADD_CHILD' || revertedTransaction.type === 'REMOVE_CHILD') {
+                  nodes = nodes.setIn([index, 'nodes'], getNodes(transactions))
+                }
+              }
+              break
+            }
             }
           }
 

@@ -17,6 +17,7 @@ import {
   setNodeTransactionIsSyncing,
   syncTransaction,
   cancelTransaction,
+  revertTransaction,
   create,
   update,
   remove,
@@ -344,6 +345,43 @@ describe('nodes actions', () => {
           expect(action.type).toBe('UPDATE_NODE_TRANSACTION_STATUS')
           expect(action.data.transaction).toEqual(transaction)
           expect(action.data.status).toEqual('CANCELLED')
+        }
+      })
+    })
+
+    describe('revertTransaction', () => {
+
+      it('guard status is COMMITTED', () => {
+
+        const transaction = {
+          uuid,
+          node: uuid,
+          type: 'SET',
+          data: { title: 'Title' },
+          status: 'PENDING',
+          modified: date,
+          created: date
+        }
+        expect(revertTransaction(transaction)).not.toBeDefined()
+      })
+
+      it('calls addNodeTransaction, postTransactions', () => {
+
+        const transaction = {
+          uuid,
+          node: uuid,
+          type: 'SET',
+          data: { title: 'Title' },
+          status: 'COMMITTED',
+          modified: date,
+          created: date
+        }
+
+        const actions = revertTransaction(transaction)
+        expect(actions).toBeDefined()
+        if (actions != null) {
+          expect(actions.length).toBe(2)
+          expect(actions[0].type).toBe('ADD_NODE_TRANSACTION')
         }
       })
     })

@@ -1,9 +1,9 @@
 /* @flow */
 
-import type { Transaction, TransactionType, NodeData, NodeId } from '../../../flow/tree'
+import type { Transaction, TransactionType, NodeData, NodeId, TransactionId } from '../../../flow/tree'
 import uuidv4 from 'uuid/v4'
 
-export default (type: TransactionType, uuid?: NodeId, nodeData?: NodeData, child?: NodeId, before?: NodeId) : Transaction => {
+export default (type: TransactionType, uuid?: NodeId, nodeData?: NodeData, child?: NodeId, before?: NodeId, revertTransaction?: TransactionId) : Transaction => {
 
   const date = new Date()
 
@@ -32,6 +32,10 @@ export default (type: TransactionType, uuid?: NodeId, nodeData?: NodeData, child
     transaction.type = 'ADD_CHILD'
     transaction.child = child
     transaction.before = before
+    break
+  case 'REVERT':
+    transaction.type = 'REVERT'
+    transaction.transaction = revertTransaction
     break
   }
 

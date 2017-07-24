@@ -72,4 +72,19 @@ describe('createTransaction', () => {
       expect(transaction.modified).toEqual(transaction.created)
     })
   })
+
+  describe('REVERT', () => {
+
+    it('valid', () => {
+      const transaction = createTransaction('REVERT', uuid, undefined, undefined, undefined, uuid1)
+      expect(transaction.type).toBe('REVERT')
+      expect(transaction.uuid.length).toBe(36)
+      expect(transaction.status).toBe('PENDING')
+      expect(transaction.node).toEqual(uuid)
+      expect(transaction.transaction).toEqual(uuid1)
+      expect(transaction.modified).toBeInstanceOf(Date)
+      expect(transaction.created).toBeInstanceOf(Date)
+      expect(transaction.modified).toEqual(transaction.created)
+    })
+  })
 })
