@@ -172,4 +172,45 @@ describe('getNodeData', () => {
     const nodes = getNodes([transaction0, transaction1, transaction2])
     expect(nodes).toEqual([uuid2])
   })
+
+  it('revert REVERT', () => {
+    const transaction0 = {
+      uuid,
+      node: uuid1,
+      type: 'ADD_CHILD',
+      status: 'COMMITTED',
+      child: uuid2,
+      modified: date,
+      created: date
+    }
+    const transaction1 = {
+      uuid: uuid1,
+      node: uuid1,
+      type: 'ADD_CHILD',
+      status: 'COMMITTED',
+      child: uuid3,
+      modified: date,
+      created: date
+    }
+    const transaction2 = {
+      uuid: uuid2,
+      node: uuid1,
+      type: 'REVERT',
+      status: 'PENDING',
+      transaction: uuid1,
+      modified: date,
+      created: date
+    }
+    const transaction3 = {
+      uuid: uuid3,
+      node: uuid1,
+      type: 'REVERT',
+      status: 'PENDING',
+      transaction: uuid2,
+      modified: date,
+      created: date
+    }
+    const nodes = getNodes([transaction0, transaction1, transaction2, transaction3])
+    expect(nodes).toEqual([uuid2, uuid3])
+  })
 })
