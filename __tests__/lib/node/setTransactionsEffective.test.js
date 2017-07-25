@@ -66,4 +66,14 @@ describe('effectiveTransactions', () => {
       expect(effectiveTransactions[3].effective).toBe(false)
     })
   })
+
+  describe('REVERT', () => {
+
+    it('not effective', () => {
+      const transaction = createTransaction('REVERT', uuid, undefined, undefined, uuid)
+      const transactions = [transaction]
+      const effectiveTransactions = setTransactionsEffective(transactions)
+      expect(effectiveTransactions[0].effective).toBe(false)
+    })
+  })
 })

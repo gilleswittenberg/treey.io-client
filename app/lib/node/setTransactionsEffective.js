@@ -7,6 +7,7 @@ export default (transactions: Transactions) : Transactions => {
   effectiveTransactions = setCREATE(transactions)
   effectiveTransactions = setSET(effectiveTransactions)
   effectiveTransactions = setCHILDREN(effectiveTransactions)
+  effectiveTransactions = setREVERT(effectiveTransactions)
   return effectiveTransactions
 }
 
@@ -52,4 +53,13 @@ const setCHILDREN = (transactions: Transactions) : Transactions => {
     }
     return transaction
   }).reverse()
+}
+
+const setREVERT = (transactions: Transactions) : Transactions => {
+  return transactions.map(transaction => {
+    if (transaction.type === 'REVERT') {
+      transaction.effective = false
+    }
+    return transaction
+  })
 }

@@ -36,6 +36,7 @@ export default class Transactions extends Component {
                 <th>{ __(lang, 'TYPE') }</th>
                 <th>{ __(lang, 'STATUS') }</th>
                 <th>{ __(lang, 'SYNCING') }</th>
+                <th>{ __(lang, 'REVERTED') }</th>
                 <th>{ __(lang, 'MODIFIED') }</th>
                 <th>{ __(lang, 'CREATED') }</th>
                 <th>{ __(lang, 'ACTIONS') }</th>

@@ -45,6 +45,7 @@ export type Transaction = {
   transaction?: TransactionId,
   effective?: boolean,
   isSyncing?: boolean,
+  isReverted?: boolean,
   modified: Date,
   created: Date
 }

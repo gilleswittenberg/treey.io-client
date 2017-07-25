@@ -38,7 +38,8 @@ export default class TransactionRow extends Component {
     const { lang, transaction, showNode } = this.props
     const className =  classNames({
       '-non-effective': transaction.effective === false,
-      '-is-denied': transaction.status === 'DENIED'
+      '-is-denied': transaction.status === 'DENIED',
+      '-is-cancelled': transaction.status === 'CANCELLED' || transaction.isReverted
     })
     const showSyncButton = transaction.isSyncing === false && transaction.status === 'PENDING'
     const showCancelButton = showSyncButton
@@ -50,7 +51,8 @@ export default class TransactionRow extends Component {
         { showNode && <td>{ transaction.node }</td> }
         <td>{ transaction.type }</td>
         <td>{ transaction.status }</td>
-        <td>{ transaction.isSyncing ? '&hellip;' : '-' }</td>
+        <td>{ transaction.isSyncing ? __(lang, 'TRUE') : '-' }</td>
+        <td>{ transaction.isReverted ? __(lang, 'TRUE') : '-' }</td>
         <td>{ transaction.modified ? transaction.modified.toString() : '-' }</td>
         <td>{ transaction.created ? transaction.created.toString() : '-' }</td>
         <td>
