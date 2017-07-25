@@ -44,7 +44,7 @@ export default class TransactionRow extends Component {
     })
     const showSyncButton = transaction.isSyncing === false && transaction.status === 'PENDING'
     const showCancelButton = showSyncButton
-    const showRevertButton = transaction.status === 'COMMITTED'
+    const showRevertButton = transaction.status === 'COMMITTED' && transaction.isReverted !== true
 
     return (
       <tr className={ className }>
