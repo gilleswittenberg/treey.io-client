@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react'
 import __ from '../lib/utils/i18n'
-import setTransactionsEffective from '../lib/node/setTransactionsEffective'
+import setTransactionsIsOverridden from '../lib/node/setTransactionsIsOverridden'
 import TransactionRow from './TransactionRow'
 
 export default class Transactions extends Component {
@@ -21,8 +21,8 @@ export default class Transactions extends Component {
 
     const { lang, transactions, showNode, syncTransaction, cancelTransaction } = this.props
     const transactionsIsEmpty = transactions.length === 0
-    const transactionsEffective = setTransactionsEffective(transactions)
-    const transactionsReversed = transactionsEffective.reverse()
+    const transactionsIsOverridden = setTransactionsIsOverridden(transactions)
+    const transactionsReversed = transactionsIsOverridden.reverse()
 
     return (
       <div className="transactions">

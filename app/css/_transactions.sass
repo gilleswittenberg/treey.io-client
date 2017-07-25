@@ -7,9 +7,10 @@
     text-align: left
 
   tr
-    &.-non-effective
+    &.-is-overridden,
+    &.-is-revert
       opacity: 0.15
-    &.-invalid, &.-is-denied
+    &.-is-denied
       color: $red
     &.-is-cancelled
       text-decoration: line-through

@@ -37,8 +37,9 @@ export default class TransactionRow extends Component {
 
     const { lang, transaction, showNode } = this.props
     const className =  classNames({
-      '-non-effective': transaction.effective === false,
+      '-is-revert': transaction.type === 'REVERT',
       '-is-denied': transaction.status === 'DENIED',
+      '-is-overridden': transaction.isOverridden === true,
       '-is-cancelled': transaction.status === 'CANCELLED' || transaction.isReverted
     })
     const showSyncButton = transaction.isSyncing === false && transaction.status === 'PENDING'
