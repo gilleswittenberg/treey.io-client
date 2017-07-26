@@ -20,7 +20,8 @@ import {
   setUIDragging,
   clearUIDragging,
   setUIButtonsShown,
-  clearUIButtonsShown
+  clearUIButtonsShown,
+  initUIRoot
 } from '../../app/actions/ui'
 
 import { uuid, uuid1 } from '../uuid'
@@ -188,6 +189,28 @@ describe('actions ui', () => {
       const lastAction = store.getActions().pop()
       expect(lastAction.type).toEqual('UNSET_UI_KEY')
       expect(lastAction.data.key).toEqual('dragging')
+    })
+  })
+
+  describe('initUIRoot', () => {
+
+    it('empty nodes', () => {
+      expect(initUIRoot([])).toBeUndefined()
+    })
+
+    it('actions', () => {
+      const nodes = [{
+        uuid,
+        data: { title: 'John Doe' },
+        transactions: []
+      }]
+      const store = mockStore({ tree: null })
+      store.dispatch(initUIRoot(nodes))
+      const lastAction = store.getActions().pop()
+      const secondLastAction = store.getActions().pop()
+      expect(lastAction.type).toBe('SET_UI_KEY')
+      expect(secondLastAction.type).toBe('SET_EXPANDED')
+      expect(secondLastAction.data.treePath).toEqual([uuid])
     })
   })
 })
