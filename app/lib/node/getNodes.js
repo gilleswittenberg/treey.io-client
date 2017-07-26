@@ -10,29 +10,33 @@ export default (transactions: Transactions) : NodeId[] => {
   const nonRevertedRevertTransactions = revertTransactions.filter(transaction => revertTransactions.find(t => t.transaction === transaction.uuid) === undefined)
   appliedTransactions.forEach(transaction => {
 
-    // Check if transaction is reverted
     const isReverted = nonRevertedRevertTransactions.find(t => t.transaction === transaction.uuid) !== undefined
-    if (isReverted) return
 
     switch (transaction.type) {
     case 'ADD_CHILD': {
       const before = transaction.before
       const child = transaction.child
       // Guard
-      if (child == null) { break }
-      const index = before != null ? nodes.findIndex(node => node === transaction.before) : -1
+      if (child == null) break
+      const node = {
+        uuid: child,
+        isReverted
+      }
+      const index = before != null ? nodes.findIndex(n => n.uuid === before) : -1
       if (index > -1) {
-        nodes.splice(index, 0, child)
+        nodes.splice(index, 0, node)
       } else {
-        nodes.push(child)
+        nodes.push(node)
       }
       break
     }
     case 'REMOVE_CHILD': {
+      // Guard isReverted
+      if (isReverted) break
       const child = transaction.child
-      // Guard
-      if (child == null) { break }
-      const index = nodes.findIndex(node => node === child)
+      // Guard non existing child
+      if (child == null) break
+      const index = nodes.findIndex(n => n.uuid === child)
       if (index > -1) {
         nodes.splice(index, 1)
       }
@@ -40,5 +44,5 @@ export default (transactions: Transactions) : NodeId[] => {
     }
     }
   })
-  return nodes
+  return nodes.filter(n => n.isReverted === false).map(n => n.uuid)
 }
