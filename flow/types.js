@@ -108,5 +108,6 @@ export type UIAction = {
     key?: UIKey
   }
 }
+export type UIActions = UIAction[]
 
 export type HoverRegion = 'top' | 'bottom'
