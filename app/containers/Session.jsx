@@ -27,7 +27,7 @@ class Session extends React.Component {
     const navBackProps = { lang }
     const transactions = nodes.reduce((prev, node) => prev.concat(node.transactions), [])
     const transactionsFiltered = transactions.filter(transaction => transaction.created != null)
-    const transactionsSorted = transactionsFiltered.sort((a, b) => new Date(b.created) - new Date(a.created))
+    const transactionsSorted = transactionsFiltered.sort((a, b) => new Date(a.created) - new Date(b.created))
     const transactionsProps = { lang, transactions: transactionsSorted, ...actions }
 
     return (
