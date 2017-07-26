@@ -39,10 +39,10 @@ describe('actions ui', () => {
 
       const lastAction = store.getActions().pop()
       const secondLastAction = store.getActions().pop()
-      expect(lastAction.type).toEqual('UNSET_UI_KEY')
-      expect(lastAction.data.key).toEqual('adding')
-      expect(lastAction.type).toEqual('UNSET_UI_KEY')
-      expect(secondLastAction.data.key).toEqual('editing')
+      expect(lastAction.type).toBe('UNSET_UI_KEY')
+      expect(lastAction.data.key).toBe('adding')
+      expect(lastAction.type).toBe('UNSET_UI_KEY')
+      expect(secondLastAction.data.key).toBe('editing')
     })
   })
 
@@ -54,10 +54,10 @@ describe('actions ui', () => {
 
       const lastAction = store.getActions().pop()
       const secondLastAction = store.getActions().pop()
-      expect(lastAction.type).toEqual('SET_UI_KEY')
+      expect(lastAction.type).toBe('SET_UI_KEY')
       expect(lastAction.data.treePath).toEqual([uuid, uuid1])
       expect(lastAction.data.key).toBe('active')
-      expect(secondLastAction.type).toEqual('SET_UI_KEY')
+      expect(secondLastAction.type).toBe('SET_UI_KEY')
       expect(secondLastAction.data.treePath).toEqual([uuid, uuid1])
       expect(secondLastAction.data.key).toBe('editing')
     })
@@ -71,10 +71,10 @@ describe('actions ui', () => {
 
       const lastAction = store.getActions().pop()
       const secondLastAction = store.getActions().pop()
-      expect(lastAction.type).toEqual('SET_UI_KEY')
+      expect(lastAction.type).toBe('SET_UI_KEY')
       expect(lastAction.data.treePath).toEqual([uuid, uuid1])
       expect(lastAction.data.key).toBe('active')
-      expect(secondLastAction.type).toEqual('SET_UI_KEY')
+      expect(secondLastAction.type).toBe('SET_UI_KEY')
       expect(secondLastAction.data.treePath).toEqual([uuid, uuid1])
       expect(secondLastAction.data.key).toBe('adding')
     })
@@ -87,7 +87,7 @@ describe('actions ui', () => {
       store.dispatch(setUIActive([uuid, uuid1]))
 
       const lastAction = store.getActions().pop()
-      expect(lastAction.type).toEqual('SET_UI_KEY')
+      expect(lastAction.type).toBe('SET_UI_KEY')
       expect(lastAction.data.treePath).toEqual([uuid, uuid1])
       expect(lastAction.data.key).toBe('active')
     })
@@ -100,7 +100,7 @@ describe('actions ui', () => {
       store.dispatch(setUIExpanded([uuid, uuid1]))
 
       const lastAction = store.getActions().pop()
-      expect(lastAction.type).toEqual('SET_EXPANDED')
+      expect(lastAction.type).toBe('SET_EXPANDED')
       expect(lastAction.data.treePath).toEqual([uuid, uuid1])
     })
   })
@@ -112,7 +112,7 @@ describe('actions ui', () => {
       store.dispatch(unsetUIExpanded([uuid, uuid1]))
 
       const lastAction = store.getActions().pop()
-      expect(lastAction.type).toEqual('UNSET_EXPANDED')
+      expect(lastAction.type).toBe('UNSET_EXPANDED')
       expect(lastAction.data.treePath).toEqual([uuid, uuid1])
     })
   })
@@ -124,7 +124,7 @@ describe('actions ui', () => {
       store.dispatch(setUIMovingChild([uuid, uuid1]))
 
       const lastAction = store.getActions().pop()
-      expect(lastAction.type).toEqual('SET_UI_KEY')
+      expect(lastAction.type).toBe('SET_UI_KEY')
       expect(lastAction.data.treePath).toEqual([uuid, uuid1])
       expect(lastAction.data.key).toBe('movingChild')
     })
@@ -137,8 +137,8 @@ describe('actions ui', () => {
       store.dispatch(clearUIMovingChild())
 
       const lastAction = store.getActions().pop()
-      expect(lastAction.type).toEqual('UNSET_UI_KEY')
-      expect(lastAction.data.key).toEqual('movingChild')
+      expect(lastAction.type).toBe('UNSET_UI_KEY')
+      expect(lastAction.data.key).toBe('movingChild')
     })
   })
 
@@ -149,7 +149,7 @@ describe('actions ui', () => {
       store.dispatch(setUIButtonsShown([uuid, uuid1]))
 
       const lastAction = store.getActions().pop()
-      expect(lastAction.type).toEqual('SET_UI_KEY')
+      expect(lastAction.type).toBe('SET_UI_KEY')
       expect(lastAction.data.treePath).toEqual([uuid, uuid1])
       expect(lastAction.data.key).toBe('buttonsShown')
     })
@@ -162,8 +162,8 @@ describe('actions ui', () => {
       store.dispatch(clearUIButtonsShown())
 
       const lastAction = store.getActions().pop()
-      expect(lastAction.type).toEqual('UNSET_UI_KEY')
-      expect(lastAction.data.key).toEqual('buttonsShown')
+      expect(lastAction.type).toBe('UNSET_UI_KEY')
+      expect(lastAction.data.key).toBe('buttonsShown')
     })
   })
 
@@ -174,7 +174,7 @@ describe('actions ui', () => {
       store.dispatch(setUIDragging([uuid, uuid1]))
 
       const lastAction = store.getActions().pop()
-      expect(lastAction.type).toEqual('SET_UI_KEY')
+      expect(lastAction.type).toBe('SET_UI_KEY')
       expect(lastAction.data.treePath).toEqual([uuid, uuid1])
       expect(lastAction.data.key).toBe('dragging')
     })
@@ -187,8 +187,8 @@ describe('actions ui', () => {
       store.dispatch(clearUIDragging())
 
       const lastAction = store.getActions().pop()
-      expect(lastAction.type).toEqual('UNSET_UI_KEY')
-      expect(lastAction.data.key).toEqual('dragging')
+      expect(lastAction.type).toBe('UNSET_UI_KEY')
+      expect(lastAction.data.key).toBe('dragging')
     })
   })
 
