@@ -53,7 +53,10 @@ export const setUIEditing = (treePath: TreePath) => {
 
 // @TODO: Specify return type
 export const setUIAdding = (treePath: TreePath) => {
-  return setUIKey('adding', treePath)
+  return [
+    setUIKey('adding', treePath),
+    setUIActive(treePath)
+  ]
 }
 
 // @TODO: Specify return type

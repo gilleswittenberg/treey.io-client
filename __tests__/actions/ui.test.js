@@ -4,12 +4,10 @@
 declare var describe: any
 declare var it: any
 declare var expect: any
-declare var afterEach: any
 
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import multi from 'redux-multi'
-import nock from 'nock'
 import {
   clearUIEditingAdding,
   setUIEditing,
@@ -32,173 +30,170 @@ const mockStore = configureMockStore(middlewares)
 
 describe('actions ui', () => {
 
-  afterEach(() => {
-    nock.cleanAll()
+  describe('clearUIEditingAdding', () => {
+
+    it('actions', () => {
+
+      const store = mockStore({ tree: null })
+
+      store.dispatch(clearUIEditingAdding())
+      const lastAction = store.getActions().pop()
+      const secondLastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual('UNSET_UI_KEY')
+      expect(lastAction.data.key).toEqual('adding')
+      expect(lastAction.type).toEqual('UNSET_UI_KEY')
+      expect(secondLastAction.data.key).toEqual('editing')
+    })
   })
 
-  describe('ui', () => {
+  describe('setUIEditing', () => {
 
-    describe('clearUIEditingAdding', () => {
+    it('actions', () => {
 
-      it('action', () => {
+      const store = mockStore({ tree: null })
 
-        const store = mockStore({ tree: null })
-
-        store.dispatch(clearUIEditingAdding())
-        const lastAction = store.getActions().pop()
-        const secondLastAction = store.getActions().pop()
-        expect(lastAction.type).toEqual('UNSET_UI_KEY')
-        expect(lastAction.data.key).toEqual('adding')
-        expect(lastAction.type).toEqual('UNSET_UI_KEY')
-        expect(secondLastAction.data.key).toEqual('editing')
-      })
+      store.dispatch(setUIEditing([uuid, uuid1]))
+      const lastAction = store.getActions().pop()
+      const secondLastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual('SET_UI_KEY')
+      expect(lastAction.data.treePath).toEqual([uuid, uuid1])
+      expect(lastAction.data.key).toBe('active')
+      expect(secondLastAction.type).toEqual('SET_UI_KEY')
+      expect(secondLastAction.data.treePath).toEqual([uuid, uuid1])
+      expect(secondLastAction.data.key).toBe('editing')
     })
+  })
 
-    describe('setUIEditing', () => {
+  describe('setUIAdding', () => {
 
-      it('actions', () => {
+    it('actions', () => {
 
-        const store = mockStore({ tree: null })
+      const store = mockStore({ tree: null })
 
-        store.dispatch(setUIEditing([uuid, uuid1]))
-        const lastAction = store.getActions().pop()
-        const secondLastAction = store.getActions().pop()
-        expect(lastAction.type).toEqual('SET_UI_KEY')
-        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
-        expect(lastAction.data.key).toBe('active')
-        expect(secondLastAction.type).toEqual('SET_UI_KEY')
-        expect(secondLastAction.data.treePath).toEqual([uuid, uuid1])
-        expect(secondLastAction.data.key).toBe('editing')
-      })
+      store.dispatch(setUIAdding([uuid, uuid1]))
+      const lastAction = store.getActions().pop()
+      const secondLastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual('SET_UI_KEY')
+      expect(lastAction.data.treePath).toEqual([uuid, uuid1])
+      expect(lastAction.data.key).toBe('active')
+      expect(secondLastAction.type).toEqual('SET_UI_KEY')
+      expect(secondLastAction.data.treePath).toEqual([uuid, uuid1])
+      expect(secondLastAction.data.key).toBe('adding')
     })
+  })
 
-    describe('setUIAdding', () => {
+  describe('setUIExpanded', () => {
 
-      it('actions', () => {
+    it('actions', () => {
 
-        const store = mockStore({ tree: null })
+      const store = mockStore({ tree: null })
 
-        store.dispatch(setUIAdding([uuid, uuid1]))
-        const lastAction = store.getActions().pop()
-        expect(lastAction.type).toEqual('SET_UI_KEY')
-        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
-        expect(lastAction.data.key).toBe('adding')
-      })
+      store.dispatch(setUIExpanded([uuid, uuid1]))
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual('SET_EXPANDED')
+      expect(lastAction.data.treePath).toEqual([uuid, uuid1])
     })
+  })
 
-    describe('setUIExpanded', () => {
+  describe('unsetUIExpanded', () => {
 
-      it('actions', () => {
+    it('actions', () => {
 
-        const store = mockStore({ tree: null })
+      const store = mockStore({ tree: null })
 
-        store.dispatch(setUIExpanded([uuid, uuid1]))
-        const lastAction = store.getActions().pop()
-        expect(lastAction.type).toEqual('SET_EXPANDED')
-        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
-      })
+      store.dispatch(unsetUIExpanded([uuid, uuid1]))
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual('UNSET_EXPANDED')
+      expect(lastAction.data.treePath).toEqual([uuid, uuid1])
     })
+  })
 
-    describe('unsetUIExpanded', () => {
+  describe('clearUIMovingChild', () => {
 
-      it('actions', () => {
-
-        const store = mockStore({ tree: null })
-
-        store.dispatch(unsetUIExpanded([uuid, uuid1]))
-        const lastAction = store.getActions().pop()
-        expect(lastAction.type).toEqual('UNSET_EXPANDED')
-        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
-      })
+    it('actions', () => {
+      const store = mockStore({ tree: null })
+      store.dispatch(clearUIMovingChild())
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual('UNSET_UI_KEY')
+      expect(lastAction.data.key).toEqual('movingChild')
     })
+  })
 
-    describe('clearUIMovingChild', () => {
+  describe('clearUIButtonsShown', () => {
 
-      it('actions', () => {
-        const store = mockStore({ tree: null })
-        store.dispatch(clearUIMovingChild())
-        const lastAction = store.getActions().pop()
-        expect(lastAction.type).toEqual('UNSET_UI_KEY')
-        expect(lastAction.data.key).toEqual('movingChild')
-      })
+    it('actions', () => {
+      const store = mockStore({ tree: null })
+      store.dispatch(clearUIButtonsShown())
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual('UNSET_UI_KEY')
+      expect(lastAction.data.key).toEqual('buttonsShown')
     })
+  })
 
-    describe('clearUIButtonsShown', () => {
+  describe('clearUIDragging', () => {
 
-      it('actions', () => {
-        const store = mockStore({ tree: null })
-        store.dispatch(clearUIButtonsShown())
-        const lastAction = store.getActions().pop()
-        expect(lastAction.type).toEqual('UNSET_UI_KEY')
-        expect(lastAction.data.key).toEqual('buttonsShown')
-      })
+    it('actions', () => {
+      const store = mockStore({ tree: null })
+      store.dispatch(clearUIDragging())
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual('UNSET_UI_KEY')
+      expect(lastAction.data.key).toEqual('dragging')
     })
+  })
 
-    describe('clearUIDragging', () => {
+  describe('setUIMovingChild', () => {
 
-      it('actions', () => {
-        const store = mockStore({ tree: null })
-        store.dispatch(clearUIDragging())
-        const lastAction = store.getActions().pop()
-        expect(lastAction.type).toEqual('UNSET_UI_KEY')
-        expect(lastAction.data.key).toEqual('dragging')
-      })
+    it('actions', () => {
+
+      const store = mockStore({ tree: null })
+
+      store.dispatch(setUIMovingChild([uuid, uuid1]))
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual('SET_UI_KEY')
+      expect(lastAction.data.treePath).toEqual([uuid, uuid1])
+      expect(lastAction.data.key).toBe('movingChild')
     })
+  })
 
-    describe('setUIMovingChild', () => {
+  describe('setUIDragging', () => {
 
-      it('actions', () => {
+    it('actions', () => {
 
-        const store = mockStore({ tree: null })
+      const store = mockStore({ tree: null })
 
-        store.dispatch(setUIMovingChild([uuid, uuid1]))
-        const lastAction = store.getActions().pop()
-        expect(lastAction.type).toEqual('SET_UI_KEY')
-        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
-        expect(lastAction.data.key).toBe('movingChild')
-      })
+      store.dispatch(setUIDragging([uuid, uuid1]))
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual('SET_UI_KEY')
+      expect(lastAction.data.treePath).toEqual([uuid, uuid1])
+      expect(lastAction.data.key).toBe('dragging')
     })
+  })
 
-    describe('setUIDragging', () => {
+  describe('setUIActive', () => {
 
-      it('actions', () => {
+    it('action', () => {
 
-        const store = mockStore({ tree: null })
+      const store = mockStore({ tree: null })
 
-        store.dispatch(setUIDragging([uuid, uuid1]))
-        const lastAction = store.getActions().pop()
-        expect(lastAction.type).toEqual('SET_UI_KEY')
-        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
-        expect(lastAction.data.key).toBe('dragging')
-      })
+      store.dispatch(setUIActive([uuid, uuid1]))
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual('SET_UI_KEY')
+      expect(lastAction.data.treePath).toEqual([uuid, uuid1])
+      expect(lastAction.data.key).toBe('active')
     })
+  })
 
-    describe('setUIActive', () => {
+  describe('setUIButtonsShown', () => {
 
-      it('actions', () => {
+    it('action', () => {
 
-        const store = mockStore({ tree: null })
+      const store = mockStore({ tree: null })
 
-        store.dispatch(setUIActive([uuid, uuid1]))
-        const lastAction = store.getActions().pop()
-        expect(lastAction.type).toEqual('SET_UI_KEY')
-        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
-        expect(lastAction.data.key).toBe('active')
-      })
-    })
-
-    describe('setUIButtonsShown', () => {
-
-      it('actions', () => {
-
-        const store = mockStore({ tree: null })
-
-        store.dispatch(setUIButtonsShown([uuid, uuid1]))
-        const lastAction = store.getActions().pop()
-        expect(lastAction.type).toEqual('SET_UI_KEY')
-        expect(lastAction.data.treePath).toEqual([uuid, uuid1])
-        expect(lastAction.data.key).toBe('buttonsShown')
-      })
+      store.dispatch(setUIButtonsShown([uuid, uuid1]))
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toEqual('SET_UI_KEY')
+      expect(lastAction.data.treePath).toEqual([uuid, uuid1])
+      expect(lastAction.data.key).toBe('buttonsShown')
     })
   })
 })
