@@ -30,7 +30,7 @@ import { uuid, uuid1 } from '../uuid'
 const middlewares = [thunk, multi]
 const mockStore = configureMockStore(middlewares)
 
-describe('ui actions', () => {
+describe('actions ui', () => {
 
   afterEach(() => {
     nock.cleanAll()
@@ -62,9 +62,13 @@ describe('ui actions', () => {
 
         store.dispatch(setUIEditing([uuid, uuid1]))
         const lastAction = store.getActions().pop()
+        const secondLastAction = store.getActions().pop()
         expect(lastAction.type).toEqual('SET_UI_KEY')
         expect(lastAction.data.treePath).toEqual([uuid, uuid1])
-        expect(lastAction.data.key).toBe('editing')
+        expect(lastAction.data.key).toBe('active')
+        expect(secondLastAction.type).toEqual('SET_UI_KEY')
+        expect(secondLastAction.data.treePath).toEqual([uuid, uuid1])
+        expect(secondLastAction.data.key).toBe('editing')
       })
     })
 

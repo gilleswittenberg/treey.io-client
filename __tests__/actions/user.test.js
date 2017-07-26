@@ -18,7 +18,7 @@ const mockStore = configureMockStore(middlewares)
 const hostname = /treey\.io/
 import { uuid } from '../uuid'
 
-describe('user actions', () => {
+describe('actions user', () => {
 
   afterEach(() => {
     nock.cleanAll()
