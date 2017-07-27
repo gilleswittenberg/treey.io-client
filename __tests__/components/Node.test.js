@@ -89,6 +89,18 @@ describe('Node', () => {
       wrapper.find('.node-content').simulate('click')
       expect(setUIActive.mock.calls.length).toBe(1)
     })
+
+    it('root', () => {
+      const setUIExpanded = jest.fn()
+      const clearUIEditingAdding = jest.fn()
+      const setUIActive = jest.fn()
+      const wrapper = mount(getComponent({ treePath: [uuid], setUIExpanded, clearUIEditingAdding, setUIActive, hasNodes: true, isRoot: true, ui: { expanded: { '0': [uuid] } } }))
+      wrapper.find('.node-content').simulate('click')
+      expect(setUIExpanded.mock.calls.length).toBe(0)
+      expect(clearUIEditingAdding.mock.calls.length).toBe(1)
+      expect(setUIActive.mock.calls.length).toBe(1)
+    })
+
   })
 
   describe('startIsEditing', () => {

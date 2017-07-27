@@ -57,7 +57,7 @@ export default class Node extends Component {
 
     event.stopPropagation()
 
-    const { clearUIEditingAdding, setUIEditing, setUIExpanded, unsetUIExpanded, setUIActive, treePath } = this.props
+    const { clearUIEditingAdding, setUIEditing, setUIExpanded, setUIActive, treePath } = this.props
     const isExpanded = this.isExpanded()
 
     // Alt key to edit
@@ -68,7 +68,7 @@ export default class Node extends Component {
     else {
       clearUIEditingAdding()
       if (isExpanded) {
-        unsetUIExpanded(treePath)
+        this.collapse()
       } else if (this.canExpand()) {
         setUIExpanded(treePath)
       }
@@ -111,7 +111,6 @@ export default class Node extends Component {
     const {
       treePath,
       setUIExpanded,
-      unsetUIExpanded,
       setUIEditing,
       setUIAdding
     } = this.props
@@ -128,7 +127,7 @@ export default class Node extends Component {
     switch (event.keyCode) {
     case 37: // Left arrow
       event.preventDefault()
-      unsetUIExpanded(treePath)
+      this.collapse()
       break
     case 39: // Right arrow
       event.preventDefault()
@@ -157,6 +156,14 @@ export default class Node extends Component {
     if (isRoot === true) return
     remove(treePath)
     setUIActive(getPrevActive(nodesArray, active, expanded))
+  }
+
+  @autobind
+  collapse () {
+    const { treePath, unsetUIExpanded, isRoot } = this.props
+    if (!isRoot) {
+      unsetUIExpanded(treePath)
+    }
   }
 
   canExpand () : bool {
