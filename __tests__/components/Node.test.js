@@ -7,7 +7,7 @@ declare var expect: any
 declare var jest: any
 
 import Node from '../../app/components/Node'
-import { mount } from 'enzyme'
+import { mount, shallow } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
 import getMockEvent from '../getMockEvent'
@@ -36,6 +36,7 @@ describe('Node', () => {
     hasNodes: false,
     siblings: [{ uuid, ui }],
     index: 0,
+    nodesArray: [],
 
     clearUIEditingAdding: noop,
     setUIEditing: noop,
@@ -130,6 +131,18 @@ describe('Node', () => {
       const mockEvent =  getMockEvent()
       wrapper.find('.button-icon-more').simulate('click', mockEvent)
       expect(setUIButtonsShown.mock.calls.length).toBe(1)
+    })
+  })
+
+  describe('remove', () => {
+
+    it('remove', () => {
+      const remove = jest.fn()
+      const setUIActive = jest.fn()
+      const wrapper = shallow(getComponent({ remove, setUIActive }))
+      wrapper.instance().remove([])
+      expect(remove.mock.calls.length).toBe(1)
+      expect(setUIActive.mock.calls.length).toBe(1)
     })
   })
 })

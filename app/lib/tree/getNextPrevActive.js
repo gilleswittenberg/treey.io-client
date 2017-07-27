@@ -37,6 +37,10 @@ export const getNextActive = (nodesArray: Nodes, indices: TreePath, expanded: an
 
 export const getPrevActive = (nodesArray: Nodes, indices: TreePath, expanded: any) : TreePath => {
 
+  // Guards
+  if (nodesArray.length === 0) return []
+  if (indices == null) return []
+
   const nodes = getNodesAtIndices(nodesArray, indices)
 
   if (nodes.length >= 2) {
@@ -69,6 +73,8 @@ const findNode = (nodes, uuid) => {
 }
 
 const getNodesAtIndices = (nodes, indices) => {
+  // Guard
+  if (indices == null) return []
   return indices.map(uuid => findNode(nodes, uuid))
 }
 

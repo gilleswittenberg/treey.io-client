@@ -1,5 +1,7 @@
 /* @flow */
 
+import type { TreePath } from '../../flow/tree'
+
 import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
@@ -9,6 +11,7 @@ import NodeDraggable from './NodeDraggable'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 import arraysEqual from '../lib/utils/arraysEqual'
 import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
+import { getPrevActive } from '../lib/tree/getNextPrevActive'
 
 export default class Node extends Component {
 
@@ -40,6 +43,14 @@ export default class Node extends Component {
   }
 
   listeners = []
+
+  componentDidMount () {
+    window.addEventListener('keydown', this.handleKeyDown)
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('keydown', this.handleKeyDown)
+  }
 
   @autobind
   handleClick (event: Event) {
@@ -83,8 +94,8 @@ export default class Node extends Component {
   @autobind
   handleClickDelete (event: Event) {
     event.stopPropagation()
-    const { treePath, remove } = this.props
-    remove(treePath)
+    const { treePath } = this.props
+    this.remove(treePath)
   }
 
   @autobind
@@ -94,18 +105,16 @@ export default class Node extends Component {
     setUIButtonsShown(treePath)
   }
 
-  componentDidMount () {
-    window.addEventListener('keydown', this.handleKeyDown)
-  }
-
-  componentWillUnmount () {
-    window.removeEventListener('keydown', this.handleKeyDown)
-  }
-
   @autobind
   handleKeyDown (event: KeyboardEvent) {
 
-    const { treePath, setUIExpanded, unsetUIExpanded, setUIEditing, setUIAdding, remove } = this.props
+    const {
+      treePath,
+      setUIExpanded,
+      unsetUIExpanded,
+      setUIEditing,
+      setUIAdding
+    } = this.props
 
     // Guard
     const isActive = this.isUI('active')
@@ -131,7 +140,7 @@ export default class Node extends Component {
       break
     case 68: // D
       if (event.shiftKey) {
-        remove(treePath)
+        this.remove(treePath)
       }
       break
     case 187: // +
@@ -139,6 +148,13 @@ export default class Node extends Component {
       setUIAdding(treePath)
       break
     }
+  }
+
+  @autobind
+  remove (treePath: TreePath) {
+    const { remove, setUIActive, nodesArray, ui: { active, expanded } } = this.props
+    remove(treePath)
+    setUIActive(getPrevActive(nodesArray, active, expanded))
   }
 
   canExpand () : bool {
