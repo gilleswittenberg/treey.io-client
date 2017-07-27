@@ -158,4 +158,56 @@ describe('Node', () => {
       })
     })
   })
+
+  describe('canExpand', () => {
+
+    it('default', () => {
+      const wrapper = shallow(getComponent())
+      expect(wrapper.instance().canExpand()).toBe(false)
+    })
+
+    it('hasNodes', () => {
+      const wrapper = shallow(getComponent({ hasNodes: true }))
+      expect(wrapper.instance().canExpand()).toBe(true)
+    })
+  })
+
+  describe('isExpanded', () => {
+
+    it('default', () => {
+      const wrapper = shallow(getComponent())
+      expect(wrapper.instance().isExpanded()).toBe(false)
+    })
+
+    it('isExpanded', () => {
+      const wrapper = shallow(getComponent({ treePath: [uuid], ui: { expanded: { '0': [uuid] } } }))
+      expect(wrapper.instance().isExpanded()).toBe(true)
+    })
+  })
+
+  describe('isUI', () => {
+
+    it('default', () => {
+      const wrapper = shallow(getComponent())
+      expect(wrapper.instance().isUI('active')).toBe(false)
+    })
+
+    it('isUI', () => {
+      const wrapper = shallow(getComponent({ treePath: [uuid], ui: { active: [uuid] } }))
+      expect(wrapper.instance().isUI('active')).toBe(true)
+    })
+  })
+
+  describe('userIsDragging', () => {
+
+    it('default', () => {
+      const wrapper = shallow(getComponent())
+      expect(wrapper.instance().userIsDragging()).toBe(false)
+    })
+
+    it('dragging', () => {
+      const wrapper = shallow(getComponent({ ui: { dragging: [uuid] } }))
+      expect(wrapper.instance().userIsDragging()).toBe(true)
+    })
+  })
 })
