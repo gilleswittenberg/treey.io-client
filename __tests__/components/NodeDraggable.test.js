@@ -28,19 +28,16 @@ function wrapInTestContext (DecoratedComponent, props) {
 describe('NodeDraggable', () => {
 
   const defaultProps = {
-    parent: null,
     isRoot: true,
     uuid,
-    data: {
-      title: 'node draggable'
-    },
-    siblings: [{ uuid }],
-    index: 0,
+    treePath: [uuid],
+    data: { title: 'NodeDraggable' },
     clearUIEditingAdding: noop,
+    setUIActive: noop,
+    setUIDragging: noop,
     clearUIDragging: noop,
     handleClick: noop,
-    handleClickMore: noop,
-    setUIDragging: noop
+    handleClickMore: noop
   }
 
   it('canDrag', () => {

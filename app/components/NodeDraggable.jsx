@@ -10,9 +10,10 @@ const DragSpec = {
     return !props.isRoot
   },
   beginDrag (props) {
-    const { path, clearUIEditingAdding, setUIDragging } = props
+    const { treePath, clearUIEditingAdding, setUIActive, setUIDragging } = props
     clearUIEditingAdding()
-    setUIDragging(path)
+    setUIActive(treePath)
+    setUIDragging(treePath)
     return props
   },
   endDrag (props) {
@@ -25,12 +26,12 @@ const DragSpec = {
 export class NodeDraggable extends Component {
 
   static propTypes = {
-    parent: PropTypes.string,
     isRoot: PropTypes.bool.isRequired,
-    siblings: PropTypes.array.isRequired,
-    index: PropTypes.number.isRequired,
+    treePath: PropTypes.array.isRequired,
     uuid: PropTypes.string.isRequired,
+    data: PropTypes.object.isRequired,
     clearUIEditingAdding: PropTypes.func.isRequired,
+    setUIActive: PropTypes.func.isRequired,
     setUIDragging: PropTypes.func.isRequired,
     clearUIDragging: PropTypes.func.isRequired,
     // Injected by React DnD DragSource

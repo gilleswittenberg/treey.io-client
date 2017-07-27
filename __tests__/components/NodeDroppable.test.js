@@ -37,16 +37,12 @@ describe('NodeDroppable', () => {
   const ui = defaultUI
 
   const defaultPropsDraggable = {
-    parent: null,
     isRoot: false,
     uuid,
     treePath: [uuid],
-    data: {
-      title: 'node draggable'
-    },
-    ui,
-    siblings: [{ uuid }],
+    data: { title: 'node draggable' },
     index: 0,
+    siblings: [{ uuid }],
     setUIEditing: noop,
     clearUIEditingAdding: noop,
     setUIExpanded: noop,
@@ -54,6 +50,7 @@ describe('NodeDroppable', () => {
     clearUIMovingChild: noop,
     setUIDragging: noop,
     clearUIDragging: noop,
+    setUIActive: noop,
     handleClick: noop,
     handleClickMore: noop
   }

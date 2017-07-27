@@ -34,18 +34,14 @@ function wrapInTestContext (DecoratedDraggableComponent, DecoratedButtonMoveChil
 describe('ButtonMoveChild', () => {
 
   const defaultPropsDraggable = {
-    parent: null,
     isRoot: false,
     uuid,
-    data: {
-      title: 'node draggable'
-    },
-    ui: {},
-    siblings: [{ uuid }],
-    index: 0,
+    treePath: [uuid],
+    data: { title: 'NodeDraggable' },
     clearUIEditingAdding: noop,
     setUIDragging: noop,
     clearUIDragging: noop,
+    setUIActive: noop,
     handleClick: noop,
     handleClickMore: noop
   }
