@@ -108,20 +108,6 @@ describe('Node', () => {
     })
   })
 
-  describe('handleClickDelete', () => {
-
-    it('non root', () => {
-      const remove = jest.fn()
-      const wrapper = mount(getComponent({ remove }))
-      wrapper.find('.button-icon-delete').simulate('click')
-      expect(remove.mock.calls.length).toBe(1)
-    })
-
-    it('root', () => {
-      const wrapper = mount(getComponent({ isRoot: true }))
-      expect(wrapper.find('.button-icon-delete').length).toBe(0)
-    })
-  })
 
   describe('handleClickShowButtons', () => {
 
@@ -134,15 +120,42 @@ describe('Node', () => {
     })
   })
 
-  describe('remove', () => {
+  describe('delete', () => {
 
-    it('remove', () => {
-      const remove = jest.fn()
-      const setUIActive = jest.fn()
-      const wrapper = shallow(getComponent({ remove, setUIActive }))
-      wrapper.instance().remove([])
-      expect(remove.mock.calls.length).toBe(1)
-      expect(setUIActive.mock.calls.length).toBe(1)
+    describe('handleClickDelete', () => {
+
+      it('non root', () => {
+        const remove = jest.fn()
+        const wrapper = mount(getComponent({ remove }))
+        wrapper.find('.button-icon-delete').simulate('click')
+        expect(remove.mock.calls.length).toBe(1)
+      })
+
+      it('root', () => {
+        const wrapper = mount(getComponent({ isRoot: true }))
+        expect(wrapper.find('.button-icon-delete').length).toBe(0)
+      })
+    })
+
+    describe('remove', () => {
+
+      it('remove', () => {
+        const remove = jest.fn()
+        const setUIActive = jest.fn()
+        const wrapper = shallow(getComponent({ remove, setUIActive }))
+        wrapper.instance().remove([])
+        expect(remove.mock.calls.length).toBe(1)
+        expect(setUIActive.mock.calls.length).toBe(1)
+      })
+
+      it('root', () => {
+        const remove = jest.fn()
+        const setUIActive = jest.fn()
+        const wrapper = shallow(getComponent({ remove, setUIActive, isRoot: true }))
+        wrapper.instance().remove([])
+        expect(remove.mock.calls.length).toBe(0)
+        expect(setUIActive.mock.calls.length).toBe(0)
+      })
     })
   })
 })

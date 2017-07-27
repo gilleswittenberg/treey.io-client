@@ -152,7 +152,9 @@ export default class Node extends Component {
 
   @autobind
   remove (treePath: TreePath) {
-    const { remove, setUIActive, nodesArray, ui: { active, expanded } } = this.props
+    const { isRoot, remove, setUIActive, nodesArray, ui: { active, expanded } } = this.props
+    // Guard
+    if (isRoot === true) return
     remove(treePath)
     setUIActive(getPrevActive(nodesArray, active, expanded))
   }
