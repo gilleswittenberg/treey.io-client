@@ -10,10 +10,11 @@ import {
   SET_UI_KEY,
   UNSET_UI_KEY,
   SET_EXPANDED,
-  UNSET_EXPANDED
+  UNSET_EXPANDED,
+  UNSET_EXPANDED_DEEP
 } from '../../app/actions/ui'
 import defaultState from '../../app/lib/ui/defaultUI'
-import { uuid, uuid1 } from '../uuid'
+import { uuid, uuid1, uuid2, uuid3 } from '../uuid'
 
 describe('ui reducer', () => {
 
@@ -46,6 +47,12 @@ describe('ui reducer', () => {
   it('UNSET_EXPANDED', () => {
     const state = { ...defaultState, expanded: { '0': [uuid], '1': [uuid, uuid1] } }
     const state1 = reducer(state, { type: UNSET_EXPANDED, data: { treePath: [uuid, uuid1] } })
+    expect(state1.expanded).toEqual({ '0': [uuid] })
+  })
+
+  it('UNSET_EXPANDED_DEEP', () => {
+    const state = { ...defaultState, expanded: { '0': [uuid], '1': [uuid, uuid1], '3': [uuid, uuid1, uuid2], '4': [uuid, uuid1, uuid3] } }
+    const state1 = reducer(state, { type: UNSET_EXPANDED_DEEP, data: { treePath: [uuid, uuid1] } })
     expect(state1.expanded).toEqual({ '0': [uuid] })
   })
 })

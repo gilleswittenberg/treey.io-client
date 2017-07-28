@@ -9,6 +9,7 @@ export const SET_UI_KEY = 'SET_UI_KEY'
 export const UNSET_UI_KEY = 'UNSET_UI_KEY'
 export const SET_EXPANDED = 'SET_EXPANDED'
 export const UNSET_EXPANDED = 'UNSET_EXPANDED'
+export const UNSET_EXPANDED_DEEP = 'UNSET_EXPANDED_DEEP'
 
 // Action creators
 
@@ -68,6 +69,15 @@ export const setUIExpanded = (treePath: TreePath) : UIAction => {
 export const unsetUIExpanded = (treePath: TreePath) : UIAction => {
   return {
     type: UNSET_EXPANDED,
+    data: {
+      treePath
+    }
+  }
+}
+
+export const unsetUIExpandedDeep = (treePath: TreePath) : UIAction => {
+  return {
+    type: UNSET_EXPANDED_DEEP,
     data: {
       treePath
     }

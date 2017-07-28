@@ -101,7 +101,8 @@ type UIActionType =
   'SET_UI_KEY' |
   'UNSET_UI_KEY' |
   'SET_EXPANDED' |
-  'UNSET_EXPANDED'
+  'UNSET_EXPANDED' |
+  'UNSET_EXPANDED_DEEP'
 
 export type UIAction = {
   type: UIActionType,

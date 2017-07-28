@@ -5,7 +5,8 @@ import {
   SET_UI_KEY,
   UNSET_UI_KEY,
   SET_EXPANDED,
-  UNSET_EXPANDED
+  UNSET_EXPANDED,
+  UNSET_EXPANDED_DEEP
 } from '../actions/ui'
 import { fromJS } from 'immutable'
 import arraysEqual from '../lib/utils/arraysEqual'
@@ -78,6 +79,23 @@ export default function (state: UIState = defaultState, action: UIAction) : UISt
         }
       })
       const expanded = key != null ? (fromJS(state.expanded).delete(key)).toJS() : state.expanded
+      return { ...state, expanded }
+    }
+    return state
+
+  case UNSET_EXPANDED_DEEP:
+    if (action.data.treePath != null) {
+      const treePath = action.data.treePath
+      const keys = []
+      Object.keys(state.expanded).forEach(k => {
+        const expanded = state.expanded[k].slice(0, treePath.length)
+        if (arraysEqual(expanded, treePath)) {
+          keys.push(k)
+        }
+      })
+      let expanded = fromJS(state.expanded)
+      keys.forEach(key => expanded = expanded.delete(key))
+      expanded = expanded.toJS()
       return { ...state, expanded }
     }
     return state

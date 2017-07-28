@@ -456,6 +456,11 @@ describe('actions nodes', () => {
 
         const store = mockStore({ nodes: [] })
         const actions = store.dispatch(remove([uuid, uuid1]))
+        const actions0 = store.getActions()
+        for (let i = 0; i < 3; i++) actions0.pop()
+        const fourthLastAction = actions0.pop()
+        expect(fourthLastAction.type).toBe('UNSET_EXPANDED_DEEP')
+        expect(fourthLastAction.data.treePath).toEqual([uuid, uuid1])
         return actions[actions.length - 1].then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toBe('UPDATE_NODE_TRANSACTION_STATUS')
@@ -486,6 +491,9 @@ describe('actions nodes', () => {
         expect(sixthLastAction.type).toBe('SET_UI_KEY')
         expect(sixthLastAction.data.key).toBe('active')
         expect(sixthLastAction.data.treePath).toEqual([uuid1, uuid2])
+        const seventhLastAction = actions0.pop()
+        expect(seventhLastAction.type).toBe('UNSET_EXPANDED_DEEP')
+        expect(seventhLastAction.data.treePath).toEqual([uuid, uuid2])
         return actions[actions.length - 1].then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toBe('UPDATE_NODE_TRANSACTION_STATUS')

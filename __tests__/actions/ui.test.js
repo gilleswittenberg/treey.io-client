@@ -15,6 +15,7 @@ import {
   setUIActive,
   setUIExpanded,
   unsetUIExpanded,
+  unsetUIExpandedDeep,
   setUIMovingChild,
   clearUIMovingChild,
   setUIDragging,
@@ -113,6 +114,18 @@ describe('actions ui', () => {
 
       const lastAction = store.getActions().pop()
       expect(lastAction.type).toBe('UNSET_EXPANDED')
+      expect(lastAction.data.treePath).toEqual([uuid, uuid1])
+    })
+  })
+
+  describe('unsetUIExpandedDeep', () => {
+
+    it('actions', () => {
+      const store = mockStore({ tree: null })
+      store.dispatch(unsetUIExpandedDeep([uuid, uuid1]))
+
+      const lastAction = store.getActions().pop()
+      expect(lastAction.type).toBe('UNSET_EXPANDED_DEEP')
       expect(lastAction.data.treePath).toEqual([uuid, uuid1])
     })
   })
