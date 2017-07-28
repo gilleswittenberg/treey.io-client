@@ -160,8 +160,8 @@ export const remove = (path: TreePath) => {
   const transaction = createTransaction('REMOVE_CHILD', parent, undefined, node)
 
   return [
-    unsetUIExpandedDeep(path),
     addNodeTransaction(transaction),
+    unsetUIExpandedDeep(path),
     postTransactions([transaction])
   ]
 }
@@ -182,10 +182,10 @@ export const move = (path: TreePath, newPath: TreePath, before?: NodeId) => {
   const newActivePath = newPath.concat(node)
 
   return [
-    unsetUIExpandedDeep(path),
-    setUIActive(newActivePath),
     addNodeTransaction(transaction0),
     addNodeTransaction(transaction1),
+    unsetUIExpandedDeep(path),
+    setUIActive(newActivePath),
     postTransactions([transaction0, transaction1])
   ]
 }
