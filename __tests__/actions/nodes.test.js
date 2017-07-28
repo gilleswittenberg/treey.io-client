@@ -480,6 +480,12 @@ describe('actions nodes', () => {
 
         const store = mockStore({ nodes: [] })
         const actions = store.dispatch(move([uuid, uuid2], [uuid1]))
+        const actions0 = store.getActions()
+        for (let i = 0; i < 5; i++) actions0.pop()
+        const sixthLastAction = actions0.pop()
+        expect(sixthLastAction.type).toBe('SET_UI_KEY')
+        expect(sixthLastAction.data.key).toBe('active')
+        expect(sixthLastAction.data.treePath).toEqual([uuid1, uuid2])
         return actions[actions.length - 1].then(() => {
           const lastAction = store.getActions().pop()
           expect(lastAction.type).toEqual('UPDATE_NODE_TRANSACTION_STATUS')

@@ -5,7 +5,7 @@ import type { NodesAction } from '../../flow/types'
 import fetch from 'isomorphic-fetch'
 import { getParentFromTreePath, getNodeFromTreePath } from '../lib/tree/TreeUtils'
 import createTransaction from '../lib/node/createTransaction'
-import { initUIRoot, unsetUIExpanded } from './ui'
+import { initUIRoot, unsetUIExpanded, setUIActive } from './ui'
 import fetchOptions from '../lib/utils/fetchOptions'
 
 import host from '../settings/host'
@@ -177,8 +177,11 @@ export const move = (path: TreePath, newPath: TreePath, before?: NodeId) => {
   const transaction0 = createTransaction('REMOVE_CHILD', parent, undefined, node)
   const transaction1 = createTransaction('ADD_CHILD', newParent, undefined, node, before)
 
+  const newActivePath = newPath.concat(node)
+
   return [
     unsetUIExpanded(path),
+    setUIActive(newActivePath),
     addNodeTransaction(transaction0),
     addNodeTransaction(transaction1),
     postTransactions([transaction0, transaction1])
