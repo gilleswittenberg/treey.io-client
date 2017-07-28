@@ -122,10 +122,12 @@ export const create = (parentPath: TreePath, data: NodeData) => {
   const transaction1 = createTransaction('SET', node, data)
   const parent = getNodeFromTreePath(parentPath)
   const transaction2 = createTransaction('ADD_CHILD', parent, undefined, node)
+  const path = parentPath.concat(transaction0.node)
   return [
     addNodeTransaction(transaction0),
     addNodeTransaction(transaction1),
     addNodeTransaction(transaction2),
+    setUIActive(path),
     postTransactions([transaction0, transaction1, transaction2])
   ]
 }

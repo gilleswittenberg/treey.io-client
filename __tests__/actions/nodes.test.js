@@ -403,6 +403,9 @@ describe('actions nodes', () => {
 
         const store = mockStore({ nodes: [] })
         const actions = store.dispatch(create([uuid], { title: 'Create' }))
+        expect(actions[3].type).toBe('SET_UI_KEY')
+        expect(actions[3].data.key).toBe('active')
+        expect(actions[3].data.treePath[0]).toBe(uuid)
         return actions[actions.length - 1].then(() => {
           const lastAction = store.getActions().pop()
           const secondLastAction = store.getActions().pop()
