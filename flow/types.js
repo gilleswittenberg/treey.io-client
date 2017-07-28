@@ -85,8 +85,10 @@ export type UserAction = {
   }
 }
 
+export type ExpandedObject = Object
+
 export type UIState = {
-  expanded: Object,
+  expanded: ExpandedObject,
   active: ?TreePath,
   editing: ?TreePath,
   adding: ?TreePath,
