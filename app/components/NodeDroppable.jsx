@@ -23,7 +23,8 @@ const DropSpec = {
     if (!monitor.canDrop()) return false
 
     const hoverRegion = component.getHoverRegion(monitor, component.element)
-    component.setState({ hoverRegion })
+    const nodeDraggableTitle = monitor.getItem().data.title
+    component.setState({ hoverRegion, nodeDraggableTitle })
   },
 
   drop (props, monitor, component) {
@@ -74,7 +75,8 @@ class NodeDroppable extends Component {
   }
 
   state = {
-    hoverRegion: null
+    hoverRegion: null,
+    nodeDraggableTitle: null
   }
 
   element = undefined
@@ -120,16 +122,17 @@ class NodeDroppable extends Component {
     const showNodeOverTop = this.showNodeOverTop()
     const showNodeOverBottom = this.showNodeOverBottom()
     const nodeProps = this.props
+    const { nodeDraggableTitle } = this.state
 
     return (
       connectDropTarget(
         <div ref={ c => this.element = c }>
           { showNodeOverTop &&
-            <NodeOver position="above" />
+            <NodeOver position="above" title={ nodeDraggableTitle } />
           }
           <Node { ...nodeProps } />
           { showNodeOverBottom &&
-            <NodeOver position="below" />
+            <NodeOver position="below" title={ nodeDraggableTitle } />
           }
         </div>
       )
