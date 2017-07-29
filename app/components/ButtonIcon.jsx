@@ -19,7 +19,8 @@ export default class ButtonIcon extends Component {
   static propTypes = {
     type: PropTypes.oneOf(types).isRequired,
     lang: PropTypes.string.isRequired,
-    handleClick: PropTypes.func
+    handleClick: PropTypes.func,
+    tabIndex: PropTypes.number
   }
 
   static defaultProps = {
@@ -27,7 +28,7 @@ export default class ButtonIcon extends Component {
   }
 
   render () {
-    const { type, lang, handleClick } = this.props
+    const { type, lang, handleClick, tabIndex } = this.props
     const typeLowerCased = type.toLowerCase()
     const typeLowerCasedHyphenated = typeLowerCased.replace(/_/g, '-')
     const classNameType = `button-icon-${ typeLowerCasedHyphenated }`
@@ -35,9 +36,11 @@ export default class ButtonIcon extends Component {
     const iconClass = typesData[type].iconClass
     const classNameIcon = classNames('fa', iconClass)
     const title = __(lang, type)
+    const attr = { className, onClick: handleClick, title }
+    const buttonAttr = tabIndex != null ? { ...attr, tabIndex } : attr
 
     return (
-      <button className={ className } onClick={ handleClick } title={ title }>
+      <button { ...buttonAttr }>
         <i className={ classNameIcon }></i>
       </button>
     )

@@ -69,12 +69,17 @@ export default class NodeEdit extends Component {
 
     const { lang } = this.props
     const { title: value } = this.state
+    const buttonIconProps = {
+      type: 'SAVE',
+      lang,
+      tabIndex: 2
+    }
 
     return (
       <div className="node-editing">
         <form onSubmit={ this.handleSubmit }>
           <div className="node-buttons">
-            <ButtonIcon type="SAVE" lang={ lang } />
+            <ButtonIcon { ...buttonIconProps } />
           </div>
           <div className="input-wrap">
             <input
@@ -82,6 +87,7 @@ export default class NodeEdit extends Component {
               value={ value }
               onChange={ this.handleChange }
               onClick={ this.handleClick }
+              tabIndex="1"
             />
           </div>
         </form>

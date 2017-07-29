@@ -22,4 +22,17 @@ describe('Node', () => {
       expect(wrapper.find('.button-icon').props().title).not.toContain('_')
     })
   })
+
+  describe('tabIndex', () => {
+
+    it('null', () => {
+      const wrapper = shallow(getComponent({ type: 'ADD' }))
+      expect(wrapper.find('button').props().tabIndex).toBeUndefined()
+    })
+
+    it('2', () => {
+      const wrapper = shallow(getComponent({ type: 'ADD', tabIndex: 2 }))
+      expect(wrapper.find('button').props().tabIndex).toBe(2)
+    })
+  })
 })

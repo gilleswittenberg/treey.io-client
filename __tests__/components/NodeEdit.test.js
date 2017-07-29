@@ -46,7 +46,13 @@ describe('NodeEdit', () => {
     })
   })
 
-  describe('sumbit', () => {
+  it('tabIndex', () => {
+    const wrapper = shallow(getComponent())
+    expect(wrapper.find('input').props().tabIndex).toBe('1')
+    expect(wrapper.find('ButtonIcon').props().tabIndex).toBe(2)
+  })
+
+  describe('submit', () => {
 
     it('remove', () => {
       const clearUIEditingAdding = jest.fn()

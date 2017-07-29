@@ -58,6 +58,15 @@ describe('NodeAdd', () => {
     })
   })
 
+  describe('tabIndex', () => {
+
+    it('component props', () => {
+      const wrapper = shallow(getComponent({ ui: { adding: [uuid] } }))
+      expect(wrapper.find('input').props().tabIndex).toBe('1')
+      expect(wrapper.find('ButtonIcon').props().tabIndex).toBe(2)
+    })
+  })
+
   describe('input', () => {
 
     it('change', () => {

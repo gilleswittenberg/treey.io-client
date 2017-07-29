@@ -95,6 +95,12 @@ export default class NodeAdd extends Component {
       { '-is-editing': isAdding }
     )
 
+    const buttonIconProps = {
+      type: 'SAVE',
+      lang,
+      tabIndex: 2
+    }
+
     return (
       <div className={ className }>
 
@@ -108,7 +114,7 @@ export default class NodeAdd extends Component {
           <div className="node-editing">
             <form onSubmit={ this.handleSubmit }>
               <div className="node-buttons">
-                <ButtonIcon type="SAVE" lang={ lang } />
+                <ButtonIcon { ...buttonIconProps } />
               </div>
               <div className="input-wrap">
                 <input
@@ -116,6 +122,7 @@ export default class NodeAdd extends Component {
                   onChange={ this.handleChange }
                   value={ value }
                   autoCapitalize="off"
+                  tabIndex="1"
                 />
               </div>
             </form>
