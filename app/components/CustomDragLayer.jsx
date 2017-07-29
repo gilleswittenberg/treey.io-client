@@ -47,7 +47,7 @@ class CustomDragLayer extends Component {
     // Guard: do not render when not dragging
     if (!isDragging || !item) return null
 
-    const { title } = item
+    const { data: { title } } = item
 
     return (
       <div style={ layerStyles }>
