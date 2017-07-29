@@ -42,7 +42,7 @@ describe('NodeDroppable', () => {
     treePath: [uuid],
     data: { title: 'node draggable' },
     index: 0,
-    siblings: [{ uuid }],
+    siblings: [uuid],
     setUIEditing: noop,
     clearUIEditingAdding: noop,
     setUIExpanded: noop,
@@ -65,7 +65,7 @@ describe('NodeDroppable', () => {
     },
     ui,
     hasNodes: false,
-    siblings: [{ uuid: uuid1 }],
+    siblings: [uuid1],
     index: 0,
     removeChild: noop,
     move: noop,
@@ -157,7 +157,7 @@ describe('NodeDroppable', () => {
       it('last child', () => {
 
         const move = jest.fn()
-        const siblings = [{ uuid: uuid1 }, { uuid }]
+        const siblings = [uuid1, uuid]
         const propsDraggable = { ...defaultPropsDraggable, siblings, index: 1 }
         const propsDroppable = { ...defaultPropsDroppable, siblings, index: 0, hoverRegion: 'bottom', move }
         const Context = wrapInTestContext(NodeDraggable, NodeDroppable, propsDraggable, propsDroppable)
@@ -180,7 +180,7 @@ describe('NodeDroppable', () => {
       it('before', () => {
 
         const move = jest.fn()
-        const siblings = [{ uuid }, { uuid: uuid1 }]
+        const siblings = [uuid, uuid1]
         const propsDraggable = { ...defaultPropsDraggable, siblings, index: 0 }
         const propsDroppable = { ...defaultPropsDroppable, siblings, index: 1, move }
         const Context = wrapInTestContext(NodeDraggable, NodeDroppable, propsDraggable, propsDroppable)
@@ -203,8 +203,8 @@ describe('NodeDroppable', () => {
       it('last child different parent', () => {
 
         const move = jest.fn()
-        const siblingsDraggable = [{ uuid }]
-        const siblingsDroppable = [{ uuid: uuid2 }, { uuid: uuid1 }]
+        const siblingsDraggable = [uuid]
+        const siblingsDroppable = [uuid2, uuid1]
         const propsDraggable = { ...defaultPropsDraggable, siblingsDraggable, index: 0 }
         const propsDroppable = { ...defaultPropsDroppable, siblingsDroppable, index: 1, overMousePosition: 'bottom', move }
         const Context = wrapInTestContext(NodeDraggable, NodeDroppable, propsDraggable, propsDroppable)

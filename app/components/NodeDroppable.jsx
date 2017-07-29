@@ -43,7 +43,7 @@ const DropSpec = {
     const nextSiblingDraggable = getNextSibling(siblingsDraggable, indexDraggable) // Next uuid: ?string after NodeDraggable
     const before = overPosition === 'top' ? uuid : nextSiblingDroppable
 
-    // Guard: do not put when dropped on original position
+    // Guard: do not move when dropped on original position
     if (overPosition === 'top' && before === nextSiblingDraggable) return
     if (overPosition === 'bottom' && before === uuidDraggable) return
 
