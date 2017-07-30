@@ -2,7 +2,6 @@ const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const merge = require('webpack-merge')
-const validate = require('webpack-validator')
 
 const parts = require('./webpack/parts')
 
@@ -107,4 +106,4 @@ default:
   )
 }
 
-module.exports = validate(config)
+module.exports = config

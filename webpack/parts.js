@@ -17,7 +17,8 @@ exports.devServer = function (options) {
       // Parse host and port from env to allow customization.
       // If you use Vagrant or Cloud9, set host: options.host || '0.0.0.0';
       // 0.0.0.0 is available to all network devices unlike default `localhost`.
-      host: options.host, // Defaults to `localhost`
+      host: options.host || '0.0.0.0',
+      disableHostCheck: true,
       port: options.port // Defaults to 8080
     },
     plugins: [
