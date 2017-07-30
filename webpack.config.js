@@ -61,7 +61,8 @@ const common = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'app/index.html'
+      template: 'app/index.html',
+      favicon: 'app/favicon.ico'
     }),
     new webpack.DefinePlugin({
       'process.env': {
