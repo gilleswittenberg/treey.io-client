@@ -1,13 +1,12 @@
 /* @flow */
 
-// @TODO: Rename component
-
 import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
 import __ from '../lib/utils/i18n'
+import logoImageSrc from '../images/logo_64x64.png'
 
-export default class SignOutButton extends Component {
+export default class Nav extends Component {
 
   static propTypes = {
     lang: PropTypes.string.isRequired,
@@ -31,12 +30,17 @@ export default class SignOutButton extends Component {
 
     return (
       <nav>
-        <p>{ username }</p>
-        <Link to="/session">{ sessionText }</Link>
-        <button className="sign-out-button" onClick={ this.handleClickSignOut }>{ signOutText }</button>
-        { signOutFailed &&
-          <p style={ { color: 'red' } }>{ signOutFailedText }</p>
-        }
+        <div className="nav-col-left">
+          <p>{ username }</p>
+        </div>
+        <img src={ logoImageSrc } width="32" height="32"></img>
+        <div className="nav-col-right">
+          <Link className="-is-hidden-small" to="/session">{ sessionText }</Link>
+          <button className="sign-out-button" onClick={ this.handleClickSignOut }>{ signOutText }</button>
+          { signOutFailed &&
+            <p style={ { color: 'red' } }>{ signOutFailedText }</p>
+          }
+        </div>
       </nav>
     )
   }

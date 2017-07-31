@@ -1,18 +1,25 @@
 nav
 
-  padding: 16px 0
-  text-align: right
+  padding: 32px 0 32px
 
-  p
-    display: inline
+  @include large
+    padding: 64px 0 32px
 
-  a
-    margin-left: 6px
+  div.nav-col-left,
+  div.nav-col-right
+    display: inline-block
+    width: calc(50% - 24px)
+    box-sizing: border-box
+    padding-top: 5px
+    vertical-align: top
+    text-align: center
 
-  p, a
+  p, a, button
+    margin: 0 12px
     font-size: $font-size-small
+    display: inline-block
 
   button
+    @include link
     background: none
-    color: $colorLink
-    text-decoration: underline
+    padding: 0

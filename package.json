@@ -20,7 +20,10 @@
     "start": "NODE_ENV=production node_modules/http-server/bin/http-server -p 80 build"
   },
   "jest": {
-    "testRegex": "/__tests__/.*\\.test\\.(js|jsx)$"
+    "testRegex": "/__tests__/.*\\.test\\.(js|jsx)$",
+    "moduleNameMapper": {
+      "\\.png$": "<rootDir>/__mocks__/fileMock.js"
+    }
   },
   "devDependencies": {
     "babel-core": "^6.17.0",
