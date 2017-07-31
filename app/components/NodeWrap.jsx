@@ -66,8 +66,10 @@ export default class NodeWrap extends Component {
     const {
       enableDnD,
       uuid,
-      treePath
+      treePath,
+      isRoot
     } = this.props
+
 
     const isActive = this.isUI('active')
     const isEditing = this.isUI('editing')
@@ -80,6 +82,7 @@ export default class NodeWrap extends Component {
     const className = classNames(
       'node',
       {
+        '-is-root': isRoot,
         '-is-active': isActive,
         '-is-dragging': isDragging,
         '-is-expanded': (isExpanded && hasNodes) || isAdding || isMovingChild

@@ -50,6 +50,20 @@ describe('NodeWrap', () => {
     })
   })
 
+  describe('isRoot', () => {
+
+    it('root', () => {
+      const wrapper = shallow(getComponent({ isRoot: true }))
+      expect(wrapper.find('div.-is-root').length).toBe(1)
+    })
+
+    it('non-root', () => {
+      const wrapper = shallow(getComponent())
+      expect(wrapper.find('div.-is-root').length).toBe(0)
+    })
+  })
+
+
   describe('isEditing', () => {
 
     it('false', () => {
