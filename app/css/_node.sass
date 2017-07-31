@@ -12,11 +12,11 @@
 
 .node
 
-  @include user-select-none
+  @include userSelectNone
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
 
   .node-body, .node-editing
-    padding: $margin-vertical 0
+    padding: $marginVertical 0
 
 
 
@@ -32,21 +32,21 @@
       .node-buttons-default-hidden
         display: inline-block
       .node-buttons + .node-draggable
-        margin-right: $dim + $margin-ui
+        margin-right: $dim + $marginUI
       .node-buttons-num-2 + .node-draggable
-        margin-right: 2 * ($dim + $margin-ui)
+        margin-right: 2 * ($dim + $marginUI)
       .node-buttons-num-3 + .node-draggable
-        margin-right: 3 * ($dim + $margin-ui)
+        margin-right: 3 * ($dim + $marginUI)
 
   .node-body.-has-move-child-button-shown
     .node-draggable
-      margin-right: $dim + $margin-ui
+      margin-right: $dim + $marginUI
     .node-button-move-child
       display: block
       float: right
       button
         width: $dim
-        margin-left: $margin-ui
+        margin-left: $marginUI
 
   .node-button-move-child
     display: none
@@ -58,7 +58,7 @@
     float: right
     button
       width: $dim
-      margin-left: $margin-ui
+      margin-left: $marginUI
   .node-buttons-default-hidden
     display: none
 
