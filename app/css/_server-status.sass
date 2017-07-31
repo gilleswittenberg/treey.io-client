@@ -1,20 +1,30 @@
 .server-status
-  height: $spacingLayoutVerticalSmall
+
+  height: $dim
+  border-radius: $dim / 2
+  opacity: 0
+  margin-bottom: $spacingLayoutVerticalSmall - $dim
+
   @include large
-    height: $spacingLayoutVerticalLarge
+    margin-bottom: $spacingLayoutVerticalLarge - $dim
+
+  &.-is-syncing,
+  &.-has-errors
+    transition: opacity 1s ease-in-out
+    opacity: 1
+
+  &.-is-syncing
+    background-color: $green
+    .server-status-is-syncing
+      display: block
+  &.-has-errors
+    background-color: $red
+    .server-status-has-errors
+      display: block
+
   p
     text-align: center
     margin: 0
-    padding: 14px
-  .server-status-has-errors
+    padding-top: 10px
+    color: $white
     display: none
-    color: $red
-  &.-has-errors
-    .server-status-has-errors
-      display: block
-  .server-status-is-syncing
-    transition: opacity 1s ease-in-out
-    opacity: 0
-  &.-is-syncing
-    .server-status-is-syncing
-      opacity: 1
