@@ -20,6 +20,10 @@ export default class NodeContent extends Component {
     lang: DEFAULT_LANG
   }
 
+  handleClickInfo (event: Event) {
+    event.stopPropagation()
+  }
+
   render () {
 
     const { lang, title, uuid, handleClick, handleClickMore } = this.props
@@ -32,7 +36,7 @@ export default class NodeContent extends Component {
         <span>
           { contentIsURL && <a href={ title }>{ title }</a> }
           { !contentIsURL && title }
-          <Link to={ path } className="node-info">i</Link>
+          <Link to={ path } className="node-info" onClick={ this.handleClickInfo }>&#9432;</Link>
         </span>
       </div>
     )

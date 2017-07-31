@@ -8,6 +8,8 @@ import { DragDropContext } from 'react-dnd'
 import TouchBackend from 'react-dnd-touch-backend'
 import delay from '../lib/utils/delay'
 import { getNextActive, getPrevActive } from '../lib/tree/getNextPrevActive'
+import { getNodeFromTreePath } from '../lib/tree/TreeUtils'
+import { browserHistory } from 'react-router'
 
 class Tree extends Component {
 
@@ -56,7 +58,7 @@ class Tree extends Component {
     // Guard
     if (adding != null || editing != null) return
 
-    let action, nextActive
+    let action, nextActive, activeNode
 
     switch (event.keyCode) {
     case 40: // Down arrow
@@ -69,6 +71,12 @@ class Tree extends Component {
       action = event.shiftKey ? getPrevActive : getNextActive
       nextActive = action(nodes, active, expanded)
       break
+    case 73: // I
+      activeNode = getNodeFromTreePath(active)
+      if (activeNode != null) {
+        browserHistory.push(`/node/${ activeNode }`)
+      }
+      return
     default:
       return
     }
