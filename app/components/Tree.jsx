@@ -72,9 +72,11 @@ class Tree extends Component {
       nextActive = action(nodes, active, expanded)
       break
     case 73: // I
-      activeNode = getNodeFromTreePath(active)
-      if (activeNode != null) {
-        browserHistory.push(`/node/${ activeNode }`)
+      if (!event.shiftKey && !event.altKey && !event.ctrlKey && !event.metaKey) {
+        activeNode = getNodeFromTreePath(active)
+        if (activeNode != null) {
+          browserHistory.push(`/node/${ activeNode }`)
+        }
       }
       return
     default:
