@@ -9,7 +9,6 @@ import { getUser } from './actions/user'
 - import EXPANDED_KEY from './settings/EXPANDED_KEY'
 */
 
-import '!style!css!./css/font-awesome.css'
 import '!style!css!sass!./css/screen.sass'
 
 const store = configureStore()

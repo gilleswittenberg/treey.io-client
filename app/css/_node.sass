@@ -15,8 +15,9 @@
   @include userSelectNone
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
 
-  .node-body, .node-editing
-    padding: $marginVertical 0
+  .node-body
+    border-bottom: solid 1px $lightGray
+    margin-bottom: 1px
 
   &.-is-dragging
     .node-body
@@ -50,7 +51,7 @@
     display: none
     &.-is-over
       button
-        background-color: $purple
+        background-color: $green
 
   .node-buttons
     float: right
@@ -77,9 +78,10 @@
       display: none !important
 
   .node-content
-    @extend .node-base-hover
+    height: $dim
     width: auto
     display: block
+    cursor: pointer
 
     span
       padding: 10px 14px 0
@@ -103,19 +105,26 @@
         padding: 0 4px
         color: $black
         text-decoration: none
-        &:hover
-          font-weight: bold
+        font-size: 10px
 
     &:hover
       html.no-touch &
         a.node-info
           display: inline-block
 
+  &:hover
+    .node-body
+      border-bottom-color: $green
+
+  &.-is-root
+    .node-body
+      border-bottom-width: 2px
+      margin-bottom: 0
+
   &.-is-active
-    .node-content
-      background-color: $colorActive
-
-
-.node-drag-layer
-  .node-content
-    background-color: lighten($purple, 10%)
+    .node-body
+      border-bottom-color: $green
+      border-bottom-width: 2px
+      margin-bottom: 0
+      span
+        color: $black

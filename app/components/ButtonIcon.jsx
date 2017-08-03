@@ -3,16 +3,12 @@
 import React, { Component, PropTypes } from 'react'
 import classNames from 'classnames'
 import __ from '../lib/utils/i18n'
+import addImgSrc from '../images/add_64x64.png'
+import submitImgSrc from '../images/submit_64x64.png'
+import removeImgSrc from '../images/remove_64x64.png'
+import dragImgSrc from '../images/drag_64x64.png'
 
-const typesData = {
-  ADD: { iconClass: 'fa-plus-square-o' },
-  MOVE_CHILD: { iconClass: 'fa-plus-square-o' },
-  DELETE: { iconClass: 'fa-trash-o' },
-  EDIT: { iconClass: 'fa-pencil-square-o' },
-  MORE: { iconClass: 'fa-ellipsis-v' },
-  SAVE: { iconClass: 'fa-floppy-o' }
-}
-const types = Object.keys(typesData)
+const types = ['ADD', 'MOVE_CHILD', 'DELETE', 'EDIT', 'MORE', 'SAVE']
 
 export default class ButtonIcon extends Component {
 
@@ -33,15 +29,33 @@ export default class ButtonIcon extends Component {
     const typeLowerCasedHyphenated = typeLowerCased.replace(/_/g, '-')
     const classNameType = `button-icon-${ typeLowerCasedHyphenated }`
     const className = classNames('button-icon', classNameType)
-    const iconClass = typesData[type].iconClass
-    const classNameIcon = classNames('fa', iconClass)
     const title = __(lang, type)
     const attr = { className, onClick: handleClick, title }
     const buttonAttr = tabIndex != null ? { ...attr, tabIndex } : attr
 
+    let imgSrc
+    switch (type) {
+    case 'ADD':
+      imgSrc = addImgSrc
+      break
+    case 'MOVE_CHILD':
+    case 'MORE':
+      imgSrc = dragImgSrc
+      break
+    case 'DELETE':
+      imgSrc = removeImgSrc
+      break
+    case 'EDIT':
+    case 'SAVE':
+      imgSrc = submitImgSrc
+      break
+    }
+
+    const size = 21
+
     return (
       <button { ...buttonAttr }>
-        <i className={ classNameIcon }></i>
+        <img src={ imgSrc } width={ size } height={ size } />
       </button>
     )
   }

@@ -53,8 +53,8 @@ class CustomDragLayer extends Component {
       <div style={ layerStyles }>
         <div style={ getItemStyles(this.props) }>
           <div className="node node-drag-layer">
-            <div className="node-content">
-              <div className="node-body">
+            <div className="node-body">
+              <div className="node-content">
                 <span>{ title }</span>
               </div>
             </div>

@@ -2,13 +2,21 @@
 .node-add,
 .node-button-move-child
   button
-    @extend .node-base-hover
+    background: transparent
+    width: $dim
+    height: $dim
+    padding: 0
+    cursor: pointer
     i
       font-size: 20px
       padding-top: 2px
-      color: $gray
+      color: $colorText
       transition: $colorTransition
 
     &:hover
       i
         color: $black
+
+.node-add
+  button
+    width: 100%
