@@ -19,17 +19,37 @@ describe('setTransactionsIsOverridden', () => {
       const transactionIsOverridden = setTransactionsIsOverridden(transactions)
       expect(transactionIsOverridden[0].isOverridden).toBe(false)
     })
+
+    it('multiple nodes', () => {
+      const transaction0 = createTransaction('CREATE')
+      const transaction1 = createTransaction('CREATE')
+      const transactions = [transaction0, transaction1]
+      const transactionsIsOverridden = setTransactionsIsOverridden(transactions)
+      expect(transactionsIsOverridden[0].isOverridden).toBe(false)
+      expect(transactionsIsOverridden[1].isOverridden).toBe(false)
+    })
   })
 
   describe('SET', () => {
 
-    it('only last isOverridden', () => {
+    it('only first isOverridden', () => {
       const transaction0 = createTransaction('SET')
       const transaction1 = createTransaction('SET')
       const transactions = [transaction0, transaction1]
       const transactionIsOverridden = setTransactionsIsOverridden(transactions)
       expect(transactionIsOverridden[0].isOverridden).toBe(true)
       expect(transactionIsOverridden[1].isOverridden).toBe(false)
+    })
+
+    it('multiple nodes', () => {
+      const transaction0 = createTransaction('SET', uuid)
+      const transaction1 = createTransaction('SET', uuid1)
+      const transaction2 = createTransaction('SET', uuid1)
+      const transactions = [transaction0, transaction1, transaction2]
+      const transactionIsOverridden = setTransactionsIsOverridden(transactions)
+      expect(transactionIsOverridden[0].isOverridden).toBe(false)
+      expect(transactionIsOverridden[1].isOverridden).toBe(true)
+      expect(transactionIsOverridden[2].isOverridden).toBe(false)
     })
   })
 
@@ -64,6 +84,21 @@ describe('setTransactionsIsOverridden', () => {
       expect(transactionIsOverridden[1].isOverridden).toBe(false)
       expect(transactionIsOverridden[2].isOverridden).toBe(true)
       expect(transactionIsOverridden[3].isOverridden).toBe(true)
+    })
+
+    it('multiple nodes', () => {
+      const transaction0 = createTransaction('ADD_CHILD', uuid, undefined, uuid1)
+      const transaction1 = createTransaction('ADD_CHILD', uuid, undefined, uuid2)
+      const transaction2 = createTransaction('ADD_CHILD', uuid1, undefined, uuid2)
+      const transaction3 = createTransaction('REMOVE_CHILD', uuid1, undefined, uuid2)
+      const transaction4 = createTransaction('REMOVE_CHILD', uuid, undefined, uuid2)
+      const transactions = [transaction0, transaction1, transaction2, transaction3, transaction4]
+      const transactionIsOverridden = setTransactionsIsOverridden(transactions)
+      expect(transactionIsOverridden[0].isOverridden).toBe(false)
+      expect(transactionIsOverridden[1].isOverridden).toBe(true)
+      expect(transactionIsOverridden[2].isOverridden).toBe(true)
+      expect(transactionIsOverridden[3].isOverridden).toBe(true)
+      expect(transactionIsOverridden[4].isOverridden).toBe(true)
     })
   })
 })

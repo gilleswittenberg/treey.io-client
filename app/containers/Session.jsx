@@ -25,7 +25,8 @@ class Session extends React.Component {
     const actions = getActions(dispatch)
 
     const navBackProps = { lang }
-    const transactions = nodes.reduce((prev, node) => prev.concat(node.transactions), [])
+    // Need to clone nodes, because reverse method is mutable
+    const transactions = [...nodes].reverse().reduce((prev, node) => prev.concat(node.transactions), [])
     const transactionsFiltered = transactions.filter(transaction => transaction.created != null)
     const transactionsSorted = transactionsFiltered.sort((a, b) => new Date(a.created) - new Date(b.created))
     const transactionsProps = { lang, transactions: transactionsSorted, ...actions }

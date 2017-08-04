@@ -11,20 +11,29 @@ export default (transactions: Transactions) : Transactions => {
 }
 
 const setCREATE = (transactions: Transactions) : Transactions => {
-  return transactions.map((transaction, index) => {
+  let createTransactionsFound = []
+  return transactions.map(transaction => {
+    const node = transaction.node
     if (transaction.type === 'CREATE') {
-      transaction.isOverridden = index !== 0
+      if (!createTransactionsFound.includes(node)) {
+        transaction.isOverridden = false
+        createTransactionsFound.push(node)
+      } else {
+        transaction.isOverridden = true
+      }
     }
     return transaction
   })
 }
 
 const setSET = (transactions: Transactions) : Transactions => {
-  let lastSetFound = false
-  return transactions.reverse().map(transaction => {
+  let setTransactionsFound = []
+  // Need to clone transactions, because reverse method is mutable
+  return [...transactions].reverse().map(transaction => {
     if (transaction.type === 'SET') {
-      if (lastSetFound === false) {
-        lastSetFound = true
+      const node = transaction.node
+      if (!setTransactionsFound.includes(node)) {
+        setTransactionsFound.push(node)
         transaction.isOverridden = false
       } else {
         transaction.isOverridden = true
@@ -35,17 +44,25 @@ const setSET = (transactions: Transactions) : Transactions => {
 }
 
 const setCHILDREN = (transactions: Transactions) : Transactions => {
-  const removed = []
-  return transactions.reverse().map(transaction => {
+  const removed = {}
+  // Need to clone transactions, because reverse method is mutable
+  return [...transactions].reverse().map(transaction => {
+    const node = transaction.node
     if (transaction.type === 'REMOVE_CHILD') {
       transaction.isOverridden = true
-      removed.push(transaction.node)
+      if (removed[node] === undefined) {
+        removed[node] = []
+      }
+      removed[node].push(transaction.child)
     }
     if (transaction.type === 'ADD_CHILD') {
-      const index = removed.findIndex(elem => elem === transaction.node)
+      let index = -1
+      if (removed[node] !== undefined) {
+        index = removed[node].findIndex(elem => elem === transaction.child)
+      }
       if (index > -1) {
         transaction.isOverridden = true
-        removed.splice(index, 1)
+        removed[node].splice(index, 1)
       } else {
         transaction.isOverridden = false
       }
