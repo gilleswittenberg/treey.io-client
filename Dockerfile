@@ -1,7 +1,7 @@
 # treey.io client
 
 # Node base image
-FROM node:6
+FROM node:8.2.1
 
 # Maintainer
 MAINTAINER Gilles Wittenberg <docker.io@gilleswittenberg.com>

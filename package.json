@@ -5,7 +5,7 @@
   "description": "",
   "author": "Gilles Wittenberg",
   "engine": {
-    "node": "^8.2.0",
+    "node": "^8.2.1",
     "npm": "^5.3.0"
   },
   "main": "index.js",
