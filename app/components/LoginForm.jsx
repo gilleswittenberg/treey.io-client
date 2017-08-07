@@ -1,7 +1,8 @@
 /* @flow */
 
 import autobind from 'autobind-decorator'
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import __ from '../lib/utils/i18n'
 import classNames from 'classnames'
 import validateUsername from '../lib/auth/validateUsername'

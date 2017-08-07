@@ -210,7 +210,12 @@
     "no-warning-comments": "error",
     "no-whitespace-before-property": "error",
     "no-with": "error",
-    "object-curly-newline": ["error", { "consistent": true }],
+    "object-curly-newline": [
+      "error",
+      {
+        "consistent": true
+      }
+    ],
     "object-curly-spacing": [
       "error",
       "always"
@@ -271,7 +276,5 @@
       "error",
       "never"
     ]
-
-    , "react/no-deprecated": "off"
   }
 }

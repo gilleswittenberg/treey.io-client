@@ -1,6 +1,7 @@
 /* @flow */
 
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ButtonIcon from './ButtonIcon'
 import DND_TYPE from '../settings/DND_TYPE'
 import { DropTarget } from 'react-dnd'

@@ -3,7 +3,8 @@
 import type { TreePath } from '../../flow/tree'
 
 import autobind from 'autobind-decorator'
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import ButtonIcon from './ButtonIcon'
 import ButtonMoveChild from './ButtonMoveChild'

@@ -1,7 +1,8 @@
 /* @flow */
 
 import autobind from 'autobind-decorator'
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ButtonIcon from '../components/ButtonIcon'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 import focusInput from '../lib/ui/focusInput'

@@ -1,6 +1,7 @@
 /* @flow */
 
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import NodeContent from '../components/NodeContent'
 import DND_TYPE from '../settings/DND_TYPE'
 import { DragSource } from 'react-dnd'
@@ -37,7 +38,7 @@ export class NodeDraggable extends Component {
     // Injected by React DnD DragSource
     connectDragSource: PropTypes.func,
     isDragging: PropTypes.bool,
-    connectDragPreview: React.PropTypes.func
+    connectDragPreview: PropTypes.func
   }
 
   static defaultProps = {

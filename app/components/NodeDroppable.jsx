@@ -1,6 +1,7 @@
 /* @flow */
 
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Node from './Node'
 import NodeOver from './NodeOver'
 import DND_TYPE from '../settings/DND_TYPE'
