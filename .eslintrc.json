@@ -5,7 +5,10 @@
     "browser": true,
     "jest": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "parser": "babel-eslint",
   "plugins": [
     "react"
@@ -21,7 +24,10 @@
     "accessor-pairs": "error",
     "array-bracket-spacing": "error",
     "array-callback-return": "error",
-    "arrow-body-style": "error",
+    "arrow-body-style": [
+      "error",
+      "as-needed"
+    ],
     "arrow-parens": [
       "error",
       "as-needed"
@@ -47,11 +53,12 @@
     "comma-style": "error",
     "complexity": "error",
     "computed-property-spacing": "error",
-    "consistent-return": "error",
+    "consistent-return": "off",
     "consistent-this": "error",
     "curly": [
       "error",
-      "all"
+      "multi-line",
+      "consistent"
     ],
     "default-case": "error",
     "dot-location": [
@@ -100,8 +107,7 @@
       160
     ],
     "max-lines": [
-      "error",
-      550
+      "off"
     ],
     "max-nested-callbacks": "error",
     "max-params": [
@@ -204,7 +210,7 @@
     "no-warning-comments": "error",
     "no-whitespace-before-property": "error",
     "no-with": "error",
-    "object-curly-newline": "error",
+    "object-curly-newline": ["error", { "consistent": true }],
     "object-curly-spacing": [
       "error",
       "always"
@@ -265,5 +271,7 @@
       "error",
       "never"
     ]
+
+    , "react/no-deprecated": "off"
   }
 }

@@ -59,7 +59,7 @@ export class NodeDraggable extends Component {
   }
 }
 
-@DragSource(DND_TYPE, DragSpec, (connect, monitor) => ({
+@DragSource(DND_TYPE, DragSpec, (connect, monitor) => ({ // eslint-disable-line new-cap
   connectDragSource: connect.dragSource(),
   isDragging: monitor.isDragging(),
   connectDragPreview: connect.dragPreview()

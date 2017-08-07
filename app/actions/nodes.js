@@ -21,48 +21,110 @@ export const UPDATE_NODE_TRANSACTION_STATUS = 'UPDATE_NODE_TRANSACTION_STATUS'
 export const SET_NODE_TRANSACTION_IS_SYNCING = 'SET_NODE_TRANSACTION_IS_SYNCING'
 
 // Action creators
-export const startSyncing = () : NodesAction => {
-  return {
+export const startSyncing = () : NodesAction => (
+  {
     type: START_SYNCING,
     data: {}
   }
-}
+)
 
-export const stopSyncing = () : NodesAction => {
-  return {
+export const stopSyncing = () : NodesAction => (
+  {
     type: STOP_SYNCING,
     data: {}
   }
-}
+)
 
-export const hasErrors = () : NodesAction => {
-  return {
+export const hasErrors = () : NodesAction => (
+  {
     type: HAS_ERRORS,
     data: {}
   }
-}
+)
 
-export const indexNodes = (nodes: Nodes) : NodesAction => {
-  return {
+export const indexNodes = (nodes: Nodes) : NodesAction => (
+  {
     type: INDEX_NODES,
-    data: {
-      nodes
-    }
+    data: { nodes }
   }
-}
+)
 
 // @TODO: Specify return type
-export const getNodes = (rootNode: NodeId) => {
-  return (dispatch: (action: any) => void) => {
-    dispatch(startSyncing())
-    const url = `${ host }/nodes/${ rootNode }`
-    const options = {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json'
+export const getNodes = (rootNode: NodeId) => (dispatch: (action: any) => void) => {
+  dispatch(startSyncing())
+  const url = `${ host }/nodes/${ rootNode }`
+  const options = {
+    method: 'GET',
+    headers: { Accept: 'application/json' },
+    credentials: 'include'
+  }
+  return fetch(url, options)
+    .then(
+      response => {
+        if (response.ok === false) {
+          return Promise.reject(new Error(response.statusText))
+        }
+        return response.json()
+      }
+    )
+    .then(
+      json => {
+        dispatch(stopSyncing())
+        dispatch(indexNodes(json.nodes))
+        dispatch(initUIRoot(json.nodes))
       },
-      credentials: 'include'
+      // Errors
+      () => {
+        dispatch(stopSyncing())
+        dispatch(hasErrors())
+      }
+    )
+}
+
+export const addNodeTransaction = (transaction: Transaction) : NodesAction => (
+  {
+    type: ADD_NODE_TRANSACTION,
+    data: { transaction }
+  }
+)
+
+export const updateNodeTransactionStatus = (transaction: Transaction, status: TransactionStatus) : NodesAction => (
+  {
+    type: UPDATE_NODE_TRANSACTION_STATUS,
+    data: {
+      transaction,
+      status
     }
+  }
+)
+
+export const setNodeTransactionIsSyncing = (transaction: Transaction, isSyncing: boolean) : NodesAction => (
+  {
+    type: SET_NODE_TRANSACTION_IS_SYNCING,
+    data: {
+      transaction,
+      isSyncing
+    }
+  }
+)
+
+// @TODO: Specify return type
+const postTransactions = (transactions: Transactions) => {
+
+  // Only post PENDING transactions
+  const transactionsPending = transactions.filter(transaction => transaction.status === 'PENDING')
+
+  // Guard
+  if (transactionsPending.length === 0) return
+
+  return (dispatch: (action: any) => void) => {
+    // Global syncing
+    dispatch(startSyncing())
+    // Transactions syncing
+    transactionsPending.forEach(transaction => dispatch(setNodeTransactionIsSyncing(transaction, true)))
+    // POST request
+    const url = `${ host }/nodes/transactions`
+    const options = fetchOptions('POST', { transactions })
     return fetch(url, options)
       .then(
         response => {
@@ -75,43 +137,22 @@ export const getNodes = (rootNode: NodeId) => {
       .then(
         json => {
           dispatch(stopSyncing())
-          dispatch(indexNodes(json.nodes))
-          dispatch(initUIRoot(json.nodes))
+          transactionsPending.forEach(transaction => dispatch(setNodeTransactionIsSyncing(transaction, false)))
+          // Guard
+          if (!Array.isArray(json.transactions)) return
+          json.transactions.forEach(transaction => {
+            const status = transaction.status
+            // Guard
+            if (status == null) return
+            dispatch(updateNodeTransactionStatus(transaction, status))
+          })
         },
-        () => { // (error)
+        () => {
           dispatch(stopSyncing())
+          transactionsPending.forEach(transaction => dispatch(setNodeTransactionIsSyncing(transaction, false)))
           dispatch(hasErrors())
         }
       )
-  }
-}
-
-export const addNodeTransaction = (transaction: Transaction) : NodesAction => {
-  return {
-    type: ADD_NODE_TRANSACTION,
-    data: {
-      transaction
-    }
-  }
-}
-
-export const updateNodeTransactionStatus = (transaction: Transaction, status: TransactionStatus) : NodesAction => {
-  return {
-    type: UPDATE_NODE_TRANSACTION_STATUS,
-    data: {
-      transaction,
-      status
-    }
-  }
-}
-
-export const setNodeTransactionIsSyncing = (transaction: Transaction, isSyncing: boolean) : NodesAction => {
-  return {
-    type: SET_NODE_TRANSACTION_IS_SYNCING,
-    data: {
-      transaction,
-      isSyncing
-    }
   }
 }
 
@@ -210,57 +251,9 @@ export const revertTransaction = (transaction: Transaction) => {
   if (transaction.status !== 'COMMITTED') return
   const node = transaction.node
   const uuid = transaction.uuid
-  const revertTransaction = createTransaction('REVERT', undefined, undefined, node, undefined, uuid)
+  const transactionRevert = createTransaction('REVERT', undefined, undefined, node, undefined, uuid)
   return [
-    addNodeTransaction(revertTransaction),
-    postTransactions([revertTransaction])
+    addNodeTransaction(transactionRevert),
+    postTransactions([transactionRevert])
   ]
-}
-
-// @TODO: Specify return type
-const postTransactions = (transactions: Transactions) => {
-
-  // Only post PENDING transactions
-  const transactionsPending = transactions.filter(transaction => transaction.status === 'PENDING')
-
-  // Guard
-  if (transactionsPending.length === 0) return
-
-  return (dispatch: (action: any) => void) => {
-    // Global syncing
-    dispatch(startSyncing())
-    // Transactions syncing
-    transactionsPending.forEach(transaction => dispatch(setNodeTransactionIsSyncing(transaction, true)))
-    // POST request
-    const url = `${ host }/nodes/transactions`
-    const options = fetchOptions('POST', { transactions })
-    return fetch(url, options)
-      .then(
-        response => {
-          if (response.ok === false) {
-            return Promise.reject(new Error(response.statusText))
-          }
-          return response.json()
-        }
-      )
-      .then(
-        json => {
-          dispatch(stopSyncing())
-          transactionsPending.forEach(transaction => dispatch(setNodeTransactionIsSyncing(transaction, false)))
-          // Guard
-          if (!Array.isArray(json.transactions)) return
-          json.transactions.forEach(transaction => {
-            const status = transaction.status
-            // Guard
-            if (status == null) return
-            dispatch(updateNodeTransactionStatus(transaction, status))
-          })
-        },
-        () => {
-          dispatch(stopSyncing())
-          transactionsPending.forEach(transaction => dispatch(setNodeTransactionIsSyncing(transaction, false)))
-          dispatch(hasErrors())
-        }
-      )
-  }
 }

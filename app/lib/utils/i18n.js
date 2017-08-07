@@ -4,7 +4,8 @@ import en from '../../i18n/en'
 
 const langs = {
   en,
-  nl: undefined // Only for tests
+  // Only for tests
+  nl: undefined
 }
 
 import type { Lang } from '../../../flow/types'

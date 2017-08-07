@@ -22,9 +22,7 @@ describe('getNodeData', () => {
       node: uuid1,
       type: 'SET',
       status: 'COMMITTED',
-      data: {
-        title: 'Title'
-      },
+      data: { title: 'Title' },
       modified: date,
       created: date
     }
@@ -33,9 +31,7 @@ describe('getNodeData', () => {
       node: uuid1,
       type: 'SET',
       status: 'COMMITTED',
-      data: {
-        title: 'Title last'
-      },
+      data: { title: 'Title last' },
       modified: date,
       created: date
     }
@@ -49,9 +45,7 @@ describe('getNodeData', () => {
       node: uuid1,
       type: 'SET',
       status: 'COMMITTED',
-      data: {
-        title: 'Title'
-      },
+      data: { title: 'Title' },
       modified: date,
       created: date
     }
@@ -60,9 +54,7 @@ describe('getNodeData', () => {
       node: uuid1,
       type: 'SET',
       status: 'PENDING',
-      data: {
-        title: 'Title last'
-      },
+      data: { title: 'Title last' },
       modified: date,
       created: date
     }
@@ -76,9 +68,7 @@ describe('getNodeData', () => {
       node: uuid1,
       type: 'SET',
       status: 'COMMITTED',
-      data: {
-        title: 'Title'
-      },
+      data: { title: 'Title' },
       modified: date,
       created: date
     }
@@ -87,9 +77,7 @@ describe('getNodeData', () => {
       node: uuid1,
       type: 'SET',
       status: 'DENIED',
-      data: {
-        title: 'Title last'
-      },
+      data: { title: 'Title last' },
       modified: date,
       created: date
     }
@@ -103,9 +91,7 @@ describe('getNodeData', () => {
       node: uuid1,
       type: 'SET',
       status: 'COMMITTED',
-      data: {
-        title: 'Title'
-      },
+      data: { title: 'Title' },
       modified: date,
       created: date
     }
@@ -114,9 +100,7 @@ describe('getNodeData', () => {
       node: uuid1,
       type: 'SET',
       status: 'CANCELLED',
-      data: {
-        title: 'Title last'
-      },
+      data: { title: 'Title last' },
       modified: date,
       created: date
     }
@@ -130,9 +114,7 @@ describe('getNodeData', () => {
       node: uuid1,
       type: 'SET',
       status: 'COMMITTED',
-      data: {
-        title: 'Title'
-      },
+      data: { title: 'Title' },
       modified: date,
       created: date
     }
@@ -141,9 +123,7 @@ describe('getNodeData', () => {
       node: uuid1,
       type: 'SET',
       status: 'COMMITTED',
-      data: {
-        title: 'Title last'
-      },
+      data: { title: 'Title last' },
       modified: date,
       created: date
     }
@@ -166,9 +146,7 @@ describe('getNodeData', () => {
       node: uuid1,
       type: 'SET',
       status: 'COMMITTED',
-      data: {
-        title: 'Title'
-      },
+      data: { title: 'Title' },
       modified: date,
       created: date
     }
@@ -177,9 +155,7 @@ describe('getNodeData', () => {
       node: uuid1,
       type: 'SET',
       status: 'COMMITTED',
-      data: {
-        title: 'Title last'
-      },
+      data: { title: 'Title last' },
       modified: date,
       created: date
     }

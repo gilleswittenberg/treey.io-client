@@ -26,7 +26,9 @@ export default class Node extends Component {
     data: PropTypes.object.isRequired,
     ui: PropTypes.shape(propTypeShapeUI),
     hasNodes: PropTypes.bool.isRequired,
+    nodesArray: PropTypes.array.isRequired,
     isOver: PropTypes.bool,
+    remove: PropTypes.func.isRequired,
     setUIEditing: PropTypes.func.isRequired,
     setUIAdding: PropTypes.func.isRequired,
     setUIActive: PropTypes.func.isRequired,
@@ -60,12 +62,11 @@ export default class Node extends Component {
     const { clearUIEditingAdding, setUIEditing, setUIExpanded, setUIActive, treePath } = this.props
     const isExpanded = this.isExpanded()
 
-    // Alt key to edit
     if (event.altKey) {
+      // Alt key to edit
       setUIEditing(treePath)
-    }
-    // Regular click to collapse or expand
-    else {
+    } else {
+      // Regular click to collapse or expand
       clearUIEditingAdding()
       if (isExpanded) {
         this.collapse()
@@ -125,26 +126,33 @@ export default class Node extends Component {
     if (isEditing || isAdding) return
 
     switch (event.keyCode) {
-    case 37: // Left arrow
+    // Left arrow
+    case 37:
       event.preventDefault()
       this.collapse()
       break
-    case 39: // Right arrow
+    // Right arrow
+    case 39:
       event.preventDefault()
       setUIExpanded(treePath)
       break
-    case 13: // Enter
+    // Enter
+    case 13:
       event.preventDefault()
       setUIEditing(treePath)
       break
-    case 68: // D
+    // D
+    case 68:
       if (event.shiftKey) {
         this.remove(treePath)
       }
       break
-    case 187: // +
+    // +
+    case 187:
       event.preventDefault()
       setUIAdding(treePath)
+      break
+    default:
       break
     }
   }
@@ -217,15 +225,15 @@ export default class Node extends Component {
     const className = classNames(
       'node-body',
       {
-        '-has-move-child-button-shown':  showMoveChildButton,
+        '-has-move-child-button-shown': showMoveChildButton,
         '-has-buttons-shown': hasButtonsShown,
         '-is-dragging': isDragging
       }
     )
 
     let numButtons = 1
-    if (showAddButton) numButtons++
-    if (showDeleteButton) numButtons++
+    if (showAddButton) numButtons += 1
+    if (showDeleteButton) numButtons += 1
     const nodeButtonsClassName = classNames(
       'node-buttons',
       'node-buttons-default-hidden',

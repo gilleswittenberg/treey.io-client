@@ -5,7 +5,7 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
-import reducer from '../../app/reducers/user'
+import reducer, { defaultState } from '../../app/reducers/user'
 import {
   UNAUTHENTICATED,
   AUTHENTICATE,
@@ -16,7 +16,6 @@ import {
   SIGN_OUT_FAILED
 } from '../../app/actions/user'
 import { uuid } from '../uuid'
-import { defaultState } from '../../app/reducers/user'
 
 describe('user reducer', () => {
 

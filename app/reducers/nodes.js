@@ -21,7 +21,7 @@ export const defaultState: NodesState = {
   nodes: []
 }
 
-export default function nodes (state: NodesState = defaultState, action: NodesAction) : NodesState {
+export default function (state: NodesState = defaultState, action: NodesAction) : NodesState { // eslint-disable-line
 
   // Backend
   switch (action.type) {
@@ -54,7 +54,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
       if (index === -1 && transaction.type === 'CREATE') {
         const node = createNode(transaction.node, transaction)
         nodes = nodes.push(node)
-      }
+      } // eslint-disable-line brace-style
       // Update existing node
       else if (index > -1) {
 
@@ -84,9 +84,12 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
             }
           }
           break
-        }}
-      }
-      else {
+        }
+
+        default:
+          break
+        }
+      } else {
         // @TODO: log error, feedback for non existing node
       }
 
@@ -106,7 +109,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
       if (index > -1) {
 
         let nodes = fromJS(state.nodes)
-        let indexTransaction = nodes.getIn([index, 'transactions']).findIndex(elem => elem.get('uuid') === transaction.uuid)
+        const indexTransaction = nodes.getIn([index, 'transactions']).findIndex(elem => elem.get('uuid') === transaction.uuid)
         if (indexTransaction > -1) {
 
           // Update transaction status
@@ -118,7 +121,7 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
             if (transaction.type === 'CREATE' && transaction.auth != null) {
               nodes = nodes.setIn([index, 'auth'], transaction.auth)
             }
-          }
+          } // eslint-disable-line brace-style
 
           // Transaction cancelled or denied, rollback
           else if (status === 'CANCELLED' || status === 'DENIED') {
@@ -145,12 +148,14 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
               }
               break
             }
+            default:
+              break
             }
           }
 
           nodes = nodes.toJS()
           return { ...state, nodes }
-        } else {
+        } else { // eslint-disable-line no-else-return
           // @TODO: log error, feedback for non existing transaction
         }
       } else {
@@ -171,12 +176,12 @@ export default function nodes (state: NodesState = defaultState, action: NodesAc
       const index = state.nodes.findIndex(node => node.uuid === uuid)
       if (index > -1) {
         let nodes = fromJS(state.nodes)
-        let indexTransaction = nodes.getIn([index, 'transactions']).findIndex(elem => elem.get('uuid') === transaction.uuid)
+        const indexTransaction = nodes.getIn([index, 'transactions']).findIndex(elem => elem.get('uuid') === transaction.uuid)
         if (indexTransaction > -1) {
           nodes = nodes.setIn([index, 'transactions', indexTransaction, 'isSyncing'], isSyncing)
           nodes = nodes.toJS()
           return { ...state, nodes }
-        } else {
+        } else { // eslint-disable-line no-else-return
           // @TODO: log error, feedback for non existing transaction
         }
       } else {

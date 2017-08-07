@@ -10,6 +10,8 @@ export default class Transactions extends Component {
   static propTypes = {
     lang: PropTypes.string.isRequired,
     transactions: PropTypes.array.isRequired,
+    syncTransaction: PropTypes.func.isRequired,
+    cancelTransaction: PropTypes.func.isRequired,
     showNode: PropTypes.bool
   }
 
@@ -43,10 +45,10 @@ export default class Transactions extends Component {
               </tr>
             </thead>
             <tbody>
-            { transactionsReversed.map(transaction => {
-              const transactionRowProps = { lang, transaction, showNode, syncTransaction, cancelTransaction }
-              return (<TransactionRow key={ transaction.uuid } { ...transactionRowProps }></TransactionRow>)
-            }) }
+              { transactionsReversed.map(transaction => {
+                const transactionRowProps = { lang, transaction, showNode, syncTransaction, cancelTransaction }
+                return <TransactionRow key={ transaction.uuid } { ...transactionRowProps }></TransactionRow>
+              }) }
             </tbody>
           </table>
         }

@@ -29,7 +29,8 @@ const DropSpec = {
 
   drop (props, monitor, component) {
 
-    const item = monitor.getItem() // NodeDraggable props
+    // NodeDraggable props
+    const item = monitor.getItem()
     const {
       treePath,
       uuid: uuidDraggable,
@@ -37,10 +38,13 @@ const DropSpec = {
       index: indexDraggable
     } = item
 
-    const { treePath: pathDroppable, uuid, siblings, index, move } = props // NodeDroppable props
+    // NodeDroppable props
+    const { treePath: pathDroppable, uuid, siblings, index, move } = props
     const overPosition = component.getHoverRegion(monitor, component.element)
-    const nextSiblingDroppable = getNextSibling(siblings, index) // Next uuid: ?string after NodeDroppable
-    const nextSiblingDraggable = getNextSibling(siblingsDraggable, indexDraggable) // Next uuid: ?string after NodeDraggable
+    // Next uuid: ?string after NodeDroppable
+    const nextSiblingDroppable = getNextSibling(siblings, index)
+    // Next uuid: ?string after NodeDraggable
+    const nextSiblingDraggable = getNextSibling(siblingsDraggable, indexDraggable)
     const before = overPosition === 'top' ? uuid : nextSiblingDroppable
 
     // Guard: do not move when dropped on original position
@@ -67,7 +71,8 @@ class NodeDroppable extends Component {
     move: PropTypes.func.isRequired,
     // Injected by React DnD DropTarget
     connectDropTarget: PropTypes.func,
-    isOver: PropTypes.bool
+    isOver: PropTypes.bool,
+    hoverRegion: PropTypes.any
   }
 
   static defaultProps = {
@@ -140,7 +145,7 @@ class NodeDroppable extends Component {
   }
 }
 
-@DropTarget(DND_TYPE, DropSpec, (connect, monitor) => ({
+@DropTarget(DND_TYPE, DropSpec, (connect, monitor) => ({ // eslint-disable-line new-cap
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver({ shallow: true })
 }))

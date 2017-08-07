@@ -29,9 +29,7 @@ describe('Node', () => {
     isRoot: false,
     uuid,
     treePath: [],
-    data: {
-      title: ''
-    },
+    data: { title: '' },
     ui,
     hasNodes: false,
     siblings: [{ uuid, ui }],
@@ -94,7 +92,15 @@ describe('Node', () => {
       const setUIExpanded = jest.fn()
       const clearUIEditingAdding = jest.fn()
       const setUIActive = jest.fn()
-      const wrapper = mount(getComponent({ treePath: [uuid], setUIExpanded, clearUIEditingAdding, setUIActive, hasNodes: true, isRoot: true, ui: { expanded: { '0': [uuid] } } }))
+      const wrapper = mount(getComponent({
+        treePath: [uuid],
+        setUIExpanded,
+        clearUIEditingAdding,
+        setUIActive,
+        hasNodes: true,
+        isRoot: true,
+        ui: { expanded: { '0': [uuid] } } // eslint-disable-line quote-props
+      }))
       wrapper.find('.node-content').simulate('click')
       expect(setUIExpanded.mock.calls.length).toBe(0)
       expect(clearUIEditingAdding.mock.calls.length).toBe(1)
@@ -126,7 +132,7 @@ describe('Node', () => {
     it('click', () => {
       const setUIButtonsShown = jest.fn()
       const wrapper = mount(getComponent({ setUIButtonsShown }))
-      const mockEvent =  getMockEvent()
+      const mockEvent = getMockEvent()
       wrapper.find('.button-icon-more').simulate('click', mockEvent)
       expect(setUIButtonsShown.mock.calls.length).toBe(1)
     })
@@ -192,7 +198,7 @@ describe('Node', () => {
     })
 
     it('isExpanded', () => {
-      const wrapper = shallow(getComponent({ treePath: [uuid], ui: { expanded: { '0': [uuid] } } }))
+      const wrapper = shallow(getComponent({ treePath: [uuid], ui: { expanded: { '0': [uuid] } } })) // eslint-disable-line quote-props
       expect(wrapper.instance().isExpanded()).toBe(true)
     })
   })

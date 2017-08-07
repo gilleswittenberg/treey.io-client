@@ -20,7 +20,7 @@ export default class ButtonIcon extends Component {
   }
 
   static defaultProps = {
-    handleClick: (event: Event) => {} // eslint-disable-line no-unused-vars
+    handleClick: (event: Event) => {} // eslint-disable-line no-unused-vars, no-empty-function
   }
 
   render () {
@@ -48,6 +48,8 @@ export default class ButtonIcon extends Component {
     case 'EDIT':
     case 'SAVE':
       imgSrc = submitImgSrc
+      break
+    default:
       break
     }
 

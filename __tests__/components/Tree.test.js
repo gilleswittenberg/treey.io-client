@@ -1,4 +1,4 @@
-  /* @flow */
+/* @flow */
 
 // Required for Flow type
 declare var describe: any

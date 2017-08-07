@@ -1,3 +1,3 @@
 /* @flow */
 
-export default function () {}
+export default () => {} // eslint-disable-line no-empty-function

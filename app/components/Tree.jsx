@@ -16,6 +16,7 @@ class Tree extends Component {
   static propTypes = {
     enableDnD: PropTypes.bool,
     tree: PropTypes.object,
+    ui: PropTypes.object.isRequired,
     nodesArray: PropTypes.array.isRequired,
     clearUIEditingAdding: PropTypes.func.isRequired,
     setUIExpanded: PropTypes.func.isRequired,
@@ -44,7 +45,8 @@ class Tree extends Component {
 
   @autobind
   handleKeyUp (event: KeyboardEvent) {
-    if (event.keyCode === 27) { // Esc
+    // Esc
+    if (event.keyCode === 27) {
       const { clearUIEditingAdding } = this.props
       clearUIEditingAdding()
     }
@@ -61,17 +63,21 @@ class Tree extends Component {
     let action, nextActive, activeNode
 
     switch (event.keyCode) {
-    case 40: // Down arrow
+    // Down arrow
+    case 40:
       nextActive = getNextActive(nodes, active, expanded)
       break
-    case 38: // Up arrow
+    // Up arrow
+    case 38:
       nextActive = getPrevActive(nodes, active, expanded)
       break
-    case 9: // Tab
+    // Tab
+    case 9:
       action = event.shiftKey ? getPrevActive : getNextActive
       nextActive = action(nodes, active, expanded)
       break
-    case 73: // I
+    // I
+    case 73:
       if (!event.shiftKey && !event.altKey && !event.ctrlKey && !event.metaKey) {
         activeNode = getNodeFromTreePath(active)
         if (activeNode != null) {
@@ -118,7 +124,7 @@ class Tree extends Component {
 }
 
 const touchBackendOptions = { enableMouseEvents: true, delayTouchStart: 400 }
-const backend = TouchBackend(touchBackendOptions)
+const backend = TouchBackend(touchBackendOptions) // eslint-disable-line new-cap
 
-@DragDropContext(backend)
+@DragDropContext(backend) // eslint-disable-line new-cap
 export default class TreeDecorated extends Tree {}

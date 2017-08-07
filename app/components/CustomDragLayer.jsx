@@ -65,7 +65,7 @@ class CustomDragLayer extends Component {
   }
 }
 
-@DragLayer(monitor => ({
+@DragLayer(monitor => ({ // eslint-disable-line new-cap
   item: monitor.getItem(),
   itemType: monitor.getItemType(),
   currentOffset: monitor.getSourceClientOffset(),

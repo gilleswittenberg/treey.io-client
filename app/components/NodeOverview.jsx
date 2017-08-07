@@ -9,7 +9,9 @@ export default class NodeOverview extends Component {
 
   static propTypes = {
     lang: PropTypes.string.isRequired,
-    node: PropTypes.object.isRequired
+    node: PropTypes.object.isRequired,
+    syncTransaction: PropTypes.func.isRequired,
+    cancelTransaction: PropTypes.func.isRequired
   }
 
   render () {
@@ -37,9 +39,9 @@ export default class NodeOverview extends Component {
         <p>{ user }</p>
         <h1>{ __(lang, 'DATA') }</h1>
         <ul>
-        { dataKeys.map(key =>
-          <li key={ key }>{ key }: { data[key] }</li>
-        ) }
+          { dataKeys.map(key =>
+            <li key={ key }>{ key }: { data[key] }</li>
+          ) }
         </ul>
         <h1>{ __(lang, 'NODES') }</h1>
         { !hasNodes &&
@@ -47,9 +49,9 @@ export default class NodeOverview extends Component {
         }
         { hasNodes &&
           <ul>
-          { nodes.map(node =>
-            <li key={ node }><Link to={ '/node/' + node }>{ node }</Link></li>
-          )}
+            { nodes.map(node =>
+              <li key={ node }><Link to={ '/node/' + node }>{ node }</Link></li>
+            )}
           </ul>
         }
         <Transactions { ...transactionsProps } />

@@ -14,9 +14,12 @@ const DropSpec = {
   },
 
   drop (props, monitor) {
-    const item = monitor.getItem() // NodeDraggable
-    const { path } = item // NodeDraggable props
-    const { uuid: before, path: pathDroppable, putMoveNode, setUIExpanded } = props // NodeDroppable props
+    // NodeDraggable
+    const item = monitor.getItem()
+    // NodeDraggable props
+    const { path } = item
+    // NodeDroppable props
+    const { uuid: before, path: pathDroppable, putMoveNode, setUIExpanded } = props
     const newPath = pathDroppable && pathDroppable.length > 1 ? pathDroppable.slice(0, -1) : pathDroppable
     putMoveNode(path, newPath, before)
     setUIExpanded(path)
@@ -57,9 +60,7 @@ class ButtonMoveChild extends Component {
 
     const className = classNames(
       'node-button-move-child',
-      {
-        '-is-over': isOver
-      }
+      { '-is-over': isOver }
     )
 
     return (
@@ -72,7 +73,7 @@ class ButtonMoveChild extends Component {
   }
 }
 
-@DropTarget(DND_TYPE, DropSpec, (connect, monitor) => ({
+@DropTarget(DND_TYPE, DropSpec, (connect, monitor) => ({ // eslint-disable-line new-cap
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver({ shallow: true })
 }))

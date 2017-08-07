@@ -18,4 +18,4 @@ const localStorageMock = (() => {
   }
 })()
 
-Object.defineProperty(window, 'localStorage', { value: localStorageMock })
+Reflect.defineProperty(window, 'localStorage', { value: localStorageMock })

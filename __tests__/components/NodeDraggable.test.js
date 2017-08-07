@@ -16,7 +16,7 @@ import { uuid } from '../uuid'
 
 // Wraps a component into a DragDropContext that uses the TestBackend.
 function wrapInTestContext (DecoratedComponent, props) {
-  @DragDropContext(TestBackend)
+  @DragDropContext(TestBackend) // eslint-disable-line new-cap
   class TestContextContainer extends Component {
     render () {
       return <DecoratedComponent { ...props } />

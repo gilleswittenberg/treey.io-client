@@ -18,7 +18,7 @@ import { uuid, uuid1, uuid2 } from '../uuid'
 
 // Wraps a component into a DragDropContext that uses the TestBackend.
 function wrapInTestContext (DecoratedDraggableComponent, DecoratedDroppableComponent, propsDraggable, propsDroppable) {
-  @DragDropContext(TestBackend)
+  @DragDropContext(TestBackend) // eslint-disable-line new-cap
   class TestContextContainer extends Component {
     render () {
       return (
@@ -60,15 +60,15 @@ describe('NodeDroppable', () => {
     uuid: uuid1,
     treePath: [uuid1],
     app: {},
-    data: {
-      title: 'node droppable'
-    },
+    data: { title: 'node droppable' },
     ui,
     hasNodes: false,
+    nodesArray: [],
     siblings: [uuid1],
     index: 0,
     removeChild: noop,
     move: noop,
+    remove: noop,
     setUIEditing: noop,
     setUIAdding: noop,
     setUIExpanded: noop,

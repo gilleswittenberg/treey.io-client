@@ -21,9 +21,7 @@ describe('NodeWrap', () => {
     parent,
     uuid,
     treePath: [],
-    data: {
-      title: ''
-    },
+    data: { title: '' },
     ui,
     isRoot: false,
     nodes: [],

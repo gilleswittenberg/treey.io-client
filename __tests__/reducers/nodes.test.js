@@ -95,9 +95,7 @@ describe('nodes reducer', () => {
         }
         const state2 = reducer(state, {
           type: ADD_NODE_TRANSACTION,
-          data: {
-            transaction
-          }
+          data: { transaction }
         })
         expect(state2.nodes[0].uuid).toBe(uuid1)
         expect(state2.nodes[0].transactions[0]).toEqual(transaction)
@@ -138,9 +136,7 @@ describe('nodes reducer', () => {
         }
         const state2 = reducer(state, {
           type: ADD_NODE_TRANSACTION,
-          data: {
-            transaction
-          }
+          data: { transaction }
         })
         expect(state2.nodes[0].data).toEqual({ title: 'New' })
         expect(state2.nodes[0].transactions[1]).toEqual(transaction)
@@ -181,14 +177,10 @@ describe('nodes reducer', () => {
         }
         const state2 = reducer(state, {
           type: ADD_NODE_TRANSACTION,
-          data: {
-            transaction
-          }
+          data: { transaction }
         })
         // @TODO: remove null check
-        if (state2.nodes[0].nodes != null) {
-          expect(state2.nodes[0].nodes.length).toBe(0)
-        }
+        if (state2.nodes[0].nodes != null) expect(state2.nodes[0].nodes.length).toBe(0)
         expect(state2.nodes[0].transactions[1]).toEqual(transaction)
       })
 
@@ -229,9 +221,7 @@ describe('nodes reducer', () => {
           }
           const state2 = reducer(state, {
             type: ADD_NODE_TRANSACTION,
-            data: {
-              transaction
-            }
+            data: { transaction }
           })
           expect(state2.nodes[0].transactions[1]).toEqual(transaction)
           expect(state2.nodes[0].nodes).toEqual([uuid1])
@@ -284,9 +274,7 @@ describe('nodes reducer', () => {
           }
           const state2 = reducer(state, {
             type: ADD_NODE_TRANSACTION,
-            data: {
-              transaction
-            }
+            data: { transaction }
           })
           expect(state2.nodes[0].transactions[2]).toEqual(transaction)
           expect(state2.nodes[0].nodes).toEqual([uuid2, uuid1])
@@ -340,9 +328,7 @@ describe('nodes reducer', () => {
           }
           const state2 = reducer(state, {
             type: ADD_NODE_TRANSACTION,
-            data: {
-              transaction
-            }
+            data: { transaction }
           })
           expect(state2.nodes[0].data).toEqual({ title: 'John Doe' })
           expect(state2.nodes[0].transactions[2]).toEqual(transaction)
@@ -592,9 +578,7 @@ describe('nodes reducer', () => {
           expect(state2.nodes[0].transactions[0].status).toBe('DENIED')
           const children = state2.nodes[0].nodes
           expect(children).not.toBe(null)
-          if (children != null) {
-            expect(children.length).toBe(0)
-          }
+          if (children != null) expect(children.length).toBe(0)
         })
       })
 

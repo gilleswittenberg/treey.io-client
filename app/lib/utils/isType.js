@@ -2,7 +2,7 @@
 
 import type { Type } from '../../../flow/types'
 
-export default function isType (type: Type, value: any) {
+export default function isType (type: Type, value: any) : boolean {
   switch (type) {
   case 'boolean':
     return typeof value === 'boolean'
@@ -27,5 +27,7 @@ export default function isType (type: Type, value: any) {
       return false
     }
     return value.filter(v => isType('string', v)).length === value.length
+  default:
+    return false
   }
 }

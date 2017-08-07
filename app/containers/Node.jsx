@@ -11,7 +11,8 @@ class Node extends React.Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     app: PropTypes.object.isRequired,
-    nodes: PropTypes.object.isRequired
+    nodes: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired
   }
 
   render () {
@@ -26,7 +27,7 @@ class Node extends React.Component {
     const actions = getActions(dispatch)
 
     const navBackProps = { lang }
-    const node = nodes.find(node => node.uuid === uuid)
+    const node = nodes.find(n => n.uuid === uuid)
     const nodeOverviewProps = { lang, node, ...actions }
 
     return (

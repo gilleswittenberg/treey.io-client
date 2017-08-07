@@ -74,7 +74,13 @@ export default class RegisterForm extends Component {
         <form onSubmit={ this.handleSubmit }>
           <input type="text" name="username" className={ usernameInputClassName } onChange={ this.handleChange } placeholder={ usernameText } />
           <input type="password" name="password" className={ passwordInputClassName } onChange={ this.handleChange } placeholder={ passwordText } />
-          <input type="password" name="passwordConfirm" className={ passwordConfirmInputClassName } onChange={ this.handleChange } placeholder={ passwordConfirmText } />
+          <input
+            type="password"
+            name="passwordConfirm"
+            className={ passwordConfirmInputClassName }
+            onChange={ this.handleChange }
+            placeholder={ passwordConfirmText }
+          />
           { registrationFailed && <p>{ registrationFailedMessage }</p> }
           { registrationError && <p>{ registrationErrorMessage }</p> }
           <input type="submit" value={ registerText } />

@@ -21,7 +21,7 @@ export const defaultState: UIState = {
   dragging: null
 }
 
-export default function (state: UIState = defaultState, action: UIAction) : UIState {
+export default function (state: UIState = defaultState, action: UIAction) : UIState { // eslint-disable-line complexity
 
   switch (action.type) {
 
@@ -64,7 +64,7 @@ export default function (state: UIState = defaultState, action: UIAction) : UISt
       if (isExpanded) return state
       // Add to state.expanded
       const key = keys.length === 0 ? '0' : Math.max(...keys.map(k => parseInt(k, 10))) + 1
-      const expanded = (fromJS(state.expanded).set(key, treePath)).toJS()
+      const expanded = (fromJS(state.expanded).set(key, treePath)).toJS() // eslint-disable-line newline-per-chained-call
       return { ...state, expanded }
     }
     return state
@@ -78,7 +78,7 @@ export default function (state: UIState = defaultState, action: UIAction) : UISt
           key = k
         }
       })
-      const expanded = key != null ? (fromJS(state.expanded).delete(key)).toJS() : state.expanded
+      const expanded = key != null ? (fromJS(state.expanded).delete(key)).toJS() : state.expanded // eslint-disable-line newline-per-chained-call
       return { ...state, expanded }
     }
     return state

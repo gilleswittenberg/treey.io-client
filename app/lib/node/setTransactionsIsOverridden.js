@@ -2,16 +2,8 @@
 
 import type { Transactions } from '../../../flow/tree'
 
-export default (transactions: Transactions) : Transactions => {
-  let transactionsIsOverridden
-  transactionsIsOverridden = setCREATE(transactions)
-  transactionsIsOverridden = setSET(transactionsIsOverridden)
-  transactionsIsOverridden = setCHILDREN(transactionsIsOverridden)
-  return transactionsIsOverridden
-}
-
 const setCREATE = (transactions: Transactions) : Transactions => {
-  let createTransactionsFound = []
+  const createTransactionsFound = []
   return transactions.map(transaction => {
     const node = transaction.node
     if (transaction.type === 'CREATE') {
@@ -27,7 +19,7 @@ const setCREATE = (transactions: Transactions) : Transactions => {
 }
 
 const setSET = (transactions: Transactions) : Transactions => {
-  let setTransactionsFound = []
+  const setTransactionsFound = []
   // Need to clone transactions, because reverse method is mutable
   return [...transactions].reverse().map(transaction => {
     if (transaction.type === 'SET') {
@@ -40,7 +32,7 @@ const setSET = (transactions: Transactions) : Transactions => {
       }
     }
     return transaction
-  }).reverse()
+  }).reverse() // eslint-disable-line newline-per-chained-call
 }
 
 const setCHILDREN = (transactions: Transactions) : Transactions => {
@@ -68,5 +60,13 @@ const setCHILDREN = (transactions: Transactions) : Transactions => {
       }
     }
     return transaction
-  }).reverse()
+  }).reverse() // eslint-disable-line newline-per-chained-call
+}
+
+export default (transactions: Transactions) : Transactions => {
+  let transactionsIsOverridden
+  transactionsIsOverridden = setCREATE(transactions)
+  transactionsIsOverridden = setSET(transactionsIsOverridden)
+  transactionsIsOverridden = setCHILDREN(transactionsIsOverridden)
+  return transactionsIsOverridden
 }

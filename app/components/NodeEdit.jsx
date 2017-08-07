@@ -4,6 +4,7 @@ import autobind from 'autobind-decorator'
 import React, { Component, PropTypes } from 'react'
 import ButtonIcon from '../components/ButtonIcon'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
+import focusInput from '../lib/ui/focusInput'
 
 export default class NodeEdit extends Component {
 
@@ -28,7 +29,7 @@ export default class NodeEdit extends Component {
 
   constructor (props: any) {
     super(props)
-    this.state.title = props.title
+    this.state.title = props.title // eslint-disable-line react/no-direct-mutation-state
   }
 
   componentWillReceiveProps (nextProps: any) {
@@ -83,7 +84,7 @@ export default class NodeEdit extends Component {
           </div>
           <div className="input-wrap">
             <input
-              ref={ input => { if (input) input.focus() } }
+              ref={ focusInput }
               value={ value }
               onChange={ this.handleChange }
               onClick={ this.handleClick }

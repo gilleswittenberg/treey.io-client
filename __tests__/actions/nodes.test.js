@@ -276,9 +276,7 @@ describe('actions nodes', () => {
           created: date
         }
         const transactionCommitted = { ...transaction, status: 'COMMITTED' }
-        const response = {
-          transactions: [transactionCommitted]
-        }
+        const response = { transactions: [transactionCommitted] }
         nock(hostname)
           .post('/nodes/transactions')
           .reply(201, response)

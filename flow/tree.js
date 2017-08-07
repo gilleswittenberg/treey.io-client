@@ -11,19 +11,6 @@ export type NodeUser = string
 
 export type TreePath = NodeId[]
 
-export type Node = {
-  uuid: ?UUID,
-  auth?: {
-    user: ?NodeUser,
-  },
-  data: NodeData,
-  transactions: Transactions,
-  // @TODO: make non-optional
-  nodes?: NodeId[]
-}
-
-export type Nodes = Node[]
-
 export type NodeData = {
   title: string
 }
@@ -50,6 +37,20 @@ export type Transaction = {
   created: Date
 }
 export type Transactions = Transaction[]
+
+
+export type Node = {
+  uuid: ?UUID,
+  auth?: {
+    user: ?NodeUser,
+  },
+  data: NodeData,
+  transactions: Transactions,
+  // @TODO: make non-optional
+  nodes?: NodeId[]
+}
+
+export type Nodes = Node[]
 
 export type UIKey = 'active' | 'expanded' | 'adding' | 'editing' | 'dragging' | 'movingChild' | 'buttonsShown'
 

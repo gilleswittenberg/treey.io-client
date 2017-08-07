@@ -19,7 +19,8 @@ exports.devServer = function (options) {
       // 0.0.0.0 is available to all network devices unlike default `localhost`.
       host: options.host || '0.0.0.0',
       disableHostCheck: true,
-      port: options.port // Defaults to 8080
+      // Defaults to 8080
+      port: options.port
     },
     plugins: [
       // Enable multi-pass compilation for enhanced performance in larger projects.

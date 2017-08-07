@@ -7,6 +7,7 @@ import ButtonIcon from './ButtonIcon'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 import arraysEqual from '../lib/utils/arraysEqual'
 import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
+import focusInput from '../lib/ui/focusInput'
 
 export default class NodeAdd extends Component {
 
@@ -118,7 +119,7 @@ export default class NodeAdd extends Component {
               </div>
               <div className="input-wrap">
                 <input
-                  ref={ input => { if (input) input.focus() } }
+                  ref={ focusInput }
                   onChange={ this.handleChange }
                   value={ value }
                   autoCapitalize="off"

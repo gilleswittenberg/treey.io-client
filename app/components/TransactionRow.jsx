@@ -12,6 +12,7 @@ export default class TransactionRow extends Component {
     transaction: PropTypes.object.isRequired,
     syncTransaction: PropTypes.func.isRequired,
     cancelTransaction: PropTypes.func.isRequired,
+    revertTransaction: PropTypes.func.isRequired,
     showNode: PropTypes.bool.isRequired
   }
 
@@ -36,7 +37,7 @@ export default class TransactionRow extends Component {
   render () {
 
     const { lang, transaction, showNode } = this.props
-    const className =  classNames({
+    const className = classNames({
       '-is-denied': transaction.status === 'DENIED',
       '-is-overridden': transaction.isOverridden === true,
       '-is-revert': transaction.type === 'REVERT',
@@ -45,6 +46,7 @@ export default class TransactionRow extends Component {
     const showSyncButton = transaction.isSyncing === false && transaction.status === 'PENDING'
     const showCancelButton = showSyncButton
     const showRevertButton = transaction.status === 'COMMITTED' && transaction.isReverted !== true
+    const handleSubmitSync = this.handleSubmitSync // eslint-disable-line no-sync
 
     return (
       <tr className={ className }>
@@ -57,7 +59,7 @@ export default class TransactionRow extends Component {
         <td>{ transaction.modified ? transaction.modified.toString() : '-' }</td>
         <td>{ transaction.created ? transaction.created.toString() : '-' }</td>
         <td>
-          { showSyncButton && <button onClick={ this.handleSubmitSync }>{ __(lang, 'SYNC') }</button> }
+          { showSyncButton && <button onClick={ handleSubmitSync }>{ __(lang, 'SYNC') }</button> }
           { showCancelButton && <button onClick={ this.handleSubmitCancel }>{ __(lang, 'CANCEL') }</button> }
           { showRevertButton && <button onClick={ this.handleSubmitRevert }>{ __(lang, 'REVERT') }</button> }
         </td>

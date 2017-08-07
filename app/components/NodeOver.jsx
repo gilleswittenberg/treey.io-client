@@ -18,7 +18,7 @@ export default class NodeOver extends Component {
     return (
       <div className={ className }>
         <div>
-            <span>{ titleString }</span>
+          <span>{ titleString }</span>
         </div>
       </div>
     )

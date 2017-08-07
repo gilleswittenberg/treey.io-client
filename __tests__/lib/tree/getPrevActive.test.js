@@ -35,8 +35,8 @@ describe('getPrevActive', () => {
       { uuid: uuid1, data: { title: '' }, transactions: [], user: '', nodes: [uuid2, uuid3] }
     ]
     const expanded = {
-      '0': [uuid],
-      '1': [uuid, uuid1]
+      '0': [uuid], // eslint-disable-line quote-props
+      '1': [uuid, uuid1] // eslint-disable-line quote-props
     }
     const prevActive = getPrevActive(nodes, [uuid], expanded)
     expect(prevActive).toEqual([uuid, uuid1, uuid3])
@@ -51,8 +51,8 @@ describe('getPrevActive', () => {
       { uuid: uuid4, data: { title: '' }, transactions: [], user: '', nodes: [] }
     ]
     const expanded = {
-      '0': [uuid],
-      '1': [uuid, uuid1]
+      '0': [uuid], // eslint-disable-line quote-props
+      '1': [uuid, uuid1] // eslint-disable-line quote-props
     }
     const prevActive = getPrevActive(nodes, [uuid, uuid2], expanded)
     expect(prevActive).toEqual([uuid, uuid1, uuid4])

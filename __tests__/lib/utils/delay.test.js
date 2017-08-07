@@ -11,6 +11,7 @@ import noop from '../../noop'
 describe('delay', () => {
 
   it('return timeoutID', () => {
-    expect(delay(noop)).toBeGreaterThan(0) // TimeoutID is number > 0
+    // TimeoutID is number > 0
+    expect(delay(noop)).toBeGreaterThan(0)
   })
 })

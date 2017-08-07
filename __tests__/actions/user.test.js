@@ -43,9 +43,7 @@ describe('actions user', () => {
     })
 
     it('OK', () => {
-      const body = {
-        username: 'gilleswittenberg'
-      }
+      const body = { username: 'gilleswittenberg' }
       nock(hostname)
         .get('/user')
         .reply(200, body)

@@ -85,7 +85,7 @@ export default class NodeWrap extends Component {
         '-is-root': isRoot,
         '-is-active': isActive,
         '-is-dragging': isDragging,
-        '-is-expanded': (isExpanded && hasNodes) || isAdding || isMovingChild
+        '-is-expanded': (isExpanded && hasNodes) || isAdding || isMovingChild // eslint-disable-line no-extra-parens
       }
     )
 

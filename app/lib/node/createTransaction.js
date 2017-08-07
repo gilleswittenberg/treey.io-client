@@ -3,7 +3,13 @@
 import type { Transaction, TransactionType, NodeData, NodeId, TransactionId } from '../../../flow/tree'
 import uuidv4 from 'uuid/v4'
 
-export default (type: TransactionType, uuid?: NodeId, nodeData?: NodeData, child?: NodeId, before?: NodeId, revertTransaction?: TransactionId) : Transaction => {
+export default ( // eslint-disable-line max-params
+  type: TransactionType,
+  uuid?: NodeId,
+  nodeData?: NodeData,
+  child?: NodeId,
+  before?: NodeId,
+  revertTransaction?: TransactionId) : Transaction => {
 
   const date = new Date()
 
@@ -36,6 +42,8 @@ export default (type: TransactionType, uuid?: NodeId, nodeData?: NodeData, child
   case 'REVERT':
     transaction.type = 'REVERT'
     transaction.transaction = revertTransaction
+    break
+  default:
     break
   }
 

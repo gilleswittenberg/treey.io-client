@@ -15,7 +15,7 @@ describe('getNextActive', () => {
       { uuid, data: { title: '' }, transactions: [], user: '', nodes: [uuid1] },
       { uuid: uuid1, data: { title: '' }, transactions: [], user: '', nodes: [] }
     ]
-    const nextActive = getNextActive(nodes, [uuid], { '0': [uuid] })
+    const nextActive = getNextActive(nodes, [uuid], { '0': [uuid] }) // eslint-disable-line quote-props
     expect(nextActive).toEqual([uuid, uuid1])
   })
 
@@ -46,7 +46,7 @@ describe('getNextActive', () => {
       { uuid: uuid1, data: { title: '' }, transactions: [], user: '', nodes: [uuid2] },
       { uuid: uuid2, data: { title: '' }, transactions: [], user: '', nodes: [] }
     ]
-    const nextActive = getNextActive(nodes, [uuid, uuid1], { '0': [uuid], '1': [uuid, uuid1] })
+    const nextActive = getNextActive(nodes, [uuid, uuid1], { '0': [uuid], '1': [uuid, uuid1] }) // eslint-disable-line quote-props
     expect(nextActive).toEqual([uuid, uuid1, uuid2])
   })
 

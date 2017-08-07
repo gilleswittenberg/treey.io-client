@@ -1,8 +1,7 @@
 /* @flow */
 
 import type { UIKey, TreePath, Nodes } from '../../flow/tree'
-import type { UIAction } from '../../flow/types'
-import type { UIActions } from '../../flow/types'
+import type { UIAction, UIActions } from '../../flow/types'
 
 // Actions
 export const SET_UI_KEY = 'SET_UI_KEY'
@@ -13,100 +12,72 @@ export const UNSET_EXPANDED_DEEP = 'UNSET_EXPANDED_DEEP'
 
 // Action creators
 
-const setUIKey = (key: UIKey, treePath: TreePath) : UIAction => {
-  return {
+const setUIKey = (key: UIKey, treePath: TreePath) : UIAction => (
+  {
     type: SET_UI_KEY,
     data: {
       key,
       treePath
     }
   }
-}
+)
 
-const unsetUIKey = (key: UIKey) : UIAction  => {
-  return {
+const unsetUIKey = (key: UIKey) : UIAction => (
+  {
     type: UNSET_UI_KEY,
-    data: {
-      key
-    }
+    data: { key }
   }
-}
+)
 
-export const clearUIEditingAdding = () : UIActions => {
-  return [
-    unsetUIKey('editing'),
-    unsetUIKey('adding')
-  ]
-}
+export const setUIActive = (treePath: TreePath) : UIAction => setUIKey('active', treePath)
 
-export const setUIEditing = (treePath: TreePath) : UIActions => {
-  return [
-    setUIKey('editing', treePath),
-    setUIActive(treePath)
-  ]
-}
+export const clearUIEditingAdding = () : UIActions => [
+  unsetUIKey('editing'),
+  unsetUIKey('adding')
+]
 
-export const setUIAdding = (treePath: TreePath) : UIActions => {
-  return [
-    setUIKey('adding', treePath),
-    setUIActive(treePath)
-  ]
-}
+export const setUIEditing = (treePath: TreePath) : UIActions => [
+  setUIKey('editing', treePath),
+  setUIActive(treePath)
+]
 
-export const setUIActive = (treePath: TreePath) : UIAction => {
-  return setUIKey('active', treePath)
-}
+export const setUIAdding = (treePath: TreePath) : UIActions => [
+  setUIKey('adding', treePath),
+  setUIActive(treePath)
+]
 
-export const setUIExpanded = (treePath: TreePath) : UIAction => {
-  return {
+export const setUIExpanded = (treePath: TreePath) : UIAction => (
+  {
     type: SET_EXPANDED,
-    data: {
-      treePath
-    }
+    data: { treePath }
   }
-}
+)
 
-export const unsetUIExpanded = (treePath: TreePath) : UIAction => {
-  return {
+export const unsetUIExpanded = (treePath: TreePath) : UIAction => (
+  {
     type: UNSET_EXPANDED,
-    data: {
-      treePath
-    }
+    data: { treePath }
   }
-}
+)
 
-export const unsetUIExpandedDeep = (treePath: TreePath) : UIAction => {
-  return {
+export const unsetUIExpandedDeep = (treePath: TreePath) : UIAction => (
+  {
     type: UNSET_EXPANDED_DEEP,
-    data: {
-      treePath
-    }
+    data: { treePath }
   }
-}
+)
 
-export const setUIMovingChild = (treePath: TreePath) : UIAction => {
-  return setUIKey('movingChild', treePath)
-}
+export const setUIMovingChild = (treePath: TreePath) : UIAction => setUIKey('movingChild', treePath)
 
-export const clearUIMovingChild = () : UIAction => {
-  return unsetUIKey('movingChild')
-}
+export const clearUIMovingChild = () : UIAction => unsetUIKey('movingChild')
 
-export const setUIButtonsShown = (treePath: TreePath) : UIAction => {
-  return setUIKey('buttonsShown', treePath)
-}
+export const setUIButtonsShown = (treePath: TreePath) : UIAction => setUIKey('buttonsShown', treePath)
 
-export const clearUIButtonsShown = () : UIAction => {
-  return unsetUIKey('buttonsShown')
-}
+export const clearUIButtonsShown = () : UIAction => unsetUIKey('buttonsShown')
 
-export const setUIDragging = (treePath: TreePath) : UIAction => {
-  return setUIKey('dragging', treePath)
-}
+export const setUIDragging = (treePath: TreePath) : UIAction => setUIKey('dragging', treePath)
 
-export const clearUIDragging = () : UIAction => {
-  return unsetUIKey('dragging')
-}
+export const clearUIDragging = () : UIAction => unsetUIKey('dragging')
 
 export const initUIRoot = (nodes: Nodes) : ?UIActions => {
 

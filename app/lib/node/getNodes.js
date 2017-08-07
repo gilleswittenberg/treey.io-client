@@ -6,7 +6,8 @@ export default (transactions: Transactions) : NodeId[] => {
   const nodes = []
   const childTransactions = transactions.filter(transaction => transaction.type === 'ADD_CHILD' || transaction.type === 'REMOVE_CHILD')
   const appliedTransactions = childTransactions.filter(transaction => transaction.status !== 'DENIED' && transaction.status !== 'CANCELLED')
-  const revertTransactions = transactions.filter(transaction => transaction.type === 'REVERT' && transaction.status !== 'DENIED' && transaction.status !== 'CANCELLED')
+  const revertTransactions = transactions
+    .filter(transaction => transaction.type === 'REVERT' && transaction.status !== 'DENIED' && transaction.status !== 'CANCELLED')
   const nonRevertedRevertTransactions = revertTransactions.filter(transaction => revertTransactions.find(t => t.transaction === transaction.uuid) === undefined)
   appliedTransactions.forEach(transaction => {
 
@@ -42,6 +43,8 @@ export default (transactions: Transactions) : NodeId[] => {
       }
       break
     }
+    default:
+      break
     }
   })
   return nodes.filter(n => n.isReverted === false).map(n => n.uuid)

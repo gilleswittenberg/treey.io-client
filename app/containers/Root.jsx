@@ -7,7 +7,7 @@ import AuthRegister from './AuthRegister'
 import Session from './Session'
 import Node from './Node'
 
-export default ({ store }) => {
+export default ({ store }) => { // eslint-disable-line react/display-name, react/prop-types
 
   const state = store.getState()
   if (state.user.loggedIn === true) {

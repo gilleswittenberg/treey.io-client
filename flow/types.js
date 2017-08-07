@@ -19,13 +19,6 @@ export type FetchOptions = {
 // @LINK: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
 export type Lang = 'en' | 'nl'
 
-export type State = {
-  app: AppState,
-  user: UserState,
-  nodes: NodesState,
-  ui: UIState
-}
-
 export type NodesState = {
   isSyncing: boolean,
   hasErrors: boolean,
@@ -112,5 +105,12 @@ export type UIAction = {
   }
 }
 export type UIActions = UIAction[]
+
+export type State = {
+  app: AppState,
+  user: UserState,
+  nodes: NodesState,
+  ui: UIState
+}
 
 export type HoverRegion = 'top' | 'bottom'

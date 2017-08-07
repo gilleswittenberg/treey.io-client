@@ -3,10 +3,14 @@
 import type { Transactions, NodeData } from '../../../flow/tree'
 
 export default (transactions: Transactions) : ?NodeData => {
-  const setTransactions = transactions.filter(transaction => transaction.type === 'SET' && transaction.status !== 'DENIED' && transaction.status !== 'CANCELLED')
-  const revertTransactions = transactions.filter(transaction => transaction.type === 'REVERT' && transaction.status !== 'DENIED' && transaction.status !== 'CANCELLED')
-  const nonRevertedRevertTransactions = revertTransactions.filter(transaction => revertTransactions.find(t => t.transaction === transaction.uuid) === undefined)
-  const nonRevertedSetTransactions = setTransactions.filter(transaction => nonRevertedRevertTransactions.find(t => t.transaction === transaction.uuid) === undefined)
+  const setTransactions = transactions
+    .filter(transaction => transaction.type === 'SET' && transaction.status !== 'DENIED' && transaction.status !== 'CANCELLED')
+  const revertTransactions = transactions
+    .filter(transaction => transaction.type === 'REVERT' && transaction.status !== 'DENIED' && transaction.status !== 'CANCELLED')
+  const nonRevertedRevertTransactions = revertTransactions
+    .filter(transaction => revertTransactions.find(t => t.transaction === transaction.uuid) === undefined)
+  const nonRevertedSetTransactions = setTransactions
+    .filter(transaction => nonRevertedRevertTransactions.find(t => t.transaction === transaction.uuid) === undefined)
   if (nonRevertedSetTransactions.length === 0) {
     return null
   }

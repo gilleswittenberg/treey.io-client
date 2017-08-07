@@ -60,7 +60,7 @@ import {
   clearUIButtonsShown
 } from '../../actions/ui'
 
-let actions = {
+const actions = {
   postAuthenticate,
   postRegister,
   postSignOut,
