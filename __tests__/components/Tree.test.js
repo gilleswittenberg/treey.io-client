@@ -5,6 +5,8 @@ declare var describe: any
 declare var it: any
 declare var expect: any
 
+import React from 'react'
+import { MemoryRouter } from 'react-router-dom'
 import Tree from '../../app/components/Tree'
 import { shallow, render } from 'enzyme'
 import getComponentHOF from '../getComponent'
@@ -85,10 +87,19 @@ describe('Tree', () => {
           nodes: []
         }
       ]
-      const wrapper = render(getComponent({ nodesArray }))
+      const wrapper = render(<MemoryRouter>{ getComponent({ nodesArray }) }</MemoryRouter>)
       // @TODO: Better DOM selector
       // Deepest child nodes 3 + 2
       expect(wrapper.find('ul ul ul ul').length).toBe(3 + 2)
+    })
+  })
+
+  describe('redirect', () => {
+
+    it('redirectToNodeId', () => {
+      const wrapper = shallow(getComponent())
+      wrapper.setState({ redirectToNodeId: uuid })
+      expect(wrapper.find('Redirect').length).toBe(1)
     })
   })
 })

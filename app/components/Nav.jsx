@@ -3,7 +3,7 @@
 import autobind from 'autobind-decorator'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import __ from '../lib/utils/i18n'
 import logoImageSrc from '../images/logo_64x64.png'
 

@@ -7,6 +7,7 @@ declare var expect: any
 declare var jest: any
 
 import React, { Component } from 'react'
+import { MemoryRouter } from 'react-router-dom'
 import NodeDraggable from '../../app/components/NodeDraggable'
 import TestBackend from 'react-dnd-test-backend'
 import { DragDropContext } from 'react-dnd'
@@ -19,7 +20,11 @@ function wrapInTestContext (DecoratedComponent, props) {
   @DragDropContext(TestBackend) // eslint-disable-line new-cap
   class TestContextContainer extends Component {
     render () {
-      return <DecoratedComponent { ...props } />
+      return (
+        <MemoryRouter>
+          <DecoratedComponent { ...props } />
+        </MemoryRouter>
+      )
     }
   }
   return TestContextContainer

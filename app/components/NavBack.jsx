@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import __ from '../lib/utils/i18n'
 
 export default class SignOutButton extends Component {

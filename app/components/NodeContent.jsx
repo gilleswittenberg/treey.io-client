@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import isURL from '../lib/utils/isURL'
 import ButtonIcon from './ButtonIcon'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 export default class NodeContent extends Component {
 

@@ -15,6 +15,7 @@ export const defaultActions = {
   move: noop,
   syncTransaction: noop,
   cancelTransaction: noop,
+  revertTransaction: noop,
 
   clearUIEditingAdding: noop,
   setUIEditing: noop,
@@ -43,7 +44,8 @@ import {
   remove,
   move,
   syncTransaction,
-  cancelTransaction
+  cancelTransaction,
+  revertTransaction
 } from '../../actions/nodes'
 import {
   clearUIEditingAdding,
@@ -72,6 +74,7 @@ const actions = {
   move,
   syncTransaction,
   cancelTransaction,
+  revertTransaction,
 
   clearUIEditingAdding,
   setUIEditing,

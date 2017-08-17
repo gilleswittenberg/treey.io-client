@@ -10,7 +10,6 @@ import {
   REGISTRATION_FAILED,
   REGISTRATION_ERROR
 } from '../actions/user'
-import { browserHistory } from 'react-router'
 
 export const defaultState: UserState = {
   authenticationFailed: false,
@@ -24,23 +23,16 @@ export const defaultState: UserState = {
 }
 
 export default function user (state: UserState = defaultState, action: UserAction) {
+
   switch (action.type) {
   case UNAUTHENTICATED:
-    // Indicates running from test
-    // @TODO: Clean up
-    if (browserHistory.getCurrentLocation().pathname !== 'blank') {
-      browserHistory.replace('/login')
+    return {
+      ...state,
+      loggedIn: false,
+      username: null,
+      rootNode: null
     }
-    // @TODO: Set signOutFailed to false
-    return { ...state, loggedIn: false, username: null, rootNode: null }
   case AUTHENTICATE:
-    // Indicates running from test
-    // @TODO: Clean up
-    if (browserHistory.getCurrentLocation().pathname !== 'blank') {
-      if (window.location.pathname.match(new RegExp('^/login/?', 'i'))) {
-        browserHistory.replace('/')
-      }
-    }
     return {
       ...state,
       authenticationFailed: false,

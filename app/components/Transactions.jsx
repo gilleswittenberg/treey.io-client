@@ -13,6 +13,7 @@ export default class Transactions extends Component {
     transactions: PropTypes.array.isRequired,
     syncTransaction: PropTypes.func.isRequired,
     cancelTransaction: PropTypes.func.isRequired,
+    revertTransaction: PropTypes.func.isRequired,
     showNode: PropTypes.bool
   }
 
@@ -22,7 +23,7 @@ export default class Transactions extends Component {
 
   render () {
 
-    const { lang, transactions, showNode, syncTransaction, cancelTransaction } = this.props
+    const { lang, transactions, showNode, syncTransaction, cancelTransaction, revertTransaction } = this.props
     const transactionsIsEmpty = transactions.length === 0
     const transactionsIsOverridden = setTransactionsIsOverridden(transactions)
     const transactionsReversed = transactionsIsOverridden.reverse()
@@ -47,7 +48,7 @@ export default class Transactions extends Component {
             </thead>
             <tbody>
               { transactionsReversed.map(transaction => {
-                const transactionRowProps = { lang, transaction, showNode, syncTransaction, cancelTransaction }
+                const transactionRowProps = { lang, transaction, showNode, syncTransaction, cancelTransaction, revertTransaction }
                 return <TransactionRow key={ transaction.uuid } { ...transactionRowProps }></TransactionRow>
               }) }
             </tbody>

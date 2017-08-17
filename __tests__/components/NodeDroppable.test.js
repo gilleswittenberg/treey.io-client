@@ -7,6 +7,7 @@ declare var expect: any
 declare var jest: any
 
 import React, { Component } from 'react'
+import { MemoryRouter } from 'react-router-dom'
 import NodeDroppable from '../../app/components/NodeDroppable'
 import NodeDraggable from '../../app/components/NodeDraggable'
 import TestBackend from 'react-dnd-test-backend'
@@ -22,10 +23,12 @@ function wrapInTestContext (DecoratedDraggableComponent, DecoratedDroppableCompo
   class TestContextContainer extends Component {
     render () {
       return (
-        <div>
-          <DecoratedDraggableComponent { ...propsDraggable } />
-          <DecoratedDroppableComponent { ...propsDroppable } />
-        </div>
+        <MemoryRouter>
+          <div>
+            <DecoratedDraggableComponent { ...propsDraggable } />
+            <DecoratedDroppableComponent { ...propsDroppable } />
+          </div>
+        </MemoryRouter>
       )
     }
   }

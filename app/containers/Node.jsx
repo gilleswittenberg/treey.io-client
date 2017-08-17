@@ -13,7 +13,7 @@ class Node extends React.Component {
     dispatch: PropTypes.func.isRequired,
     app: PropTypes.object.isRequired,
     nodes: PropTypes.object.isRequired,
-    params: PropTypes.object.isRequired
+    match: PropTypes.object.isRequired
   }
 
   render () {
@@ -22,7 +22,7 @@ class Node extends React.Component {
       dispatch,
       app: { lang },
       nodes: { nodes },
-      params: { uuid }
+      match: { params: { uuid } }
     } = this.props
 
     const actions = getActions(dispatch)

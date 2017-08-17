@@ -1,30 +1,37 @@
-import { Router, Route, browserHistory } from 'react-router'
-import { Provider } from 'react-redux'
-import React from 'react'
+/* @flow */
+
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import PrivateRoute from '../components/PrivateRoute'
 import App from './App'
 import AuthLogin from './AuthLogin'
 import AuthRegister from './AuthRegister'
 import Session from './Session'
 import Node from './Node'
 
-export default ({ store }) => { // eslint-disable-line react/display-name, react/prop-types
+class Root extends Component {
 
-  const state = store.getState()
-  if (state.user.loggedIn === true) {
-    browserHistory.push('/')
-  } else if (state.user.loggedIn === false) {
-    browserHistory.push('/login')
+  static propTypes = {
+    user: PropTypes.object.isRequired
   }
 
-  return (
-    <Provider store={ store }>
-      <Router history={ browserHistory }>
-        <Route path="/" component={ App } />
-        <Route path="/login" component={ AuthLogin } />
-        <Route path="/register" component={ AuthRegister } />
-        <Route path="/session" component={ Session } />
-        <Route path="/node/:uuid" component={ Node } />
-      </Router>
-    </Provider>
-  )
+  render () {
+    const { user: { loggedIn } } = this.props
+    return (
+      <BrowserRouter>
+        <Switch>
+          <PrivateRoute exact path="/" component={ App } loggedIn={ loggedIn } />
+          <Route path="/login" component={ AuthLogin } />
+          <Route path="/register" component={ AuthRegister } />
+          <PrivateRoute path="/session" component={ Session } loggedIn={ loggedIn } />
+          <PrivateRoute path="/node/:uuid" component={ Node } loggedIn={ loggedIn } />
+        </Switch>
+      </BrowserRouter>
+    )
+  }
 }
+
+const mapStateToProps = (state, props) => ({ ...props, ...state })
+export default connect(mapStateToProps)(Root)

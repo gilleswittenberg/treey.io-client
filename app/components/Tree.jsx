@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
 import Nodes from './Nodes'
 import CustomDragLayer from '../components/CustomDragLayer'
 import autobind from 'autobind-decorator'
@@ -10,7 +11,6 @@ import TouchBackend from 'react-dnd-touch-backend'
 import delay from '../lib/utils/delay'
 import { getNextActive, getPrevActive } from '../lib/tree/getNextPrevActive'
 import { getNodeFromTreePath } from '../lib/tree/TreeUtils'
-import { browserHistory } from 'react-router'
 
 class Tree extends Component {
 
@@ -31,6 +31,10 @@ class Tree extends Component {
 
   // Needed for Flowtype
   static DecoratedComponent = null
+
+  state = {
+    redirectToNodeId: null
+  }
 
   componentDidMount () {
     window.addEventListener('keyup', this.handleKeyUp)
@@ -82,7 +86,7 @@ class Tree extends Component {
       if (!event.shiftKey && !event.altKey && !event.ctrlKey && !event.metaKey) {
         activeNode = getNodeFromTreePath(active)
         if (activeNode != null) {
-          browserHistory.push(`/node/${ activeNode }`)
+          this.setState({ redirectToNodeId: activeNode })
         }
       }
       return
@@ -102,6 +106,12 @@ class Tree extends Component {
   }
 
   render () {
+
+    const { redirectToNodeId } = this.state
+
+    if (redirectToNodeId != null) {
+      return <Redirect to={ `/node/${ redirectToNodeId }` } />
+    }
 
     const {
       enableDnD,

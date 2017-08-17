@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import Transactions from './Transactions'
 import __ from '../lib/utils/i18n'
 
@@ -12,7 +12,8 @@ export default class NodeOverview extends Component {
     lang: PropTypes.string.isRequired,
     node: PropTypes.object.isRequired,
     syncTransaction: PropTypes.func.isRequired,
-    cancelTransaction: PropTypes.func.isRequired
+    cancelTransaction: PropTypes.func.isRequired,
+    revertTransaction: PropTypes.func.isRequired
   }
 
   render () {
@@ -26,11 +27,12 @@ export default class NodeOverview extends Component {
         transactions = []
       },
       syncTransaction,
-      cancelTransaction
+      cancelTransaction,
+      revertTransaction
     } = this.props
     const user = auth ? auth.user : '-'
     const dataKeys = Object.keys(data)
-    const transactionsProps = { lang, transactions, showNode: false, syncTransaction, cancelTransaction }
+    const transactionsProps = { lang, transactions, showNode: false, syncTransaction, cancelTransaction, revertTransaction }
     const hasNodes = nodes.length > 0
     return (
       <div>
@@ -51,7 +53,7 @@ export default class NodeOverview extends Component {
         { hasNodes &&
           <ul>
             { nodes.map(node =>
-              <li key={ node }><Link to={ '/node/' + node }>{ node }</Link></li>
+              <li key={ node }><Link to={ `/node/${ node }` }>{ node }</Link></li>
             )}
           </ul>
         }
