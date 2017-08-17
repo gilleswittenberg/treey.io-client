@@ -1,13 +1,13 @@
 /* @flow */
 
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import getActions from '../lib/ui/actions'
 import LoginForm from '../components/LoginForm'
 import { Redirect, Link } from 'react-router-dom'
 
-class AuthLogin extends React.Component {
+class AuthLogin extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,

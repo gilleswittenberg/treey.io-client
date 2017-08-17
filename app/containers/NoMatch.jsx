@@ -1,8 +1,8 @@
 /* @flow */
 
-import React from 'react'
+import React, { Component } from 'react'
 
-class NoMatch extends React.Component {
+class NoMatch extends Component {
 
   render () {
     return (

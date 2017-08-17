@@ -1,13 +1,13 @@
 /* @flow */
 
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import getActions from '../lib/ui/actions'
 import NavBack from '../components/NavBack'
 import NodeOverview from '../components/NodeOverview'
 
-class Node extends React.Component {
+class Node extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,

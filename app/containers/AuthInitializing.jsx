@@ -1,8 +1,8 @@
 /* @flow */
 
-import React from 'react'
+import React, { Component } from 'react'
 
-class AuthInitializing extends React.Component {
+class AuthInitializing extends Component {
 
   render () {
     return (

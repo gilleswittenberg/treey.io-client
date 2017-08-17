@@ -1,6 +1,6 @@
 /* @flow */
 
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import getActions from '../lib/ui/actions'
@@ -8,7 +8,7 @@ import Nav from '../components/Nav'
 import ServerStatus from '../components/ServerStatus'
 import Tree from '../components/Tree'
 
-class App extends React.Component {
+class App extends Component {
 
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
