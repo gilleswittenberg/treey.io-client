@@ -10,6 +10,7 @@ import AuthLogin from './AuthLogin'
 import AuthRegister from './AuthRegister'
 import Session from './Session'
 import Node from './Node'
+import NoMatch from './NoMatch'
 
 class Root extends Component {
 
@@ -27,6 +28,7 @@ class Root extends Component {
           <Route path="/register" component={ AuthRegister } />
           <PrivateRoute path="/session" component={ Session } loggedIn={ loggedIn } />
           <PrivateRoute path="/node/:uuid" component={ Node } loggedIn={ loggedIn } />
+          <Route component={ NoMatch } />
         </Switch>
       </BrowserRouter>
     )
