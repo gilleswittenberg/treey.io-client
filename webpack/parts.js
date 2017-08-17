@@ -26,7 +26,9 @@ exports.devServer = function (options) {
       // Enable multi-pass compilation for enhanced performance in larger projects.
       // Good default.
       new webpack.HotModuleReplacementPlugin({
-        multiStep: true
+        // Disabled for Webpack 3
+        // @LINK: https://github.com/jantimon/html-webpack-plugin/issues/716
+        // - multiStep: true
       })
     ]
   }
@@ -38,7 +40,11 @@ exports.setupCSS = function (paths) {
       loaders: [
         {
           test: /\.sass$/,
-          loaders: ['style', 'css', 'sass'],
+          loaders: [
+            'style-loader',
+            'css-loader',
+            'sass-loader'
+          ],
           include: paths
         }
       ]
