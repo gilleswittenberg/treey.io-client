@@ -73,7 +73,7 @@ describe('RegisterForm', () => {
       const mockEvent = getMockEvent()
       wrapper.setState({ username: 'johndoe', password: '12345678', passwordConfirm: '12345678' })
       wrapper.find('form').simulate('submit', mockEvent)
-      expect(postRegister.mock.calls.length).toBe(1)
+      expect(postRegister.mock.calls).toHaveLength(1)
     })
   })
 })

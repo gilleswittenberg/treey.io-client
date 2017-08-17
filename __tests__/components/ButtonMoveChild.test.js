@@ -72,7 +72,7 @@ describe('ButtonMoveChild', () => {
       const sourceIdButtonMoveChild = buttonMoveChild.getHandlerId()
       backend.simulateBeginDrag([sourceIdNodeDraggable])
       backend.simulateHover([sourceIdButtonMoveChild])
-      expect(setUIMovingChild.mock.calls.length).toBe(1)
+      expect(setUIMovingChild.mock.calls).toHaveLength(1)
     })
 
     it('clearUIMovingChild', () => {
@@ -90,7 +90,7 @@ describe('ButtonMoveChild', () => {
       backend.simulateBeginDrag([sourceIdNodeDraggable])
       backend.simulateHover([sourceIdButtonMoveChild])
       backend.simulateEndDrag()
-      expect(clearUIMovingChild.mock.calls.length).toBe(1)
+      expect(clearUIMovingChild.mock.calls).toHaveLength(1)
     })
   })
 
@@ -114,8 +114,8 @@ describe('ButtonMoveChild', () => {
       backend.simulateHover([sourceIdButtonMoveChild])
       backend.simulateDrop()
       backend.simulateEndDrag()
-      expect(putMoveNode.mock.calls.length).toBe(1)
-      expect(setUIExpanded.mock.calls.length).toBe(1)
+      expect(putMoveNode.mock.calls).toHaveLength(1)
+      expect(setUIExpanded.mock.calls).toHaveLength(1)
     })
   })
 })

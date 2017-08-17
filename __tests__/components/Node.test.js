@@ -65,21 +65,21 @@ describe('Node', () => {
       const mockEvent = getMockEvent({ altKey: true })
       const wrapper = mount(<MemoryRouter>{ getComponent({ setUIEditing }) }</MemoryRouter>)
       wrapper.find('.node-content').simulate('click', mockEvent)
-      expect(setUIEditing.mock.calls.length).toBe(1)
+      expect(setUIEditing.mock.calls).toHaveLength(1)
     })
 
     it('canExpand', () => {
       const setUIExpanded = jest.fn()
       const wrapper = mount(<MemoryRouter>{ getComponent({ setUIExpanded }) }</MemoryRouter>)
       wrapper.find('.node-content').simulate('click')
-      expect(setUIExpanded.mock.calls.length).toBe(0)
+      expect(setUIExpanded.mock.calls).toHaveLength(0)
     })
 
     it('setUIExpanded', () => {
       const setUIExpanded = jest.fn()
       const wrapper = mount(<MemoryRouter>{ getComponent({ setUIExpanded, hasNodes: true }) }</MemoryRouter>)
       wrapper.find('.node-content').simulate('click')
-      expect(setUIExpanded.mock.calls.length).toBe(1)
+      expect(setUIExpanded.mock.calls).toHaveLength(1)
       expect(setUIExpanded.mock.calls[0][0]).toEqual([])
     })
 
@@ -87,7 +87,7 @@ describe('Node', () => {
       const setUIActive = jest.fn()
       const wrapper = mount(<MemoryRouter>{ getComponent({ setUIActive }) }</MemoryRouter>)
       wrapper.find('.node-content').simulate('click')
-      expect(setUIActive.mock.calls.length).toBe(1)
+      expect(setUIActive.mock.calls).toHaveLength(1)
     })
 
     it('root', () => {
@@ -104,9 +104,9 @@ describe('Node', () => {
         ui: { expanded: { '0': [uuid] } } // eslint-disable-line quote-props
       }) }</MemoryRouter>)
       wrapper.find('.node-content').simulate('click')
-      expect(setUIExpanded.mock.calls.length).toBe(0)
-      expect(clearUIEditingAdding.mock.calls.length).toBe(1)
-      expect(setUIActive.mock.calls.length).toBe(1)
+      expect(setUIExpanded.mock.calls).toHaveLength(0)
+      expect(clearUIEditingAdding.mock.calls).toHaveLength(1)
+      expect(setUIActive.mock.calls).toHaveLength(1)
     })
 
   })
@@ -117,14 +117,14 @@ describe('Node', () => {
       const setUIEditing = jest.fn()
       const wrapper = mount(<MemoryRouter>{ getComponent({ setUIEditing }) }</MemoryRouter>)
       wrapper.find('.button-icon-edit').simulate('click')
-      expect(setUIEditing.mock.calls.length).toBe(1)
+      expect(setUIEditing.mock.calls).toHaveLength(1)
     })
 
     it('handleClickAdd', () => {
       const setUIAdding = jest.fn()
       const wrapper = mount(<MemoryRouter>{ getComponent({ setUIAdding, showAddButton: true }) }</MemoryRouter>)
       wrapper.find('.button-icon-add').simulate('click')
-      expect(setUIAdding.mock.calls.length).toBe(1)
+      expect(setUIAdding.mock.calls).toHaveLength(1)
     })
   })
 
@@ -136,7 +136,7 @@ describe('Node', () => {
       const wrapper = mount(<MemoryRouter>{ getComponent({ setUIButtonsShown }) }</MemoryRouter>)
       const mockEvent = getMockEvent()
       wrapper.find('.button-icon-more').simulate('click', mockEvent)
-      expect(setUIButtonsShown.mock.calls.length).toBe(1)
+      expect(setUIButtonsShown.mock.calls).toHaveLength(1)
     })
   })
 
@@ -148,12 +148,12 @@ describe('Node', () => {
         const remove = jest.fn()
         const wrapper = mount(<MemoryRouter>{ getComponent({ remove }) }</MemoryRouter>)
         wrapper.find('.button-icon-delete').simulate('click')
-        expect(remove.mock.calls.length).toBe(1)
+        expect(remove.mock.calls).toHaveLength(1)
       })
 
       it('root', () => {
         const wrapper = mount(<MemoryRouter>{ getComponent({ isRoot: true }) }</MemoryRouter>)
-        expect(wrapper.find('.button-icon-delete').length).toBe(0)
+        expect(wrapper.find('.button-icon-delete')).toHaveLength(0)
       })
     })
 
@@ -164,8 +164,8 @@ describe('Node', () => {
         const setUIActive = jest.fn()
         const wrapper = shallow(getComponent({ remove, setUIActive }))
         wrapper.instance().remove([])
-        expect(remove.mock.calls.length).toBe(1)
-        expect(setUIActive.mock.calls.length).toBe(1)
+        expect(remove.mock.calls).toHaveLength(1)
+        expect(setUIActive.mock.calls).toHaveLength(1)
       })
 
       it('root', () => {
@@ -173,8 +173,8 @@ describe('Node', () => {
         const setUIActive = jest.fn()
         const wrapper = shallow(getComponent({ remove, setUIActive, isRoot: true }))
         wrapper.instance().remove([])
-        expect(remove.mock.calls.length).toBe(0)
-        expect(setUIActive.mock.calls.length).toBe(0)
+        expect(remove.mock.calls).toHaveLength(0)
+        expect(setUIActive.mock.calls).toHaveLength(0)
       })
     })
   })

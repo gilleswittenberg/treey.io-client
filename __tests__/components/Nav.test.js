@@ -30,7 +30,7 @@ describe('Nav', () => {
       const wrapper = shallow(getComponent({ postSignOut }))
       const mockEvent = getMockEvent()
       wrapper.find('button').simulate('click', mockEvent)
-      expect(postSignOut.mock.calls.length).toBe(1)
+      expect(postSignOut.mock.calls).toHaveLength(1)
     })
   })
 })

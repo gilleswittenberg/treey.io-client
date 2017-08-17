@@ -37,12 +37,12 @@ describe('NodeAdd', () => {
 
     it('false', () => {
       const wrapper = shallow(getComponent())
-      expect(wrapper.render().find('input').length).toBe(0)
+      expect(wrapper.render().find('input')).toHaveLength(0)
     })
 
     it('true', () => {
       const wrapper = shallow(getComponent({ ui: { adding: [uuid] } }))
-      expect(wrapper.render().find('input').length).toBe(1)
+      expect(wrapper.render().find('input')).toHaveLength(1)
     })
   })
 
@@ -107,10 +107,10 @@ describe('NodeAdd', () => {
         wrapper.setState({ title: 'user input' })
         const mockEvent = getMockEvent()
         wrapper.find('form').simulate('submit', mockEvent)
-        expect(clearUIEditingAdding.mock.calls.length).toBe(1)
-        expect(create.mock.calls.length).toBe(1)
+        expect(clearUIEditingAdding.mock.calls).toHaveLength(1)
+        expect(create.mock.calls).toHaveLength(1)
         expect(create.mock.calls[0][1]).toEqual({ title: 'user input' })
-        expect(setUIExpanded.mock.calls.length).toBe(1)
+        expect(setUIExpanded.mock.calls).toHaveLength(1)
       })
 
       it('empty (whitespace) input', () => {
@@ -123,9 +123,9 @@ describe('NodeAdd', () => {
         wrapper.setState({ title: ' ' })
         const mockEvent = getMockEvent()
         wrapper.find('form').simulate('submit', mockEvent)
-        expect(clearUIEditingAdding.mock.calls.length).toBe(1)
-        expect(create.mock.calls.length).toBe(0)
-        expect(setUIExpanded.mock.calls.length).toBe(0)
+        expect(clearUIEditingAdding.mock.calls).toHaveLength(1)
+        expect(create.mock.calls).toHaveLength(0)
+        expect(setUIExpanded.mock.calls).toHaveLength(0)
       })
     })
   })

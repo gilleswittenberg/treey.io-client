@@ -378,7 +378,7 @@ describe('actions nodes', () => {
         const actions = revertTransaction(transaction)
         expect(actions).toBeDefined()
         if (actions != null) {
-          expect(actions.length).toBe(2)
+          expect(actions).toHaveLength(2)
           expect(actions[0].type).toBe('ADD_NODE_TRANSACTION')
         }
       })

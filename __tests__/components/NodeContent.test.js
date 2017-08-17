@@ -26,12 +26,12 @@ describe('Node', () => {
 
     it('text', () => {
       const wrapper = shallow(getComponent({ title: 'text' }))
-      expect(wrapper.find('a').length).toBe(0)
+      expect(wrapper.find('a')).toHaveLength(0)
     })
 
     it('URL', () => {
       const wrapper = shallow(getComponent({ title: 'http://treey.io' }))
-      expect(wrapper.find('a').length).toBe(1)
+      expect(wrapper.find('a')).toHaveLength(1)
     })
   })
 })

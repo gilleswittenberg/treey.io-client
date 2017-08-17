@@ -107,7 +107,7 @@ describe('NodeDroppable', () => {
       backend.simulateHover([sourceIdNodeDroppable])
       backend.simulateDrop()
       backend.simulateEndDrag()
-      expect(move.mock.calls.length).toBe(0)
+      expect(move.mock.calls).toHaveLength(0)
     })
   })
 
@@ -129,7 +129,7 @@ describe('NodeDroppable', () => {
       const sourceIdNodeDroppable = nodeDroppable.getHandlerId()
       backend.simulateBeginDrag([sourceIdNodeDraggable])
       backend.simulateHover([sourceIdNodeDroppable])
-      expect(setState.mock.calls.length).toBe(1)
+      expect(setState.mock.calls).toHaveLength(1)
     })
 
     it('guard against isRoot', () => {
@@ -148,7 +148,7 @@ describe('NodeDroppable', () => {
       const sourceIdNodeDroppable = nodeDroppable.getHandlerId()
       backend.simulateBeginDrag([sourceIdNodeDraggable])
       backend.simulateHover([sourceIdNodeDroppable])
-      expect(setState.mock.calls.length).toBe(0)
+      expect(setState.mock.calls).toHaveLength(0)
     })
   })
 
@@ -177,7 +177,7 @@ describe('NodeDroppable', () => {
         backend.simulateHover([sourceIdNodeDroppable])
         backend.simulateDrop()
         backend.simulateEndDrag()
-        expect(move.mock.calls.length).toBe(0)
+        expect(move.mock.calls).toHaveLength(0)
       })
 
       it('before', () => {
@@ -200,7 +200,7 @@ describe('NodeDroppable', () => {
         backend.simulateHover([sourceIdNodeDroppable])
         backend.simulateDrop()
         backend.simulateEndDrag()
-        expect(move.mock.calls.length).toBe(0)
+        expect(move.mock.calls).toHaveLength(0)
       })
 
       it('last child different parent', () => {
@@ -224,7 +224,7 @@ describe('NodeDroppable', () => {
         backend.simulateHover([sourceIdNodeDroppable])
         backend.simulateDrop()
         backend.simulateEndDrag()
-        expect(move.mock.calls.length).toBe(1)
+        expect(move.mock.calls).toHaveLength(1)
       })
     })
 
@@ -247,7 +247,7 @@ describe('NodeDroppable', () => {
       backend.simulateHover([sourceIdNodeDroppable])
       backend.simulateDrop()
       backend.simulateEndDrag()
-      expect(move.mock.calls.length).toBe(1)
+      expect(move.mock.calls).toHaveLength(1)
     })
   })
 })

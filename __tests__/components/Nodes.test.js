@@ -35,12 +35,12 @@ describe('Nodes', () => {
 
     it('root', () => {
       const wrapper = shallow(getComponent())
-      expect(wrapper.find('NodeWrap').length).toBe(0)
+      expect(wrapper.find('NodeWrap')).toHaveLength(0)
     })
 
     it('no root', () => {
       const wrapper = shallow(getComponent({ parent }))
-      expect(wrapper.find('NodeAdd').length).toBe(1)
+      expect(wrapper.find('NodeAdd')).toHaveLength(1)
     })
   })
 
@@ -62,7 +62,7 @@ describe('Nodes', () => {
         nodes: []
       }]
       const wrapper = shallow(getComponent({ nodes, nodesArray }))
-      expect(wrapper.find('li').length).toBe(2)
+      expect(wrapper.find('li')).toHaveLength(2)
     })
 
     it('non findable nodes', () => {
@@ -81,7 +81,7 @@ describe('Nodes', () => {
         nodes: []
       }]
       const wrapper = shallow(getComponent({ nodes, nodesArray }))
-      expect(wrapper.find('li').length).toBe(2)
+      expect(wrapper.find('li')).toHaveLength(2)
     })
   })
 })

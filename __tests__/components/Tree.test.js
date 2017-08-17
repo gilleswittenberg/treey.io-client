@@ -33,7 +33,7 @@ describe('Tree', () => {
 
     it('empty nodesArray', () => {
       const wrapper = shallow(getComponent())
-      expect(wrapper.find('Nodes').length).toBe(0)
+      expect(wrapper.find('Nodes')).toHaveLength(0)
     })
 
     it('nodesArray', () => {
@@ -43,7 +43,7 @@ describe('Tree', () => {
         ui
       }]
       const wrapper = shallow(getComponent({ nodesArray }))
-      expect(wrapper.find('Nodes').length).toBe(1)
+      expect(wrapper.find('Nodes')).toHaveLength(1)
     })
 
     it('nodesArray deep', () => {
@@ -90,7 +90,7 @@ describe('Tree', () => {
       const wrapper = render(<MemoryRouter>{ getComponent({ nodesArray }) }</MemoryRouter>)
       // @TODO: Better DOM selector
       // Deepest child nodes 3 + 2
-      expect(wrapper.find('ul ul ul ul').length).toBe(3 + 2)
+      expect(wrapper.find('ul ul ul ul')).toHaveLength(3 + 2)
     })
   })
 
@@ -99,7 +99,7 @@ describe('Tree', () => {
     it('redirectToNodeId', () => {
       const wrapper = shallow(getComponent())
       wrapper.setState({ redirectToNodeId: uuid })
-      expect(wrapper.find('Redirect').length).toBe(1)
+      expect(wrapper.find('Redirect')).toHaveLength(1)
     })
   })
 })

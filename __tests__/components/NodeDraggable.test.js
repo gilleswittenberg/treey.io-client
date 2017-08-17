@@ -57,7 +57,7 @@ describe('NodeDraggable', () => {
     const nodeDraggable = wrapper.find(NodeDraggable).get(0)
     const sourceId = nodeDraggable.getHandlerId()
     backend.simulateBeginDrag([sourceId])
-    expect(setUIDragging.mock.calls.length).toBe(0)
+    expect(setUIDragging.mock.calls).toHaveLength(0)
   })
 
   it('beginDrag setUIDragging', () => {
@@ -72,7 +72,7 @@ describe('NodeDraggable', () => {
     const nodeDraggable = wrapper.find(NodeDraggable).get(0)
     const sourceId = nodeDraggable.getHandlerId()
     backend.simulateBeginDrag([sourceId])
-    expect(setUIDragging.mock.calls.length).toBe(1)
+    expect(setUIDragging.mock.calls).toHaveLength(1)
   })
 
   it('endDrag clearUIEditingAdding', () => {
@@ -88,6 +88,6 @@ describe('NodeDraggable', () => {
     const sourceId = nodeDraggable.getHandlerId()
     backend.simulateBeginDrag([sourceId])
     backend.simulateEndDrag([sourceId])
-    expect(clearUIEditingAdding.mock.calls.length).toBe(1)
+    expect(clearUIEditingAdding.mock.calls).toHaveLength(1)
   })
 })

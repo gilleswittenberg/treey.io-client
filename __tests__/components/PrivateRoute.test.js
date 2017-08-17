@@ -20,20 +20,20 @@ describe('Node', () => {
 
     it('null', () => {
       const wrapper = shallow(getComponent({ loggedIn: null }))
-      expect(wrapper.find('Route').length).toBe(1)
+      expect(wrapper.find('Route')).toHaveLength(1)
       expect(wrapper.find('Route').node.props.render().type).toEqual(AuthInitializing)
     })
 
 
     it('false', () => {
       const wrapper = shallow(getComponent({ loggedIn: false }))
-      expect(wrapper.find('Route').length).toBe(1)
+      expect(wrapper.find('Route')).toHaveLength(1)
       // @TODO: Test Redirect is rendered
     })
 
     it('true', () => {
       const wrapper = shallow(getComponent({ loggedIn: true }))
-      expect(wrapper.find('Route').length).toBe(1)
+      expect(wrapper.find('Route')).toHaveLength(1)
       expect(wrapper.find('Route').node.props.render().type).toEqual(Component)
     })
   })

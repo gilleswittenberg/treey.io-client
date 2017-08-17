@@ -180,7 +180,7 @@ describe('nodes reducer', () => {
           data: { transaction }
         })
         // @TODO: remove null check
-        if (state2.nodes[0].nodes != null) expect(state2.nodes[0].nodes.length).toBe(0)
+        if (state2.nodes[0].nodes != null) expect(state2.nodes[0].nodes).toHaveLength(0)
         expect(state2.nodes[0].transactions[1]).toEqual(transaction)
       })
 
@@ -495,7 +495,7 @@ describe('nodes reducer', () => {
               status: 'DENIED'
             }
           })
-          expect(state2.nodes.length).toBe(0)
+          expect(state2.nodes).toHaveLength(0)
         })
 
         it('SET', () => {
@@ -578,7 +578,7 @@ describe('nodes reducer', () => {
           expect(state2.nodes[0].transactions[0].status).toBe('DENIED')
           const children = state2.nodes[0].nodes
           expect(children).not.toBe(null)
-          if (children != null) expect(children.length).toBe(0)
+          if (children != null) expect(children).toHaveLength(0)
         })
       })
 

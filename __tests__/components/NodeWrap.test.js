@@ -39,12 +39,12 @@ describe('NodeWrap', () => {
 
     it('Node', () => {
       const wrapper = shallow(getComponent())
-      expect(wrapper.find('NodeDroppableDecorated').length).toBe(1)
+      expect(wrapper.find('NodeDroppableDecorated')).toHaveLength(1)
     })
 
     it('Nodes', () => {
       const wrapper = shallow(getComponent())
-      expect(wrapper.find('Nodes').length).toBe(1)
+      expect(wrapper.find('Nodes')).toHaveLength(1)
     })
   })
 
@@ -52,12 +52,12 @@ describe('NodeWrap', () => {
 
     it('root', () => {
       const wrapper = shallow(getComponent({ isRoot: true }))
-      expect(wrapper.find('div.-is-root').length).toBe(1)
+      expect(wrapper.find('div.-is-root')).toHaveLength(1)
     })
 
     it('non-root', () => {
       const wrapper = shallow(getComponent())
-      expect(wrapper.find('div.-is-root').length).toBe(0)
+      expect(wrapper.find('div.-is-root')).toHaveLength(0)
     })
   })
 
@@ -66,12 +66,12 @@ describe('NodeWrap', () => {
 
     it('false', () => {
       const wrapper = shallow(getComponent())
-      expect(wrapper.find('NodeEdit').length).toBe(0)
+      expect(wrapper.find('NodeEdit')).toHaveLength(0)
     })
 
     it('true', () => {
       const wrapper = shallow(getComponent({ app: { enableDnD: false }, ui: { ...ui, editing: [] } }))
-      expect(wrapper.find('NodeEdit').length).toBe(1)
+      expect(wrapper.find('NodeEdit')).toHaveLength(1)
     })
   })
 })
