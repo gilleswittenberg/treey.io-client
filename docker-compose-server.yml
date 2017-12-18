@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 services:
   server:
     image: gilleswittenberg/treey.io-server:development
@@ -10,7 +10,7 @@ services:
     ports:
       - '8081:8081'
   mongo:
-    image: mongo:2
+    image: mongo:3
     container_name: treey.io-mongo
     volumes:
       - ./docker-compose/mongo/data/db:/data/db
