@@ -7,7 +7,7 @@ declare var expect: any
 
 import React from 'react'
 import { MemoryRouter } from 'react-router-dom'
-import Tree from '../../app/components/Tree'
+import { Tree } from '../../app/components/Tree'
 import { shallow, render } from 'enzyme'
 import getComponentHOF from '../getComponent'
 import noop from '../noop'
@@ -27,7 +27,7 @@ describe('Tree', () => {
     nodesArray: [],
     unsetIsEditing: noop
   }
-  const getComponent = getComponentHOF(Tree.DecoratedComponent, defaultProps)
+  const getComponent = getComponentHOF(Tree, defaultProps)
 
   describe('index', () => {
 

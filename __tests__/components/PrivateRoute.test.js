@@ -11,7 +11,7 @@ import getComponentHOF from '../getComponent'
 import AuthInitializing from '../../app/containers/AuthInitializing'
 import { Component } from 'React'
 
-describe('Node', () => {
+describe('PrivateRoute', () => {
 
   const defaultProps = { loggedIn: null, exact: true, path: '/', component: Component }
   const getComponent = getComponentHOF(PrivateRoute, defaultProps)
@@ -21,7 +21,7 @@ describe('Node', () => {
     it('null', () => {
       const wrapper = shallow(getComponent({ loggedIn: null }))
       expect(wrapper.find('Route')).toHaveLength(1)
-      expect(wrapper.find('Route').node.props.render().type).toEqual(AuthInitializing)
+      expect(wrapper.find('Route').getElements()[0].props.render().type).toEqual(AuthInitializing)
     })
 
 
@@ -34,7 +34,7 @@ describe('Node', () => {
     it('true', () => {
       const wrapper = shallow(getComponent({ loggedIn: true }))
       expect(wrapper.find('Route')).toHaveLength(1)
-      expect(wrapper.find('Route').node.props.render().type).toEqual(Component)
+      expect(wrapper.find('Route').getElements()[0].props.render().type).toEqual(Component)
     })
   })
 })

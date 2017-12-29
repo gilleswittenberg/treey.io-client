@@ -8,6 +8,7 @@
 - `git clone https://github.com/gilleswittenberg/treey.io-client.git`
 - `npm install`
 - `npm test`
+- `npm test -t { test pattern }` (run single test pattern matching files(s))
 - `npm run eslint`
 - `npm run flow`
 - `npm run dev-server`

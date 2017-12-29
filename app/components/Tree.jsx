@@ -12,7 +12,7 @@ import delay from '../lib/utils/delay'
 import { getNextActive, getPrevActive } from '../lib/tree/getNextPrevActive'
 import { getNodeFromTreePath } from '../lib/tree/TreeUtils'
 
-class Tree extends Component {
+export class Tree extends Component {
 
   static propTypes = {
     enableDnD: PropTypes.bool,
