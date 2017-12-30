@@ -1,17 +1,17 @@
 /* @flow */
 
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import __ from '../lib/utils/i18n'
+import type { Lang } from '../../flow/types'
 
-export default class ServerStatus extends Component {
+type Props = {
+  lang: Lang,
+  hasErrors: boolean,
+  isSyncing: boolean
+}
 
-  static propTypes = {
-    lang: PropTypes.string,
-    hasErrors: PropTypes.bool,
-    isSyncing: PropTypes.bool
-  }
+export default class ServerStatus extends Component<Props> {
 
   static defaultProps = {
     lang: 'en',

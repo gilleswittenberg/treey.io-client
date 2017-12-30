@@ -40,14 +40,13 @@ export type Transactions = Transaction[]
 
 
 export type Node = {
-  uuid: ?UUID,
+  uuid: UUID,
   auth?: {
     user: ?NodeUser,
   },
   data: NodeData,
   transactions: Transactions,
-  // @TODO: make non-optional
-  nodes?: NodeId[]
+  nodes: NodeId[]
 }
 
 export type Nodes = Node[]

@@ -1,20 +1,21 @@
 /* @flow */
 
+import type { Lang } from '../../flow/types'
+
 import autobind from 'autobind-decorator'
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import __ from '../lib/utils/i18n'
 import logoImageSrc from '../images/logo_64x64.png'
 
-export default class Nav extends Component {
+type Props = {
+  lang: Lang,
+  username: ?string,
+  signOutFailed: boolean,
+  postSignOut: any
+}
 
-  static propTypes = {
-    lang: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
-    signOutFailed: PropTypes.bool.isRequired,
-    postSignOut: PropTypes.func.isRequired
-  }
+export default class Nav extends Component<Props> {
 
   @autobind
   handleClickSignOut () {

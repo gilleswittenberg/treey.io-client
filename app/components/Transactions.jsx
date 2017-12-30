@@ -1,21 +1,22 @@
 /* @flow */
 
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import __ from '../lib/utils/i18n'
 import setTransactionsIsOverridden from '../lib/node/setTransactionsIsOverridden'
 import TransactionRow from './TransactionRow'
+import type { Lang } from '../../flow/types'
+import type { Transaction } from '../../flow/tree'
 
-export default class Transactions extends Component {
+type Props = {
+  lang: Lang,
+  transactions: Transaction[],
+  syncTransaction: (transaction: Transaction) => {},
+  cancelTransaction: (transaction: Transaction) => {},
+  revertTransaction: (transaction: Transaction) => {},
+  showNode: boolean
+}
 
-  static propTypes = {
-    lang: PropTypes.string.isRequired,
-    transactions: PropTypes.array.isRequired,
-    syncTransaction: PropTypes.func.isRequired,
-    cancelTransaction: PropTypes.func.isRequired,
-    revertTransaction: PropTypes.func.isRequired,
-    showNode: PropTypes.bool
-  }
+export default class Transactions extends Component<Props> {
 
   static defaultProps = {
     showNode: true

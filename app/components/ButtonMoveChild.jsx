@@ -1,7 +1,8 @@
 /* @flow */
 
+import type { Lang } from '../../flow/types'
+
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import ButtonIcon from './ButtonIcon'
 import DND_TYPE from '../settings/DND_TYPE'
 import { DropTarget } from 'react-dnd'
@@ -27,19 +28,19 @@ const DropSpec = {
   }
 }
 
-class ButtonMoveChild extends Component {
+type Props = {
+  lang: Lang,
+  setUIExpanded: any,
+  setUIMovingChild: any,
+  clearUIMovingChild: any,
+  connectDropTarget: any,
+  isOver: boolean
+}
 
-  static propTypes = {
-    lang: PropTypes.string,
-    setUIExpanded: PropTypes.func.isRequired,
-    setUIMovingChild: PropTypes.func.isRequired,
-    clearUIMovingChild: PropTypes.func.isRequired,
-    // Injected by React DnD DropTarget
-    connectDropTarget: PropTypes.func,
-    isOver: PropTypes.bool
-  }
+class ButtonMoveChild extends Component<Props> {
 
   static defaultProps = {
+    isOver: false,
     connectDropTarget: (jsx: any) => jsx
   }
 

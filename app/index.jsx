@@ -21,9 +21,12 @@ const store = configureStore()
 
 store.dispatch(getUser())
 
-ReactDOM.render(
-  <Provider store={ store }>
-    <Root/>
-  </Provider>,
-  document.getElementById('root')
-)
+const elem = document.getElementById('root')
+if (elem != null) {
+  ReactDOM.render(
+    <Provider store={ store }>
+      <Root/>
+    </Provider>,
+    elem
+  )
+}

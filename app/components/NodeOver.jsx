@@ -1,15 +1,14 @@
 /* @flow */
 
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
-export default class NodeOver extends Component {
+type Props = {
+  position: 'above' | 'below' | 'child',
+  title?: string
+}
 
-  static propTypes = {
-    position: PropTypes.oneOf(['above', 'below', 'child']).isRequired,
-    title: PropTypes.string
-  }
+export default class NodeOver extends Component<Props> {
 
   render () {
     const { position, title } = this.props

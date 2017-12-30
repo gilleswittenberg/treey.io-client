@@ -1,24 +1,27 @@
 /* @flow */
 
+import type { NodeId, TreePath, Node } from '../../flow/tree'
+import type { UIState, NodesActionsInterface, UIActionsInterface } from '../../flow/types'
+
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import NodeWrap from './NodeWrap'
 import NodeAdd from './NodeAdd'
 import NodeOver from './NodeOver'
 import arraysEqual from '../lib/utils/arraysEqual'
-import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
 
-export default class Nodes extends Component {
+type Props = {
+  enableDnD: boolean,
+  parent: ?NodeId,
+  treePath: TreePath,
+  ui: UIState,
+  nodes: NodeId[],
+  nodesArray: Node[],
+  hasNodes: boolean
+}
+& NodesActionsInterface
+& UIActionsInterface
 
-  static propTypes = {
-    enableDnD: PropTypes.bool,
-    parent: PropTypes.string,
-    treePath: PropTypes.array.isRequired,
-    ui: PropTypes.shape(propTypeShapeUI),
-    nodesArray: PropTypes.array,
-    nodes: PropTypes.array,
-    hasNodes: PropTypes.bool
-  }
+export default class Nodes extends Component<Props> {
 
   static defaultProps = {
     enableDnD: false,
@@ -63,7 +66,13 @@ export default class Nodes extends Component {
     const nodeWrapProps = { ...this.props, isRoot }
     const nodeAddProps = { ...this.props, isEditing: isAdding }
     // @TODO: Display non findable nodes in UI
-    const nodesPopulated = nodes.map(nodeId => nodesArray.find(node => node.uuid === nodeId)).filter(node => node != null)
+    // @TODO: Use map, filter (this throws in Flow)
+    const nodesPopulated = []
+    nodes.forEach(nodeId => {
+      const node = nodesArray.find(n => n.uuid === nodeId)
+      if (node == null) return
+      nodesPopulated.push(node)
+    })
 
     return (
       <ul>
@@ -78,7 +87,7 @@ export default class Nodes extends Component {
               nodes={ node.nodes }
               siblings={ nodes }
               index={ index }
-              treePath={ treePath.concat([node.uuid]) }
+              treePath={ node.uuid != null ? treePath.concat([node.uuid]) : treePath }
             />
           </li>
         ) }

@@ -1,34 +1,39 @@
 /* @flow */
+import type { NodeId, NodeData, Node, TreePath } from '../../flow/tree'
+import type { UIState, NodesActionsInterface, UIActionsInterface } from '../../flow/types'
 
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import NodeDroppable from '../components/NodeDroppable'
 import NodeEdit from '../components/NodeEdit'
 import Nodes from '../components/Nodes'
 import arraysEqual from '../lib/utils/arraysEqual'
-import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
 
-export default class NodeWrap extends Component {
+type Props = {
+  enableDnD: boolean,
+  uuid: NodeId,
+  data: NodeData,
+  parent: ?NodeId,
+  isRoot: boolean,
+  treePath: TreePath,
+  nodes: NodeId[],
+  siblings: NodeId[],
+  index: number,
+  nodesArray: Node[],
+  ui: UIState
+}
+& NodesActionsInterface
+& UIActionsInterface
 
-  static propTypes = {
-    enableDnD: PropTypes.bool,
-    app: PropTypes.object.isRequired,
-    ui: PropTypes.shape(propTypeShapeUI),
-    parent: PropTypes.string,
-    isRoot: PropTypes.bool.isRequired,
-    treePath: PropTypes.array.isRequired,
-    uuid: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    nodes: PropTypes.array,
-    siblings: PropTypes.array.isRequired,
-    index: PropTypes.number.isRequired
-  }
+type State = {
+  isOverPosition: number
+}
+
+export default class NodeWrap extends Component<Props, State> {
 
   static defaultProps = {
     enableDnD: false,
     parent: null,
-    title: '',
     nodes: []
   }
 

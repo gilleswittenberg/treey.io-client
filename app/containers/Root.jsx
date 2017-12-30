@@ -1,7 +1,8 @@
 /* @flow */
 
+import type { State } from '../../flow/types'
+
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import PrivateRoute from '../components/PrivateRoute'
@@ -12,11 +13,9 @@ import Session from './Session'
 import Node from './Node'
 import NoMatch from './NoMatch'
 
-class Root extends Component {
+type Props = {} & State
 
-  static propTypes = {
-    user: PropTypes.object.isRequired
-  }
+class Root extends Component<Props> {
 
   render () {
     const { user: { loggedIn } } = this.props

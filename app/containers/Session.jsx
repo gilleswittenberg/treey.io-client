@@ -1,19 +1,19 @@
 /* @flow */
 
+import type { Dispatch, State } from '../../flow/types'
+
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import getActions from '../lib/ui/actions'
 import NavBack from '../components/NavBack'
 import Transactions from '../components/Transactions'
 
-class Session extends Component {
+type Props = {
+  dispatch: Dispatch,
+}
+& State
 
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    app: PropTypes.object.isRequired,
-    nodes: PropTypes.object.isRequired
-  }
+class Session extends Component<Props> {
 
   render () {
 

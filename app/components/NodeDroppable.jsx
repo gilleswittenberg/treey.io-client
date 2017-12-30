@@ -1,7 +1,8 @@
 /* @flow */
+import type { NodeId, NodeData, TreePath, Nodes } from '../../flow/tree'
+import type { UIState, NodesActionsInterface, UIActionsInterface } from '../../flow/types'
 
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import Node from './Node'
 import NodeOver from './NodeOver'
 import DND_TYPE from '../settings/DND_TYPE'
@@ -59,24 +60,33 @@ const DropSpec = {
   }
 }
 
-class NodeDroppable extends Component {
+type Props = {
+  parent: ?NodeId,
+  isRoot: boolean,
+  data: NodeData,
+  ui: UIState,
+  uuid: NodeId,
+  treePath: TreePath,
+  hasNodes: boolean,
+  siblings: NodeId[],
+  nodesArray: Nodes,
+  index: number,
+  connectDropTarget: any,
+  isOver: boolean,
+  hoverRegion?: 'top' | 'bottom'
+}
+& NodesActionsInterface
+& UIActionsInterface
 
-  static propTypes = {
-    parent: PropTypes.string,
-    isRoot: PropTypes.bool.isRequired,
-    uuid: PropTypes.string.isRequired,
-    treePath: PropTypes.array.isRequired,
-    hasNodes: PropTypes.bool.isRequired,
-    siblings: PropTypes.array.isRequired,
-    index: PropTypes.number.isRequired,
-    move: PropTypes.func.isRequired,
-    // Injected by React DnD DropTarget
-    connectDropTarget: PropTypes.func,
-    isOver: PropTypes.bool,
-    hoverRegion: PropTypes.any
-  }
+type State = {
+  hoverRegion: ?any,
+  nodeDraggableTitle: ?string
+}
+
+class NodeDroppable extends Component<Props, State> {
 
   static defaultProps = {
+    isOver: false,
     connectDropTarget: (jsx: any) => jsx
   }
 
@@ -110,13 +120,13 @@ class NodeDroppable extends Component {
     return getHoverRegion(monitor, element)
   }
 
-  showNodeOverTop () : bool {
+  showNodeOverTop () : boolean {
     const { isOver } = this.props
     const { hoverRegion } = this.state
     return isOver && hoverRegion === 'top'
   }
 
-  showNodeOverBottom () : bool {
+  showNodeOverBottom () : boolean {
     const { isOver } = this.props
     const { hoverRegion } = this.state
     return isOver && hoverRegion === 'bottom'
@@ -134,11 +144,11 @@ class NodeDroppable extends Component {
       connectDropTarget(
         <div ref={ c => this.element = c }>
           { showNodeOverTop &&
-            <NodeOver position="above" title={ nodeDraggableTitle } />
+            <NodeOver position="above" title={ nodeDraggableTitle || '' } />
           }
           <Node { ...nodeProps } />
           { showNodeOverBottom &&
-            <NodeOver position="below" title={ nodeDraggableTitle } />
+            <NodeOver position="below" title={ nodeDraggableTitle || ''} />
           }
         </div>
       )

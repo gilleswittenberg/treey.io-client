@@ -1,20 +1,21 @@
 /* @flow */
 
+import type { Dispatch, State } from '../../flow/types'
+
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import getActions from '../lib/ui/actions'
 import NavBack from '../components/NavBack'
 import NodeOverview from '../components/NodeOverview'
 
-class Node extends Component {
+type Props = {
+  dispatch: Dispatch,
+  match: any
+}
+& State
 
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    app: PropTypes.object.isRequired,
-    nodes: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired
-  }
+
+class Node extends Component<Props> {
 
   render () {
 

@@ -1,24 +1,30 @@
 /* @flow */
 
+import type { Lang } from '../../flow/types'
+import type { NodeId, TreePath } from '../../flow/tree'
+
 import autobind from 'autobind-decorator'
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import ButtonIcon from '../components/ButtonIcon'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 import focusInput from '../lib/ui/focusInput'
 
-export default class NodeEdit extends Component {
+type Props = {
+  lang: Lang,
+  parent: ?NodeId,
+  treePath: TreePath,
+  uuid: NodeId,
+  title: string,
+  clearUIEditingAdding: any,
+  update: any,
+  remove: any
+}
 
-  static propTypes = {
-    lang: PropTypes.string,
-    parent: PropTypes.string,
-    treePath: PropTypes.array.isRequired,
-    uuid: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    clearUIEditingAdding: PropTypes.func.isRequired,
-    update: PropTypes.func.isRequired,
-    remove: PropTypes.func.isRequired
-  }
+type State = {
+  title: string
+}
+
+export default class NodeEdit extends Component<Props, State> {
 
   static defaultProps = {
     lang: DEFAULT_LANG

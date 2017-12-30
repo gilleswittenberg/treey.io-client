@@ -162,7 +162,8 @@ describe('Node', () => {
       it('remove', () => {
         const remove = jest.fn()
         const setUIActive = jest.fn()
-        const wrapper = shallow(getComponent({ remove, setUIActive }))
+        const uiActive = Object.assign({}, defaultUI, { active: uuid })
+        const wrapper = shallow(getComponent({ remove, setUIActive, ui: uiActive }))
         wrapper.instance().remove([])
         expect(remove.mock.calls).toHaveLength(1)
         expect(setUIActive.mock.calls).toHaveLength(1)

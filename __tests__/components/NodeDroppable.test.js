@@ -20,7 +20,7 @@ import { uuid, uuid1, uuid2 } from '../uuid'
 // Wraps a component into a DragDropContext that uses the TestBackend.
 function wrapInTestContext (DecoratedDraggableComponent, DecoratedDroppableComponent, propsDraggable, propsDroppable) {
   @DragDropContext(TestBackend) // eslint-disable-line new-cap
-  class TestContextContainer extends Component {
+  class TestContextContainer extends Component<{}> {
     render () {
       return (
         <MemoryRouter>
@@ -70,8 +70,10 @@ describe('NodeDroppable', () => {
     siblings: [uuid1],
     index: 0,
     removeChild: noop,
-    move: noop,
+    create: noop,
+    update: noop,
     remove: noop,
+    move: noop,
     setUIEditing: noop,
     setUIAdding: noop,
     setUIExpanded: noop,

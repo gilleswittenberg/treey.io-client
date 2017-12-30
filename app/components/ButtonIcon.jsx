@@ -1,24 +1,22 @@
 /* @flow */
 
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import __ from '../lib/utils/i18n'
 import addImgSrc from '../images/add_64x64.png'
 import submitImgSrc from '../images/submit_64x64.png'
 import removeImgSrc from '../images/remove_64x64.png'
 import dragImgSrc from '../images/drag_64x64.png'
+import type { Lang } from '../../flow/types'
 
-const types = ['ADD', 'MOVE_CHILD', 'DELETE', 'EDIT', 'MORE', 'SAVE']
+type Props = {
+  type: 'ADD' | 'MOVE_CHILD' | 'DELETE' | 'EDIT' | 'MORE' | 'SAVE',
+  lang: Lang,
+  handleClick: (event: Event) => void,
+  tabIndex?: number
+}
 
-export default class ButtonIcon extends Component {
-
-  static propTypes = {
-    type: PropTypes.oneOf(types).isRequired,
-    lang: PropTypes.string.isRequired,
-    handleClick: PropTypes.func,
-    tabIndex: PropTypes.number
-  }
+export default class ButtonIcon extends Component<Props> {
 
   static defaultProps = {
     handleClick: (event: Event) => {} // eslint-disable-line no-unused-vars, no-empty-function

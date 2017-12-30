@@ -1,20 +1,20 @@
 /* @flow */
 
+import type { Dispatch, State } from '../../flow/types'
+
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import getActions from '../lib/ui/actions'
 import LoginForm from '../components/LoginForm'
 import { Redirect, Link } from 'react-router-dom'
 
-class AuthLogin extends Component {
+type Props = {
+  dispatch: Dispatch,
+  location: any
+}
+& State
 
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
-    app: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired
-  }
+class AuthLogin extends Component<Props> {
 
   render () {
 

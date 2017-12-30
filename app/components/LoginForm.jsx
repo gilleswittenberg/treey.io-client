@@ -1,21 +1,29 @@
 /* @flow */
 
+import type { Lang } from '../../flow/types'
+
 import autobind from 'autobind-decorator'
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import __ from '../lib/utils/i18n'
 import classNames from 'classnames'
 import validateUsername from '../lib/auth/validateUsername'
 import validatePassword from '../lib/auth/validatePassword'
 
-export default class LoginForm extends Component {
+type Props = {
+  lang: Lang,
+  postAuthenticate: any,
+  authenticationFailed: any,
+  authenticationError: any
+}
 
-  static propTypes = {
-    postAuthenticate: PropTypes.func.isRequired,
-    authenticationFailed: PropTypes.bool.isRequired,
-    authenticationError: PropTypes.bool.isRequired,
-    lang: PropTypes.string.isRequired
-  }
+type State = {
+  username: ?string,
+  password: ?string,
+  usernameValid: ?boolean,
+  passwordValid: ?boolean
+}
+
+export default class LoginForm extends Component<Props, State> {
 
   state = {
     username: undefined,

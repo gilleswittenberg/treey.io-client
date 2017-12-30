@@ -113,4 +113,37 @@ export type State = {
   ui: UIState
 }
 
+export type NodesActionsInterface = {
+  create: any,
+  update: any,
+  remove: any,
+  move: any
+}
+
+export type UIActionsInterface = {
+  clearUIEditingAdding: any,
+  setUIExpanded: any,
+  unsetUIExpanded: any,
+  setUIActive: any,
+  setUIAdding: any,
+  setUIEditing: any,
+  setUIButtonsShown: any,
+  setUIDragging: any,
+  clearUIDragging: any,
+  setUIMovingChild: any,
+  clearUIMovingChild: any,
+}
+
+export type TransactionsActionsInterface = {
+  syncTransaction: any,
+  cancelTransaction: any,
+  revertTransaction: any
+}
+
+type Action = {
+  type: any,
+  data: any
+}
+export type Dispatch = (action: Action) => any
+
 export type HoverRegion = 'top' | 'bottom'

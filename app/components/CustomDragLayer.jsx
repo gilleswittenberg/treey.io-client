@@ -1,7 +1,6 @@
 /* @flow */
 
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { DragLayer } from 'react-dnd'
 
 const layerStyles = {
@@ -29,18 +28,23 @@ function getItemStyles (props) {
   }
 }
 
-class CustomDragLayer extends Component {
+type Props = {
+  item?: any,
+  itemType?: string,
+  currentOffset?: {
+    x: number,
+    y: number
+  },
+  isDragging?: boolean
+}
 
-  static propTypes = {
-    // Injected by React DnD DragLayer
-    item: PropTypes.object,
-    itemType: PropTypes.string,
-    currentOffset: PropTypes.shape({
-      x: PropTypes.number,
-      y: PropTypes.number
-    }),
-    isDragging: PropTypes.bool
-  }
+@DragLayer(monitor => ({ // eslint-disable-line new-cap
+  item: monitor.getItem(),
+  itemType: monitor.getItemType(),
+  currentOffset: monitor.getSourceClientOffset(),
+  isDragging: monitor.isDragging()
+}))
+export default class CustomDragLayer extends Component<Props> {
 
   render () {
     const { item, isDragging } = this.props
@@ -65,11 +69,3 @@ class CustomDragLayer extends Component {
     )
   }
 }
-
-@DragLayer(monitor => ({ // eslint-disable-line new-cap
-  item: monitor.getItem(),
-  itemType: monitor.getItemType(),
-  currentOffset: monitor.getSourceClientOffset(),
-  isDragging: monitor.isDragging()
-}))
-export default class CustomDragLayerDecorated extends CustomDragLayer {}

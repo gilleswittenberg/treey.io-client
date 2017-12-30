@@ -1,22 +1,19 @@
 /* @flow */
 
+import type { Dispatch, State } from '../../flow/types'
+
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import getActions from '../lib/ui/actions'
 import Nav from '../components/Nav'
 import ServerStatus from '../components/ServerStatus'
 import Tree from '../components/Tree'
 
-class App extends Component {
+type Props = {
+  dispatch: Dispatch
+} & State
 
-  static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    app: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    nodes: PropTypes.object.isRequired,
-    ui: PropTypes.object.isRequired
-  }
+class App extends Component<Props> {
 
   render () {
 
@@ -30,7 +27,7 @@ class App extends Component {
         signOutFailed
       },
       // @TODO: Rename nodesArray to nodes
-      nodes: { tree, nodes: nodesArray, isSyncing, hasErrors, treeIndices },
+      nodes: { nodes: nodesArray, isSyncing, hasErrors },
       ui
     } = this.props
 
@@ -40,8 +37,7 @@ class App extends Component {
     const serverStatusProps = { lang, hasErrors, isSyncing }
 
     // $FlowIssue Flow does not recognize Tree.DecoratedComponent
-    const TreeComponent = enableDnD ? Tree : Tree.DecoratedComponent
-    const treeProps = { lang, enableDnD, app, tree, ui, nodesArray, treeIndices, ...actions }
+    const treeProps = { lang, enableDnD, app, ui, nodesArray, ...actions }
 
     return (
       <div className="wrap-narrow">
@@ -52,7 +48,7 @@ class App extends Component {
           <ServerStatus { ...serverStatusProps } />
         }
         { loggedIn &&
-          <TreeComponent { ...treeProps } />
+          <Tree { ...treeProps } />
         }
       </div>
     )

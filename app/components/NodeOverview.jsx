@@ -1,12 +1,21 @@
 /* @flow */
 
+import type { Lang, TransactionsActionsInterface } from '../../flow/types'
+import type { Node } from '../../flow/tree'
+
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import Transactions from './Transactions'
 import __ from '../lib/utils/i18n'
 
-export default class NodeOverview extends Component {
+type Props = {
+  lang: Lang,
+  node: Node,
+}
+& TransactionsActionsInterface
+
+export default class NodeOverview extends Component<Props> {
 
   static propTypes = {
     lang: PropTypes.string.isRequired,

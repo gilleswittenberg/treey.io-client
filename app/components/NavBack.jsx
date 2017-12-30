@@ -2,16 +2,17 @@
 
 // @TODO: Rename component
 
+import type { Lang } from '../../flow/types'
+
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import __ from '../lib/utils/i18n'
 
-export default class SignOutButton extends Component {
+type Props = {
+  lang: Lang
+}
 
-  static propTypes = {
-    lang: PropTypes.string.isRequired
-  }
+export default class SignOutButton extends Component<Props> {
 
   render () {
 

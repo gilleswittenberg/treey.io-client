@@ -1,7 +1,7 @@
 /* @flow */
+import type { NodeId, TreePath } from '../../flow/tree'
 
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import NodeContent from '../components/NodeContent'
 import DND_TYPE from '../settings/DND_TYPE'
 import { DragSource } from 'react-dnd'
@@ -24,22 +24,24 @@ const DragSpec = {
   }
 }
 
-export class NodeDraggable extends Component {
+type Props = {
+  isRoot: boolean,
+  treePath: TreePath,
+  uuid: NodeId,
+  data: any,
+  clearUIEditingAdding: any,
+  setUIActive: any,
+  setUIDragging: any,
+  setUIEditing: any,
+  clearUIDragging: any,
+  handleClick: any,
+  handleClickMore: any,
+  connectDragSource: any,
+  isDragging?: boolean,
+  connectDragPreview?: any
+}
 
-  static propTypes = {
-    isRoot: PropTypes.bool.isRequired,
-    treePath: PropTypes.array.isRequired,
-    uuid: PropTypes.string.isRequired,
-    data: PropTypes.object.isRequired,
-    clearUIEditingAdding: PropTypes.func.isRequired,
-    setUIActive: PropTypes.func.isRequired,
-    setUIDragging: PropTypes.func.isRequired,
-    clearUIDragging: PropTypes.func.isRequired,
-    // Injected by React DnD DragSource
-    connectDragSource: PropTypes.func,
-    isDragging: PropTypes.bool,
-    connectDragPreview: PropTypes.func
-  }
+export class NodeDraggable extends Component<Props> {
 
   static defaultProps = {
     connectDragSource: (jsx: any) => jsx

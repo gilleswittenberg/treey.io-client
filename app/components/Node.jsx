@@ -1,43 +1,35 @@
 /* @flow */
 
-import type { TreePath } from '../../flow/tree'
+import type { Lang, UIState, NodesActionsInterface, UIActionsInterface } from '../../flow/types'
+import type { NodeId, NodeData, TreePath, Nodes } from '../../flow/tree'
 
 import autobind from 'autobind-decorator'
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import ButtonIcon from './ButtonIcon'
 import ButtonMoveChild from './ButtonMoveChild'
 import NodeDraggable from './NodeDraggable'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 import arraysEqual from '../lib/utils/arraysEqual'
-import propTypeShapeUI from '../lib/ui/propTypeShapeUI'
 import { getPrevActive } from '../lib/tree/getNextPrevActive'
 
-export default class Node extends Component {
+type Props = {
+  lang: Lang,
+  enableDnD: boolean,
+  parent: ?NodeId,
+  isRoot: boolean,
+  uuid: NodeId,
+  treePath: TreePath,
+  data: NodeData,
+  ui: UIState,
+  hasNodes: boolean,
+  nodesArray: Nodes,
+  isOver: boolean,
+}
+& NodesActionsInterface
+& UIActionsInterface
 
-  static propTypes = {
-    lang: PropTypes.string,
-    enableDnD: PropTypes.bool,
-    app: PropTypes.object.isRequired,
-    parent: PropTypes.string,
-    isRoot: PropTypes.bool.isRequired,
-    uuid: PropTypes.string.isRequired,
-    treePath: PropTypes.array.isRequired,
-    data: PropTypes.object.isRequired,
-    ui: PropTypes.shape(propTypeShapeUI),
-    hasNodes: PropTypes.bool.isRequired,
-    nodesArray: PropTypes.array.isRequired,
-    isOver: PropTypes.bool,
-    remove: PropTypes.func.isRequired,
-    setUIEditing: PropTypes.func.isRequired,
-    setUIAdding: PropTypes.func.isRequired,
-    setUIActive: PropTypes.func.isRequired,
-    setUIButtonsShown: PropTypes.func.isRequired,
-    clearUIEditingAdding: PropTypes.func.isRequired,
-    setUIExpanded: PropTypes.func.isRequired,
-    unsetUIExpanded: PropTypes.func.isRequired
-  }
+export default class Node extends Component<Props> {
 
   static defaultProps = {
     lang: DEFAULT_LANG,
@@ -164,6 +156,9 @@ export default class Node extends Component {
     // Guard
     if (isRoot === true) return
     remove(treePath)
+    // Guard
+    // @TODO: move active == null check into getPrevActive
+    if (active == null) return
     setUIActive(getPrevActive(nodesArray, active, expanded))
   }
 

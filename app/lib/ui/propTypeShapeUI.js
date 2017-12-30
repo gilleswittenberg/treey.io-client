@@ -1,5 +1,7 @@
 /* @flow */
 
+// @TODO: Remove
+
 import { PropTypes } from 'prop-types'
 
 export default {

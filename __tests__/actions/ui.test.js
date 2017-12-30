@@ -215,6 +215,7 @@ describe('actions ui', () => {
       const nodes = [{
         uuid,
         data: { title: 'John Doe' },
+        nodes: [],
         transactions: []
       }]
       const store = mockStore({ tree: null })

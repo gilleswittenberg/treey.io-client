@@ -1,21 +1,23 @@
 /* @flow */
 
+import type { Lang } from '../../flow/types'
+import type { NodeId } from '../../flow/tree'
+
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import isURL from '../lib/utils/isURL'
 import ButtonIcon from './ButtonIcon'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 import { Link } from 'react-router-dom'
 
-export default class NodeContent extends Component {
+type Props = {
+  lang: Lang,
+  title: string,
+  uuid: NodeId,
+  handleClick: any,
+  handleClickMore: any
+}
 
-  static propTypes = {
-    lang: PropTypes.string,
-    title: PropTypes.string.isRequired,
-    uuid: PropTypes.string.isRequired,
-    handleClick: PropTypes.func.isRequired,
-    handleClickMore: PropTypes.func.isRequired
-  }
+export default class NodeContent extends Component<Props> {
 
   static defaultProps = {
     lang: DEFAULT_LANG

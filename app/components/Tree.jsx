@@ -1,7 +1,9 @@
 /* @flow */
 
+import type { NodeId, Node } from '../../flow/tree'
+import type { NodesActionsInterface, UIActionsInterface, UIState } from '../../flow/types'
+
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import Nodes from './Nodes'
 import CustomDragLayer from '../components/CustomDragLayer'
@@ -12,21 +14,22 @@ import delay from '../lib/utils/delay'
 import { getNextActive, getPrevActive } from '../lib/tree/getNextPrevActive'
 import { getNodeFromTreePath } from '../lib/tree/TreeUtils'
 
-export class Tree extends Component {
+type Props = {
+  enableDnD: boolean,
+  ui: UIState,
+  nodesArray: Node[],
+}
+& NodesActionsInterface
+& UIActionsInterface
 
-  static propTypes = {
-    enableDnD: PropTypes.bool,
-    tree: PropTypes.object,
-    ui: PropTypes.object.isRequired,
-    nodesArray: PropTypes.array.isRequired,
-    clearUIEditingAdding: PropTypes.func.isRequired,
-    setUIExpanded: PropTypes.func.isRequired,
-    setUIActive: PropTypes.func.isRequired
-  }
+type State = {
+  redirectToNodeId: ?NodeId
+}
+
+export class Tree extends Component<Props, State> {
 
   static defaultProps = {
-    enableDnD: false,
-    tree: null
+    enableDnD: false
   }
 
   // Needed for Flowtype
@@ -64,6 +67,9 @@ export class Tree extends Component {
 
     // Guard
     if (adding != null || editing != null) return
+
+    // @TODO: move active == null check into getNextActive, getPrevActive
+    if (active == null) return
 
     let action, nextActive, activeNode
 
@@ -118,7 +124,7 @@ export class Tree extends Component {
       nodesArray
     } = this.props
 
-    const nodes = nodesArray.length > 0 ? [nodesArray[0].uuid] : []
+    const nodes = nodesArray.length > 0 && nodesArray[0].uuid != null ? [nodesArray[0].uuid] : []
     const showNodes = nodes.length > 0
     const nodesProps = { ...this.props, parent: null, treePath: [], nodesArray, nodes }
 

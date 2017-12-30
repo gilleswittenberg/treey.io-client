@@ -8,8 +8,25 @@ import classNames from 'classnames'
 import validateUsername from '../lib/auth/validateUsername'
 import validatePassword from '../lib/auth/validatePassword'
 import confirmPasswords from '../lib/auth/confirmPasswords'
+import type { Lang } from '../../flow/types'
 
-export default class RegisterForm extends Component {
+type Props = {
+  postRegister: (username: ?string, password: ?string, passwordConfirm: ?string) => {},
+  registrationFailed: boolean,
+  registrationError: boolean,
+  lang: Lang
+}
+
+type State = {
+  username: ?string,
+  password: ?string,
+  passwordConfirm: ?string,
+  usernameValid: ?boolean,
+  passwordValid: ?boolean,
+  passwordConfirmValid: ?boolean
+}
+
+export default class RegisterForm extends Component<Props, State> {
 
   static propTypes = {
     postRegister: PropTypes.func.isRequired,

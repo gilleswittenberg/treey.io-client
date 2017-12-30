@@ -1,5 +1,7 @@
 /* @flow */
 
+import type { Dispatch } from '../../../flow/types'
+
 import noop from '../utils/noop'
 
 export const defaultActions = {
@@ -92,7 +94,7 @@ const actions = {
 
 let boundActions
 
-export default (dispatch: () => void) => {
+export default (dispatch: Dispatch) => {
   if (boundActions == null) {
     boundActions = bindActionCreators(actions, dispatch)
   }

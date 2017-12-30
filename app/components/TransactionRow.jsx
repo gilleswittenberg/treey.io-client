@@ -1,21 +1,21 @@
 /* @flow */
 
+import type { Lang, TransactionsActionsInterface } from '../../flow/types'
+import type { Transaction } from '../../flow/tree'
+
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import autobind from 'autobind-decorator'
 import __ from '../lib/utils/i18n'
 import classNames from 'classnames'
 
-export default class TransactionRow extends Component {
+type Props = {
+  lang: Lang,
+  transaction: Transaction,
+  showNode: boolean
+}
+& TransactionsActionsInterface
 
-  static propTypes = {
-    lang: PropTypes.string.isRequired,
-    transaction: PropTypes.object.isRequired,
-    syncTransaction: PropTypes.func.isRequired,
-    cancelTransaction: PropTypes.func.isRequired,
-    revertTransaction: PropTypes.func.isRequired,
-    showNode: PropTypes.bool.isRequired
-  }
+export default class TransactionRow extends Component<Props> {
 
   @autobind
   handleSubmitSync () {

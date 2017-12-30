@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 
-class AuthInitializing extends Component {
+class AuthInitializing extends Component<{}> {
 
   render () {
     return (
