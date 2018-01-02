@@ -46,10 +46,13 @@ class AuthLogin extends Component<Props> {
       lang
     }
 
+    /* @TODO: Enable
+    <Link to="/register">register</Link>
+    */
+
     return (
       <div className="wrap-narrow">
         <LoginForm { ...loginFormProps } />
-        <Link to="/register">register</Link>
       </div>
     )
   }
