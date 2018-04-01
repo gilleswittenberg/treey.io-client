@@ -12,6 +12,7 @@ import NodeDraggable from './NodeDraggable'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 import arraysEqual from '../lib/utils/arraysEqual'
 import { getPrevActive } from '../lib/tree/getNextPrevActive'
+import { getNodeFromTreePath, getParentFromTreePath } from '../lib/tree/TreeUtils'
 
 type Props = {
   lang: Lang,
@@ -155,18 +156,24 @@ export default class Node extends Component<Props> {
     const { isRoot, remove, setUIActive, nodesArray, ui: { active, expanded } } = this.props
     // Guard
     if (isRoot === true) return
-    remove(treePath)
+    const parentId = getParentFromTreePath(treePath)
+    const nodeId = getNodeFromTreePath(treePath)
+    remove(parentId, nodeId)
     // Guard
     // @TODO: move active == null check into getPrevActive
     if (active == null) return
-    setUIActive(getPrevActive(nodesArray, active, expanded))
+    //setUIActive(getPrevActive(nodesArray, active, expanded))
+    const treePathParent = treePath.slice(0, -1)
+    setUIActive(treePathParent)
   }
 
   @autobind
   collapse () {
-    const { treePath, unsetUIExpanded, isRoot } = this.props
-    if (!isRoot) {
-      unsetUIExpanded(treePath)
+    const { treePath, ui: { expanded }, unsetUIExpanded, isRoot } = this.props
+    if (isRoot) return
+    const index = expanded.findIndex(expandedTreePath => arraysEqual(expandedTreePath, treePath))
+    if (index > -1) {
+      unsetUIExpanded(index)
     }
   }
 

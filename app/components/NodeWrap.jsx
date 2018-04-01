@@ -44,8 +44,8 @@ export default class NodeWrap extends Component<Props, State> {
   isExpanded () : bool {
     const { treePath, ui: { expanded } } = this.props
     let isExpanded = false
-    Object.keys(expanded).forEach(key => {
-      if (arraysEqual(expanded[key], treePath)) {
+    expanded.forEach(expandedTreePath => {
+      if (arraysEqual(expandedTreePath, treePath)) {
         isExpanded = true
       }
     })
@@ -75,7 +75,6 @@ export default class NodeWrap extends Component<Props, State> {
       treePath,
       isRoot
     } = this.props
-
 
     const isActive = this.isUI('active')
     const isEditing = this.isUI('editing')

@@ -18,6 +18,7 @@ type Props = {
   enableDnD: boolean,
   ui: UIState,
   nodesArray: Node[],
+  tree: []
 }
 & NodesActionsInterface
 & UIActionsInterface
@@ -63,7 +64,8 @@ export class Tree extends Component<Props, State> {
   @autobind
   handleKeyDown (event: KeyboardEvent) {
 
-    const { setUIActive, nodesArray: nodes, ui: { expanded, active, adding, editing } } = this.props
+    //const { setUIActive, nodesArray: nodes, ui: { expanded, active, adding, editing } } = this.props
+    const { setUIActive, tree, ui: { expanded, active, adding, editing } } = this.props
 
     // Guard
     if (adding != null || editing != null) return
@@ -76,16 +78,16 @@ export class Tree extends Component<Props, State> {
     switch (event.keyCode) {
     // Down arrow
     case 40:
-      nextActive = getNextActive(nodes, active, expanded)
+      nextActive = getNextActive(tree, active, expanded)
       break
     // Up arrow
     case 38:
-      nextActive = getPrevActive(nodes, active, expanded)
+      nextActive = getPrevActive(tree, active, expanded)
       break
     // Tab
     case 9:
       action = event.shiftKey ? getPrevActive : getNextActive
-      nextActive = action(nodes, active, expanded)
+      nextActive = action(tree, active, expanded)
       break
     // I
     case 73:
@@ -121,12 +123,16 @@ export class Tree extends Component<Props, State> {
 
     const {
       enableDnD,
-      nodesArray
+      tree
+      //nodesArray
     } = this.props
 
-    const nodes = nodesArray.length > 0 && nodesArray[0].uuid != null ? [nodesArray[0].uuid] : []
-    const showNodes = nodes.length > 0
-    const nodesProps = { ...this.props, parent: null, treePath: [], nodesArray, nodes }
+    //const nodes = nodesArray.length > 0 && nodesArray[0].uuid != null ? [nodesArray[0].uuid] : []
+    //const showNodes = nodes.length > 0
+    const showNodes = tree != null && tree.length > 0
+    //const nodesProps = { ...this.props, parent: null, treePath: [], nodesArray, nodes }
+    const nodes = tree || []
+    const nodesProps = { ...this.props, parent: null, treePath: [], nodes }
 
     // $FlowIssue Flow does not recognize CustomDragLayer.DecoratedComponent
     const CustomDragLayerComponent = enableDnD ? CustomDragLayer : CustomDragLayer.DecoratedComponent

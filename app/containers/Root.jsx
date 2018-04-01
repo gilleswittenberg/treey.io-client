@@ -3,7 +3,7 @@
 import type { State } from '../../flow/types'
 
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
+//import { connect } from 'react-redux'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import PrivateRoute from '../components/PrivateRoute'
 import App from './App'
@@ -21,7 +21,8 @@ type Props = {} & State
 class Root extends Component<Props> {
 
   render () {
-    const { user: { loggedIn } } = this.props
+    //const { user: { loggedIn } } = this.props
+    const loggedIn = true
 
     /* @TODO: Enable
     <Route path="/register" component={ AuthRegister } />
@@ -40,5 +41,6 @@ class Root extends Component<Props> {
   }
 }
 
-const mapStateToProps = (state, props) => ({ ...props, ...state })
-export default connect(mapStateToProps)(Root)
+//const mapStateToProps = (state, props) => ({ ...props, ...state })
+//export default connect(mapStateToProps)(Root)
+export default Root

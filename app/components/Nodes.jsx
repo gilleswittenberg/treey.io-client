@@ -48,7 +48,7 @@ export default class Nodes extends Component<Props> {
   render () {
 
     const {
-      nodesArray,
+      //nodesArray,
       nodes,
       hasNodes,
       treePath,
@@ -67,30 +67,34 @@ export default class Nodes extends Component<Props> {
     const nodeAddProps = { ...this.props, isEditing: isAdding }
     // @TODO: Display non findable nodes in UI
     // @TODO: Use map, filter (this throws in Flow)
+    /*
     const nodesPopulated = []
     nodes.forEach(nodeId => {
       const node = nodesArray.find(n => n.uuid === nodeId)
       if (node == null) return
       nodesPopulated.push(node)
     })
+    */
 
     return (
       <ul>
-
-        { nodesPopulated.map((node, index) =>
-          <li key={ node.uuid }>
-            <NodeWrap
-              { ...nodeWrapProps }
-              uuid={ node.uuid }
-              data={ node.data }
-              ui={ ui }
-              nodes={ node.nodes }
-              siblings={ nodes }
-              index={ index }
-              treePath={ node.uuid != null ? treePath.concat([node.uuid]) : treePath }
-            />
-          </li>
-        ) }
+        { nodes.map((node, index) => {
+          const id = node.ids[0]
+          return (
+            <li key={ id }>
+              <NodeWrap
+                { ...nodeWrapProps }
+                uuid={ id }
+                data={ node.data }
+                ui={ ui }
+                nodes={ node.links }
+                siblings={ nodes }
+                index={ index }
+                treePath={ id != null ? treePath.concat([id]) : treePath }
+              />
+            </li>
+          )
+        }) }
 
         { showNodeAdd &&
           <li>

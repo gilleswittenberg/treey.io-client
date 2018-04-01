@@ -19,7 +19,7 @@ type Props = {
   setUIAdding: any,
   setUIExpanded: any,
   clearUIEditingAdding: any,
-  create: any
+  add: any
 }
 
 type State = {
@@ -64,17 +64,21 @@ export default class NodeAdd extends Component<Props, State> {
 
     event.preventDefault()
 
-    const { treePath, create, clearUIEditingAdding, setUIExpanded } = this.props
+    const { treePath, add, clearUIEditingAdding, setUIExpanded } = this.props
     const { title } = this.state
     const titleTrimmed = title.trim()
 
     clearUIEditingAdding()
 
+    // Guard: against no parent
+    if (treePath.length === 0) return
+
     // Guard: do not save empty string
     if (titleTrimmed === '') return
 
+    const parentId = treePath[treePath.length - 1]
     const data = { title: titleTrimmed }
-    create(treePath, data)
+    add(parentId, null, data)
 
     // Expand to open parent
     setUIExpanded(treePath)

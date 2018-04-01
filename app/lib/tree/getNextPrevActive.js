@@ -44,7 +44,10 @@ const getLastTreePath = (nodes: Nodes, expanded?: ExpandedObject) : TreePath => 
 
 export const getNextActive = (nodesArray: Nodes, treePath: TreePath, expanded?: ExpandedObject) : TreePath => {
 
+  console.log(nodesArray, treePath, expanded)
+
   const nodes = getNodesAtTreePath(nodesArray, treePath)
+  console.log(nodes)
 
   // First child of active and expanded node
   const node = nodes[treePath.length - 1]

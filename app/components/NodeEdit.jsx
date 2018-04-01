@@ -8,6 +8,7 @@ import React, { Component } from 'react'
 import ButtonIcon from '../components/ButtonIcon'
 import DEFAULT_LANG from '../settings/DEFAULT_LANG'
 import focusInput from '../lib/ui/focusInput'
+import { getNodeFromTreePath } from '../lib/tree/TreeUtils'
 
 type Props = {
   lang: Lang,
@@ -61,10 +62,11 @@ export default class NodeEdit extends Component<Props, State> {
     const newTitleTrimmed = newTitle.trim()
     // @TODO: what to do for parent && newTitleTrimmed == ''?
     // @TODO: use !isRoot vs parent != null, remove parent from properties
+    const nodeId = getNodeFromTreePath(treePath)
     if (parent != null && newTitleTrimmed === '') {
-      remove(treePath)
+      remove(parent, nodeId)
     } else if (title !== newTitleTrimmed) {
-      update(treePath, { title: newTitleTrimmed })
+      update(nodeId, { title: newTitleTrimmed })
     }
     clearUIEditingAdding()
   }

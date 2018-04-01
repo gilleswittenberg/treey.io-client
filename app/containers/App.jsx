@@ -3,14 +3,22 @@
 import type { Dispatch, State } from '../../flow/types'
 
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import getActions from '../lib/ui/actions'
+//import { connect } from 'react-redux'
+import connect from '../modules/treey-react/connect'
+import getActions from '../lib/ui/getActions'
 import Nav from '../components/Nav'
 import ServerStatus from '../components/ServerStatus'
 import Tree from '../components/Tree'
 
 type Props = {
-  dispatch: Dispatch
+  dispatch: Dispatch,
+  tree: [],
+  dataAdd: Function,
+  dataRemove: Function,
+  add: Function,
+  update: Function,
+  remove: Function,
+  move: Function
 } & State
 
 class App extends Component<Props> {
@@ -18,7 +26,7 @@ class App extends Component<Props> {
   render () {
 
     const {
-      dispatch,
+      //dispatch,
       app,
       app: { lang, enableDnD },
       user: {
@@ -27,17 +35,27 @@ class App extends Component<Props> {
         signOutFailed
       },
       // @TODO: Rename nodesArray to nodes
-      nodes: { nodes: nodesArray, isSyncing, hasErrors },
+      //nodes: { nodes: nodesArray, isSyncing, hasErrors },
+      tree,
+      add,
+      update,
+      remove,
+      move,
+      dataAdd,
+      dataRemove,
       ui
     } = this.props
+    const isSyncing = false
+    const hasErrors = false
 
-    const actions = getActions(dispatch)
+    const actions = getActions(dataAdd, dataRemove)
 
     const navProps = { lang, username, signOutFailed, postSignOut: actions.postSignOut }
     const serverStatusProps = { lang, hasErrors, isSyncing }
 
     // $FlowIssue Flow does not recognize Tree.DecoratedComponent
-    const treeProps = { lang, enableDnD, app, ui, nodesArray, ...actions }
+    //const treeProps = { lang, enableDnD, app, ui, nodesArray, ...actions }
+    const treeProps = { lang, enableDnD, app, ui, add, update, remove, move, tree, ...actions }
 
     return (
       <div className="wrap-narrow">
@@ -55,5 +73,11 @@ class App extends Component<Props> {
   }
 }
 
-const mapStateToProps = (state, props) => ({ ...props, ...state })
-export default connect(mapStateToProps)(App)
+//const mapStateToProps = (state, props) => ({ ...props, ...state })
+//export default connect(mapStateToProps)(App)
+const dataToProps = {
+  app: 'app',
+  user: 'user',
+  ui: 'ui'
+}
+export default connect(App, undefined, undefined, dataToProps)
